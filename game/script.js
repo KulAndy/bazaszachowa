@@ -89,7 +89,7 @@ async function viewGame(data){
         let boardButton = document.getElementById("boardButton")
         boardButton.style.position = "relative"
         boardButton.style.left = board.clientWidth/2 + base/2 + "px"
-        document.body.style.overflowY = "hodden"
+        document.body.style.overflowY = "hidden"
     }
     window.addEventListener("resize", function(){
         let notation = document.getElementById("boardMoves")
@@ -104,7 +104,7 @@ async function viewGame(data){
             board.style.left = base/2 - 15 + "px"
             boardButton.style.position = "relative"
             boardButton.style.left = board.clientWidth/2 + base/2 + "px"
-            document.body.style.overflowY = "hodden"
+            document.body.style.overflowY = "hidden"
         }
         else{
             notation.style.position = ''

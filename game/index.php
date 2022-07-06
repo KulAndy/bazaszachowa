@@ -20,7 +20,7 @@
     <body class="merida zeit">';
     include '../menu.php';
     echo '<script src="pgnv.js" type="text/javascript"></script>';
-    echo '<script defer src="script.js?pom=3489549"></script>';
+    echo '<script defer src="script.js"></script>';
     require 'content.php';
     include '../footer.php';
 ?>
