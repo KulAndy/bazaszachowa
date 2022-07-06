@@ -1,0 +1,45 @@
+.chessicons  cg-board piece.bishop.white {
+    background-image: url('chessicons/wb.svg');
+}
+.chessicons  cg-board piece.king.white {
+    background-image: url('chessicons/wk.svg');
+}
+.chessicons  cg-board piece.knight.white {
+    background-image: url('chessicons/wn.svg');
+}
+.chessicons  cg-board piece.pawn.white {
+    background-image: url('chessicons/wp.svg');
+}
+.chessicons  cg-board piece.queen.white {
+    background-image: url('chessicons/wq.svg');
+}
+.chessicons  cg-board piece.rook.white {
+    background-image: url('chessicons/wr.svg');
+}
+.chessicons  cg-board piece.bishop.black {
+    background-image: url('chessicons/bb.svg');
+}
+.chessicons  cg-board piece.king.black {
+    background-image: url('chessicons/bk.svg');
+}
+.chessicons  cg-board piece.knight.black {
+    background-image: url('chessicons/bn.svg');
+}
+.chessicons  cg-board piece.pawn.black {
+    background-image: url('chessicons/bp.svg');
+}
+.chessicons  cg-board piece.queen.black {
+    background-image: url('chessicons/bq.svg');
+}
+.chessicons  cg-board piece.rook.black {
+    background-image: url('chessicons/br.svg');
+}
+
+#boardMoves{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#boardButton {
+    margin-top: 0!important;
+}
