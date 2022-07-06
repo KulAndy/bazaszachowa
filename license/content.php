@@ -9,7 +9,7 @@
             <li>użytkownik nie może pobierać opłat za projekt, w którym został wykorzystany jakikolwiek element z tej strony</li>
             <li>jeśli użytkownik osiągnie jakąkolwiek korzyść z korzystania z tej strony, to zobowiązuje się postawić piwo autorowi strony</li>
         </ul>
-        <sub>* kod źródłowy dostępny na życzenie</sub><hr>
+        <sub>* kod źródłowy dostępny na <a href="https://github.com/KulAndy/bazaszachowa">githubie</a></sub><hr>
         we wszystkich innych przypadkach obowiązuje licencja <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a>
     </article>
     </div>'
