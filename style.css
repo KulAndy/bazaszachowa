@@ -76,6 +76,7 @@ nav {
     background-color: orange;
     color: white;
     text-align: center;
+    z-index: 3;
 
 }
 nav a{

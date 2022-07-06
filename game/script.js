@@ -1,5 +1,22 @@
 "use strict";
 var gameMoves
+window.onload = async() => {
+   
+    await checkWidth()
+    let url_string = window.location.href
+    let url = new URL(url_string)
+    let id = url.searchParams.get('id')
+    let table = url.searchParams.get('table')
+    search(id, table)
+}
+
+async function checkWidth(){
+    if( window.screen.availWidth <= 390){
+        let board = document.getElementById("board")
+        board.style.width = (window.screen.availWidth * 0.90) + "px"
+        board.style.margin = "auto!important"
+    }
+}
 
 function search(id,table) {
     const xhttp2 = new XMLHttpRequest();
@@ -35,7 +52,35 @@ function search(id,table) {
 
 }
 
-async function viewGame(data){
+async function checkReise(){
+    if( window.screen.availWidth <= 390){
+        let board = document.getElementById("board")
+        board.style.width = (window.screen.availWidth * 0.90) + "px"
+        board.style.margin = "auto!important"
+        let notation = document.getElementById("boardMoves")
+        notation.style.width = (window.screen.availWidth * 0.90) + "px"
+        notation.style.margin = "auto!important"
+        let outerBoard = document.getElementsByClassName("outerBoard")[0]
+        outerBoard.style.width = (window.screen.availWidth * 0.90) + "px"
+        outerBoard.style.margin = "auto!important"
+        let boardButton = document.getElementById("boardButton")
+        let innerBoard = document.getElementById("boardInner")
+        innerBoard.style.width = (window.screen.availWidth * 0.90) + "px"
+        notation.style.position = ''
+        notation.style.right = ''
+        outerBoard.style.position = ''
+        outerBoard.style.left = ''
+        boardButton.style.position = ''
+        boardButton.style.left = ''
+        document.body.style.overflowY = ''
+        boardButton.style.position = ''
+        boardButton.style.top = ''
+        boardButton.style.left = ''
+    }
+
+}
+
+function viewGame(data){
     let pre = document.getElementById("pre")
     let players = document.createElement("p")
     players.style.textAlign = "center"
@@ -78,7 +123,9 @@ async function viewGame(data){
     let pgnView = PGNV.pgnView;
     pgnView("board", {pgn: data.moves, pieceStyle: "chessicons"});
     let notation = document.getElementById("boardMoves")
-    notation.style.width = "25em"
+    if ( window.screen.availWidth > 390){
+        notation.style.width = "25em"
+    }
     let board = document.getElementsByClassName("outerBoard")[0]
     if ( notation.clientWidth + board.clientWidth + 30 < window.innerWidth){
         let base = window.innerWidth - notation.clientWidth - board.clientWidth
@@ -87,23 +134,27 @@ async function viewGame(data){
         board.style.position = "absolute"
         board.style.left = base/2 - 15 + "px"
         let boardButton = document.getElementById("boardButton")
-        boardButton.style.position = "relative"
-        boardButton.style.left = board.clientWidth/2 + base/2 + "px"
+        boardButton.style.position = "absolute"
+        boardButton.style.top = (document.getElementById("pre").clientHeight - document.getElementById("content2").clientHeight + 485) + "px"
+        boardButton.style.left = (window.innerWidth - boardButton.clientWidth)/2  + "px"
         document.body.style.overflowY = "hidden"
     }
-    window.addEventListener("resize", function(){
+    window.addEventListener("resize", async function(){
+        await checkReise()
+
         let notation = document.getElementById("boardMoves")
         let board = document.getElementsByClassName("outerBoard")[0]
         let boardButton = document.getElementById("boardButton")
 
-        if ( notation.clientWidth + board.clientWidth + 30 < window.innerWidth){
+        if ( notation.clientWidth + board.clientWidth + 30 < window.innerWidth && window.screen.availWidth > 390){
             let base = window.innerWidth - notation.clientWidth - board.clientWidth
             notation.style.position = "absolute"
             notation.style.right = base/2 - 15 + "px"
             board.style.position = "absolute"
             board.style.left = base/2 - 15 + "px"
-            boardButton.style.position = "relative"
-            boardButton.style.left = board.clientWidth/2 + base/2 + "px"
+            boardButton.style.position = "absolute"
+            boardButton.style.top = (document.getElementById("pre").clientHeight - document.getElementById("content2").clientHeight + 485) + "px"
+            boardButton.style.left = (window.innerWidth - boardButton.clientWidth)/2  + "px"
             document.body.style.overflowY = "hidden"
         }
         else{
@@ -114,19 +165,11 @@ async function viewGame(data){
             boardButton.style.position = ''
             boardButton.style.left = ''
             document.body.style.overflowY = ''
-        }
+            boardButton.style.position = ''
+            boardButton.style.top = ''
+            boardButton.style.left = ''
+            }
      
     })
 
 }
-
-if( window.innerWidth < 450){
-    let board = document.getElementById("board")
-    board.style.width = document.innerWidth + "px"
-    board.style.margin = "0!important"
-}
-let url_string = window.location.href
-let url = new URL(url_string)
-let id = url.searchParams.get('id')
-let table = url.searchParams.get('table')
-search(id, table)
