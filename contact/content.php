@@ -7,9 +7,9 @@
     <label for="sub1">Pomysł</label><br>
     <input type="radio" id="sub2" name="subject" value="Uwaga" required>
     <label for="sub2">Uwaga</label><br>
-    <input type="radio" id="sub3" name="subject" value="Błąd" required>
+    <input type="radio" id="sub3" name="subject" value="Błąd w partii" required>
     <label for="sub3">Błąd w partii</label><br>
-    <input type="radio" id="sub4" name="subject" value="Brak" required>
+    <input type="radio" id="sub4" name="subject" value="Brakująca partia" required>
     <label for="sub4">Brakująca partia</label><br>
     <input type="radio" id="sub5" name="subject" value="Inne" required>
     <label for="sub5">Inne</label><br>

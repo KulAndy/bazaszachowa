@@ -1,10 +1,10 @@
 <?php
     echo '
+            <div style="height: 2.5em"></div>
             <footer>
-                <p>&#127279; Andrzej Kulesza ';
+                <p><span class="copyleft">&copy;</span> Andrzej Kulesza ';
     echo date("Y");
     echo '</p>
-                <p><a href="mailto:andykrk22@gmail.com">andykrk22@gmail.com</a></p>
             </footer>
         </body>
     </html>';

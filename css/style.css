@@ -1,43 +1,115 @@
-html, body, div, span, applet, object, iframe,
-p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sup, tt, var,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
 }
+
 body {
-  line-height: 1;
+    line-height: 1;
 }
-ol, ul {
-  list-style: none;
+
+ol,
+ul {
+    list-style: none;
 }
-blockquote, q {
-  quotes: none;
+
+blockquote,
+q {
+    quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: "";
-  content: none;
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
 }
+
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
+
+
 /*//////////////////////////////////////////////////////////////////////////////////////////////*/
 
 body {
@@ -45,27 +117,35 @@ body {
 }
 
 footer {
+    display: flex;
+    align-items: center;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100vw;
+    height: 2.5em;
     background-color: orange;
     color: white;
-    text-align: center;
+    justify-content: center;
+    z-index: 3;
 }
-footer p{
+
+footer p {
     margin: 2px;
     padding: 1px;
 }
-footer a{
+
+footer a {
     text-decoration: none;
     color: white;
     margin: 2px;
     padding: 1px;
 }
-footer a:hover{
+
+footer a:hover {
     color: navy;
 }
+
 nav {
     display: flex;
     justify-content: space-evenly;
@@ -76,9 +156,13 @@ nav {
     background-color: orange;
     color: white;
     text-align: center;
-
+    z-index: 3;
+    align-items: center;
+    flex-wrap: wrap;
+    line-height: 2.5em;
 }
-nav a{
+
+nav a {
     text-decoration: none;
     color: white;
     margin: 2px;
@@ -86,25 +170,77 @@ nav a{
     padding-top: 2px;
     padding-bottom: 2px;
 }
-nav a:hover{
+
+nav a:hover {
     color: navy;
 }
+
 li {
     list-style: disc;
     margin-left: 5%;
 }
 
-pre table{
+pre table {
     margin: auto;
     width: fit-content;
 }
 
-table, tr, th, td {
+table,
+tr,
+th,
+td {
     border: solid black 2px;
     border-collapse: collapse;
+    word-wrap: anywhere;
 }
-#content{
-    margin-top: 15px!important;
+
+article {
+    margin: 10px;
+}
+
+.float_left {
+    float: left;
+}
+
+@media only screen and (max-width: 768px) {
+    label {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .float_left {
+        float: none;
+    }
+    #left_content ul li {
+        display: inline-flex!important;
+    }
+    #left_content ul li {
+        list-style: none!important;
+    }
+    article {
+        margin: 0;
+    }
+    #left_content {
+        width: fit-content!important;
+    }
+    #content {
+        width: fit-content!important;
+        margin: auto!important;
+    }
+    #content * {
+        word-wrap: break-word;
+    }
+    .not_mobile {
+        display: none!important;
+    }
+}
+
+.copyleft {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+#content {
+    margin-top: 15px !important;
     margin: auto;
     width: 60vw;
 }
@@ -113,31 +249,16 @@ table, tr, th, td {
     margin-left: 10px;
 }
 
-#left_content{
+#left_content {
     margin-top: 15px;
     padding-left: 1.5em;
     width: 20vw;
 }
 
-#left_content ul li{
+#left_content ul li {
     list-style: disc;
 }
 
-#pre{
+#pre {
     margin-top: 15px;
-}
-
-.float_left{
-    float: left;
-}
-
-@media all and (max-width: 400px) {
-    #board{
-        width: 90vw!important;
-        margin: auto!important;
-    }
-    #content2{
-        margin: auto!important;
-        overflow-x: hidden;
-    }
 }
