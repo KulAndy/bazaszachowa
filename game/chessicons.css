@@ -223,6 +223,12 @@ table {
   }
 }
 
+@media only screen and (max-width: 767px) {
+    #boardMoves{
+        height: min(320px, 81vw);
+    }
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

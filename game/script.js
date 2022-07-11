@@ -147,7 +147,7 @@ function viewGame(data) {
   }
 
   window.addEventListener("resize", function () {
-    console.log(window.screen.availWidth, window.innerWidth);
+    console.log(document.getElementById("board").style.width);
     if (!checkMobile()) {
       let newMode;
       if (window.screen.availWidth >= 768 && window.innerWidth >= 768) {
