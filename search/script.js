@@ -229,71 +229,96 @@ function download(data) {
     a.click();
 }
 
-if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
+// if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
     let content = document.getElementById("content");
-    let white = document.createElement("h3");
+    let table  = document.createElement("table")
+    table.classList.add("no_border")
+    let tr1 = document.createElement("tr")
+    let white = document.createElement("th");
     white.innerText = "biały";
     white.style.textAlign = "center";
     white.style.marginBottom = 0;
-    content.append(white);
-    let whiteNameLabel = document.createElement("label");
-    whiteNameLabel.for = "white";
-    whiteNameLabel.innerText = "nazwisko:\t\t";
+    white.colSpan = "4"
+    tr1.append(white)
+    table.append(tr1)
+    let tr2 = document.createElement("tr")
+    let whiteNameLabel = document.createElement("td");
+    whiteNameLabel.innerText = "nazwisko:";
+    tr2.append(whiteNameLabel)
+    let tdWN = document.createElement("td")
+    tdWN.colSpan = "3"
     let whiteName = document.createElement("input");
     whiteName.type = "text";
     whiteName.id = "whiteName";
     whiteName.placeholder = "Nowak";
-    let whiteLastNameLabel = document.createElement("label");
-    whiteLastNameLabel.for = "white";
-    whiteLastNameLabel.innerText = "Imię:\t\t\t";
+    tdWN.append(whiteName)
+    tr2.append(tdWN)
+    table.append(tr2)
+    let tr3 = document.createElement("tr")
+    let whiteLastNameLabel = document.createElement("td");
+    whiteLastNameLabel.innerText = "Imię:";
+    tr3.append(whiteLastNameLabel)
+    let tdWLN = document.createElement("td")
+    tdWLN.colSpan = "3"
     let whiteLastName = document.createElement("input");
     whiteLastName.type = "text";
     whiteLastName.id = "whiteLastName";
     whiteLastName.placeholder = "Jan";
-    content.append(whiteNameLabel);
-    content.append(whiteName);
-    content.append(document.createElement("br"));
-    content.append(whiteLastNameLabel);
-    content.append(whiteLastName);
-    content.append(document.createElement("br"));
-    let black = document.createElement("h3");
+    tdWLN.append(whiteLastName)
+    tr3.append(tdWLN)
+    table.append(tr3)
+    let tr4 = document.createElement("tr")
+    let black = document.createElement("th");
     black.innerText = "czarny";
     black.style.textAlign = "center";
     black.style.marginBottom = 0;
     black.style.marginTop = 0;
-    content.append(black);
-    let blackNameLabel = document.createElement("label");
-    blackNameLabel.for = "white";
-    blackNameLabel.innerText = "nazwisko:\t\t";
+    black.colSpan = "4"
+    tr4.append(black)
+    table.append(tr4)
+    let tr5 = document.createElement("tr")
+    let blackNameLabel = document.createElement("td");
+    blackNameLabel.innerText = "nazwisko:";
+    tr5.append(blackNameLabel)
+    let tdBN = document.createElement("td")
+    tdBN.colSpan = "3"
     let blackName = document.createElement("input");
     blackName.type = "text";
     blackName.id = "blackName";
     blackName.placeholder = "Nowak";
-    let blackLastNameLabel = document.createElement("label");
-    blackLastNameLabel.for = "blackLastName";
-    blackLastNameLabel.innerText = "Imię:\t\t\t";
+    tdBN.append(blackName)
+    tr5.append(tdBN)
+    table.append(tr5)
+    let tr6 = document.createElement("tr")
+    let blackLastNameLabel = document.createElement("td");
+    blackLastNameLabel.innerText = "Imię:";
+    tr6.append(blackLastNameLabel)
+    let tdBLN = document.createElement("td")
+    tdBLN.colSpan = "3"
     let blackLastName = document.createElement("input");
     blackLastName.type = "text";
     blackLastName.id = "blackLastName";
     blackLastName.placeholder = "Jan";
-    content.append(blackNameLabel);
-    content.append(blackName);
-    content.append(document.createElement("br"));
-    content.append(blackLastNameLabel);
-    content.append(blackLastName);
-    content.append(document.createElement("br"));
-    let ignoreColorLabel = document.createElement("label");
-    ignoreColorLabel.for = "ignoreColor";
-    ignoreColorLabel.innerText = "ignoruj kolory\t\t";
+    tdBLN.append(blackLastName)
+    tr6.append(tdBLN)
+    table.append(tr6)
+    let tr7 = document.createElement("tr")
+    let ignoreColorLabel = document.createElement("td");
+    ignoreColorLabel.innerText = "ignoruj kolory";
+    tr7.append(ignoreColorLabel)
+    let tdIC = document.createElement("td")
+    tdIC.colSpan = "3"
     let ignoreColor = document.createElement("input");
     ignoreColor.id = "ignoreColor";
     ignoreColor.type = "checkbox";
-    content.append(ignoreColorLabel);
-    content.append(ignoreColor);
-    content.append(document.createElement("br"));
-    let minYearLabel = document.createElement("label");
-    minYearLabel.for = "minYear";
-    minYearLabel.innerText = "lata:\t\t\t\t";
+    tdIC.append(ignoreColor)
+    tr7.append(tdIC)
+    table.append(tr7)
+    let tr8 = document.createElement("tr")
+    let minYearLabel = document.createElement("td");
+    minYearLabel.innerText = "lata:";
+    tr8.append(minYearLabel)
+    let tdMinY = document.createElement("td")
     let minYear = document.createElement("input");
     minYear.type = "number";
     minYear.id = "minYear";
@@ -302,10 +327,15 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
     minYear.style.width = "4em";
     let date = new Date();
     minYear.max = date.getFullYear();
+    tdMinY.append(minYear)
+    tr8.append(tdMinY)
 
-    let maxYearLabel = document.createElement("label");
-    maxYearLabel.for = "minYear";
+    let maxYearLabel = document.createElement("td");
     maxYearLabel.innerText = " - ";
+    tr8.append(maxYearLabel)
+    let tdMax = document.createElement("td")
+    tdMax.style.display = "flex"
+    tdMax.style.justifyContent = "flex-end"
     let maxYear = document.createElement("input");
     maxYear.type = "number";
     maxYear.id = "maxYear";
@@ -313,34 +343,44 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
     maxYear.style.width = "4em";
     maxYear.min = 1475;
     maxYear.max = date.getFullYear();
+    tdMax.append(maxYear)
+    tr8.append(tdMax)
+    table.append(tr8)
 
-    content.append(minYearLabel);
-    content.append(minYear);
-    content.append(maxYearLabel);
-    content.append(maxYear);
-    content.append(document.createElement("br"));
-    let eventLabel = document.createElement("label");
-    eventLabel.for = "event";
-    eventLabel.innerText = "turniej:\t\t\t";
+    let tr9 = document.createElement("tr")
+    let eventLabel = document.createElement("td");
+    eventLabel.innerText = "turniej:";
+    tr9.append(eventLabel)
+    let tdE = document.createElement("td")
+    tdE.colSpan = "3"
     let events = document.createElement("input");
     events.id = "event";
     events.type = "text";
-    content.append(eventLabel);
-    content.append(events);
-    content.append(document.createElement("br"));
+    tdE.append(events)
+    tr9.append(tdE)
+    table.append(tr9)
 
+    let tr10 = document.createElement("tr")
     let ECO_letters = ["A", "B", "C", "D", "E"];
-    let select1Label = document.createElement("label");
-    select1Label.for = "select1";
-    select1Label.innerText = "ECO:\t\t\t";
+    let select1Label = document.createElement("td");
+    select1Label.innerText = "ECO:";
+    tr10.append(select1Label)
+    let tdS1 = document.createElement("td")
     let select1 = document.createElement("select");
     select1.id = "select1";
+    tdS1.append(select1)
+    tr10.append(tdS1)
 
-    let select2Label = document.createElement("label");
-    select2Label.for = "select1";
+    let select2Label = document.createElement("td");
     select2Label.innerText = " - ";
+    tr10.append(select2Label)
+    let tdS2 = document.createElement("td")
+    tdS2.style.display = "flex"
+    tdS2.style.justifyContent = "flex-end"
     let select2 = document.createElement("select");
     select2.id = "select2";
+    tdS2.append(select2)
+    tr10.append(tdS2)
 
     ECO_letters.forEach((i) => {
         for (let j = 0; j < 10; j++) {
@@ -359,17 +399,13 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
 
     select2.value = "E99";
 
-    content.append(select1Label);
-    content.append(select1);
-    content.append(select2Label);
-    content.append(select2);
-    content.append(document.createElement("br"));
+    table.append(tr10)
 
-    let baseLabel = document.createElement("label");
-    baseLabel.for = "radioB1";
-    baseLabel.innerText = "baza:\t\t\t";
-    let radioB1Label = document.createElement("label");
-    radioB1Label.for = "radioB1";
+    let tr11 = document.createElement("tr")
+    let baseLabel = document.createElement("td");
+    baseLabel.innerText = "baza:";
+    tr11.append(baseLabel)
+    let radioB1Label = document.createElement("td");
     let abbrB1 = document.createElement("abbr");
     abbrB1.innerText = "Polska ";
     abbrB1.title = "szybsza baza (zalecana)";
@@ -379,8 +415,10 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
     radioB1.checked = true;
     radioB1.id = "radioB1";
     radioB1.name = "base";
-    let radioB2Label = document.createElement("label");
-    radioB2Label.for = "radio2";
+    radioB1Label.append(radioB1)
+    tr11.append(radioB1Label)
+    let radioB2Label = document.createElement("td");
+    radioB2Label.colSpan = "2"
     let abbrB2 = document.createElement("abbr");
     abbrB2.innerText = " całość ";
     abbrB2.title = " większa, wolniejsza baza (niezalecana)";
@@ -389,43 +427,43 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
     radioB2.type = "radio";
     radioB2.id = "radioB2";
     radioB2.name = "base";
+    radioB2Label.append(radioB2)
+    tr11.append(radioB2Label)
+    table.append(tr11)
 
-    content.append(baseLabel);
-    content.append(radioB1Label);
-    content.append(radioB1);
-    content.append(radioB2Label);
-    content.append(radioB2);
-    content.append(document.createElement("br"));
 
-    let searchingLabel = document.createElement("label");
-    searchingLabel.for = "searching";
-    searchingLabel.innerText = "wyszukiwanie:\t";
-    let radioS1Label = document.createElement("label");
+    let tr12 = document.createElement("tr")
+    let searchingLabel = document.createElement("td");
+    searchingLabel.innerText = "wyszukiwanie:";
+    tr12.append(searchingLabel)
+    let radioS1Label = document.createElement("td");
     radioS1Label.innerText = "zwykłe";
-    radioS1Label.for = "radioS1";
     let radioS1 = document.createElement("input");
     radioS1.type = "radio";
     radioS1.checked = true;
     radioS1.id = "radioS1";
     radioS1.name = "searching";
-    let radioS2Label = document.createElement("label");
-    radioS2Label.innerText = "dokładne (ekperymentalne)";
+    radioS1Label.append(radioS1)
+    tr12.append(radioS1Label)
+    let radioS2Label = document.createElement("td");
+    radioS2Label.innerText = "dokładne";
+    radioS2Label.colSpan = "2"
     let radioS2 = document.createElement("input");
     radioS2.type = "radio";
     radioS2.name = "searching";
     radioS2.id = "radioS2";
+    radioS2Label.append(radioS2)
+    tr12.append(radioS2Label)
+    table.append(tr12)
 
-    content.append(searchingLabel);
-    content.append(radioS1Label);
-    content.append(radioS1);
-    content.append(radioS2Label);
-    content.append(radioS2);
-    content.append(document.createElement("br"));
-
+    let tr13 = document.createElement("tr")
+    let thB = document.createElement("th")
+    thB.colSpan = "4"
     let button = document.createElement("button");
     button.innerText = "szukaj";
-    button.style.marginLeft = "10em";
-    button.style.marginTop = "10px";
+    thB.append(button)
+    tr13.append(thB)
+    table.append(tr13)
     button.onclick = () => {
         let whiteName = document.getElementById("whiteName");
         let whiteLastName = document.getElementById("whiteLastName");
@@ -479,6 +517,9 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
             }
         }
     };
+
+    content.append(table)
+    
     window.onkeydown = (e) => {
         if (e.which == 13) {
             let whiteName = document.getElementById("whiteName");
@@ -534,7 +575,6 @@ if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
             }
         }
     };
-    content.append(button);
-} else {
-    document.body.remove();
-}
+// } else {
+//     document.body.remove();
+// }
