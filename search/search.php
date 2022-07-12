@@ -117,13 +117,38 @@ if (isset($_POST['searching'])) {
         $toBind = array();
         if (isset($whiteName) || isset($whiteLastName)) {
             if (!isset($whiteName)) {
-                $query = $query . " match(white) against(?) ";
+                if( sizeof(explode(" ", $whiteLastName)) > 1){
+                    $whiteLastName = "+". str_replace(" ", " +", $whiteLastName);
+                    $query = $query . " match(white) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(white) against(?) ";
+                }
                 array_push($toBind, "\$whiteLastName");
             } else if (!isset($whiteLastName)) {
-                $query = $query . " match(white) against(?) ";
+                if( sizeof(explode(" ", $whiteName)) > 1){
+                    $whiteName = "+". str_replace(" ", " +", $whiteName);
+                    $query = $query . " match(white) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(white) against(?) ";
+                }
                 array_push($toBind, "\$whiteName");
             } else {
-                $query = $query . " match(white) against(?) and match(white) against(?)";
+                if( sizeof(explode(" ", $whiteLastName)) > 1){
+                    $whiteLastName = "+". str_replace(" ", " +", $whiteLastName);
+                    $query = $query . " match(white) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(white) against(?) ";
+                }
+                if( sizeof(explode(" ", $whiteName)) > 1){
+                    $whiteName = "+". str_replace(" ", " +", $whiteName);
+                    $query = $query . " and match(white) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " and match(white) against(?) ";
+                }
                 array_push($toBind, "\$whiteName", "\$whiteLastName");
             }
         }
@@ -133,13 +158,38 @@ if (isset($_POST['searching'])) {
             }
 
             if (!isset($blackName)) {
-                $query = $query . " match(black) against(?) ";
+                if( sizeof(explode(" ", $blackLastName)) > 1){
+                    $blackLastName = "+". str_replace(" ", " +", $blackLastName);
+                    $query = $query . " match(black) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(black) against(?) ";
+                }
                 array_push($toBind, "\$blackLastName");
             } else if (!isset($blackLastName)) {
-                $query = $query . " match(black) against(?) ";
+                if( sizeof(explode(" ", $blackName)) > 1){
+                    $blackName = "+". str_replace(" ", " +", $blackName);
+                    $query = $query . " match(black) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(black) against(?) ";
+                }
                 array_push($toBind, "\$blackName");
             } else {
-                $query = $query . " match(black) against(?) and match(black) against(?)";
+                if( sizeof(explode(" ", $blackLastName)) > 1){
+                    $blackLastName = "+". str_replace(" ", " +", $blackLastName);
+                    $query = $query . " match(black) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " match(black) against(?) ";
+                }
+                if( sizeof(explode(" ", $blackName)) > 1){
+                    $blackName = "+". str_replace(" ", " +", $blackName);
+                    $query = $query . " and match(black) against(? in boolean mode) ";
+                }
+                else{
+                    $query = $query . " and match(black) against(?) ";
+                }
                 array_push($toBind, "\$blackName", "\$blackLastName");
             }
         }
@@ -165,33 +215,79 @@ if (isset($_POST['searching'])) {
             array_push($toBind, "\$minEco", "\$maxEco");
         }
         if (isset($ignore) && $ignore ==  "true") {
+            $toBindSize = sizeof($toBind);
             $query = $query . "UNION ALL\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE ";
             if (isset($whiteName) || isset($whiteLastName)) {
                 if (!isset($whiteName)) {
-                    $query = $query . " match(black) against(?) ";
+                    if( sizeof(explode(" ", $whiteLastName)) > 1){
+                        $query = $query . " match(black) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(black) against(?) ";
+                    }
                     array_push($toBind, "\$whiteLastName");
                 } else if (!isset($whiteLastName)) {
-                    $query = $query . " match(black) against(?) ";
+                    if( sizeof(explode(" ", $whiteName)) > 1){
+                        $query = $query . " match(black) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(black) against(?) ";
+                    }
                     array_push($toBind, "\$whiteName");
                 } else {
-                    $query = $query . " match(black) against(?) and match(black) against(?)";
+                    if( sizeof(explode(" ", $whiteLastName)) > 1){
+                        $query = $query . " match(black) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(black) against(?) ";
+                    }
+                    if( sizeof(explode(" ", $whiteName)) > 1){
+                        $query = $query . " and match(black) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " and match(black) against(?) ";
+                    }
                     array_push($toBind, "\$whiteName", "\$whiteLastName");
                 }
+    
             }
             if (isset($blackName) || isset($blackLastName)) {
-                if (sizeof($toBind) > 0) {
+                if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
+
                 if (!isset($blackName)) {
-                    $query = $query . " match(white) against(?) ";
+                    if( sizeof(explode(" ", $blackLastName)) > 1){
+                        $query = $query . " match(white) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(white) against(?) ";
+                    }
                     array_push($toBind, "\$blackLastName");
                 } else if (!isset($blackLastName)) {
-                    $query = $query . " match(white) against(?) ";
+                    if( sizeof(explode(" ", $blackName)) > 1){
+                        $query = $query . " match(white) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(white) against(?) ";
+                    }
                     array_push($toBind, "\$blackName");
                 } else {
-                    $query = $query . " match(white) against(?) and match(white) against(?)";
+                    if( sizeof(explode(" ", $blackLastName)) > 1){
+                        $query = $query . " match(white) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " match(white) against(?) ";
+                    }
+                    if( sizeof(explode(" ", $blackName)) > 1){
+                        $query = $query . " and match(white) against(? in boolean mode) ";
+                    }
+                    else{
+                        $query = $query . " and match(white) against(?) ";
+                    }
                     array_push($toBind, "\$blackName", "\$blackLastName");
                 }
+    
             }
             if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date('Y')) {
                 if (sizeof($toBind) > 0) {
@@ -201,14 +297,14 @@ if (isset($_POST['searching'])) {
                 array_push($toBind, "\$minYear", "\$maxYear");
             }
             if (isset($event)) {
-                if (sizeof($toBind) > 0) {
+                if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
                 $query = $query . " Event like ?";
                 array_push($toBind, "\$event");
             }
             if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                if (sizeof($toBind) > 0) {
+                if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
                 $query = $query . " CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
