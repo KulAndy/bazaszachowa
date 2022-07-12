@@ -28,6 +28,7 @@
         array_push($data["rows"], $row);
     }
     print_r(json_encode($data));    
+    $db -> close();
 
 
 ?>

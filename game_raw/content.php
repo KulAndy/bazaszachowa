@@ -57,4 +57,6 @@
         echo "<br>".$row['moves']."<br><br>";
     }
 
+    $db -> close();
+
 ?>

@@ -1,6 +1,6 @@
 <?php
     echo '<pre id="pre">
-    <div id="content2" style="width: fit-content">
+    <div id="content2" >
     <table>
         <tr>
             <td id="td1" rowspan="2" >

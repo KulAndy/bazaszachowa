@@ -1,10 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require 'login_data.inc';
-$db = new mysqli($host, $user, $password, $base);
+@$db = new mysqli($host, $user, $password, $base);
 
 if (mysqli_connect_errno()) {
     echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
@@ -248,3 +248,4 @@ while ($row = $result->fetch_assoc()) {
 }
 
 print_r(json_encode($data));
+$db -> close();
