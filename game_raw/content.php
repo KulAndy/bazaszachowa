@@ -25,7 +25,6 @@
     $searching -> execute();
     $result = $searching -> get_result();
     while ($row = $result->fetch_assoc()) {
-        echo "<br>";
         echo "[Event \"".$row['Event']."\"]<br>";
         echo "[Site \"".$row['Site']."\"]<br>";
         echo "[Date \"".$row['Year'].".";
