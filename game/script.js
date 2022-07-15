@@ -129,13 +129,15 @@ function viewGame(data) {
         let boardButton = document.getElementById("boardButton");
         td3.style.width = boardButton.clientWidth;
         let boardDiv = document.getElementById("board");
-        boardDiv.style.height = boardButton.clientHeight;
-        boardDiv.style.width = boardButton.clientWidth;
+        boardDiv.style.height = boardButton.clientHeight + "px";
+        boardDiv.style.width = boardButton.clientWidth + "px";
         let td1 = document.getElementById("td1");
         let board = document.getElementsByClassName("outerBoard")[0];
         td1.append(board);
-        notation.style.height = board.clientHeight - boardDiv.clientHeight;
-        board.style.height = board.clientWidth;
+        notation.style.height = board.clientHeight - boardDiv.clientHeight - 5 + "px";
+        notation.style.width = "fit-content"
+        notation.style.overflowX = "auto"
+        board.style.height = board.clientWidth + "px";
         let moves = document.getElementsByTagName("move");
         for (let i = 1; i < moves.length; i = i + 2) {
             let move = moves[i];

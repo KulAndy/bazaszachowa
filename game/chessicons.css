@@ -140,6 +140,13 @@ body {
 
 /* /////////////////////////////////////////////////////////////////////////////// */
 
+td,tr,th,table{
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+    width: fit-content;
+}
+
 footer {
     display: flex;
     align-items: center;
