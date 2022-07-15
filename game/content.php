@@ -1,5 +1,5 @@
 <?php
-    echo '<pre id="pre">
+    echo '<div id="pre">
     <div id="content2" >
     <table>
         <tr>
@@ -15,5 +15,5 @@
         </tr>
     </table>
     </div>
-    </pre>';
+    </div>';
 ?>
