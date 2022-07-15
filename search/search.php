@@ -12,6 +12,7 @@ if (mysqli_connect_errno()) {
     exit;
 }
 
+$db -> set_charset("utf8");
 $data = array(
     "rows" => array()
     // "debbug" => array()

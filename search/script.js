@@ -256,7 +256,15 @@ function replaceNationalCharacters(text){
     return toReplace
 }
 
+if( window.screen.availWidth <= 768 || window.screen.availHeight <= 768){
+    document.getElementsByTagName("details")[0].removeAttribute("open")
+}
 
+window.addEventListener("resize", function (){
+    if( window.screen.availWidth <= 768 || window.screen.availHeight <= 768){
+        document.getElementsByTagName("details")[0].removeAttribute("open")
+    }    
+})
 
 let content = document.getElementById("content");
 let table = document.createElement("table")
