@@ -3,7 +3,8 @@
     // ini_set('display_startup_errors', 1);
     // error_reporting(E_ALL);
 
-    echo '<html lang="pl">
+    echo '<!DOCTYPE html>
+    <html lang="pl">
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="darmo baza szachowa">

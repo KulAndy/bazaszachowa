@@ -16,7 +16,11 @@ function search(
 ) {
     const xhttp2 = new XMLHttpRequest();
     xhttp2.open("POST", "/search/search.php", true);
-
+    whiteName = replaceNationalCharacters(whiteName)
+    whiteLastName = replaceNationalCharacters(whiteLastName)
+    blackName = replaceNationalCharacters(blackName)
+    blackLastName = replaceNationalCharacters(blackLastName)
+    events = replaceNationalCharacters(events)
     let messenge =
         "whiteName=" +
         encodeURIComponent(whiteName) +
@@ -229,7 +233,31 @@ function download(data) {
     a.click();
 }
 
-// if (confirm("Czy należysz do kręgu towarzyskiego autora strony?")) {
+function replaceNationalCharacters(text){
+    let toReplace = text
+    toReplace = toReplace.replace(/ą/g, "a")
+    toReplace = toReplace.replace(/Ą/g, "A")
+    toReplace = toReplace.replace(/ć/g, "c")
+    toReplace = toReplace.replace(/Ć/g, "C")
+    toReplace = toReplace.replace(/ę/g, "e")
+    toReplace = toReplace.replace(/Ę/g, "E")
+    toReplace = toReplace.replace(/ł/g, "l")
+    toReplace = toReplace.replace(/Ł/g, "L")
+    toReplace = toReplace.replace(/ń/g, "n")
+    toReplace = toReplace.replace(/Ń/g, "n")
+    toReplace = toReplace.replace(/o/g, "o")
+    toReplace = toReplace.replace(/O/g, "o")
+    toReplace = toReplace.replace(/ś/g, "s")
+    toReplace = toReplace.replace(/Ś/g, "s")
+    toReplace = toReplace.replace(/ź/g, "z")
+    toReplace = toReplace.replace(/Ź/g, "Z")
+    toReplace = toReplace.replace(/ż/g, "z")
+    toReplace = toReplace.replace(/Ż/g, "Z")
+    return toReplace
+}
+
+
+
 let content = document.getElementById("content");
 let table = document.createElement("table")
 table.classList.add("no_border")
@@ -579,6 +607,3 @@ window.onkeydown = (e) => {
         }
     }
 };
-// } else {
-//     document.body.remove();
-// }
