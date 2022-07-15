@@ -114,6 +114,7 @@ function viewGame(data) {
     result.innerText += data.Result;
     result.style.textAlign = "center";
     result.style.marginTop = "5px";
+    result.style.marginBottom = "15px";
 
     pre.prepend(result);
     pre.prepend(siteDate);
