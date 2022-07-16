@@ -256,12 +256,12 @@ function replaceNationalCharacters(text){
     return toReplace
 }
 
-if( window.screen.availWidth <= 768 || window.screen.availHeight <= 768){
+if( window.screen.availWidth <= 600 || window.screen.availHeight <= 600){
     document.getElementsByTagName("details")[0].removeAttribute("open")
 }
 
 window.addEventListener("resize", function (){
-    if( window.screen.availWidth <= 768 || window.screen.availHeight <= 768){
+    if( window.screen.availWidth <= 600 || window.screen.availHeight <= 600){
         document.getElementsByTagName("details")[0].removeAttribute("open")
     }    
 })
