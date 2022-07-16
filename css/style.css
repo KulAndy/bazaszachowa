@@ -113,6 +113,7 @@ table {
 
 body {
   overflow-x: hidden;
+  background-color: #C3DF5D;
 }
 
 footer {
@@ -123,26 +124,27 @@ footer {
   bottom: 0;
   width: 100vw;
   height: 2.5em;
-  background-color: orange;
+  background-color: #66b032;
   color: white;
   justify-content: center;
   z-index: 3;
 }
 
 footer p {
+  color: #375f1b;
   margin: 2px;
   padding: 1px;
 }
 
-footer a {
+a {
   text-decoration: none;
-  color: white;
+  color: #375f1b;
   margin: 2px;
   padding: 1px;
 }
 
-footer a:hover {
-  color: navy;
+a:hover {
+  color: #1B3409;
 }
 
 nav {
@@ -152,26 +154,13 @@ nav {
   left: 0;
   top: 0;
   width: 100vw;
-  background-color: orange;
-  color: white;
+  background-color: #66b032;
+  color: #375f1b;
   text-align: center;
   z-index: 3;
   align-items: center;
   flex-wrap: wrap;
   line-height: 2.5em;
-}
-
-nav a {
-  text-decoration: none;
-  color: white;
-  margin: 2px;
-  padding: 1px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-nav a:hover {
-  color: navy;
 }
 
 li {
@@ -279,7 +268,7 @@ th {
   #left_content2 {
     margin-top: 15px;
     padding-left: 1.5em;
-    width: fit-content!important;
+    width: fit-content !important;
     height: fit-content;
   }
 
