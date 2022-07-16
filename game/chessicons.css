@@ -228,6 +228,7 @@ move-number {
     }
     #boardButton {
         margin-top: 0 !important;
+        place-self: normal!important;
     }
     #board {
         grid-template-columns: none !important;
