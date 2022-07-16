@@ -16,7 +16,11 @@
     <h4>Treść: </h4>
     <textarea rows="6" cols="50" name="content" form="form" placeholder="Wpisz tekst..." ></textarea><br>
 
+    <label for="file">Partia (akceptowane pliki *.pgn, *.txt)</label>
+    <input type="file" id="file" accept=" .pgn, .txt"><br>
+    <input type="hidden" id="hidden" name="data">
+    <input type="hidden" id="hidden2" name="type">
+    <input type="hidden" id="hidden3" name="name">
     <input type="submit" name="submit value="wyślij">
-
-    </form>'
+    </form>';
 ?>
