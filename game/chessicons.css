@@ -212,6 +212,11 @@ move-number {
     pointer-events: none!important;
 }
 
+.copyleft {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
 #content2 {
     margin: auto;
 }
