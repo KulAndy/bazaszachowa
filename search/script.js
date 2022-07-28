@@ -14,90 +14,47 @@ let content = document.getElementById("content");
 let table = document.createElement("table")
 table.classList.add("no_border")
 let tr1 = document.createElement("tr")
-let white = document.createElement("th");
-white.innerText = "biały";
-white.style.textAlign = "center";
-white.style.marginBottom = 0;
-white.colSpan = "4"
-tr1.append(white)
+let whiteLabel = document.createElement("td");
+whiteLabel.innerText = "Białe:";
+tr1.append(whiteLabel)
+let tdW = document.createElement("td")
+tdW.colSpan = "3"
+let white = document.createElement("input");
+white.type = "text";
+white.id = "white";
+white.placeholder = "Nowak, Jan";
+tdW.append(white)
+tr1.append(tdW)
 table.append(tr1)
 let tr2 = document.createElement("tr")
-let whiteNameLabel = document.createElement("td");
-whiteNameLabel.innerText = "nazwisko:";
-tr2.append(whiteNameLabel)
-let tdWN = document.createElement("td")
-tdWN.colSpan = "3"
-let whiteName = document.createElement("input");
-whiteName.type = "text";
-whiteName.id = "whiteName";
-whiteName.placeholder = "Nowak";
-tdWN.append(whiteName)
-tr2.append(tdWN)
+let blackLabel = document.createElement("td");
+blackLabel.innerText = "Czarne: ";
+tr2.append(blackLabel)
+let tdB = document.createElement("td")
+tdB.colSpan = "3"
+let black = document.createElement("input");
+black.type = "text";
+black.id = "black";
+black.placeholder = "Nowak, Jan";
+tdB.append(black)
+tr2.append(tdB)
 table.append(tr2)
 let tr3 = document.createElement("tr")
-let whiteLastNameLabel = document.createElement("td");
-whiteLastNameLabel.innerText = "Imię:";
-tr3.append(whiteLastNameLabel)
-let tdWLN = document.createElement("td")
-tdWLN.colSpan = "3"
-let whiteLastName = document.createElement("input");
-whiteLastName.type = "text";
-whiteLastName.id = "whiteLastName";
-whiteLastName.placeholder = "Jan";
-tdWLN.append(whiteLastName)
-tr3.append(tdWLN)
-table.append(tr3)
-let tr4 = document.createElement("tr")
-let black = document.createElement("th");
-black.innerText = "czarny";
-black.style.textAlign = "center";
-black.style.marginBottom = 0;
-black.style.marginTop = 0;
-black.colSpan = "4"
-tr4.append(black)
-table.append(tr4)
-let tr5 = document.createElement("tr")
-let blackNameLabel = document.createElement("td");
-blackNameLabel.innerText = "nazwisko:";
-tr5.append(blackNameLabel)
-let tdBN = document.createElement("td")
-tdBN.colSpan = "3"
-let blackName = document.createElement("input");
-blackName.type = "text";
-blackName.id = "blackName";
-blackName.placeholder = "Nowak";
-tdBN.append(blackName)
-tr5.append(tdBN)
-table.append(tr5)
-let tr6 = document.createElement("tr")
-let blackLastNameLabel = document.createElement("td");
-blackLastNameLabel.innerText = "Imię:";
-tr6.append(blackLastNameLabel)
-let tdBLN = document.createElement("td")
-tdBLN.colSpan = "3"
-let blackLastName = document.createElement("input");
-blackLastName.type = "text";
-blackLastName.id = "blackLastName";
-blackLastName.placeholder = "Jan";
-tdBLN.append(blackLastName)
-tr6.append(tdBLN)
-table.append(tr6)
-let tr7 = document.createElement("tr")
 let ignoreColorLabel = document.createElement("td");
 ignoreColorLabel.innerText = "ignoruj kolory";
-tr7.append(ignoreColorLabel)
+tr3.append(ignoreColorLabel)
 let tdIC = document.createElement("td")
 tdIC.colSpan = "3"
 let ignoreColor = document.createElement("input");
 ignoreColor.id = "ignoreColor";
 ignoreColor.type = "checkbox";
 tdIC.append(ignoreColor)
-tr7.append(tdIC)
-table.append(tr7)
-let tr8 = document.createElement("tr")
+tr3.append(tdIC)
+table.append(tr3)
+let tr4 = document.createElement("tr")
 let minYearLabel = document.createElement("td");
 minYearLabel.innerText = "lata:";
-tr8.append(minYearLabel)
+tr4.append(minYearLabel)
 let tdMinY = document.createElement("td")
 tdMinY.style.display = "flex"
 tdMinY.style.justifyContent = "flex-end"
@@ -110,11 +67,11 @@ minYear.style.width = "4em";
 let date = new Date();
 minYear.max = date.getFullYear();
 tdMinY.append(minYear)
-tr8.append(tdMinY)
+tr4.append(tdMinY)
 
 let maxYearLabel = document.createElement("td");
 maxYearLabel.innerText = " - ";
-tr8.append(maxYearLabel)
+tr4.append(maxYearLabel)
 let tdMax = document.createElement("td")
 tdMax.style.display = "flex"
 tdMax.style.justifyContent = "flex-start"
@@ -126,45 +83,45 @@ maxYear.style.width = "4em";
 maxYear.min = 1475;
 maxYear.max = date.getFullYear();
 tdMax.append(maxYear)
-tr8.append(tdMax)
-table.append(tr8)
+tr4.append(tdMax)
+table.append(tr4)
 
-let tr9 = document.createElement("tr")
+let tr5 = document.createElement("tr")
 let eventLabel = document.createElement("td");
 eventLabel.innerText = "turniej:";
-tr9.append(eventLabel)
+tr5.append(eventLabel)
 let tdE = document.createElement("td")
 tdE.colSpan = "3"
 let events = document.createElement("input");
 events.id = "event";
 events.type = "text";
 tdE.append(events)
-tr9.append(tdE)
-table.append(tr9)
+tr5.append(tdE)
+table.append(tr5)
 
-let tr10 = document.createElement("tr")
+let tr6 = document.createElement("tr")
 let ECO_letters = ["A", "B", "C", "D", "E"];
 let select1Label = document.createElement("td");
 select1Label.innerText = "ECO:";
-tr10.append(select1Label)
+tr6.append(select1Label)
 let tdS1 = document.createElement("td")
 tdS1.style.display = "flex"
 tdS1.style.justifyContent = "flex-end"
 let select1 = document.createElement("select");
 select1.id = "select1";
 tdS1.append(select1)
-tr10.append(tdS1)
+tr6.append(tdS1)
 
 let select2Label = document.createElement("td");
 select2Label.innerText = " - ";
-tr10.append(select2Label)
+tr6.append(select2Label)
 let tdS2 = document.createElement("td")
 tdS2.style.display = "flex"
 tdS2.style.justifyContent = "flex-start"
 let select2 = document.createElement("select");
 select2.id = "select2";
 tdS2.append(select2)
-tr10.append(tdS2)
+tr6.append(tdS2)
 
 ECO_letters.forEach((i) => {
     for (let j = 0; j < 10; j++) {
@@ -183,43 +140,37 @@ ECO_letters.forEach((i) => {
 
 select2.value = "E99";
 
-table.append(tr10)
+table.append(tr6)
 
-let tr11 = document.createElement("tr")
+let tr7 = document.createElement("tr")
 let baseLabel = document.createElement("td");
 baseLabel.innerText = "baza:";
-tr11.append(baseLabel)
+tr7.append(baseLabel)
 let radioB1Label = document.createElement("td");
-let abbrB1 = document.createElement("abbr");
-abbrB1.innerText = "Polska ";
-abbrB1.title = "szybsza baza (zalecana)";
-radioB1Label.append(abbrB1);
+radioB1Label.innerText = "Polska "
 let radioB1 = document.createElement("input");
 radioB1.type = "radio";
 radioB1.checked = true;
 radioB1.id = "radioB1";
 radioB1.name = "base";
 radioB1Label.append(radioB1)
-tr11.append(radioB1Label)
+tr7.append(radioB1Label)
 let radioB2Label = document.createElement("td");
 radioB2Label.colSpan = "2"
-let abbrB2 = document.createElement("abbr");
-abbrB2.innerText = " całość ";
-abbrB2.title = " większa, wolniejsza baza (niezalecana)";
-radioB2Label.append(abbrB2);
+radioB2Label.innerText = " całość "
 let radioB2 = document.createElement("input");
 radioB2.type = "radio";
 radioB2.id = "radioB2";
 radioB2.name = "base";
 radioB2Label.append(radioB2)
-tr11.append(radioB2Label)
-table.append(tr11)
+tr7.append(radioB2Label)
+table.append(tr7)
 
 
-let tr12 = document.createElement("tr")
+let tr8 = document.createElement("tr")
 let searchingLabel = document.createElement("td");
 searchingLabel.innerText = "wyszukiwanie:";
-tr12.append(searchingLabel)
+tr8.append(searchingLabel)
 let radioS1Label = document.createElement("td");
 radioS1Label.innerText = "zwykłe";
 let radioS1 = document.createElement("input");
@@ -228,7 +179,7 @@ radioS1.checked = true;
 radioS1.id = "radioS1";
 radioS1.name = "searching";
 radioS1Label.append(radioS1)
-tr12.append(radioS1Label)
+tr8.append(radioS1Label)
 let radioS2Label = document.createElement("td");
 radioS2Label.innerText = "dokładne";
 radioS2Label.colSpan = "2"
@@ -237,22 +188,20 @@ radioS2.type = "radio";
 radioS2.name = "searching";
 radioS2.id = "radioS2";
 radioS2Label.append(radioS2)
-tr12.append(radioS2Label)
-table.append(tr12)
+tr8.append(radioS2Label)
+table.append(tr8)
 
-let tr13 = document.createElement("tr")
+let tr9 = document.createElement("tr")
 let thB = document.createElement("th")
 thB.colSpan = "4"
 let button = document.createElement("button");
 button.innerText = "szukaj";
 thB.append(button)
-tr13.append(thB)
-table.append(tr13)
+tr9.append(thB)
+table.append(tr9)
 button.onclick = () => {
-    let whiteName = document.getElementById("whiteName");
-    let whiteLastName = document.getElementById("whiteLastName");
-    let blackName = document.getElementById("blackName");
-    let blackLastName = document.getElementById("blackLastName");
+    let white = document.getElementById("white");
+    let black = document.getElementById("black");
     let ignoreColor = document.getElementById("ignoreColor");
     let year1 = document.getElementById("minYear");
     let year2 = document.getElementById("maxYear");
@@ -273,10 +222,8 @@ button.onclick = () => {
     }
     if (typeof base != "undefined" && typeof searching) {
         if (
-            whiteName.value.trim() == "" &&
-            whiteLastName.value.trim() == "" &&
-            blackName.value.trim() == "" &&
-            blackLastName.value.trim() == ""
+            white.value.trim() == "" &&
+            black.value.trim() == ""
         ) {
             alert("Nie podano gracza do wyszukiwania");
         } else if (year1.value > year2.value) {
@@ -285,10 +232,8 @@ button.onclick = () => {
             alert("Podano zły zakres kodów eco");
         } else {
             search(
-                whiteName.value.trim(),
-                whiteLastName.value.trim(),
-                blackName.value.trim(),
-                blackLastName.value.trim(),
+                white.value.trim(),
+                black.value.trim(),
                 ignoreColor.checked,
                 year1.value,
                 year2.value,
@@ -306,10 +251,8 @@ content.append(table)
 
 window.onkeydown = (e) => {
     if (e.which == 13) {
-        let whiteName = document.getElementById("whiteName");
-        let whiteLastName = document.getElementById("whiteLastName");
-        let blackName = document.getElementById("blackName");
-        let blackLastName = document.getElementById("blackLastName");
+        let white = document.getElementById("white");
+        let black = document.getElementById("black");
         let ignoreColor = document.getElementById("ignoreColor");
         let year1 = document.getElementById("minYear");
         let year2 = document.getElementById("maxYear");
@@ -330,10 +273,8 @@ window.onkeydown = (e) => {
         }
         if (typeof base != "undefined" && typeof searching) {
             if (
-                whiteName.value.trim() == "" &&
-                whiteLastName.value.trim() == "" &&
-                blackName.value.trim() == "" &&
-                blackLastName.value.trim() == ""
+                white.value.trim() == "" &&
+                black.value.trim() == ""
             ) {
                 alert("Nie podano gracza do wyszukiwania");
             } else if (year1.value > year2.value) {
@@ -342,10 +283,8 @@ window.onkeydown = (e) => {
                 alert("Podano zły zakres kodów eco");
             } else {
                 search(
-                    whiteName.value.trim(),
-                    whiteLastName.value.trim(),
-                    blackName.value.trim(),
-                    blackLastName.value.trim(),
+                    white.value.trim(),
+                    black.value.trim(),
                     ignoreColor.checked,
                     year1.value,
                     year2.value,
@@ -357,5 +296,5 @@ window.onkeydown = (e) => {
                 );
             }
         }
-    }
+        }
 };

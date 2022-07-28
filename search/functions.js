@@ -1,10 +1,8 @@
 "use strict"
 
 function search(
-    whiteName,
-    whiteLastName,
-    blackName,
-    blackLastName,
+    white,
+    black,
     ignore,
     minYear,
     maxYear,
@@ -16,20 +14,14 @@ function search(
 ) {
     const xhttp2 = new XMLHttpRequest();
     xhttp2.open("POST", "/search/search.php", true);
-    whiteName = replaceNationalCharacters(whiteName)
-    whiteLastName = replaceNationalCharacters(whiteLastName)
-    blackName = replaceNationalCharacters(blackName)
-    blackLastName = replaceNationalCharacters(blackLastName)
+    white = replaceNationalCharacters(white)
+    black = replaceNationalCharacters(black)
     events = replaceNationalCharacters(events)
     let messenge =
-        "whiteName=" +
-        encodeURIComponent(whiteName) +
-        "&whiteLastName=" +
-        encodeURIComponent(whiteLastName) +
-        "&blackName=" +
-        encodeURIComponent(blackName) +
-        "&blackLastName=" +
-        encodeURIComponent(blackLastName) +
+        "white=" +
+        encodeURIComponent(white) +
+        "&black=" +
+        encodeURIComponent(black) +
         "&ignore=" +
         encodeURIComponent(ignore) +
         "&minYear=" +
