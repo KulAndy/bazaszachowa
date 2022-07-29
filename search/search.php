@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require 'login_data.inc';
 @$db = new mysqli($host, $user, $password, $base);
@@ -22,7 +22,7 @@ if (isset($_POST['white']) && !empty($_POST['white'])) {
     $white = $_POST['white'];
 }
 if (isset($_POST['black']) && !empty($_POST['black'])) {
-    $blackName = $_POST['black'];
+    $black = $_POST['black'];
 }
 if (isset($_POST['ignore']) && !empty($_POST['ignore'])) {
     $ignore = $_POST['ignore'];
@@ -60,7 +60,7 @@ if (isset($_POST['searching'])) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
-                $query = $query . " BlackID in ( SELECT id FROM $players WHERE fullname like ? )";
+                $query = $query . " BlackID in ( SELECT id FROM $players_table WHERE fullname like ? )";
                 array_push($toBind, "\$black");
         }
         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
