@@ -1,6 +1,6 @@
 <?php
     echo '<div id="pre">
-        <div id="left_content2" class="float_left">
+        <div id="left_content2" class="float_left" style="margin-top: 0">
             <details open>
                 <summary>Pomoc</summary>
                 <ul>Możliwe parametry wyszukiwania:

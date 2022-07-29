@@ -25,7 +25,7 @@ white.id = "white";
 white.placeholder = "Nowak, Jan";
 tdW.append(white)
 tr1.append(tdW)
-table.append(tr1)
+
 let tr2 = document.createElement("tr")
 let blackLabel = document.createElement("td");
 blackLabel.innerText = "Czarne: ";
@@ -38,10 +38,11 @@ black.id = "black";
 black.placeholder = "Nowak, Jan";
 tdB.append(black)
 tr2.append(tdB)
-table.append(tr2)
+
 let tr3 = document.createElement("tr")
 let ignoreColorLabel = document.createElement("td");
 ignoreColorLabel.innerText = "ignoruj kolory";
+ignoreColorLabel.style.width = ignoreColorLabel.innerText.length * 1.5 + "ch"
 tr3.append(ignoreColorLabel)
 let tdIC = document.createElement("td")
 tdIC.colSpan = "3"
@@ -50,7 +51,7 @@ ignoreColor.id = "ignoreColor";
 ignoreColor.type = "checkbox";
 tdIC.append(ignoreColor)
 tr3.append(tdIC)
-table.append(tr3)
+
 let tr4 = document.createElement("tr")
 let minYearLabel = document.createElement("td");
 minYearLabel.innerText = "lata:";
@@ -84,7 +85,6 @@ maxYear.min = 1475;
 maxYear.max = date.getFullYear();
 tdMax.append(maxYear)
 tr4.append(tdMax)
-table.append(tr4)
 
 let tr5 = document.createElement("tr")
 let eventLabel = document.createElement("td");
@@ -97,7 +97,6 @@ events.id = "event";
 events.type = "text";
 tdE.append(events)
 tr5.append(tdE)
-table.append(tr5)
 
 let tr6 = document.createElement("tr")
 let ECO_letters = ["A", "B", "C", "D", "E"];
@@ -140,8 +139,6 @@ ECO_letters.forEach((i) => {
 
 select2.value = "E99";
 
-table.append(tr6)
-
 let tr7 = document.createElement("tr")
 let baseLabel = document.createElement("td");
 baseLabel.innerText = "baza:";
@@ -164,12 +161,11 @@ radioB2.id = "radioB2";
 radioB2.name = "base";
 radioB2Label.append(radioB2)
 tr7.append(radioB2Label)
-table.append(tr7)
-
 
 let tr8 = document.createElement("tr")
 let searchingLabel = document.createElement("td");
-searchingLabel.innerText = "wyszukiwanie:";
+searchingLabel.innerText = "wyszukiwanie";
+searchingLabel.style.width = searchingLabel.innerText.length * 1.5 + "ch"
 tr8.append(searchingLabel)
 let radioS1Label = document.createElement("td");
 radioS1Label.innerText = "zwykłe";
@@ -189,7 +185,6 @@ radioS2.name = "searching";
 radioS2.id = "radioS2";
 radioS2Label.append(radioS2)
 tr8.append(radioS2Label)
-table.append(tr8)
 
 let tr9 = document.createElement("tr")
 let thB = document.createElement("th")
@@ -198,7 +193,8 @@ let button = document.createElement("button");
 button.innerText = "szukaj";
 thB.append(button)
 tr9.append(thB)
-table.append(tr9)
+tr9.style.height = "4em"
+
 button.onclick = () => {
     let white = document.getElementById("white");
     let black = document.getElementById("black");
@@ -246,6 +242,11 @@ button.onclick = () => {
         }
     }
 };
+
+for(let i = 1; i <=9 ;i++ ){
+    eval("table.append(tr"+ i + ")")
+}
+
 
 content.append(table)
 
