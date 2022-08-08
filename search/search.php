@@ -244,3 +244,7 @@ while ($row = $result->fetch_assoc()) {
 
 print_r(json_encode($data));
 $db->close();
+
+
+
+

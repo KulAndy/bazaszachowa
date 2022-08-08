@@ -21,6 +21,6 @@
                 </ul>
             </details>
         </div>
-        <div id="content" style="width: fit-content"></div>
+        <div id="content" style="width: fit-content;float: inline-start;"></div>
     </div>';
 ?>
