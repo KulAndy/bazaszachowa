@@ -362,7 +362,6 @@ foreach ($whitesOpening as $opening => &$codes) {
             } else if (preg_match("/Różne/", $opening)) {
                 if ($variousIndex == null) {
                     $variousIndex = $i;
-                    echo "$opening $sum";
                     array_push($whitesOpening2, array("Różne", $sum));
                 } else {
                     $whitesOpening2[$variousIndex][1] += $sum;

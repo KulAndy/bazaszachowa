@@ -245,8 +245,8 @@ th {
 }
 
 #graph {
-  width: min(850px, 50vw, 65vh);
-  height: min(850px, 50vw, 65vh);
+  width: min(850px, 50vw, 70vh);
+  height: min(850px, 50vw, 70vh);
 }
 
 @media only screen and (max-width: 768px) {
