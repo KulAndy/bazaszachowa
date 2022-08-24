@@ -352,16 +352,17 @@ foreach ($whitesOpening as $opening => &$codes) {
         if ($sum == 0) {
             unset($whitesOpening[$opening]);
         } else {
-            if (strpos($opening, "Debiut pionka hetmańskiego") === 0) {
+            if (preg_match("/Debiut pionka hetmańskiegop/", $opening)) {
                 if ($queenPawnIndex == null) {
                     $queenPawnIndex = $i;
                     array_push($whitesOpening2, array("Debiut pionka hetmańskiego", $sum));
                 } else {
                     $whitesOpening2[$queenPawnIndex][1] += $sum;
                 }
-            } else if (strpos($opening, "Różne") === 0) {
+            } else if (preg_match("/Różne/", $opening)) {
                 if ($variousIndex == null) {
                     $variousIndex = $i;
+                    echo "$opening $sum";
                     array_push($whitesOpening2, array("Różne", $sum));
                 } else {
                     $whitesOpening2[$variousIndex][1] += $sum;
@@ -400,19 +401,19 @@ foreach ($blackOpening as $opening => &$codes) {
         if ($sum == 0) {
             unset($blackOpening[$opening]);
         } else {
-            if (strpos($opening, "Debiut pionka hetmańskiego") === 0) {
+            if (preg_match("/Debiut pionka hetmańskiegop/", $opening)) {
                 if ($queenPawnIndex == null) {
                     $queenPawnIndex = $i;
-                    array_push($whitesOpening2, array("Debiut pionka hetmańskiego", $sum));
+                    array_push($blacksOpening2, array("Debiut pionka hetmańskiego", $sum));
                 } else {
-                    $whitesOpening2[$queenPawnIndex][1] += $sum;
+                    $blacksOpening2[$queenPawnIndex][1] += $sum;
                 }
-            } else if (strpos($opening, "Różne") === 0) {
+            } else if (preg_match("/Różne/", $opening)) {
                 if ($variousIndex == null) {
                     $variousIndex = $i;
-                    array_push($whitesOpening2, array("Różne", $sum));
+                    array_push($blacksOpening2, array("Różne", $sum));
                 } else {
-                    $whitesOpening2[$variousIndex][1] += $sum;
+                    $blacksOpening2[$variousIndex][1] += $sum;
                 }
             } else {
                 array_push($blacksOpening2, array($opening, $sum, $codes[0], $codes[1]));
@@ -433,38 +434,43 @@ do {
     }
 } while ($swapped);
 
+// print_r($whitesOpening2);
 echo "<table style='border: 0;'><tr style='display:flex;'><td style='border: 0;'><table><tr><th>debiut</th><th>ilość</th><th>%</th><th>filtr</th></tr>
 <tr><th colspan='4'>Białe</th></tr>";
 foreach ($whitesOpening2 as $opening) {
-    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
-        "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&";
-    if ($opening[0] == "Różne") {
-        echo "exception=various";
-    } else if ($opening[0] == "Debiut pionka hetmańskiego") {
-        echo "exception=queenPawn";
-    } else {
-        echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+    if (!empty($opening[0])) {
+        echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
+            "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&";
+        if ($opening[0] == "Różne") {
+            echo "exception=various";
+        } else if ($opening[0] == "Debiut pionka hetmańskiego") {
+            echo "exception=queenPawn";
+        } else {
+            echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+        }
+        echo "'>filtruj</a></td></tr>";
     }
-    echo "'>filtruj</a></td></tr>";
 }
-echo "<tr><td>suma</td><td colspan='2'>$whiteGames</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."&color=white&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
+echo "<tr><td>suma</td><td colspan='2'>$whiteGames</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
 <tr><th colspan='4'>Czarne</th></tr>";
 foreach ($blacksOpening2 as $opening) {
-    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
-        "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=black&";
-    if ($opening[0] == "Różne") {
-        echo "exception=various";
-    } else if ($opening[0] == "Debiut pionka hetmańskiego") {
-        echo "exception=queenPawn";
-    } else {
-        echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+    if (!empty($opening[0])) {
+        echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
+            "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&";
+        if ($opening[0] == "Różne") {
+            echo "exception=various";
+        } else if ($opening[0] == "Debiut pionka hetmańskiego") {
+            echo "exception=queenPawn";
+        } else {
+            echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+        }
+        echo "'>filtruj</a></td></tr>";
     }
-    echo "'>filtruj</a></td></tr>";
 }
-echo "<tr><td>suma</td><td colspan='2'>$blackGames</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."&color=black&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
-        <tr><td>suma</td><td colspan='2'>". ($whiteGames + $blackGames) ."</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."'>resetuj filtr</a></td></tr>";
+echo "<tr><td>suma</td><td colspan='2'>$blackGames</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=black&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
+        <tr><td>suma</td><td colspan='2'>" . ($whiteGames + $blackGames) . "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "'>resetuj filtr</a></td></tr>";
 echo "</table></td><td style='border: 0;'><img id='graph' src='/player_data/graph.php?name=" . urlencode($basicName) . "'></tr></table>";
-if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco']) && !empty($_GET['minEco']) && isset($_GET['maxEco']) && !empty($_GET['maxEco']) ) || (isset($_GET['exception']) && !empty($_GET['exception'])))  ) {
+if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco']) && !empty($_GET['minEco']) && isset($_GET['maxEco']) && !empty($_GET['maxEco'])) || (isset($_GET['exception']) && !empty($_GET['exception'])))) {
     $color = $_GET['color'];
     if (preg_match("/[A-E][0-9][0-9]/", $_GET['minEco'])  && preg_match("/[A-E][0-9][0-9]/", $_GET['maxEco'])) {
         $minEco = $_GET['minEco'];
