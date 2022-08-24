@@ -1,5 +1,4 @@
-<?php
-    echo '<div id="content">
+<div id="content">
     <article">Całość strony jest udostępniona na następujących zasadach:
         <ul>
             <li>użytkownik ma prawo używać strony w dowolnym celu</li>
@@ -9,11 +8,11 @@
             <li>użytkownik nie może zmienić licencji</li>
             <li>użytkownik nie może pobierać opłat za projekt, w którym został wykorzystany jakikolwiek element z tej strony</li>
             <li>użytkownik jeśli skorzysta z wyszukiwarki, to ma obowiązek sprawdzenia swoich gier na dany moment z minimum
-            ostatnich 3 lat przynajmniej z bazy z której korzystał i zgłoszenia ewentualnych błędów </li>
+                ostatnich 3 lat przynajmniej z bazy z której korzystał i zgłoszenia ewentualnych błędów </li>
             <li>jeśli użytkownik osiągnie jakąkolwiek korzyść z korzystania z tej strony, to zobowiązuje się postawić piwo autorowi strony</li>
         </ul>
-        <sub>* kod źródłowy dostępny na <a href="https://github.com/KulAndy/bazaszachowa">githubie</a></sub><hr>
+        <sub>* kod źródłowy dostępny na <a href="https://github.com/KulAndy/bazaszachowa">githubie</a></sub>
+        <hr>
         we wszystkich innych przypadkach obowiązuje licencja <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a>
-    </article>
-    </div>'
-?>
+        </article>
+</div>

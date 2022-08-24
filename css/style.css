@@ -113,7 +113,7 @@ table {
 
 body {
   overflow-x: hidden;
-  background-color: #C3DF5D;
+  background-color: #c3df5d;
 }
 
 footer {
@@ -144,7 +144,7 @@ a {
 }
 
 a:hover {
-  color: #1B3409;
+  color: #1b3409;
 }
 
 nav {
@@ -242,6 +242,11 @@ th {
 
 #pre {
   margin-top: 15px;
+}
+
+#graph {
+  width: min(850px, 50vw, 65vh);
+  height: min(850px, 50vw, 65vh);
 }
 
 @media only screen and (max-width: 768px) {

@@ -3,7 +3,7 @@
     // ini_set('display_startup_errors', 1);
     // error_reporting(E_ALL);
 
-    require 'login_data.inc';
+    require 'login_data.php';
     @$db = new mysqli($host, $user, $password, $base);
 
     if (mysqli_connect_errno()) {

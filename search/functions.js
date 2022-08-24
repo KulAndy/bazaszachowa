@@ -41,7 +41,9 @@ function search(
 
     xhttp2.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
             let json = JSON.parse(this.responseText);
+            console.log(json);
             displayData(json.rows);
         }
     };
@@ -85,10 +87,8 @@ function displayData(data) {
         caption.innerText += " (limit)";
     }
     caption.innerText += " ";
-    let save = document.createElement("a");
+    let save = document.createElement("button");
     save.innerText = "Pobierz";
-    save.style.color = "blue";
-    save.style.textDecoration = "underline";
     save.onclick = function() {
         download(data);
         save.style.color = "purple";
@@ -107,6 +107,7 @@ function displayData(data) {
     th4.innerText = "Elo czarnego";
     th4.classList.add("not_mobile")
     let th5 = document.createElement("th");
+    th5.style.width = "3.25em"
     th5.innerText = "Wynik";
     let th6 = document.createElement("th");
     th6.innerText = "Data";
@@ -115,6 +116,7 @@ function displayData(data) {
     th7.classList.add("not_mobile")
     let th8 = document.createElement("th");
     th8.innerText = "ECO";
+    th8.style.width = "2.5em";
     th8.classList.add("not_mobile")
     let th9 = document.createElement("th");
     th9.innerText = "Zobacz partię";

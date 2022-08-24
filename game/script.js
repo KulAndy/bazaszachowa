@@ -114,8 +114,55 @@ function viewGame(data) {
   result.innerText += data.Result;
   result.style.textAlign = "center";
   result.style.marginTop = "5px";
-  result.style.marginBottom = "15px";
 
+  let buttonP = document.createElement("p");
+  buttonP.style.textAlign = "center";
+  buttonP.style.marginTop = "5px";
+  buttonP.style.marginBottom = "15px";
+
+  let button = document.createElement("button");
+  button.innerText = "Pobierz";
+
+  button.onclick = () => {
+    let game = "";
+    game += '[Event "' + data.Event + '"]\n';
+    game += '[Site "' + data.Site + '"]\n';
+    game += '[Date "' + data.Year + ".";
+    if (data.Month == null) {
+      game += "?.";
+    } else {
+      game += data.Month;
+    }
+    if (data.Day == null) {
+      game += '?"]\n';
+    } else {
+      game += data.Day + '"]\n';
+    }
+    game += '[Round "' + data.Round + '"]\n';
+    game += '[White "' + data.White + '"]\n';
+    game += '[Black "' + data.Black + '"]\n';
+    game += '[Result "' + data.Result + '"]\n';
+    if (data.ECO != null) {
+      game += '[ECO "' + data.ECO + '"]\n';
+    }
+    if (data.WhiteElo != null) {
+      game += '[WhiteElo "' + data.WhiteElo + '"]\n';
+    }
+    if (data.BlackElo != null) {
+      game += '[BlackElo "' + data.BlackElo + '"]\n';
+    }
+    game += "\n" + data.moves + "\n\n";
+
+    let a = document.createElement("a");
+    a.href = window.URL.createObjectURL(
+      new Blob([game], { type: "text/plain" })
+    );
+    a.download = "game.pgn";
+    a.click();
+  };
+  buttonP.append(button);
+
+  pre.prepend(buttonP);
   pre.prepend(result);
   pre.prepend(siteDate);
   pre.prepend(players);
@@ -136,7 +183,8 @@ function viewGame(data) {
     let td1 = document.getElementById("td1");
     let board = document.getElementsByClassName("outerBoard")[0];
     td1.append(board);
-    notation.style.height = board.clientHeight - boardDiv.clientHeight - 5 + "px";
+    notation.style.height =
+      board.clientHeight - boardDiv.clientHeight - 5 + "px";
     notation.style.width = "fit-content";
     notation.style.overflowX = "auto";
     board.style.height = board.clientWidth + "px";
@@ -178,7 +226,8 @@ function viewGame(data) {
         boardDiv.style.width = boardButton.clientWidth + "px";
         let board = document.getElementsByClassName("outerBoard")[0];
         td1.append(board);
-        notation.style.height = board.clientHeight - boardDiv.clientHeight - 5 + "px";
+        notation.style.height =
+          board.clientHeight - boardDiv.clientHeight - 5 + "px";
         notation.style.width = "fit-content";
         notation.style.overflowX = "auto";
         board.style.height = board.clientWidth + "px";

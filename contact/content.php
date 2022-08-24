@@ -1,7 +1,6 @@
-<?php
-    echo '<form action="/contact/send.php" method="post" id="form" target="_self" enctype="multipart/form-data">
+<form action="/contact/send.php" method="post" id="form" target="_self" enctype="multipart/form-data">
     <h3>Email: </h3>
-    <input type="email" name="email" required >
+    <input type="email" name="email" required>
     <h3>Temat: </h3>
     <input type="radio" id="sub1" name="subject" value="Pomysł" required>
     <label for="sub1">Pomysł</label><br>
@@ -14,13 +13,12 @@
     <input type="radio" id="sub5" name="subject" value="Inne" required>
     <label for="sub5">Inne</label><br>
     <h4>Treść: </h4>
-    <textarea rows="6" cols="50" name="content" form="form" placeholder="Wpisz tekst..." ></textarea><br>
+    <textarea rows="6" cols="50" name="content" form="form" placeholder="Wpisz tekst..."></textarea><br>
 
     <label for="file">Partia (akceptowane pliki *.pgn, *.txt)</label>
     <input type="file" id="file" accept=" .pgn, .txt"><br>
     <input type="hidden" id="hidden" name="data">
     <input type="hidden" id="hidden2" name="type">
     <input type="hidden" id="hidden3" name="name">
-    <input type="submit" name="submit value="wyślij">
-    </form>';
-?>
+    <input type="submit" name="submit value=" wyślij">
+</form>

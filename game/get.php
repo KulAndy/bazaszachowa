@@ -1,5 +1,5 @@
 <?php
-    require 'login_data.inc';
+    require 'login_data.php';
     @$db = new mysqli($host, $user, $password, $base);
 
     if (mysqli_connect_errno()) {

@@ -3,7 +3,7 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 
-require 'login_data.inc';
+require 'login_data.php';
 @$db = new mysqli($host, $user, $password, $base);
 
 if (mysqli_connect_errno()) {
@@ -71,19 +71,19 @@ if (isset($_POST['searching'])) {
                         }
                         $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", $whites[$i][0])
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
                             . "\' in boolean mode) and match(black) against(\'+" .
-                            str_replace(" ", " +", $blacks[$j][0])
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$j][0]))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                            $query = $query . " and Year BETWEEN ? and ? ";
+                            $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
-                            $query = $query . " and Event like ?";
+                            $query = $query . " and Event like '".$event."%'";
                         }
                         if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
                 }
@@ -92,19 +92,19 @@ if (isset($_POST['searching'])) {
                         for ($j = 0; $j < sizeof($blacks); $j++) {
                             $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(white) against(\'+" .
-                                str_replace(" ", " +", $blacks[$j][0])
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$j][0]))
                                 . "\' in boolean mode) and match(black) against(\'+" .
-                                str_replace(" ", " +", $whites[$i][0])
+                                str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
                                 . "\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                                $query = $query . " and Year BETWEEN ? and ? ";
+                                $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                             }
                             if (isset($event)) {
-                                $query = $query . " and Event like ?";
+                                $query = $query . " and Event like '".$event."%'";
                             }
                             if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                                $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                                $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                             }
                         }
                     }
@@ -121,34 +121,34 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(white) against(\'+" .
-                        str_replace(" ", " +", $whites[$i][0])
+                        str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
                         . "\' in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                        $query = $query . " and Year BETWEEN ? and ? ";
+                        $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                     }
                     if (isset($event)) {
-                        $query = $query . " and Event like ?";
+                        $query = $query . " and Event like '".$event."%'";
                     }
                     if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
                 if (isset($ignore) && $ignore == "true") {
                     for ($i = 0; $i < sizeof($whites); $i++) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(black) against(\'+" .
-                            str_replace(" ", " +", $whites[$i][0])
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                            $query = $query . " and Year BETWEEN ? and ? ";
+                            $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
-                            $query = $query . " and Event like ?";
+                            $query = $query . " and Event like '".$event."%'";
                         }
                         if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
                 }
@@ -164,34 +164,34 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(black) against(\'+" .
-                        str_replace(" ", " +", $blacks[$i][0])
+                        str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$i][0]))
                         . "\' in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                        $query = $query . " and Year BETWEEN ? and ? ";
+                        $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                     }
                     if (isset($event)) {
-                        $query = $query . " and Event like ?";
+                        $query = $query . " and Event like '".$event."%'";
                     }
                     if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
                 if (isset($ignore) && $ignore == "true") {
                     for ($i = 0; $i < sizeof($blacks); $i++) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", $blacks[$i][0])
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$i][0]))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
-                            $query = $query . " and Year BETWEEN ? and ? ";
+                            $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
-                            $query = $query . " and Event like ?";
+                            $query = $query . " and Event like '".$event."%'";
                         }
                         if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
                 }
@@ -319,8 +319,10 @@ if (isset($_POST['searching'])) {
     }
 }
 while ($row = $result->fetch_assoc()) {
-    $row['table'] = str_replace("_games", "", $table);
-    array_push($data["rows"], $row);
+    if($row['id'] != null && $row['id'] != "null"){
+        $row['table'] = str_replace("_games", "", $table);
+        array_push($data["rows"], $row);
+    }
 }
 
 print_r(json_encode($data));
