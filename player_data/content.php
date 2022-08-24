@@ -88,7 +88,7 @@ if ($searching->num_rows == 1) {
         $maxY = $max;
     }
 }
-if( $minY != null && $maxY != null){
+if ($minY != null && $maxY != null) {
     echo "<p>gry z lat: $minY - $maxY</p>";
 }
 
@@ -129,8 +129,20 @@ $whitesOpening = array(
     "Gambit królewski" => array(
         "C30", "C39"
     ),
-    "Królewsko-indian" => array(
-        "E70", "E99"
+    "Debiut skoczka królewskiego" => array(
+        "C40", "C40"
+    ),
+    "Philidor" => array(
+        "C41", "C41"
+    ),
+    "Debiut trzech skoczków" => array(
+        "C46", "C46"
+    ),
+    "Debiut czterech skoczków" => array(
+        "C47", "C49"
+    ),
+    "Królewsko-indyjska" => array(
+        "E60", "E99"
     ),
     "Debiut pionka królewskiego" => array(
         "C20", "C22"
@@ -153,14 +165,14 @@ $whitesOpening = array(
     "Gambit hetmański" => array(
         "D30", "D69"
     ),
-    "Debiut pionka hetmańskiego1" => array(
-        "A45", "A52"
+    "Debiut pionka hetmańskiego bez 1.d4" => array(
+        "A40", "A52"
     ),
-    "Debiut pionka hetmańskiego2" => array(
+    "Debiut pionka hetmańskiego po 1.d4 i ...d5" => array(
         "D00", "D09"
     ),
-    "Debiut pionka hetmańskiego3" => array(
-        "A40", "A44"
+    "Debiut pionka hetmańskiego po 1.d4 bez ...d5" => array(
+        "E10", "E10"
     ),
     "Reti" => array(
         "A09", "A09"
@@ -180,24 +192,27 @@ $whitesOpening = array(
     "Słowiańska" => array(
         "D10", "D19"
     ),
-    "Półsłowiańska" => array(
-        "D43", "D49"
-    ),
+    // "Półsłowiańska" => array(
+    //     "D43", "D49"
+    // ),
     "Szkocka" => array(
         "C44", "C45"
     ),
-    "Tarrasch" => array(
-        "D32", "D35"
+    // "Tarrasch" => array(
+    //     "D32", "D35"
+    // ),
+    "Bogoljubow" => array(
+        "E11", "E11"
     ),
     "Wiedeńska" => array(
         "C25", "C29"
     ),
-    "Różne1" => array(
+    "Różne bez 1.e4 i 1.d4" => array(
         "A00", "A08"
     ),
-    "Różne2" => array(
+    "Różne po e4" => array(
         "B00", "B00"
-    ),
+    )
 );
 $blackOpening = array(
     "Alechin" => array(
@@ -236,8 +251,20 @@ $blackOpening = array(
     "Gambit królewski" => array(
         "C30", "C39"
     ),
-    "Królewsko-indian" => array(
-        "E70", "E99"
+    "Debiut skoczka królewskiego" => array(
+        "C40", "C40"
+    ),
+    "Philidor" => array(
+        "C41", "C41"
+    ),
+    "Debiut trzech skoczków" => array(
+        "C46", "C46"
+    ),
+    "Debiut czterech skoczków" => array(
+        "C47", "C49"
+    ),
+    "Królewsko-indyjska" => array(
+        "E60", "E99"
     ),
     "Debiut pionka królewskiego" => array(
         "C20", "C22"
@@ -260,14 +287,14 @@ $blackOpening = array(
     "Gambit hetmański" => array(
         "D30", "D69"
     ),
-    "Debiut pionka hetmańskiego1" => array(
-        "A45", "A52"
+    "Debiut pionka hetmańskiego bez 1.d4" => array(
+        "A40", "A52"
     ),
-    "Debiut pionka hetmańskiego2" => array(
+    "Debiut pionka hetmańskiego po 1.d4 i ...d5" => array(
         "D00", "D09"
     ),
-    "Debiut pionka hetmańskiego3" => array(
-        "A40", "A44"
+    "Debiut pionka hetmańskiego po 1.d4 bez ...d5" => array(
+        "E10", "E10"
     ),
     "Reti" => array(
         "A09", "A09"
@@ -287,24 +314,27 @@ $blackOpening = array(
     "Słowiańska" => array(
         "D10", "D19"
     ),
-    "Półsłowiańska" => array(
-        "D43", "D49"
-    ),
+    // "Półsłowiańska" => array(
+    //     "D43", "D49"
+    // ),
     "Szkocka" => array(
         "C44", "C45"
     ),
-    "Tarrasch" => array(
-        "D32", "D35"
+    // "Tarrasch" => array(
+    //     "D32", "D35"
+    // ),
+    "Bogoljubow" => array(
+        "E11", "E11"
     ),
     "Wiedeńska" => array(
         "C25", "C29"
     ),
-    "Różne1" => array(
+    "Różne bez 1.e4 i 1.d4" => array(
         "A00", "A08"
     ),
-    "Różne2" => array(
+    "Różne po e4" => array(
         "B00", "B00"
-    ),
+    )
 );
 $whiteGames = 0;
 $whitesOpening2 = array();
@@ -322,27 +352,22 @@ foreach ($whitesOpening as $opening => &$codes) {
         if ($sum == 0) {
             unset($whitesOpening[$opening]);
         } else {
-            if($opening == "Debiut pionka hetmańskiego1" || $opening == "Debiut pionka hetmańskiego2" || $opening == "Debiut pionka hetmańskiego3"){
-                if($queenPawnIndex == null){
+            if (strpos($opening, "Debiut pionka hetmańskiego") === 0) {
+                if ($queenPawnIndex == null) {
                     $queenPawnIndex = $i;
-                    array_push($whitesOpening2, array("Debiut pionka hetmańskiego1", $sum));                
-                }
-                else{
+                    array_push($whitesOpening2, array("Debiut pionka hetmańskiego", $sum));
+                } else {
                     $whitesOpening2[$queenPawnIndex][1] += $sum;
                 }
-            }
-            else if($opening == "Różne1" || $opening == "Różne2"){
-                if($variousIndex == null){
+            } else if (strpos($opening, "Różne") === 0) {
+                if ($variousIndex == null) {
                     $variousIndex = $i;
-                    array_push($whitesOpening2, array("Różne", $sum));                
-                }
-                else{
+                    array_push($whitesOpening2, array("Różne", $sum));
+                } else {
                     $whitesOpening2[$variousIndex][1] += $sum;
                 }
-
-            }
-            else{
-                array_push($whitesOpening2, array($opening, $sum));                
+            } else {
+                array_push($whitesOpening2, array($opening, $sum, $codes[0], $codes[1]));
             }
             $whiteGames += $sum;
             $i++;
@@ -365,7 +390,7 @@ $queenPawnIndex = null;
 $variousIndex = null;
 $i = 0;
 foreach ($blackOpening as $opening => &$codes) {
-    $query = "SELECT COUNT(*) FROM all_games WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '".$codes[0]."', 16, 10) AND CONV( '".$codes[1]."', 16, 10)";
+    $query = "SELECT COUNT(*) FROM all_games WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '" . $codes[0] . "', 16, 10) AND CONV( '" . $codes[1] . "', 16, 10)";
     $searching = $db->prepare($query);
     $searching->bind_param('s', $fullname);
     $searching->execute();
@@ -375,27 +400,22 @@ foreach ($blackOpening as $opening => &$codes) {
         if ($sum == 0) {
             unset($blackOpening[$opening]);
         } else {
-            if($opening == "Debiut pionka hetmańskiego1" || $opening == "Debiut pionka hetmańskiego2" || $opening == "Debiut pionka hetmańskiego3"){
-                if($queenPawnIndex == null){
+            if (strpos($opening, "Debiut pionka hetmańskiego") === 0) {
+                if ($queenPawnIndex == null) {
                     $queenPawnIndex = $i;
-                    array_push($blacksOpening2, array("Debiut pionka hetmańskiego1", $sum));                
+                    array_push($whitesOpening2, array("Debiut pionka hetmańskiego", $sum));
+                } else {
+                    $whitesOpening2[$queenPawnIndex][1] += $sum;
                 }
-                else{
-                    $blacksOpening2[$queenPawnIndex][1] += $sum;
-                }
-            }
-            else if($opening == "Różne1" || $opening == "Różne2"){
-                if($variousIndex == null){
+            } else if (strpos($opening, "Różne") === 0) {
+                if ($variousIndex == null) {
                     $variousIndex = $i;
-                    array_push($blacksOpening2, array("Różne", $sum));                
+                    array_push($whitesOpening2, array("Różne", $sum));
+                } else {
+                    $whitesOpening2[$variousIndex][1] += $sum;
                 }
-                else{
-                    $blacksOpening2[$variousIndex][1] += $sum;
-                }
-
-            }
-            else{
-                array_push($blacksOpening2, array($opening, $sum));                
+            } else {
+                array_push($blacksOpening2, array($opening, $sum, $codes[0], $codes[1]));
             }
             $blackGames += $sum;
             $i++;
@@ -413,22 +433,78 @@ do {
     }
 } while ($swapped);
 
-echo "<table style='border: 0;'><tr style='display:flex;'><td style='border: 0;'><table><tr><th>debiut</th><th>ilość</th><th>%</th></tr>
-<tr><td colspan='3'>Białe</td></tr>";
+echo "<table style='border: 0;'><tr style='display:flex;'><td style='border: 0;'><table><tr><th>debiut</th><th>ilość</th><th>%</th><th>filtr</th></tr>
+<tr><th colspan='4'>Białe</th></tr>";
 foreach ($whitesOpening2 as $opening) {
-    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>". round($opening[1]/$whiteGames*100, 2). "</td></tr>";
+    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
+        "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&";
+    if ($opening[0] == "Różne") {
+        echo "exception=various";
+    } else if ($opening[0] == "Debiut pionka hetmańskiego") {
+        echo "exception=queenPawn";
+    } else {
+        echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+    }
+    echo "'>filtruj</a></td></tr>";
 }
-echo "<tr><td>suma</td><td colspan='2'>$whiteGames</td></tr>
-<tr><td colspan='3'>Czarne</td></tr>";
+echo "<tr><td>suma</td><td colspan='2'>$whiteGames</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."&color=white&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
+<tr><th colspan='4'>Czarne</th></tr>";
 foreach ($blacksOpening2 as $opening) {
-    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>". round($opening[1]/$blackGames*100, 2). "</td></tr>";
+    echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
+        "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=black&";
+    if ($opening[0] == "Różne") {
+        echo "exception=various";
+    } else if ($opening[0] == "Debiut pionka hetmańskiego") {
+        echo "exception=queenPawn";
+    } else {
+        echo "minEco=" . $opening[2] . "&maxEco=" . $opening[3];
+    }
+    echo "'>filtruj</a></td></tr>";
 }
-echo "<tr><td>suma</td><td colspan='2'>$blackGames</td></tr>";
-echo "</table></td><td style='border: 0;'><img id='graph' src='/player_data/graph.php?name=".urlencode($basicName)."'></tr></table>";
-
-$query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) UNION SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) order BY year DESC,month DESC,day DESC limit 10000";
-$searching = $db->prepare($query);
-$searching->bind_param('ss', $fullname, $fullname);
+echo "<tr><td>suma</td><td colspan='2'>$blackGames</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."&color=black&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
+        <tr><td>suma</td><td colspan='2'>". ($whiteGames + $blackGames) ."</td><td><a target='_self' href='/player_data/?fullname=".urlencode($basicName)."'>resetuj filtr</a></td></tr>";
+echo "</table></td><td style='border: 0;'><img id='graph' src='/player_data/graph.php?name=" . urlencode($basicName) . "'></tr></table>";
+if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco']) && !empty($_GET['minEco']) && isset($_GET['maxEco']) && !empty($_GET['maxEco']) ) || (isset($_GET['exception']) && !empty($_GET['exception'])))  ) {
+    $color = $_GET['color'];
+    if (preg_match("/[A-E][0-9][0-9]/", $_GET['minEco'])  && preg_match("/[A-E][0-9][0-9]/", $_GET['maxEco'])) {
+        $minEco = $_GET['minEco'];
+        $maxEco = $_GET['maxEco'];
+        if ($color == "white") {
+            $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+        } else if ($color == "black") {
+            $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+        }
+        $searching = $db->prepare($query);
+        $searching->bind_param('s', $fullname);
+    } else if (isset($_GET['exception']) && !empty($_GET['exception'])) {
+        $exception = $_GET['exception'];
+        if ($color == "white") {
+            if ($exception == "various") {
+                $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A00', 16, 10) AND CONV( 'A08', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'B00', 16, 10) AND CONV( 'B00', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+                $searching = $db->prepare($query);
+                $searching->bind_param('ss', $fullname, $fullname);
+            } else if ($exception == "queenPawn") {
+                $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A40', 16, 10) AND CONV( 'A52', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'D00', 16, 10) AND CONV( 'D09', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'E10', 16, 10) AND CONV( 'E10', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+                $searching = $db->prepare($query);
+                $searching->bind_param('sss', $fullname, $fullname, $fullname);
+            }
+        } else if ($color == "black") {
+            if ($exception == "various") {
+                $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A00', 16, 10) AND CONV( 'A08', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'B00', 16, 10) AND CONV( 'B00', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+                $searching = $db->prepare($query);
+                $searching->bind_param('ss', $fullname, $fullname);
+            } else if ($exception == "queenPawn") {
+                $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A40', 16, 10) AND CONV( 'A52', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'D00', 16, 10) AND CONV( 'D09', 16, 10) UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'E10', 16, 10) AND CONV( 'E10', 16, 10) order BY year DESC,month DESC,day DESC limit 10000";
+                $searching = $db->prepare($query);
+                $searching->bind_param('sss', $fullname, $fullname, $fullname);
+            }
+        }
+    }
+} else {
+    $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) UNION SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) order BY year DESC,month DESC,day DESC limit 10000";
+    $searching = $db->prepare($query);
+    $searching->bind_param('ss', $fullname, $fullname);
+}
 $searching->execute();
 $searching->store_result();
 $searching->bind_result($id, $White, $WhiteElo, $Black, $BlackElo, $Result, $Year, $Month, $Day, $Event, $ECO);
