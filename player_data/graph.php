@@ -28,9 +28,9 @@ $maxElo = 0;
 if (isset($_GET['name']) && !empty($_GET)) {
     $basicName = htmlspecialchars($_GET['name']);
     $fullname = "+" . str_replace(" ", " +", $_GET['name']);
-    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null
+    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null AND WhiteElo is not null
         UNION DISTINCT
-        SELECT BlackElo as Elo, Year, Month  FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Month is not null
+        SELECT BlackElo as Elo, Year, Month  FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Month is not null AND BlackElo is not null
         ORDER by Year,Month";
     $searching = $db->prepare($query);
     $searching->bind_param('ss', $fullname, $fullname);
