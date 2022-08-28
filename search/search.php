@@ -36,10 +36,10 @@ if (isset($_POST['maxYear']) && !empty($_POST['maxYear'])) {
 if (isset($_POST['event']) && !empty($_POST['event'])) {
     $event = $_POST['event'] . "%";
 }
-if (isset($_POST['minEco']) && !empty($_POST['minEco'])) {
+if (isset($_POST['minEco']) && !empty($_POST['minEco']) &&  preg_match("/[A-E][0-9][0-9]/",$_POST['minEco'])) {
     $minEco = $_POST['minEco'];
 }
-if (isset($_POST['maxEco']) && !empty($_POST['maxEco'])) {
+if (isset($_POST['maxEco']) && !empty($_POST['maxEco']) && preg_match("/[A-E][0-9][0-9]/",$_POST['maxEco'])) {
     $maxEco = $_POST['maxEco'];
 }
 if (isset($_POST['searching'])) {
@@ -71,9 +71,9 @@ if (isset($_POST['searching'])) {
                         }
                         $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$whites[$i][0])))
                             . "\' in boolean mode) and match(black) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$j][0]))
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$blacks[$j][0])))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
@@ -92,9 +92,9 @@ if (isset($_POST['searching'])) {
                         for ($j = 0; $j < sizeof($blacks); $j++) {
                             $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(white) against(\'+" .
-                                str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$j][0]))
+                                str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$blacks[$j][0])))
                                 . "\' in boolean mode) and match(black) against(\'+" .
-                                str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
+                                str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$whites[$i][0])))
                                 . "\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
@@ -121,7 +121,7 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(white) against(\'+" .
-                        str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
+                        str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$whites[$i][0])))
                         . "\' in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
@@ -138,7 +138,7 @@ if (isset($_POST['searching'])) {
                     for ($i = 0; $i < sizeof($whites); $i++) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(black) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $whites[$i][0]))
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$whites[$i][0])))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
@@ -164,7 +164,7 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                         FROM $table WHERE match(black) against(\'+" .
-                        str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$i][0]))
+                        str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$blacks[$i][0])))
                         . "\' in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
@@ -181,7 +181,7 @@ if (isset($_POST['searching'])) {
                     for ($i = 0; $i < sizeof($blacks); $i++) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
                             FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', $blacks[$i][0]))
+                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ",$blacks[$i][0])))
                             . "\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
