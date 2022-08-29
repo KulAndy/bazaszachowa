@@ -128,7 +128,9 @@ if (isset($_GET['name']) && !empty($_GET)) {
                 $newCurrenPointX = $margin + $k1 * $i;
                 $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
                 $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-                imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+                if($currenPointX != $newCurrenPointX){
+                    imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+                }
                 $currenPointX = $newCurrenPointX;
                 $currenPointY = $newCurrenPointY;
                 while(date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m") && $j < sizeof($breakPoints) - 2){
@@ -138,7 +140,9 @@ if (isset($_GET['name']) && !empty($_GET)) {
                 $newCurrenPointX = $margin + $k1 * $i;
                 $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
                 $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-                imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+                if($currenPointX != $newCurrenPointX){
+                    imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+                }
                 $currenPointX = $newCurrenPointX;
                 $currenPointY = $newCurrenPointY;
             }
