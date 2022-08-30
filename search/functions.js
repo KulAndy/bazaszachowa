@@ -50,7 +50,7 @@ function search(
           rmTable.remove();
         } catch {}
         let table = document.createElement("table");
-        table.id = "tablr";
+        table.id = "table";
         let caption = document.createElement("caption");
         caption.innerText = "Wystapił błąd";
         caption.style.width = "13em";
