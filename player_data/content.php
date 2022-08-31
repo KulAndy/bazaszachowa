@@ -10,7 +10,12 @@ if (mysqli_connect_errno()) {
 }
 if (isset($_GET['fullname']) && !empty($_GET['fullname'])) {
     $basicName = htmlspecialchars($_GET['fullname']);
-    $fullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "" ,preg_replace("/ +[a-z0-9\.] +/i", "",$_GET['fullname']) )  ) ) );
+    if( substr($_GET['fullname'], 1,1) == "'" ){
+        $fullname = "+" . str_replace(" ", " +", substr($_GET['fullname'],2));
+    }
+    else{
+        $fullname = "+" . str_replace(" ", " +", $_GET['fullname']);
+    }
     $fullname = str_replace("-", " +", $fullname);
 } else {
     die("Brak zawodnika do wyszukania");

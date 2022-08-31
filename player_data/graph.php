@@ -29,7 +29,12 @@ $minElo = 0;
 $maxElo = 0;
 if (isset($_GET['name']) && !empty($_GET)) {
     $basicName = htmlspecialchars($_GET['name']);
-    $fullname = "+" . str_replace(" ", " +", $_GET['name']);
+    if( substr($_GET['name'], 1,1) == "'" ){
+        $fullname = "+" . str_replace(" ", " +", substr($_GET['name'],2));
+    }
+    else{
+        $fullname = "+" . str_replace(" ", " +", $_GET['name']);
+    }
     $fullname = str_replace("-", " +", $fullname);
     $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND White like ?
         UNION DISTINCT
