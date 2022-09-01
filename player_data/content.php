@@ -11,12 +11,12 @@ if (mysqli_connect_errno()) {
 if (isset($_GET['fullname']) && !empty($_GET['fullname'])) {
     $basicName = htmlspecialchars($_GET['fullname']);
     if( substr($_GET['fullname'], 1,1) == "'" ){
-        $fullname = "+" . str_replace(" ", " +", substr($_GET['fullname'],2));
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['fullname'],2)));
     }
     else{
-        $fullname = "+" . str_replace(" ", " +", $_GET['fullname']);
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['fullname']));
     }
-    $fullname = str_replace("-", " +", $fullname);
+    $fullname = "+" . str_replace(" ", " +", $fullname);
 } else {
     die("Brak zawodnika do wyszukania");
 }
@@ -48,7 +48,6 @@ if ($searching->num_rows == 1) {
         $elo = true;
     }
 }
-
 $query = "SELECT min(Year) as minYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT min(Year) as minYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
 $searching = $db->prepare($query);
 $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname,$_GET['fullname']);
