@@ -4,9 +4,44 @@ var mode;
 window.onload = async () => {
   let url_string = window.location.href;
   let url = new URL(url_string);
-  let id = url.searchParams.get("id");
-  let table = url.searchParams.get("table");
+  let id = request.id;
+  let table = request.table;
+  let list = JSON.parse(request.list);
   search(id, table);
+  for (let index = 0; index < list.length; index++) {
+    if (id == list[index]) {
+      let firstButton = document.getElementById("first")
+      let previousButton = document.getElementById("previous");
+      let nextButton = document.getElementById("next");
+      let lastButton = document.getElementById("last")
+      firstButton.onclick = () =>{
+        goToGame(list[0], table, list)
+      }
+      lastButton.onclick = () => {
+        goToGame(list[list.length - 1], table, list)
+      }
+      if (index == 0) {
+        nextButton.onclick = () => {
+          goToGame(list[index + 1], table, list);
+        };
+        previousButton.disabled = true;
+        firstButton.disabled = true
+      } else if (index == list.length - 1) {
+        previousButton.onclick = () => {
+          goToGame(list[index - 1], table, list);
+        };
+        nextButton.disabled = true;
+        lastButton.disabled = true
+      } else {
+        previousButton.onclick = () => {
+          goToGame(list[index - 1], table, list);
+        };
+        nextButton.onclick = () => {
+          goToGame(list[index + 1], table, list);
+        };
+      }
+    }
+  }
 };
 
 function search(id, table) {
@@ -25,11 +60,9 @@ function search(id, table) {
   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp2.send(messenge);
 
-  let content = document.getElementById("content2");
-  let loading = document.createElement("p");
-  loading.id = "loading";
+  let loading = document.getElementById("dialog");
   loading.innerText = "Ładowanie ";
-  content.append(loading);
+  loading.open = true;
   let counter = 0;
   const interval = setInterval(function () {
     loading.innerText = "Ładowanie ";
@@ -39,7 +72,8 @@ function search(id, table) {
     counter++;
   }, 500);
   xhttp2.onloadend = function () {
-    document.getElementById("loading").remove();
+    clearInterval(interval);
+    document.getElementById("dialog").open = false;
   };
 }
 
@@ -121,7 +155,9 @@ function viewGame(data) {
   buttonP.style.marginBottom = "15px";
 
   let button = document.createElement("button");
+  button.id = "download";
   button.innerText = "Pobierz";
+  button.title = "Ctrl + S";
 
   button.onclick = () => {
     let game = "";
@@ -240,4 +276,63 @@ function viewGame(data) {
       }
     }
   });
+
+  window.addEventListener("keydown", function (e) {
+    console.log(e.which);
+    if (e.ctrlKey) {
+      switch (e.which) {
+        case 70:
+          document.getElementById("boardButtonflipper").click();
+          break;
+        case 82:
+          this.location.reload();
+          break;
+        case 83:
+          document.getElementById("download").click();
+          break;
+        case 37:
+          document.getElementById("previous").click();
+          break;
+        case 39:
+          document.getElementById("next").click();
+          break;
+        case 38:
+          document.getElementById("first").click();
+          break;
+        case 40:
+          document.getElementById("last").click();
+          break;
+      }
+    } else {
+      switch (e.which) {
+        case 37:
+          document.getElementById("boardButtonprev").click();
+          break;
+        case 39:
+          document.getElementById("boardButtonnext").click();
+          break;
+        case 38:
+          document.getElementById("boardButtonfirst").click();
+          break;
+        case 40:
+          document.getElementById("boardButtonlast").click();
+          break;
+      }
+    }
+  });
+
+  let buttons = document.getElementById("boardButton");
+  buttons.tabIndex = -1;
+  buttons.focus();
+}
+
+function goToGame(id, table, list) {
+  let idInput = document.getElementById("idInput");
+  idInput.value = id;
+  let tableInput = document.getElementById("tableInput");
+  tableInput.value = table;
+  let listInput = document.getElementById("listInput");
+  listInput.value = JSON.stringify(list);
+  let form = document.getElementById("form");
+  form.submit();
 }

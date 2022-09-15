@@ -221,6 +221,11 @@ move-number {
     margin: auto;
 }
 
+#content3{
+    text-align: center;
+    margin-top: 5px;
+}
+
 #board {
     width: min(400px, 90vw, 95vh - 10em);
     height: min(320px, 81vw);
@@ -262,4 +267,8 @@ move-number {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #b30000;
+}
+
+*:focus{
+    outline: none;
 }

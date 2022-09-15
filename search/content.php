@@ -20,5 +20,10 @@
             </ul>
         </details>
     </div>
+    <form id="form" action="/game" method="get" style="visibility: hidden;" >
+    <input id="idInput" name="id">
+    <input id="tableInput" name="table">
+    <input id="listInput" name="list">
+    </form>
     <div id="content" style="width: fit-content;float: inline-start;"></div>
 </div>

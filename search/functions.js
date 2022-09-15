@@ -139,6 +139,10 @@ function displayData(data) {
     eval("colmns.append(th" + i + ")");
   }
   table.append(colmns);
+  let ids = []
+  for (let i = 0; i < data.length; i++){
+      ids.push(data[i].id)
+  }
   for (let i = 0; i < data.length; i++) {
     let tr = document.createElement("tr");
     if (i % 2 == 0) {
@@ -149,11 +153,13 @@ function displayData(data) {
     let td1 = document.createElement("td");
     td1.innerText = data[i].White;
     let td2 = document.createElement("td");
+    td2.style.textAlign = "center"
     td2.innerText = data[i].WhiteElo;
     td2.classList.add("not_mobile");
     let td3 = document.createElement("td");
     td3.innerText = data[i].Black;
     let td4 = document.createElement("td");
+    td4.style.textAlign = "center"
     td4.innerText = data[i].BlackElo;
     td4.classList.add("not_mobile");
     let td5 = document.createElement("td");
@@ -178,19 +184,20 @@ function displayData(data) {
     td8.innerText = data[i].ECO;
     td8.classList.add("not_mobile");
     let td9 = document.createElement("td");
-    td9.innerHTML =
-      "<a href='/game/index.php?id=" +
-      data[i].id +
-      "&table=" +
-      data[i].table +
-      "'>zobacz</a>";
+    td9.style.textAlign = "center"
+    let viewButton = document.createElement("button")
+    viewButton.innerText = "zobacz"
+    viewButton.onclick = () =>{
+        goToGame(data[i].id,data[i].table, ids)
+    }
+    td9.append(viewButton);
     let td10 = document.createElement("td");
     td10.innerHTML =
-      "<a href='/game_raw/index.php?id=" +
+      "<button><a style='color: black;' href='/game_raw/?id=" +
       data[i].id +
       "&table=" +
       data[i].table +
-      "'>zobacz</a>";
+      "'>zobacz</a></button>";
     td10.classList.add("not_mobile");
     for (let i = 1; i <= 10; i++) {
       eval("tr.append(td" + i + ")");
@@ -260,4 +267,16 @@ function replaceNationalCharacters(text) {
   toReplace = toReplace.replace(/ż/g, "z");
   toReplace = toReplace.replace(/Ż/g, "Z");
   return toReplace;
+}
+
+function goToGame(id,table,list){
+    let idInput = document.getElementById("idInput")
+    idInput.value = id
+    let tableInput = document.getElementById("tableInput")
+    tableInput.value = table
+    let listInput = document.getElementById("listInput")
+    listInput.value = JSON.stringify(list.slice(0,1000))
+    let form = document.getElementById("form")
+    form.submit()
+
 }

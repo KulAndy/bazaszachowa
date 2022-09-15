@@ -469,7 +469,7 @@ if (sizeof($whitesOpening2) == 0) {
     foreach ($blacksOpening2 as $opening) {
         if (!empty($opening[0])) {
             echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
-                "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&";
+                "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=black&";
             if ($opening[0] == "Różne") {
                 echo "exception=various";
             } else if ($opening[0] == "Debiut pionka hetmańskiego") {
