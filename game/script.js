@@ -4,6 +4,10 @@ var mode;
 window.onload = async () => {
   let url_string = window.location.href;
   let url = new URL(url_string);
+  while (!request) {
+    window.setTimeout(function () {}, 1000);
+  }
+  console.log(request);
   let id = request.id;
   let table = request.table;
   let query = request.query;
@@ -15,7 +19,12 @@ window.onload = async () => {
       "Błąd bezpieczeństwa - wykryto potencjalnie niebezpieczne zapytanie do bazy danych";
     dialog.open = true;
   } else {
-    let param = request.param;
+    let param;
+    try {
+      param = JSON.parse(request.param);
+    } catch {
+      param = [];
+    }
     await execQuery(query, param, table, id);
   }
 };
@@ -327,6 +336,7 @@ async function execQuery(query, param, table, id) {
 
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
       try {
         let json = JSON.parse(this.responseText);
         let previous = document.getElementById("previous");

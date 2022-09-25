@@ -328,17 +328,17 @@ if (isset($_POST['searching'])) {
         foreach ($toBind as $param) {
             eval("\$temp = gettype($param);");
             if ($temp == "integer") {
-                $toEval = $toEval . "i";
+                $toEval .= "i";
             } else if ($temp == "string") {
-                $toEval = $toEval . "s";
+                $toEval .= "s";
             } else if ($temp == "double") {
-                $toEval = $toEval . "d";
+                $toEval .= "d";
             }
         }
         $toEval = $toEval . "\"";
         foreach ($toBind as $param) {
             if (gettype($param) == "integer" || gettype($param) == "string" || gettype($param) == "double") {
-                $toEval = $toEval . ", $param";
+                $toEval .= ", $param";
             }
         }
         $toEval = $toEval . ");";

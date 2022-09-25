@@ -13,23 +13,35 @@ if (isset($_POST['param']) && !empty($_POST['param'])) {
     $param = $_POST['param'];
 }
 
-if (isset($param)) {
+require 'login_data.php';
+@$db = new mysqli($host, $user, $password, $base);
+
+if (mysqli_connect_errno()) {
+    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
+             Spróbuj jeszcze raz później.</p>';
+    exit;
+}
+
+if (isset($param) && sizeof($param) > 0) {
+    foreach ($param as $a => $b) {
+        $toBind = explode('","', preg_replace('/^"|"$/', "", $a));
+    }
     $searching = $db->prepare($query);
     $toEval = "\$searching -> bind_param(\"";
-    foreach ($param as $parameter) {
-        eval("\$temp = gettype($parameter);");
+    foreach ($toBind as $param) {
+        eval("\$temp = gettype(\$param);");
         if ($temp == "integer") {
-            $toEval = $toEval . "i";
+            $toEval .= "i";
         } else if ($temp == "string") {
-            $toEval = $toEval . "s";
+            $toEval .= "s";
         } else if ($temp == "double") {
-            $toEval = $toEval . "d";
+            $toEval .= "d";
         }
     }
     $toEval = $toEval . "\"";
-    foreach ($param as $parameter) {
-        if (gettype($paramparameter) == "integer" || gettype($parameter) == "string" || gettype($parameter) == "double") {
-            $toEval = $toEval . ", $parameter";
+    for ($i = 0; $i < sizeof($toBind); $i++) {
+        if (gettype($toBind[$i]) == "integer" || gettype($toBind[$i]) == "string" || gettype($toBind[$i]) == "double") {
+            $toEval .= ", \$toBind[$i]";
         }
     }
     $toEval = $toEval . ");";
@@ -42,14 +54,6 @@ if (isset($param)) {
     }
     echo json_encode($ids);
 } else {
-    require 'login_data.php';
-    @$db = new mysqli($host, $user, $password, $base);
-
-    if (mysqli_connect_errno()) {
-        echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-             Spróbuj jeszcze raz później.</p>';
-        exit;
-    }
     $preresult = $db->query($query);
     $result = $preresult->fetch_all();
     $ids = [];
