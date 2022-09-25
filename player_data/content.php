@@ -10,10 +10,9 @@ if (mysqli_connect_errno()) {
 }
 if (isset($_GET['fullname']) && !empty($_GET['fullname'])) {
     $basicName = htmlspecialchars($_GET['fullname']);
-    if( substr($_GET['fullname'], 1,1) == "'" ){
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['fullname'],2)));
-    }
-    else{
+    if (substr($_GET['fullname'], 1, 1) == "'") {
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['fullname'], 2)));
+    } else {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['fullname']));
     }
     $fullname = "+" . str_replace(" ", " +", $fullname);
@@ -50,7 +49,7 @@ if ($searching->num_rows == 1) {
 }
 $query = "SELECT min(Year) as minYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT min(Year) as minYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
 $searching = $db->prepare($query);
-$searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname,$_GET['fullname']);
+$searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
 $searching->execute();
 $searching->store_result();
 $minY = null;
@@ -75,7 +74,7 @@ if ($searching->num_rows == 1) {
 
 $query = "SELECT max(Year) as maxYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(Year) as maxYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
 $searching = $db->prepare($query);
-$searching->bind_param('ssss', $fullname,$_GET['fullname'], $fullname,$_GET['fullname']);
+$searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
 $searching->execute();
 $searching->store_result();
 $maxY = null;
@@ -400,7 +399,7 @@ $i = 0;
 foreach ($blackOpening as $opening => &$codes) {
     $query = "SELECT COUNT(*) FROM all_games WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '" . $codes[0] . "', 16, 10) AND CONV( '" . $codes[1] . "', 16, 10) AND Black like ?";
     $searching = $db->prepare($query);
-    $searching->bind_param('ss', $fullname,$_GET['fullname']);
+    $searching->bind_param('ss', $fullname, $_GET['fullname']);
     $searching->execute();
     $searching->store_result();
     $searching->bind_result($sum);
@@ -463,12 +462,12 @@ if (sizeof($whitesOpening2) == 0) {
 }
 echo "<tr><td>suma</td><td colspan='2'>$whiteGames</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=white&minEco=A00&maxEco=E99'>filtruj</a></td></tr>
 <tr><th colspan='4'>Czarne</th></tr>";
-if (sizeof($whitesOpening2) == 0) {
+if (sizeof($blacksOpening2) == 0) {
     echo "<tr><td colspan='4'>Brak partii</td></tr>";
 } else {
     foreach ($blacksOpening2 as $opening) {
         if (!empty($opening[0])) {
-            echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $whiteGames * 100, 2) .
+            echo "<tr><td>" . $opening[0] . "</td><td>" . $opening[1] . "</td><td>" . round($opening[1] / $blackGames * 100, 2) .
                 "</td><td><a target='_self' href='/player_data/?fullname=" . urlencode($basicName) . "&color=black&";
             if ($opening[0] == "Różne") {
                 echo "exception=various";
@@ -499,6 +498,7 @@ if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco'])
             $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10) AND Black like ? order BY year DESC,month DESC,day DESC limit 10000";
         }
         $searching = $db->prepare($query);
+        $toBind = [$fullname, $_GET['fullname']];
         $searching->bind_param('ss', $fullname, $_GET['fullname']);
     } else if (isset($_GET['exception']) && !empty($_GET['exception'])) {
         $exception = $_GET['exception'];
@@ -510,6 +510,7 @@ if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco'])
             } else if ($exception == "queenPawn") {
                 $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A40', 16, 10) AND CONV( 'A52', 16, 10) AND White like ? UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'D00', 16, 10) AND CONV( 'D09', 16, 10) AND White like ? UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'E10', 16, 10) AND CONV( 'E10', 16, 10) AND White like ? order BY year DESC,month DESC,day DESC limit 10000";
                 $searching = $db->prepare($query);
+                $toBind = [$fullname, $_GET['fullname'], $fullname, $_GET['fullname'], $fullname, $_GET['fullname']];
                 $searching->bind_param('ssssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
             }
         } else if ($color == "black") {
@@ -520,6 +521,7 @@ if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco'])
             } else if ($exception == "queenPawn") {
                 $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'A40', 16, 10) AND CONV( 'A52', 16, 10) AND Black like ? UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'D00', 16, 10) AND CONV( 'D09', 16, 10) AND Black like ? UNION distinct SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND CONV(eco, 16, 10) BETWEEN CONV( 'E10', 16, 10) AND CONV( 'E10', 16, 10) order BY year DESC,month DESC,day AND Black like ? DESC limit 10000";
                 $searching = $db->prepare($query);
+                $toBind = [$fullname, $_GET['fullname'], $fullname, $_GET['fullname'], $fullname, $_GET['fullname']];
                 $searching->bind_param('ssssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
             }
         }
@@ -527,6 +529,7 @@ if (isset($_GET['color']) && !empty($_GET['color'])  && ((isset($_GET['minEco'])
 } else {
     $query = "SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT id,White, WhiteElo, Black,BlackElo, Result, Year, Month, Day, Event, Eco FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ? order BY year DESC,month DESC,day DESC limit 10000";
     $searching = $db->prepare($query);
+    $toBind = [$fullname, $_GET['fullname'], $fullname, $_GET['fullname']];
     $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
 }
 $searching->execute();
@@ -555,7 +558,8 @@ while ($searching->fetch()) {
     } else {
         $Date .= $Day;
     }
-    echo "<td>$Date</td><td class='not_mobile'>$Event</td><td class='not_mobile'>$ECO</td><td><a href='/game/index.php?id=$id&table=all'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
+    echo "<td>$Date</td><td class='not_mobile'>$Event</td><td class='not_mobile'>$ECO</td><td>
+    <a href='/game/index.php?id=$id&table=all&query=$query&param=" . urlencode(json_encode($toBind)) . "'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
     $i++;
 }
 echo "</table>";

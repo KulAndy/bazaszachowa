@@ -6,45 +6,21 @@ window.onload = async () => {
   let url = new URL(url_string);
   let id = request.id;
   let table = request.table;
-  let list = JSON.parse(request.list);
-  search(id, table);
-  for (let index = 0; index < list.length; index++) {
-    if (id == list[index]) {
-      let firstButton = document.getElementById("first")
-      let previousButton = document.getElementById("previous");
-      let nextButton = document.getElementById("next");
-      let lastButton = document.getElementById("last")
-      firstButton.onclick = () =>{
-        goToGame(list[0], table, list)
-      }
-      lastButton.onclick = () => {
-        goToGame(list[list.length - 1], table, list)
-      }
-      if (index == 0) {
-        nextButton.onclick = () => {
-          goToGame(list[index + 1], table, list);
-        };
-        previousButton.disabled = true;
-        firstButton.disabled = true
-      } else if (index == list.length - 1) {
-        previousButton.onclick = () => {
-          goToGame(list[index - 1], table, list);
-        };
-        nextButton.disabled = true;
-        lastButton.disabled = true
-      } else {
-        previousButton.onclick = () => {
-          goToGame(list[index - 1], table, list);
-        };
-        nextButton.onclick = () => {
-          goToGame(list[index + 1], table, list);
-        };
-      }
-    }
+  let query = request.query;
+  const regex =
+    /[^\W](insert|update|delete|create|alter|index|drop (table|database|view)|truncate|trigger|lock|references)[\W$]/i;
+  if (regex.test(query)) {
+    let dialog = document.getElementById("dialog");
+    dialog.innerText =
+      "Błąd bezpieczeństwa - wykryto potencjalnie niebezpieczne zapytanie do bazy danych";
+    dialog.open = true;
+  } else {
+    let param = request.param;
+    await execQuery(query, param, table, id);
   }
 };
 
-function search(id, table) {
+async function search(id, table) {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/game/get.php", true);
 
@@ -278,7 +254,6 @@ function viewGame(data) {
   });
 
   window.addEventListener("keydown", function (e) {
-    console.log(e.which);
     if (e.ctrlKey) {
       switch (e.which) {
         case 70:
@@ -326,13 +301,104 @@ function viewGame(data) {
   buttons.focus();
 }
 
-function goToGame(id, table, list) {
+function goToGame(id, table, query, param) {
   let idInput = document.getElementById("idInput");
   idInput.value = id;
   let tableInput = document.getElementById("tableInput");
   tableInput.value = table;
-  let listInput = document.getElementById("listInput");
-  listInput.value = JSON.stringify(list);
+  let queryInput = document.getElementById("queryInput");
+  queryInput.value = query;
+  let paramInput = document.getElementById("paramInput");
+  paramInput.value = JSON.stringify(param);
   let form = document.getElementById("form");
   form.submit();
+}
+
+async function execQuery(query, param, table, id) {
+  const xhttp2 = new XMLHttpRequest();
+  xhttp2.open("POST", "/game/exec.php", true);
+  let messenge =
+    "query=" +
+    encodeURIComponent(query) +
+    "&param" +
+    encodeURIComponent(JSON.stringify(param)) +
+    "&table=" +
+    table;
+
+  xhttp2.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      try {
+        let json = JSON.parse(this.responseText);
+        let previous = document.getElementById("previous");
+        let first = document.getElementById("first");
+        let next = document.getElementById("next");
+        let last = document.getElementById("last");
+        for (let index = 0; index < json.length; index++) {
+          if (json[index] == id) {
+            let firstGame;
+            let previousGame;
+            let nextGame;
+            let lastGame;
+
+            switch (index) {
+              case 0:
+                nextGame = json[index + 1];
+                lastGame = json[json.length - 1];
+                next.onclick = () => {
+                  goToGame(nextGame, table, query, param);
+                };
+                last.onclick = () => {
+                  goToGame(lastGame, table, query, param);
+                };
+                next.disabled = false;
+                last.disabled = false;
+                break;
+              case json.length - 1:
+                firstGame = json[0];
+                previousGame = json[index - 1];
+                first.onclick = () => {
+                  goToGame(firstGame, table, query, param);
+                };
+                previous.onclick = () => {
+                  goToGame(previousGame, table, query, param);
+                };
+                first.disabled = false;
+                previous.disabled = false;
+
+                break;
+
+              default:
+                firstGame = json[0];
+                previousGame = json[index - 1];
+                nextGame = json[index + 1];
+                lastGame = json[json.length - 1];
+                first.onclick = () => {
+                  goToGame(firstGame, table, query, param);
+                };
+                previous.onclick = () => {
+                  goToGame(previousGame, table, query, param);
+                };
+                next.onclick = () => {
+                  goToGame(nextGame, table, query, param);
+                };
+                last.onclick = () => {
+                  goToGame(lastGame, table, query, param);
+                };
+                next.disabled = false;
+                last.disabled = false;
+                first.disabled = false;
+                previous.disabled = false;
+                break;
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        search(id, table);
+      }
+    }
+  };
+  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp2.send(messenge);
 }

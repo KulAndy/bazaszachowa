@@ -14,8 +14,8 @@ if (mysqli_connect_errno()) {
 
 $db->set_charset("utf8");
 $data = array(
-    "rows" => array(),
-    "debbug" => array()
+    "rows" => array()
+    // "debbug" => array()
 );
 
 if (isset($_POST['white']) && !empty($_POST['white'])) {
@@ -51,6 +51,25 @@ if (isset($_POST['searching'])) {
             $white_players->execute();
             $result_white = $white_players->get_result();
             $whites = $result_white->fetch_all();
+            foreach ($whites as &$player) {
+                $playerName = $player[0];
+                $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
+                $playerName = preg_replace("/\(.*/", "", $playerName);
+                $playerName = preg_replace("/,$/", "", $playerName);
+                $playerName =  preg_replace('/\s+/', ' ', str_replace(
+                    "-",
+                    " ",
+                    $playerName
+                ));
+                $playerName = preg_replace("/ *$/", "", $playerName);
+                $playerName = str_replace(
+                    " ",
+                    " +",
+                    $playerName
+                );
+                $player = $playerName;
+            }
+            $whites = array_unique($whites);
         }
         if (isset($black)) {
             $black = $black . "%";
@@ -59,22 +78,36 @@ if (isset($_POST['searching'])) {
             $black_players->execute();
             $result_black = $black_players->get_result();
             $blacks = $result_black->fetch_all();
+            foreach ($blacks as &$player) {
+                $playerName = $player[0];
+                $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
+                $playerName = preg_replace("/\(.*/", "", $playerName);
+                $playerName = preg_replace("/,$/", "", $playerName);
+                $playerName =  preg_replace('/\s+/', ' ', str_replace(
+                    "-",
+                    " ",
+                    $playerName
+                ));
+                $playerName = preg_replace("/ *$/", "", $playerName);
+                $playerName = str_replace(
+                    " ",
+                    " +",
+                    $playerName
+                );
+                $player = $playerName;
+            }
+            $blacks = array_unique($blacks);
         }
         $toBind = array();
         $query = "";
         if (isset($white) && isset($black)) {
             if (sizeof($whites) > 0 && sizeof($blacks) > 0) {
-                for ($i = 0; $i < sizeof($whites); $i++) {
-                    for ($j = 0; $j < sizeof($blacks); $j++) {
-                        if ($i > 0 || $j > 0) {
+                foreach ($whites as $white) {
+                    foreach ($blacks as $black) {
+                        if ($white != $whites[0] || $black != $blacks[0]) {
                             $query .= "\nUNION distinct\n";
                         }
-                        $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                        FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $whites[$i][0])))))
-                            . "\' in boolean mode) and match(black) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $blacks[$j][0])))))
-                            . "\' in boolean mode)' ;";
+                        $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE match(white) against(\'+$white\' in boolean mode) and match(black) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -88,14 +121,9 @@ if (isset($_POST['searching'])) {
                     }
                 }
                 if (isset($ignore) && $ignore == "true") {
-                    for ($i = 0; $i < sizeof($whites); $i++) {
-                        for ($j = 0; $j < sizeof($blacks); $j++) {
-                            $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                            FROM $table WHERE match(white) against(\'+" .
-                                str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $blacks[$j][0])))))
-                                . "\' in boolean mode) and match(black) against(\'+" .
-                                str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $whites[$i][0])))))
-                                . "\' in boolean mode)' ;";
+                    foreach ($whites as $white) {
+                        foreach ($blacks as $black) {
+                            $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE match(white) against(\'+$black\' in boolean mode) and match(black) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                                 $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -115,14 +143,11 @@ if (isset($_POST['searching'])) {
             }
         } else if (isset($white)) {
             if (sizeof($whites) > 0) {
-                for ($i = 0; $i < sizeof($whites); $i++) {
-                    if ($i > 0) {
+                foreach ($whites as $white) {
+                    if ($white != $whites[0]) {
                         $query .= "\nUNION distinct\n";
                     }
-                    $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                        FROM $table WHERE match(white) against(\"+" .
-                        str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $whites[$i][0])))))
-                        . "\" in boolean mode)' ;";
+                    $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(white) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -134,12 +159,10 @@ if (isset($_POST['searching'])) {
                         $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
+
                 if (isset($ignore) && $ignore == "true") {
-                    for ($i = 0; $i < sizeof($whites); $i++) {
-                        $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                            FROM $table WHERE match(black) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $whites[$i][0])))))
-                            . "\' in boolean mode)' ;";
+                    foreach ($whites as $white) {
+                        $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(black) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -158,14 +181,11 @@ if (isset($_POST['searching'])) {
             }
         } else if (isset($black)) {
             if (sizeof($blacks) > 0) {
-                for ($i = 0; $i < sizeof($blacks); $i++) {
-                    if ($i > 0) {
+                foreach ($blacks as $black) {
+                    if ($black != $blacks[0]) {
                         $query .= "\nUNION distinct\n";
                     }
-                    $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                        FROM $table WHERE match(black) against(\'+" .
-                        str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $blacks[$i][0])))))
-                        . "\' in boolean mode)' ;";
+                    $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(black) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -177,12 +197,10 @@ if (isset($_POST['searching'])) {
                         $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
+
                 if (isset($ignore) && $ignore == "true") {
-                    for ($i = 0; $i < sizeof($blacks); $i++) {
-                        $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  
-                            FROM $table WHERE match(white) against(\'+" .
-                            str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $blacks[$i][0])))))
-                            . "\' in boolean mode)' ;";
+                    foreach ($blacks as $black) {
+                        $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(white) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -369,6 +387,7 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
-array_push($data['debbug'], $query);
+$data['query'] = $query;
+$data['param'] = $toBind;
 print_r(json_encode($data));
 $db->close();

@@ -43,8 +43,10 @@ function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        displayData(json.rows);
+        displayData(json.rows, json.query, json.param);
       } catch (err) {
+        console.log(err);
+        console.log(this.responseText);
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();
@@ -84,7 +86,7 @@ function search(
   };
 }
 
-function displayData(data) {
+function displayData(data, query, param) {
   try {
     let rmTable = document.getElementById("table");
     rmTable.remove();
@@ -139,9 +141,9 @@ function displayData(data) {
     eval("colmns.append(th" + i + ")");
   }
   table.append(colmns);
-  let ids = []
-  for (let i = 0; i < data.length; i++){
-      ids.push(data[i].id)
+  let ids = [];
+  for (let i = 0; i < data.length; i++) {
+    ids.push(data[i].id);
   }
   for (let i = 0; i < data.length; i++) {
     let tr = document.createElement("tr");
@@ -153,13 +155,13 @@ function displayData(data) {
     let td1 = document.createElement("td");
     td1.innerText = data[i].White;
     let td2 = document.createElement("td");
-    td2.style.textAlign = "center"
+    td2.style.textAlign = "center";
     td2.innerText = data[i].WhiteElo;
     td2.classList.add("not_mobile");
     let td3 = document.createElement("td");
     td3.innerText = data[i].Black;
     let td4 = document.createElement("td");
-    td4.style.textAlign = "center"
+    td4.style.textAlign = "center";
     td4.innerText = data[i].BlackElo;
     td4.classList.add("not_mobile");
     let td5 = document.createElement("td");
@@ -184,12 +186,12 @@ function displayData(data) {
     td8.innerText = data[i].ECO;
     td8.classList.add("not_mobile");
     let td9 = document.createElement("td");
-    td9.style.textAlign = "center"
-    let viewButton = document.createElement("button")
-    viewButton.innerText = "zobacz"
-    viewButton.onclick = () =>{
-        goToGame(data[i].id,data[i].table, ids)
-    }
+    td9.style.textAlign = "center";
+    let viewButton = document.createElement("button");
+    viewButton.innerText = "zobacz";
+    viewButton.onclick = () => {
+      goToGame(data[i].id, data[i].table, query, param);
+    };
     td9.append(viewButton);
     let td10 = document.createElement("td");
     td10.innerHTML =
@@ -269,14 +271,15 @@ function replaceNationalCharacters(text) {
   return toReplace;
 }
 
-function goToGame(id,table,list){
-    let idInput = document.getElementById("idInput")
-    idInput.value = id
-    let tableInput = document.getElementById("tableInput")
-    tableInput.value = table
-    let listInput = document.getElementById("listInput")
-    listInput.value = JSON.stringify(list.slice(0,1000))
-    let form = document.getElementById("form")
-    form.submit()
-
+function goToGame(id, table, query, param) {
+  let idInput = document.getElementById("idInput");
+  idInput.value = id;
+  let tableInput = document.getElementById("tableInput");
+  tableInput.value = table;
+  let queryInput = document.getElementById("queryInput");
+  queryInput.value = query;
+  let paramInput = document.getElementById("paramInput");
+  paramInput.value = JSON.stringify(param);
+  let form = document.getElementById("form");
+  form.submit();
 }

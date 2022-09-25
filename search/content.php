@@ -23,7 +23,8 @@
     <form id="form" action="/game" method="get" style="visibility: hidden;" >
     <input id="idInput" name="id">
     <input id="tableInput" name="table">
-    <input id="listInput" name="list">
+    <input id="queryInput" name="query">
+    <input id="paramInput" name="param">
     </form>
     <div id="content" style="width: fit-content;float: inline-start;"></div>
 </div>

@@ -14,14 +14,15 @@
 
 <body class="merida zeit" onkeydown="event.preventDefault()">
     <script>
-        let request = <?php echo json_encode($_REQUEST);?>;
+    let request = <?php echo json_encode($_REQUEST); ?>;
     </script>
     <script src="pgnv.js" type="text/javascript"></script>
     <script defer src="script.js"></script>
-    <form id="form" action="/game" method="get" style="visibility: hidden;" >
-    <input id="idInput" name="id">
-    <input id="tableInput" name="table">
-    <input id="listInput" name="list">
+    <form id="form" action="/game" method="get" style="visibility: hidden;">
+        <input id="idInput" name="id">
+        <input id="tableInput" name="table">
+        <input id="queryInput" name="query">
+        <input id="paramInput" name="param">
     </form>
     <?php require 'content.php';
     ?>

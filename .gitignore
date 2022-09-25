@@ -1,4 +1,4 @@
 .*
 *.inc
-login_data.php
+login_data*.php
 phpmyadmin/*
