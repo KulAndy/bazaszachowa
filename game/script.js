@@ -376,26 +376,28 @@ async function execQuery(query, param, table, id) {
                 break;
 
               default:
-                firstGame = json[0];
-                previousGame = json[index - 1];
-                nextGame = json[index + 1];
-                lastGame = json[json.length - 1];
-                first.onclick = () => {
-                  goToGame(firstGame, table, query, param);
-                };
-                previous.onclick = () => {
-                  goToGame(previousGame, table, query, param);
-                };
-                next.onclick = () => {
-                  goToGame(nextGame, table, query, param);
-                };
-                last.onclick = () => {
-                  goToGame(lastGame, table, query, param);
-                };
-                next.disabled = false;
-                last.disabled = false;
-                first.disabled = false;
-                previous.disabled = false;
+                if (index != 0 && index != json.length - 1) {
+                  firstGame = json[0];
+                  previousGame = json[index - 1];
+                  nextGame = json[index + 1];
+                  lastGame = json[json.length - 1];
+                  first.onclick = () => {
+                    goToGame(firstGame, table, query, param);
+                  };
+                  previous.onclick = () => {
+                    goToGame(previousGame, table, query, param);
+                  };
+                  next.onclick = () => {
+                    goToGame(nextGame, table, query, param);
+                  };
+                  last.onclick = () => {
+                    goToGame(lastGame, table, query, param);
+                  };
+                  next.disabled = false;
+                  last.disabled = false;
+                  first.disabled = false;
+                  previous.disabled = false;
+                }
                 break;
             }
           }
