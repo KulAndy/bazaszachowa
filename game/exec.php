@@ -5,7 +5,7 @@ if (isset($_POST['query']) && !empty($_POST['query'])) {
     $pattern = "/Select [\w, ]+ From/i";
     $query = preg_replace($pattern, "Select id,year,month,day From", $query);
 }
-$regex = "/[^\W](insert|update|delete|create|alter|index|drop (table|database|view)|truncate|trigger|lock|references)[\W$]/i";
+$regex = "/(\W|^){1}(insert|update|delete|create|alter|index|drop (table|database|view)|truncate|trigger|lock|references)(\W|$){1}/i";
 if (preg_match($regex, $query) == 1) {
     die("Błąd bezpieczeństwa - wykryto potencjalnie niebezpieczne zapytanie do bazy danych");
 }
