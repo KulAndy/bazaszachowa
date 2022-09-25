@@ -45,7 +45,7 @@ if (isset($param) && sizeof($param) > 0) {
         }
     }
     $toEval = $toEval . ");";
-    eval($toEval);
+    @eval($toEval);
     $searching->execute();
     $result = $searching->get_result();
     $ids = [];

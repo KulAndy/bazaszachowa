@@ -7,7 +7,6 @@ window.onload = async () => {
   while (!request) {
     window.setTimeout(function () {}, 1000);
   }
-  console.log(request);
   let id = request.id;
   let table = request.table;
   let query = request.query;
@@ -336,7 +335,6 @@ async function execQuery(query, param, table, id) {
 
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
       try {
         let json = JSON.parse(this.responseText);
         let previous = document.getElementById("previous");
@@ -403,7 +401,6 @@ async function execQuery(query, param, table, id) {
           }
         }
       } catch (error) {
-        console.log(error);
       } finally {
         search(id, table);
       }
