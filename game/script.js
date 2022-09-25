@@ -341,52 +341,18 @@ async function execQuery(query, param, table, id) {
         let first = document.getElementById("first");
         let next = document.getElementById("next");
         let last = document.getElementById("last");
-        for (let index = 0; index < json.length; index++) {
-          if (json[index] == id) {
-            let firstGame;
-            let previousGame;
-            let nextGame;
-            let lastGame;
+        if (json.length > 1) {
+          for (let index = 0; index < json.length; index++) {
+            if (json[index] == id) {
+              let firstGame;
+              let previousGame;
+              let nextGame;
+              let lastGame;
 
-            switch (index) {
-              case 0:
-                nextGame = json[index + 1];
-                lastGame = json[json.length - 1];
-                next.onclick = () => {
-                  goToGame(nextGame, table, query, param);
-                };
-                last.onclick = () => {
-                  goToGame(lastGame, table, query, param);
-                };
-                next.disabled = false;
-                last.disabled = false;
-                break;
-              case json.length - 1:
-                firstGame = json[0];
-                previousGame = json[index - 1];
-                first.onclick = () => {
-                  goToGame(firstGame, table, query, param);
-                };
-                previous.onclick = () => {
-                  goToGame(previousGame, table, query, param);
-                };
-                first.disabled = false;
-                previous.disabled = false;
-
-                break;
-
-              default:
-                if (index != 0 && index != json.length - 1) {
-                  firstGame = json[0];
-                  previousGame = json[index - 1];
+              switch (index) {
+                case 0:
                   nextGame = json[index + 1];
                   lastGame = json[json.length - 1];
-                  first.onclick = () => {
-                    goToGame(firstGame, table, query, param);
-                  };
-                  previous.onclick = () => {
-                    goToGame(previousGame, table, query, param);
-                  };
                   next.onclick = () => {
                     goToGame(nextGame, table, query, param);
                   };
@@ -395,10 +361,47 @@ async function execQuery(query, param, table, id) {
                   };
                   next.disabled = false;
                   last.disabled = false;
+                  break;
+                case json.length - 1:
+                  firstGame = json[0];
+                  previousGame = json[index - 1];
+                  first.onclick = () => {
+                    goToGame(firstGame, table, query, param);
+                  };
+                  previous.onclick = () => {
+                    goToGame(previousGame, table, query, param);
+                  };
                   first.disabled = false;
                   previous.disabled = false;
-                }
-                break;
+
+                  break;
+
+                default:
+                  console.log(json);
+                  if (json.length > 1) {
+                    firstGame = json[0];
+                    previousGame = json[index - 1];
+                    nextGame = json[index + 1];
+                    lastGame = json[json.length - 1];
+                    first.onclick = () => {
+                      goToGame(firstGame, table, query, param);
+                    };
+                    previous.onclick = () => {
+                      goToGame(previousGame, table, query, param);
+                    };
+                    next.onclick = () => {
+                      goToGame(nextGame, table, query, param);
+                    };
+                    last.onclick = () => {
+                      goToGame(lastGame, table, query, param);
+                    };
+                    next.disabled = false;
+                    last.disabled = false;
+                    first.disabled = false;
+                    previous.disabled = false;
+                  }
+                  break;
+              }
             }
           }
         }
