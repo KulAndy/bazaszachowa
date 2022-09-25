@@ -559,7 +559,7 @@ while ($searching->fetch()) {
         $Date .= $Day;
     }
     echo "<td>$Date</td><td class='not_mobile'>$Event</td><td class='not_mobile'>$ECO</td><td>
-    <a href='/game/index.php?id=$id&table=all&query=$query&param=" . urlencode(json_encode($toBind)) . "'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
+    <a href='/game/index.php?id=$id&table=all&query=" . urlencode($query) . "&param=" . urlencode(json_encode($toBind)) . "'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
     $i++;
 }
 echo "</table>";
