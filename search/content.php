@@ -5,8 +5,9 @@
         <input id="queryInput" name="query">
         <input id="paramInput" name="param">
     </form>
-    <table class="no_border" style="margin-left: 25vw;;background-color:#f0f7d4;">
-        <tr style="display: flex;flex-wrap: wrap;" class="test">
+    <table class="no_border">
+        <tr style="display: flex;flex-wrap: wrap;background-color:#f0f7d4;">
+            <td class="not_mobile" style="width: 30vw;background-color:#c3df5d;"></td>
             <td>
                 <div id="content" style="width: fit-content;float: inline-start;"></div>
             </td>
