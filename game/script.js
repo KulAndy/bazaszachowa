@@ -186,9 +186,6 @@ function viewGame(data) {
   buttonP.append(button);
 
   pre.prepend(buttonP);
-  //   pre.prepend(result);
-  //   pre.prepend(siteDate);
-  //   pre.prepend(players);
   info.append(players);
   info.append(siteDate);
   info.append(result);
@@ -314,6 +311,7 @@ function viewGame(data) {
   let buttons = document.getElementById("boardButton");
   buttons.tabIndex = -1;
   buttons.focus();
+  document.getElementById("board").style.width = "fit-content";
 }
 
 function goToGame(id, table, query, param) {
