@@ -100,6 +100,8 @@ function insertAfter(newNode, referenceNode) {
 
 function viewGame(data) {
   let pre = document.getElementById("pre");
+  let info = document.createElement("div");
+  info.id = "info";
   let players = document.createElement("p");
   players.style.textAlign = "center";
   let playersData = "<b>" + data.White + "</b>";
@@ -137,6 +139,7 @@ function viewGame(data) {
   buttonP.style.textAlign = "center";
   buttonP.style.marginTop = "5px";
   buttonP.style.marginBottom = "15px";
+  buttonP.id = "buttonP";
 
   let button = document.createElement("button");
   button.id = "download";
@@ -183,9 +186,13 @@ function viewGame(data) {
   buttonP.append(button);
 
   pre.prepend(buttonP);
-  pre.prepend(result);
-  pre.prepend(siteDate);
-  pre.prepend(players);
+  //   pre.prepend(result);
+  //   pre.prepend(siteDate);
+  //   pre.prepend(players);
+  info.append(players);
+  info.append(siteDate);
+  info.append(result);
+  pre.prepend(info);
   let pgnView = PGNV.pgnView;
   pgnView("board", { pgn: data.moves, pieceStyle: "chessicons" });
 
@@ -377,7 +384,6 @@ async function execQuery(query, param, table, id) {
                   break;
 
                 default:
-                  console.log(json);
                   if (json.length > 1) {
                     firstGame = json[0];
                     previousGame = json[index - 1];

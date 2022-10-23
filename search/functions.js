@@ -189,6 +189,7 @@ function displayData(data, query, param) {
     td9.style.textAlign = "center";
     let viewButton = document.createElement("button");
     viewButton.innerText = "zobacz";
+    viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
       goToGame(data[i].id, data[i].table, query, param);
     };

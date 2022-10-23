@@ -1,4 +1,4 @@
-<div id="content">
+<div id="content" style="width: fit-content;">
     <form method="post" style="text-align: center;" target="_self">
         <label for="name">Gracz</label>
         <input type="text" id="name" name="name" placeholder="Nowak, Jan" required><br>
@@ -15,24 +15,24 @@
             exit;
         }
         $name = $_POST['name'] . "%";
-        $name = str_replace("ą","a", $name);
-        $name = str_replace("ć","c", $name);
-        $name = str_replace("ę","e", $name);
-        $name = str_replace("ł","l", $name);
-        $name = str_replace("ń","n", $name);
-        $name = str_replace("ó","o", $name);
-        $name = str_replace("ś","s", $name);
-        $name = str_replace("ź","z", $name);
-        $name = str_replace("ż","z", $name);
-        $name = str_replace("Ą","a", $name);
-        $name = str_replace("Ć","c", $name);
-        $name = str_replace("Ę","E", $name);
-        $name = str_replace("Ł","L", $name);
-        $name = str_replace("Ń","N", $name);
-        $name = str_replace("Ó","O", $name);
-        $name = str_replace("Ś","S", $name);
-        $name = str_replace("Ź","Z", $name);
-        $name = str_replace("Ż","Z", $name);
+        $name = str_replace("ą", "a", $name);
+        $name = str_replace("ć", "c", $name);
+        $name = str_replace("ę", "e", $name);
+        $name = str_replace("ł", "l", $name);
+        $name = str_replace("ń", "n", $name);
+        $name = str_replace("ó", "o", $name);
+        $name = str_replace("ś", "s", $name);
+        $name = str_replace("ź", "z", $name);
+        $name = str_replace("ż", "z", $name);
+        $name = str_replace("Ą", "a", $name);
+        $name = str_replace("Ć", "c", $name);
+        $name = str_replace("Ę", "E", $name);
+        $name = str_replace("Ł", "L", $name);
+        $name = str_replace("Ń", "N", $name);
+        $name = str_replace("Ó", "O", $name);
+        $name = str_replace("Ś", "S", $name);
+        $name = str_replace("Ź", "Z", $name);
+        $name = str_replace("Ż", "Z", $name);
         $searching = $db->prepare("SELECT fullname FROM $table1 WHERE fullname like ? and fullname not like '%.'");
         $searching->bind_param('s', $name);
         $searching->execute();

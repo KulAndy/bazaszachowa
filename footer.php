@@ -1,8 +1,10 @@
-<div style="height: 2.5em"></div>
+<div style="height: 2.5em; clear:both "></div>
 <footer>
-    <p><span class="copyleft">&copy;</span> Andrzej Kulesza
+    <address>
+        <span class="copyleft">&copy;</span> <a href="mailto:andykrk22@gmail.com">Andrzej Kulesza</a>
         <?php echo date("Y"); ?>
-    </p>
+    </address>
 </footer>
 </body>
+
 </html>

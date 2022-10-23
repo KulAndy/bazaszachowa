@@ -60,12 +60,12 @@ time,
 mark,
 audio,
 video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 article,
@@ -79,137 +79,139 @@ hgroup,
 menu,
 nav,
 section {
-    display: block;
+  display: block;
 }
 
 body {
-    line-height: 1;
+  line-height: 1;
 }
-
 
 /*/////////////////////////////////////////////////////////////////////////////////*/
 
 .chessicons cg-board piece.bishop.white {
-    background-image: url("chessicons/wb.svg");
+  background-image: url("chessicons/wb.svg");
 }
 
 .chessicons cg-board piece.king.white {
-    background-image: url("chessicons/wk.svg");
+  background-image: url("chessicons/wk.svg");
 }
 
 .chessicons cg-board piece.knight.white {
-    background-image: url("chessicons/wn.svg");
+  background-image: url("chessicons/wn.svg");
 }
 
 .chessicons cg-board piece.pawn.white {
-    background-image: url("chessicons/wp.svg");
+  background-image: url("chessicons/wp.svg");
 }
 
 .chessicons cg-board piece.queen.white {
-    background-image: url("chessicons/wq.svg");
+  background-image: url("chessicons/wq.svg");
 }
 
 .chessicons cg-board piece.rook.white {
-    background-image: url("chessicons/wr.svg");
+  background-image: url("chessicons/wr.svg");
 }
 
 .chessicons cg-board piece.bishop.black {
-    background-image: url("chessicons/bb.svg");
+  background-image: url("chessicons/bb.svg");
 }
 
 .chessicons cg-board piece.king.black {
-    background-image: url("chessicons/bk.svg");
+  background-image: url("chessicons/bk.svg");
 }
 
 .chessicons cg-board piece.knight.black {
-    background-image: url("chessicons/bn.svg");
+  background-image: url("chessicons/bn.svg");
 }
 
 .chessicons cg-board piece.pawn.black {
-    background-image: url("chessicons/bp.svg");
+  background-image: url("chessicons/bp.svg");
 }
 
 .chessicons cg-board piece.queen.black {
-    background-image: url("chessicons/bq.svg");
+  background-image: url("chessicons/bq.svg");
 }
 
 .chessicons cg-board piece.rook.black {
-    background-image: url("chessicons/br.svg");
+  background-image: url("chessicons/br.svg");
 }
-
 
 /* /////////////////////////////////////////////////////////////////////////////// */
 
-td,tr,th,table{
-    margin: 0;
-    padding: 0;
-    height: fit-content;
-    width: fit-content;
+td,
+tr,
+th,
+table {
+  margin: 0;
+  padding: 0;
+  height: fit-content;
+  width: fit-content;
 }
 
 body {
-    overflow-x: hidden;
-    background-color: #C3DF5D;
-  }
-  
-  footer {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 2.5em;
-    background-color: #66b032;
-    color: white;
-    justify-content: center;
-    z-index: 3;
-  }
-  
-  footer p {
-    color: #375f1b;
-    margin: 2px;
-    padding: 1px;
-  }
-  
-  a {
-    text-decoration: none;
-    color: #375f1b;
-    margin: 2px;
-    padding: 1px;
-  }
-  
-  a:hover {
-    color: #1B3409;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: space-evenly;
-    position: sticky;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    background-color: #66b032;
-    color: #375f1b;
-    text-align: center;
-    z-index: 3;
-    align-items: center;
-    flex-wrap: wrap;
-    line-height: 2.5em;
-  }
-  
+  overflow-x: hidden;
+  background-color: #c3df5d;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 2.5em;
+  background-color: #092834;
+  color: white;
+  justify-content: center;
+  z-index: 3;
+}
+
+footer * {
+  color: #b2d732;
+  margin: 2px;
+  padding: 1px;
+}
+
+a {
+  font-weight: bolder;
+  text-decoration: none;
+  color: #66b032;
+  margin: 2px;
+  padding: 1px;
+}
+
+a:hover {
+  color: #347b98;
+}
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  background-color: #092834;
+  color: #b2d732;
+  text-align: center;
+  z-index: 3;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 2.5em;
+}
+
 table {
-    border-spacing: inherit;
-    margin: auto;
+  border-spacing: inherit;
+  margin: auto;
 }
 
 move,
 san,
 move-number {
-    font-family: inherit!important;
-    font-weight: normal!important;
-    pointer-events: none!important;
+  font-family: inherit !important;
+  font-weight: normal !important;
+  pointer-events: none !important;
 }
 
 .copyleft {
@@ -218,57 +220,63 @@ move-number {
 }
 
 #content2 {
-    margin: auto;
+  margin: auto;
 }
 
-#content3{
-    text-align: center;
-    margin-top: 5px;
+#content3 {
+  text-align: center;
+  margin-top: 5px;
 }
 
 #board {
-    width: min(400px, 90vw, 95vh - 10em);
-    height: min(320px, 81vw);
+  width: min(400px, 90vw, 95vh - 10em);
+  height: min(320px, 81vw);
+}
+
+#info {
+  background-color: #f0f7d4;
+  width: fit-content;
+  margin: auto;
 }
 
 @media only screen and (min-width: 768px) {
-    #boardMoves {
-        display: block;
-        margin: auto;
-    }
-    #boardButton {
-        margin-top: 0 !important;
-        place-self: normal!important;
-    }
-    #board {
-        grid-template-columns: none !important;
-    }
+  #boardMoves {
+    display: block;
+    margin: auto;
+  }
+  #boardButton {
+    margin-top: 0 !important;
+    place-self: normal !important;
+  }
+  #board {
+    grid-template-columns: none !important;
+  }
 }
 
 @media only screen and (max-width: 767px) {
-    #boardMoves {
-        height: min(320px, 81vw);
-    }
+  #boardMoves {
+    height: min(320px, 81vw);
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: darkcyan;
-    border-radius: 10px;
+  background: darkcyan;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
+  background: #b30000;
 }
 
-*:focus{
-    outline: none;
+*:focus {
+  outline: none;
 }
