@@ -311,6 +311,10 @@ function viewGame(data) {
   let buttons = document.getElementById("boardButton");
   buttons.tabIndex = -1;
   buttons.focus();
+  let style = document.createElement("style");
+  style.innerText = "#board{width: fit-content!important}";
+
+  document.body.append(style);
   document.getElementById("board").style.width = "fit-content";
 }
 
