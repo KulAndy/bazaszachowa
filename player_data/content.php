@@ -548,18 +548,48 @@ while ($searching->fetch()) {
     }
     echo "><td>$White</td><td class='not_mobile'>$WhiteElo</td><td>$Black</td><td class='not_mobile'>$BlackElo</td><td>$Result</td>";
     $Date = $Year . "";
-    if ($Month = null || $Month == "?") {
-        $Date .= "??";
+    if ($Month >= 1 && $Month <= 12) {
+        $Date .= ".$Month";
     } else {
-        $Date .= $Month;
+        $Date .= ".??";
     }
-    if ($Day = null || $Day == "?") {
-        $Date .= "??";
+    if ($Day >= 1 && $Day <= 31) {
+        $Date .= ".$Day";
     } else {
-        $Date .= $Day;
+        $Date .= ".??";
     }
+
     echo "<td>$Date</td><td class='not_mobile'>$Event</td><td class='not_mobile'>$ECO</td><td>
-    <a href='/game/index.php?id=$id&table=all&query=" . urlencode($query) . "&param=" . urlencode(json_encode($toBind)) . "'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
+    <a href='/game/index.php?id=$id&table=all";
+    if (isset($_GET['color'])) {
+        if ($_GET['color'] == "white") {
+            echo "&white=" . urldecode($basicName);
+            echo "&black=";
+            echo "&ignore=";
+        } else if ($_GET['color'] == "black") {
+            echo "&white=";
+            echo "&black=" . urldecode($basicName);
+            echo "&ignore=";
+        }
+    } else {
+        echo "&white=" . urldecode($basicName);
+        echo "&black=";
+        echo "&ignore=true";
+    }
+    echo "&minYear=";
+    echo "&maxYear=";
+    echo "&events=";
+    if (isset($_GET['minEco']) &&  preg_match("/^[A-E][0-9][0-9]$/", $_GET['minEco'])) {
+        echo "&minEco=" . $_GET['minEco'];
+    } else {
+        echo "&minEco=";
+    }
+    if (isset($_GET['maxEco']) &&  preg_match("/^[A-E][0-9][0-9]$/", $_GET['maxEco'])) {
+        echo "&maxEco=" . $_GET['maxEco'];
+    } else {
+        echo "&maxEco=";
+    }
+    echo "&base=all&searching=fulltext'>zobacz</a></td><td><a href='/game_raw/index.php?id=$id&table=all'>zobacz</a></td></tr>";
     $i++;
 }
 echo "</table>";

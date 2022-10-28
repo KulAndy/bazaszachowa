@@ -43,10 +43,21 @@ function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        displayData(json.rows, json.query, json.param);
+        console.log(json);
+        displayData(
+          json.rows,
+          json.white,
+          json.black,
+          json.ignore,
+          json.minYear,
+          json.maxYear,
+          json.event,
+          json.minEco,
+          json.maxEco,
+          json.base,
+          json.searching
+        );
       } catch (err) {
-        console.log(err);
-        console.log(this.responseText);
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();
@@ -86,7 +97,19 @@ function search(
   };
 }
 
-function displayData(data, query, param) {
+function displayData(
+  data,
+  white,
+  black,
+  ignore,
+  minYear,
+  maxYear,
+  events,
+  minEco,
+  maxEco,
+  base,
+  searching
+) {
   try {
     let rmTable = document.getElementById("table");
     rmTable.remove();
@@ -191,7 +214,20 @@ function displayData(data, query, param) {
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      goToGame(data[i].id, data[i].table, query, param);
+      goToGame(
+        data[i].id,
+        data[i].table,
+        white,
+        black,
+        ignore,
+        minYear,
+        maxYear,
+        events,
+        minEco,
+        maxEco,
+        base,
+        searching
+      );
     };
     td9.append(viewButton);
     let td10 = document.createElement("td");
@@ -272,15 +308,48 @@ function replaceNationalCharacters(text) {
   return toReplace;
 }
 
-function goToGame(id, table, query, param) {
+function goToGame(
+  id,
+  table,
+  white,
+  black,
+  ignore,
+  minYear,
+  maxYear,
+  events,
+  minEco,
+  maxEco,
+  base,
+  searching
+) {
   let idInput = document.getElementById("idInput");
   idInput.value = id;
   let tableInput = document.getElementById("tableInput");
   tableInput.value = table;
-  let queryInput = document.getElementById("queryInput");
-  queryInput.value = query;
-  let paramInput = document.getElementById("paramInput");
-  paramInput.value = JSON.stringify(param);
+  let whiteInput = document.getElementById("whiteInput");
+  whiteInput.value = white;
+  let blackInput = document.getElementById("blackInput");
+  blackInput.value = black;
+  let ignoreInput = document.getElementById("ignoreInput");
+  if (ignore) {
+    ignoreInput.value = "true";
+  } else {
+    ignoreInput.value = null;
+  }
+  let minYearInput = document.getElementById("minYearInput");
+  minYearInput.value = minYear;
+  let maxYearInput = document.getElementById("maxYearInput");
+  maxYearInput.value = maxYear;
+  let eventsInput = document.getElementById("eventsInput");
+  eventsInput.value = events;
+  let minEcoInput = document.getElementById("minEcoInput");
+  minEcoInput.value = minEco;
+  let maxEcoInput = document.getElementById("maxEcoInput");
+  maxEcoInput.value = maxEco;
+  let baseInput = document.getElementById("baseInput");
+  baseInput.value = base;
+  let searchingInput = document.getElementById("searchingInput");
+  searchingInput.value = searching;
   let form = document.getElementById("form");
   form.submit();
 }

@@ -24,12 +24,21 @@ include "../menu.php"
     let request = <?php echo json_encode($_REQUEST); ?>;
     </script>
     <script src="pgnv.js" type="text/javascript"></script>
+    <script defer src="functions.js"></script>
     <script defer src="script.js"></script>
     <form id="form" action="/game" method="get" style="display: none;">
         <input id="idInput" name="id">
         <input id="tableInput" name="table">
-        <input id="queryInput" name="query">
-        <input id="paramInput" name="param">
+        <input id="whiteInput" name="white">
+        <input id="blackInput" name="black">
+        <input id="ignoreInput" name="ignore">
+        <input id="minYearInput" name="minYear">
+        <input id="maxYearInput" name="maxYear">
+        <input id="eventsInput" name="events">
+        <input id="minEcoInput" name="minEco">
+        <input id="maxEcoInput" name="maxEco">
+        <input id="baseInput" name="base">
+        <input id="searchingInput" name="searching">
     </form>
     <?php require 'content.php';
     ?>

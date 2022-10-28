@@ -258,6 +258,11 @@ th {
   width: fit-content;
 }
 
+#searchContainer {
+  display: flex;
+  flex-direction: row;
+}
+
 @media only screen and (max-width: 768px) {
   label {
     display: flex;
@@ -295,5 +300,8 @@ th {
   }
   .not_mobile {
     display: none !important;
+  }
+  #searchContainer {
+    display: block;
   }
 }

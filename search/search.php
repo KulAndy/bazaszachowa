@@ -14,35 +14,64 @@ if (mysqli_connect_errno()) {
 
 $db->set_charset("utf8");
 $data = array(
-    "rows" => array()
-    // "debbug" => array()
+    "rows" => array(),
+    "debbug" => array()
 );
+
+$data['base'] = $_POST['base'];
 
 if (isset($_POST['white']) && !empty($_POST['white'])) {
     $white = $_POST['white'];
+    $data['white'] = $white;
+} else {
+    $data['white'] = null;
 }
 if (isset($_POST['black']) && !empty($_POST['black'])) {
     $black = $_POST['black'];
+    $data['black'] = $black;
+} else {
+    $data['black'] = null;
 }
+
 if (isset($_POST['ignore']) && !empty($_POST['ignore'])) {
     $ignore = $_POST['ignore'];
+    $data['ignore'] = $ignore;
+} else {
+    $data['ignore'] = null;
 }
+
 if (isset($_POST['minYear']) && !empty($_POST['minYear'])) {
     $minYear = (int)$_POST['minYear'];
+    $data['minYear'] = $minYear;
+} else {
+    $data['minYear'] = null;
 }
 if (isset($_POST['maxYear']) && !empty($_POST['maxYear'])) {
     $maxYear = (int)$_POST['maxYear'];
+    $data['maxYear'] = $maxYear;
+} else {
+    $data['maxYear'] = null;
 }
 if (isset($_POST['event']) && !empty($_POST['event'])) {
     $event = $_POST['event'] . "%";
+    $data['event'] = $_POST['event'];
+} else {
+    $data['event'] = null;
 }
 if (isset($_POST['minEco']) && !empty($_POST['minEco']) &&  preg_match("/^[A-E][0-9][0-9]$/", $_POST['minEco'])) {
     $minEco = $_POST['minEco'];
+    $data['minEco'] = $minEco;
+} else {
+    $data['minEco'] = null;
 }
 if (isset($_POST['maxEco']) && !empty($_POST['maxEco']) && preg_match("/^[A-E][0-9][0-9]$/", $_POST['maxEco'])) {
     $maxEco = $_POST['maxEco'];
+    $data['maxEco'] = $maxEco;
+} else {
+    $data['maxEco'] = null;
 }
 if (isset($_POST['searching'])) {
+    $data['searching'] = $_POST['searching'];
     if ($_POST['searching'] == 'classic') {
         if (isset($white)) {
             $white = $white . "%";
@@ -109,13 +138,13 @@ if (isset($_POST['searching'])) {
                         }
                         $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE match(white) against(\'+$white\' in boolean mode) and match(black) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
-                        if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                        if (isset($minYear) && isset($maxYear)) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
                             $query = $query . " and Event like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                             $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
@@ -131,7 +160,7 @@ if (isset($_POST['searching'])) {
                             if (isset($event)) {
                                 $query = $query . " and Event like ?";
                             }
-                            if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                            if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                                 $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                             }
                         }
@@ -155,7 +184,7 @@ if (isset($_POST['searching'])) {
                     if (isset($event)) {
                         $query = $query . " and Event like ? ";
                     }
-                    if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                    if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                         $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
@@ -170,7 +199,7 @@ if (isset($_POST['searching'])) {
                         if (isset($event)) {
                             $query = $query . " and Event like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                             $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
@@ -193,7 +222,7 @@ if (isset($_POST['searching'])) {
                     if (isset($event)) {
                         $query = $query . " and Event like ? ";
                     }
-                    if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                    if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                         $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                     }
                 }
@@ -208,7 +237,7 @@ if (isset($_POST['searching'])) {
                         if (isset($event)) {
                             $query = $query . " and Event like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                             $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
                         }
                     }
@@ -270,7 +299,7 @@ if (isset($_POST['searching'])) {
             $query = $query . " Event like ?";
             array_push($toBind, "\$event");
         }
-        if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
@@ -314,7 +343,7 @@ if (isset($_POST['searching'])) {
                 $query = $query . " Event like ?";
                 array_push($toBind, "\$event");
             }
-            if (isset($minEco) && isset($maxEco) && $minEco != "A00" && $maxEco != "E99") {
+            if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
@@ -387,7 +416,6 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
-$data['query'] = $query;
-$data['param'] = $toBind;
+$data['debbug'] = $query;
 print_r(json_encode($data));
 $db->close();
