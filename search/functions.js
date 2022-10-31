@@ -215,6 +215,21 @@ function displayData(
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
+      console.log("click");
+      console.log(
+        data[i].id,
+        data[i].table,
+        white,
+        black,
+        ignore,
+        minYear,
+        maxYear,
+        events,
+        minEco,
+        maxEco,
+        base,
+        searching
+      );
       goToGame(
         data[i].id,
         data[i].table,
