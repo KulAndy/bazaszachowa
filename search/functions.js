@@ -1,6 +1,6 @@
 "use strict";
 
-function search(
+async function search(
   white,
   black,
   ignore,
@@ -43,7 +43,6 @@ function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        console.log(json);
         displayData(
           json.rows,
           json.white,
@@ -57,6 +56,7 @@ function search(
           json.base,
           json.searching
         );
+        return json.rows;
       } catch (err) {
         try {
           let rmTable = document.getElementById("table");
@@ -93,6 +93,7 @@ function search(
     counter++;
   }, 500);
   xhttp2.onloadend = function () {
+    clearInterval(interval);
     document.getElementById("loading").remove();
   };
 }

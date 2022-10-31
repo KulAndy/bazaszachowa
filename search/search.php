@@ -14,8 +14,8 @@ if (mysqli_connect_errno()) {
 
 $db->set_charset("utf8");
 $data = array(
-    "rows" => array(),
-    "debbug" => array()
+    "rows" => array()
+    // "debbug" => array()
 );
 
 $data['base'] = $_POST['base'];
@@ -416,6 +416,5 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
-$data['debbug'] = $query;
 print_r(json_encode($data));
 $db->close();
