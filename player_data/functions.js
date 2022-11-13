@@ -216,21 +216,6 @@ function displayData(
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      console.log("click");
-      console.log(
-        data[i].id,
-        data[i].table,
-        white,
-        black,
-        ignore,
-        minYear,
-        maxYear,
-        events,
-        minEco,
-        maxEco,
-        base,
-        searching
-      );
       goToGame(
         data[i].id,
         data[i].table,
@@ -348,7 +333,7 @@ function goToGame(
   let blackInput = document.getElementById("blackInput");
   blackInput.value = black;
   let ignoreInput = document.getElementById("ignoreInput");
-  if (ignore) {
+  if (JSON.parse(ignore)) {
     ignoreInput.value = "true";
   } else {
     ignoreInput.value = null;
@@ -414,7 +399,6 @@ async function loadGames() {
       "fulltext"
     );
   }
-  console.log(rows);
 }
 
 function loadStats() {
