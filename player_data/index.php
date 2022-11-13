@@ -17,7 +17,7 @@ p[style='text-align: center;'] {
 <?php
 include '../menu.php';
 ?>
-<script src="/search/functions.js" defer></script>
+<script src="/player_data/functions.js" defer></script>
 <script>
 var request = <?php echo json_encode($_REQUEST) ?>;
 </script>
