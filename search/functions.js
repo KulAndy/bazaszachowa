@@ -62,7 +62,9 @@ async function search(
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();
-        } catch {}
+        } catch {
+          console.log(this.responseText);
+        }
         let table = document.createElement("table");
         table.id = "table";
         let caption = document.createElement("caption");
@@ -324,21 +326,6 @@ function goToGame(
   base,
   searching
 ) {
-  console.log(
-    id,
-    table,
-    white,
-    black,
-    ignore,
-    minYear,
-    maxYear,
-    events,
-    minEco,
-    maxEco,
-    base,
-    searching
-  );
-
   let idInput = document.getElementById("idInput");
   idInput.value = id;
   let tableInput = document.getElementById("tableInput");
@@ -354,9 +341,9 @@ function goToGame(
     ignoreInput.value = null;
   }
   let minYearInput = document.getElementById("minYearInput");
-  minYearInput.value = minYear;
+  minYearInput.value = minYear.toString();
   let maxYearInput = document.getElementById("maxYearInput");
-  maxYearInput.value = maxYear;
+  maxYearInput.value = maxYear.toString();
   let eventsInput = document.getElementById("eventsInput");
   eventsInput.value = events;
   let minEcoInput = document.getElementById("minEcoInput");

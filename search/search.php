@@ -40,14 +40,14 @@ if (isset($_POST['ignore']) && !empty($_POST['ignore'])) {
     $data['ignore'] = null;
 }
 
-if (isset($_POST['minYear']) && !empty($_POST['minYear'])) {
-    $minYear = (int)$_POST['minYear'];
+if (isset($_POST['minYear']) && !empty($_POST['minYear']) && preg_match("/^[1-9]\d+$/", $_POST['minYear'])) {
+    $minYear = $_POST['minYear'];
     $data['minYear'] = $minYear;
 } else {
     $data['minYear'] = null;
 }
-if (isset($_POST['maxYear']) && !empty($_POST['maxYear'])) {
-    $maxYear = (int)$_POST['maxYear'];
+if (isset($_POST['maxYear']) && !empty($_POST['maxYear']) && preg_match("/^[1-9]\d+$/", $_POST['maxYear'])) {
+    $maxYear = $_POST['maxYear'];
     $data['maxYear'] = $maxYear;
 } else {
     $data['maxYear'] = null;
@@ -154,7 +154,7 @@ if (isset($_POST['searching'])) {
                         foreach ($blacks as $black) {
                             $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE match(white) against(\'+$black\' in boolean mode) and match(black) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
-                            if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                            if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                                 $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                             }
                             if (isset($event)) {
@@ -178,7 +178,7 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(white) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
-                    if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                    if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                     }
                     if (isset($event)) {
@@ -193,7 +193,7 @@ if (isset($_POST['searching'])) {
                     foreach ($whites as $white) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(black) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
-                        if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                        if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
@@ -216,7 +216,7 @@ if (isset($_POST['searching'])) {
                     }
                     $updateQuery = "\$query .= 'SELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(black) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
-                    if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                    if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                     }
                     if (isset($event)) {
@@ -231,7 +231,7 @@ if (isset($_POST['searching'])) {
                     foreach ($blacks as $black) {
                         $updateQuery = "\$query .= '\nUNION distinct\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table WHERE match(white) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
-                        if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date("Y")) {
+                        if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                         }
                         if (isset($event)) {
@@ -285,7 +285,7 @@ if (isset($_POST['searching'])) {
             }
             array_push($toBind, "\$black");
         }
-        if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date('Y')) {
+        if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
@@ -329,7 +329,7 @@ if (isset($_POST['searching'])) {
                 }
                 array_push($toBind, "\$black");
             }
-            if (isset($minYear) && isset($maxYear) && $minYear != 1475 && $maxYear != date('Y')) {
+            if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
@@ -415,7 +415,6 @@ while ($row = $result->fetch_assoc()) {
         }
     }
 }
-
-$data['debbug'] = $_POST;
+// $data['debbug'] = $_REQUEST;
 print_r(json_encode($data));
 $db->close();

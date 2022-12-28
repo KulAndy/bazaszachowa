@@ -4,7 +4,6 @@ if (
   window.matchMedia("(max-width: 768px)").matches ||
   window.matchMedia("(max-height: 768px)").matches
 ) {
-  console.log("if");
   document.getElementsByTagName("details")[0].removeAttribute("open");
   document.getElementById("content").style.width = "100vw";
   document.getElementById("right_content").style.width = "100vw";
@@ -15,7 +14,6 @@ window.addEventListener("resize", function () {
     window.matchMedia("(max-width: 768px)").matches ||
     window.matchMedia("(max-height: 768px)").matches
   ) {
-    console.log("if");
     document.getElementsByTagName("details")[0].removeAttribute("open");
     document.getElementById("content").style.width = "100vw";
     document.getElementById("right_content").style.width = "100vw";
