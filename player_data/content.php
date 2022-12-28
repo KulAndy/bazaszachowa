@@ -30,6 +30,7 @@
             $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['fullname']));
         }
         $fullname = "+" . str_replace(" ", " +", $fullname);
+        echo $fullname;
     } else {
         die("Brak zawodnika do wyszukania");
     }

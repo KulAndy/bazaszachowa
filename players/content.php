@@ -33,12 +33,12 @@
         $name = str_replace("Ś", "S", $name);
         $name = str_replace("Ź", "Z", $name);
         $name = str_replace("Ż", "Z", $name);
-        $searching = $db->prepare("SELECT fullname FROM $table1 WHERE fullname like ? and fullname not like '%.'");
+        $searching = $db->prepare("SELECT fullname FROM $table1 WHERE fullname like ?");
         $searching->bind_param('s', $name);
         $searching->execute();
         $searching->store_result();
         if ($searching->num_rows == 0) {
-            $query = "SELECT fullname FROM $table2 WHERE fullname like ? and fullname not like '%.'";
+            $query = "SELECT fullname FROM $table2 WHERE fullname like ? ";
             $searching = $db->prepare($query);
             $searching->bind_param('s', $name);
             $searching->execute();

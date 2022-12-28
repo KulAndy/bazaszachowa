@@ -341,9 +341,9 @@ function goToGame(
     ignoreInput.value = null;
   }
   let minYearInput = document.getElementById("minYearInput");
-  minYearInput.value = minYear.toString();
+  minYearInput.value = minYear;
   let maxYearInput = document.getElementById("maxYearInput");
-  maxYearInput.value = maxYear.toString();
+  maxYearInput.value = maxYear;
   let eventsInput = document.getElementById("eventsInput");
   eventsInput.value = events;
   let minEcoInput = document.getElementById("minEcoInput");
