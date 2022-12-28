@@ -416,5 +416,6 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
+$data['debbug'] = $_POST;
 print_r(json_encode($data));
 $db->close();

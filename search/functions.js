@@ -43,6 +43,7 @@ async function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
+        console.log(json);
         displayData(
           json.rows,
           json.white,
@@ -215,21 +216,6 @@ function displayData(
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      console.log("click");
-      console.log(
-        data[i].id,
-        data[i].table,
-        white,
-        black,
-        ignore,
-        minYear,
-        maxYear,
-        events,
-        minEco,
-        maxEco,
-        base,
-        searching
-      );
       goToGame(
         data[i].id,
         data[i].table,
@@ -338,6 +324,21 @@ function goToGame(
   base,
   searching
 ) {
+  console.log(
+    id,
+    table,
+    white,
+    black,
+    ignore,
+    minYear,
+    maxYear,
+    events,
+    minEco,
+    maxEco,
+    base,
+    searching
+  );
+
   let idInput = document.getElementById("idInput");
   idInput.value = id;
   let tableInput = document.getElementById("tableInput");
@@ -347,7 +348,7 @@ function goToGame(
   let blackInput = document.getElementById("blackInput");
   blackInput.value = black;
   let ignoreInput = document.getElementById("ignoreInput");
-  if (ignore) {
+  if (ignore === "true") {
     ignoreInput.value = "true";
   } else {
     ignoreInput.value = null;
