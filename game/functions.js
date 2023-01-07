@@ -248,17 +248,24 @@ async function checkReise() {
   }
 }
 
-function viewGame(data) {
+async function viewGame(data) {
   let pre = document.getElementById("pre");
   let info = document.createElement("div");
   info.id = "info";
   let players = document.createElement("p");
   players.style.textAlign = "center";
-  let playersData = "<b>" + data.White + "</b>";
+  let playersData =
+    `<a href='/player_data/?fullname=${encodeURIComponent(data.White)}'>` +
+    data.White +
+    "</a>";
   if (data.WhiteElo != null) {
     playersData += " " + data.WhiteElo;
   }
-  playersData += " - " + "<b>" + data.Black + "</b>";
+  playersData +=
+    " - " +
+    `<a href='/player_data/?fullname=${encodeURIComponent(data.Black)}'>` +
+    data.Black +
+    "</a>";
   if (data.BlackElo != null) {
     playersData += " " + data.BlackElo;
   }
@@ -284,6 +291,11 @@ function viewGame(data) {
   result.innerText += data.Result;
   result.style.textAlign = "center";
   result.style.marginTop = "5px";
+
+  let Event = document.createElement("p");
+  Event.innerText += data.Event;
+  Event.style.textAlign = "center";
+  Event.style.marginTop = "5px";
 
   let buttonP = document.createElement("p");
   buttonP.style.textAlign = "center";
@@ -338,82 +350,31 @@ function viewGame(data) {
   pre.prepend(buttonP);
   info.append(players);
   info.append(siteDate);
+  info.append(Event);
   info.append(result);
   pre.prepend(info);
   let pgnView = PGNV.pgnView;
-  pgnView("board", { pgn: data.moves, pieceStyle: "chessicons" });
-
   if (window.screen.availWidth >= 768 && window.innerWidth >= 768) {
-    mode = "desktop";
-    let notation = document.getElementById("boardMoves");
-    let td2 = document.getElementById("td2");
-    td2.append(notation);
-    let td3 = document.getElementById("td3");
-    let boardButton = document.getElementById("boardButton");
-    td3.style.width = boardButton.clientWidth;
-    let boardDiv = document.getElementById("board");
-    boardDiv.style.height = boardButton.clientHeight + "px";
-    boardDiv.style.width = boardButton.clientWidth + "px";
-    let td1 = document.getElementById("td1");
-    let board = document.getElementsByClassName("outerBoard")[0];
-    td1.append(board);
-    notation.style.height =
-      board.clientHeight - boardDiv.clientHeight - 5 + "px";
-    notation.style.width = "fit-content";
-    notation.style.overflowX = "auto";
-    board.style.height = board.clientWidth + "px";
-    let moves = document.getElementsByTagName("move");
-    for (let i = 1; i < moves.length; i = i + 2) {
-      let move = moves[i];
-      let br = document.createElement("br");
-      move.after(br);
-    }
+    pgnView("board", {
+      pgn: data.moves,
+      pieceStyle: "chessicons",
+      layout: "left",
+      coordsInner: false,
+      resizable: true,
+      figurine: true,
+      coordsFactor: 1.25,
+      colorMarker: "cm-big",
+    });
   } else {
-    mode = "mobile";
+    pgnView("board", {
+      pgn: data.moves,
+      pieceStyle: "chessicons",
+      coordsInner: false,
+      resizable: true,
+      figurine: true,
+      coordsFactor: 1.25,
+    });
   }
-
-  window.addEventListener("resize", function () {
-    let newMode;
-    if (window.screen.availWidth >= 768 && window.innerWidth >= 768) {
-      newMode = "desktop";
-    } else {
-      newMode = "mobile";
-    }
-    if (mode != newMode) {
-      let td1 = document.getElementById("td1");
-      let td2 = document.getElementById("td2");
-      td1.innerHTML = "";
-      td2.innerHTML = "";
-      let board = document.getElementById("board");
-      board.innerHTML = "";
-      board.style.width = "";
-      mode = newMode;
-      pgnView("board", { pgn: data.moves, pieceStyle: "chessicons" });
-      if (newMode == "desktop") {
-        let notation = document.getElementById("boardMoves");
-        td2.append(notation);
-        let td3 = document.getElementById("td3");
-        let boardButton = document.getElementById("boardButton");
-        td3.style.width = boardButton.clientWidth;
-        let boardDiv = document.getElementById("board");
-        boardDiv.style.height = boardButton.clientHeight + "px";
-        boardDiv.style.width = boardButton.clientWidth + "px";
-        let board = document.getElementsByClassName("outerBoard")[0];
-        td1.append(board);
-        notation.style.height =
-          board.clientHeight - boardDiv.clientHeight - 5 + "px";
-        notation.style.width = "fit-content";
-        notation.style.overflowX = "auto";
-        board.style.height = board.clientWidth + "px";
-        let moves = document.getElementsByTagName("move");
-        for (let i = 1; i < moves.length; i = i + 2) {
-          let move = moves[i];
-          let br = document.createElement("br");
-          move.after(br);
-        }
-      }
-    }
-  });
 
   window.addEventListener("keydown", function (e) {
     if (e.ctrlKey) {
@@ -467,284 +428,6 @@ function viewGame(data) {
   document.body.append(style);
   document.getElementById("board").style.width = "fit-content";
 }
-// function goToGame(
-//   id,
-//   table,
-//   white,
-//   black,
-//   ignore,
-//   minYear,
-//   maxYear,
-//   events,
-//   minEco,
-//   maxEco,
-//   base,
-//   searching
-// ) {
-//   let idInput = document.getElementById("idInput");
-//   idInput.value = id;
-//   let tableInput = document.getElementById("tableInput");
-//   tableInput.value = table;
-//   let whiteInput = document.getElementById("whiteInput");
-//   whiteInput.value = white;
-//   let blackInput = document.getElementById("blackInput");
-//   blackInput.value = black;
-//   let ignoreInput = document.getElementById("ignoreInput");
-//   if (ignore) {
-//     ignoreInput.value = "true";
-//   } else {
-//     ignoreInput.value = null;
-//   }
-//   let minYearInput = document.getElementById("minYearInput");
-//   minYearInput.value = minYear;
-//   let maxYearInput = document.getElementById("maxYearInput");
-//   maxYearInput.value = maxYear;
-//   let eventsInput = document.getElementById("eventsInput");
-//   eventsInput.value = events;
-//   let minEcoInput = document.getElementById("minEcoInput");
-//   minEcoInput.value = minEco;
-//   let maxEcoInput = document.getElementById("maxEcoInput");
-//   maxEcoInput.value = maxEco;
-//   let baseInput = document.getElementById("baseInput");
-//   baseInput.value = base;
-//   let searchingInput = document.getElementById("searchingInput");
-//   searchingInput.value = searching;
-//   let form = document.getElementById("form");
-//   form.submit();
-// }
-
-// async function searchGame(
-//   table,
-//   id,
-//   white,
-//   black,
-//   ignore,
-//   minYear,
-//   maxYear,
-//   events,
-//   minEco,
-//   maxEco,
-//   base,
-//   searching
-// ) {
-//   const xhttp2 = new XMLHttpRequest();
-//   xhttp2.open("POST", "/search/search.php", true);
-//   white = replaceNationalCharacters(white);
-//   black = replaceNationalCharacters(black);
-//   events = replaceNationalCharacters(events);
-//   let messenge =
-//     "white=" +
-//     encodeURIComponent(white) +
-//     "&black=" +
-//     encodeURIComponent(black) +
-//     "&ignore=" +
-//     encodeURIComponent(ignore) +
-//     "&minYear=" +
-//     encodeURIComponent(minYear) +
-//     "&maxYear=" +
-//     encodeURIComponent(maxYear) +
-//     "&event=" +
-//     encodeURIComponent(events) +
-//     "&minEco=" +
-//     encodeURIComponent(minEco) +
-//     "&maxEco=" +
-//     encodeURIComponent(maxEco) +
-//     "&base=" +
-//     encodeURIComponent(base) +
-//     "&searching=" +
-//     encodeURIComponent(searching);
-
-//   xhttp2.onreadystatechange = function () {
-//     if (this.readyState == 4 && this.status == 200) {
-//       try {
-//         let json = JSON.parse(this.responseText);
-//         try {
-//           let previous = document.getElementById("previous");
-//           let first = document.getElementById("first");
-//           let next = document.getElementById("next");
-//           let last = document.getElementById("last");
-//           if (json.rows.length > 1) {
-//             for (let index = 0; index < json.rows.length; index++) {
-//               if (json.rows[index].id == id) {
-//                 let firstGame;
-//                 let previousGame;
-//                 let nextGame;
-//                 let lastGame;
-
-//                 switch (index) {
-//                   case 0:
-//                     nextGame = json.rows[index + 1].id;
-//                     lastGame = json.rows[json.rows.length - 1].id;
-//                     next.onclick = () => {
-//                       goToGame(
-//                         nextGame,
-//                         table,
-//                         request.white,
-//                         request.black,
-//                         request.ignore,
-//                         request.minYear,
-//                         request.maxYear,
-//                         request.events,
-//                         request.minEco,
-//                         request.maxEco,
-//                         request.base,
-//                         request.searching
-//                       );
-//                     };
-//                     last.onclick = () => {
-//                       goToGame(
-//                         lastGame,
-//                         table,
-//                         request.white,
-//                         request.black,
-//                         request.ignore,
-//                         request.minYear,
-//                         request.maxYear,
-//                         request.events,
-//                         request.minEco,
-//                         request.maxEco,
-//                         request.base,
-//                         request.searching
-//                       );
-//                     };
-//                     next.disabled = false;
-//                     last.disabled = false;
-//                     break;
-//                   case json.rows.length - 1:
-//                     firstGame = json.rows[0].id;
-//                     previousGame = json.rows[index - 1].id;
-//                     first.onclick = () => {
-//                       goToGame(
-//                         firstGame,
-//                         table,
-//                         request.white,
-//                         request.black,
-//                         request.ignore,
-//                         request.minYear,
-//                         request.maxYear,
-//                         request.events,
-//                         request.minEco,
-//                         request.maxEco,
-//                         request.base,
-//                         request.searching
-//                       );
-//                     };
-//                     previous.onclick = () => {
-//                       goToGame(
-//                         previousGame,
-//                         table,
-//                         request.white,
-//                         request.black,
-//                         request.ignore,
-//                         request.minYear,
-//                         request.maxYear,
-//                         request.events,
-//                         request.minEco,
-//                         request.maxEco,
-//                         request.base,
-//                         request.searching
-//                       );
-//                     };
-//                     first.disabled = false;
-//                     previous.disabled = false;
-
-//                     break;
-
-//                   default:
-//                     if (json.rows.length > 1) {
-//                       firstGame = json.rows[0].id;
-//                       previousGame = json.rows[index - 1].id;
-//                       nextGame = json.rows[index + 1].id;
-//                       lastGame = json.rows[json.rows.length - 1].id;
-//                       first.onclick = () => {
-//                         goToGame(
-//                           firstGame,
-//                           table,
-//                           request.white,
-//                           request.black,
-//                           request.ignore,
-//                           request.minYear,
-//                           request.maxYear,
-//                           request.events,
-//                           request.minEco,
-//                           request.maxEco,
-//                           request.base,
-//                           request.searching
-//                         );
-//                       };
-//                       previous.onclick = () => {
-//                         goToGame(
-//                           previousGame,
-//                           table,
-//                           request.white,
-//                           request.black,
-//                           request.ignore,
-//                           request.minYear,
-//                           request.maxYear,
-//                           request.events,
-//                           request.minEco,
-//                           request.maxEco,
-//                           request.base,
-//                           request.searching
-//                         );
-//                       };
-//                       next.onclick = () => {
-//                         goToGame(
-//                           nextGame,
-//                           table,
-//                           request.white,
-//                           request.black,
-//                           request.ignore,
-//                           request.minYear,
-//                           request.maxYear,
-//                           request.events,
-//                           request.minEco,
-//                           request.maxEco,
-//                           request.base,
-//                           request.searching
-//                         );
-//                       };
-//                       last.onclick = () => {
-//                         goToGame(
-//                           lastGame,
-//                           table,
-//                           request.white,
-//                           request.black,
-//                           request.ignore,
-//                           request.minYear,
-//                           request.maxYear,
-//                           request.events,
-//                           request.minEco,
-//                           request.maxEco,
-//                           request.base,
-//                           request.searching
-//                         );
-//                       };
-//                       next.disabled = false;
-//                       last.disabled = false;
-//                       first.disabled = false;
-//                       previous.disabled = false;
-//                     }
-//                     break;
-//                 }
-//               }
-//             }
-//           }
-//         } catch (error) {
-//         } finally {
-//           search(id, table);
-//         }
-//       } catch (error) {}
-//     }
-//   };
-//   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//   xhttp2.send(messenge);
-
-//   try {
-//     let rmTable = document.getElementById("table");
-//     rmTable.remove();
-//   } catch {}
-// }
 
 function replaceNationalCharacters(text) {
   let toReplace = text;

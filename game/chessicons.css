@@ -136,6 +136,64 @@ body {
   background-image: url("chessicons/br.svg");
 }
 
+cg-board {
+  cursor: auto !important;
+}
+
+button,
+span {
+  width: fit-content;
+  height: fit-content;
+}
+
+.cm-big {
+  background-color: white;
+}
+
+#boardButton {
+  display: flex;
+  justify-content: center;
+}
+
+#boardMoves {
+  overflow: auto;
+  background-color: #f0f7d4;
+}
+
+#board {
+  width: min(400px, 90vw, 95vh - 10em);
+  height: min(320px, 81vw);
+}
+
+@media only screen and (min-width: 768px) {
+  #boardMoves {
+    display: block;
+    margin: auto;
+    height: min(380px, 81vw);
+  }
+  #boardButton {
+    margin-top: 0 !important;
+    place-self: normal !important;
+  }
+  #board {
+    grid-template-columns: none !important;
+  }
+  move-number:not([data-value="1"]):before {
+    content: "\A";
+    white-space: pre;
+  }
+  move-number::after {
+    content: "\09";
+    white-space: pre;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #boardMoves {
+    height: min(320px, 81vw);
+  }
+}
+
 /* /////////////////////////////////////////////////////////////////////////////// */
 
 * {
@@ -156,6 +214,7 @@ table {
 body {
   overflow-x: hidden;
   background-color: #c3df5d;
+  width: 100vw;
 }
 
 footer {
@@ -190,6 +249,10 @@ a:hover {
   color: #347b98;
 }
 
+p a {
+  color: #37700f;
+}
+
 nav {
   display: flex;
   justify-content: space-evenly;
@@ -211,14 +274,6 @@ table {
   margin: auto;
 }
 
-move,
-san,
-move-number {
-  font-family: inherit !important;
-  font-weight: normal !important;
-  pointer-events: none !important;
-}
-
 .copyleft {
   display: inline-block;
   transform: rotate(180deg);
@@ -233,35 +288,10 @@ move-number {
   margin-top: 5px;
 }
 
-#board {
-  width: min(400px, 90vw, 95vh - 10em);
-  height: min(320px, 81vw);
-}
-
 #info {
   background-color: #f0f7d4;
   width: fit-content;
   margin: auto;
-}
-
-@media only screen and (min-width: 768px) {
-  #boardMoves {
-    display: block;
-    margin: auto;
-  }
-  #boardButton {
-    margin-top: 0 !important;
-    place-self: normal !important;
-  }
-  #board {
-    grid-template-columns: none !important;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  #boardMoves {
-    height: min(320px, 81vw);
-  }
 }
 
 ::-webkit-scrollbar {
