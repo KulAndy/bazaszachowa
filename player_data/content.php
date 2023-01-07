@@ -1,17 +1,3 @@
-    <form id="form" action="/game" method="get" style="display: none;">
-        <input id="idInput" name="id">
-        <input id="tableInput" name="table">
-        <input id="whiteInput" name="white">
-        <input id="blackInput" name="black">
-        <input id="ignoreInput" name="ignore">
-        <input id="minYearInput" name="minYear">
-        <input id="maxYearInput" name="maxYear">
-        <input id="eventsInput" name="events">
-        <input id="minEcoInput" name="minEco">
-        <input id="maxEcoInput" name="maxEco">
-        <input id="baseInput" name="base">
-        <input id="searchingInput" name="searching">
-    </form>
     <?php
     echo '<div id="pre"><div id="content" style="text-align: center;width: 90vw;">';
     require 'login_data.php';

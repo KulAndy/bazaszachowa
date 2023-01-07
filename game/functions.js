@@ -7,16 +7,197 @@ function checkMobile() {
 function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
-async function search(id, table) {
+
+async function search(id, table, list, current) {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/game/get.php", true);
 
   let messenge =
     "id=" + encodeURIComponent(id) + "&table=" + encodeURIComponent(table);
-
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       let json = JSON.parse(this.responseText);
+      if (list.length > 1) {
+        switch (current) {
+          case 0:
+            next.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = current + 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            last.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = list.length - 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            next.disabled = false;
+            last.disabled = false;
+            break;
+          case list.length - 1:
+            first.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = 0;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            previous.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = current - 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            first.disabled = false;
+            previous.disabled = false;
+
+            break;
+
+          default:
+            first.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = 0;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            previous.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = current - 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            next.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = current + 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            last.onclick = () => {
+              let form = document.createElement("form");
+              form.style.visibility = "hidden";
+              form.method = "POST";
+              form.action = "/game/index.php";
+              let inputList = document.createElement("input");
+              inputList.value = list;
+              inputList.name = "list";
+              let inputCurrent = document.createElement("input");
+              inputCurrent.value = list.length - 1;
+              let inputBase = document.createElement("input");
+              inputBase.name = "base";
+              inputBase.value = table;
+              inputCurrent.name = "current";
+              form.appendChild(inputList);
+              form.appendChild(inputCurrent);
+              form.appendChild(inputBase);
+              document.body.append(form);
+              form.submit();
+            };
+            next.disabled = false;
+            last.disabled = false;
+            first.disabled = false;
+            previous.disabled = false;
+            break;
+        }
+      }
+
       viewGame(json.rows[0]);
     }
   };
@@ -286,284 +467,284 @@ function viewGame(data) {
   document.body.append(style);
   document.getElementById("board").style.width = "fit-content";
 }
-function goToGame(
-  id,
-  table,
-  white,
-  black,
-  ignore,
-  minYear,
-  maxYear,
-  events,
-  minEco,
-  maxEco,
-  base,
-  searching
-) {
-  let idInput = document.getElementById("idInput");
-  idInput.value = id;
-  let tableInput = document.getElementById("tableInput");
-  tableInput.value = table;
-  let whiteInput = document.getElementById("whiteInput");
-  whiteInput.value = white;
-  let blackInput = document.getElementById("blackInput");
-  blackInput.value = black;
-  let ignoreInput = document.getElementById("ignoreInput");
-  if (ignore) {
-    ignoreInput.value = "true";
-  } else {
-    ignoreInput.value = null;
-  }
-  let minYearInput = document.getElementById("minYearInput");
-  minYearInput.value = minYear;
-  let maxYearInput = document.getElementById("maxYearInput");
-  maxYearInput.value = maxYear;
-  let eventsInput = document.getElementById("eventsInput");
-  eventsInput.value = events;
-  let minEcoInput = document.getElementById("minEcoInput");
-  minEcoInput.value = minEco;
-  let maxEcoInput = document.getElementById("maxEcoInput");
-  maxEcoInput.value = maxEco;
-  let baseInput = document.getElementById("baseInput");
-  baseInput.value = base;
-  let searchingInput = document.getElementById("searchingInput");
-  searchingInput.value = searching;
-  let form = document.getElementById("form");
-  form.submit();
-}
+// function goToGame(
+//   id,
+//   table,
+//   white,
+//   black,
+//   ignore,
+//   minYear,
+//   maxYear,
+//   events,
+//   minEco,
+//   maxEco,
+//   base,
+//   searching
+// ) {
+//   let idInput = document.getElementById("idInput");
+//   idInput.value = id;
+//   let tableInput = document.getElementById("tableInput");
+//   tableInput.value = table;
+//   let whiteInput = document.getElementById("whiteInput");
+//   whiteInput.value = white;
+//   let blackInput = document.getElementById("blackInput");
+//   blackInput.value = black;
+//   let ignoreInput = document.getElementById("ignoreInput");
+//   if (ignore) {
+//     ignoreInput.value = "true";
+//   } else {
+//     ignoreInput.value = null;
+//   }
+//   let minYearInput = document.getElementById("minYearInput");
+//   minYearInput.value = minYear;
+//   let maxYearInput = document.getElementById("maxYearInput");
+//   maxYearInput.value = maxYear;
+//   let eventsInput = document.getElementById("eventsInput");
+//   eventsInput.value = events;
+//   let minEcoInput = document.getElementById("minEcoInput");
+//   minEcoInput.value = minEco;
+//   let maxEcoInput = document.getElementById("maxEcoInput");
+//   maxEcoInput.value = maxEco;
+//   let baseInput = document.getElementById("baseInput");
+//   baseInput.value = base;
+//   let searchingInput = document.getElementById("searchingInput");
+//   searchingInput.value = searching;
+//   let form = document.getElementById("form");
+//   form.submit();
+// }
 
-async function searchGame(
-  table,
-  id,
-  white,
-  black,
-  ignore,
-  minYear,
-  maxYear,
-  events,
-  minEco,
-  maxEco,
-  base,
-  searching
-) {
-  const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/search/search.php", true);
-  white = replaceNationalCharacters(white);
-  black = replaceNationalCharacters(black);
-  events = replaceNationalCharacters(events);
-  let messenge =
-    "white=" +
-    encodeURIComponent(white) +
-    "&black=" +
-    encodeURIComponent(black) +
-    "&ignore=" +
-    encodeURIComponent(ignore) +
-    "&minYear=" +
-    encodeURIComponent(minYear) +
-    "&maxYear=" +
-    encodeURIComponent(maxYear) +
-    "&event=" +
-    encodeURIComponent(events) +
-    "&minEco=" +
-    encodeURIComponent(minEco) +
-    "&maxEco=" +
-    encodeURIComponent(maxEco) +
-    "&base=" +
-    encodeURIComponent(base) +
-    "&searching=" +
-    encodeURIComponent(searching);
+// async function searchGame(
+//   table,
+//   id,
+//   white,
+//   black,
+//   ignore,
+//   minYear,
+//   maxYear,
+//   events,
+//   minEco,
+//   maxEco,
+//   base,
+//   searching
+// ) {
+//   const xhttp2 = new XMLHttpRequest();
+//   xhttp2.open("POST", "/search/search.php", true);
+//   white = replaceNationalCharacters(white);
+//   black = replaceNationalCharacters(black);
+//   events = replaceNationalCharacters(events);
+//   let messenge =
+//     "white=" +
+//     encodeURIComponent(white) +
+//     "&black=" +
+//     encodeURIComponent(black) +
+//     "&ignore=" +
+//     encodeURIComponent(ignore) +
+//     "&minYear=" +
+//     encodeURIComponent(minYear) +
+//     "&maxYear=" +
+//     encodeURIComponent(maxYear) +
+//     "&event=" +
+//     encodeURIComponent(events) +
+//     "&minEco=" +
+//     encodeURIComponent(minEco) +
+//     "&maxEco=" +
+//     encodeURIComponent(maxEco) +
+//     "&base=" +
+//     encodeURIComponent(base) +
+//     "&searching=" +
+//     encodeURIComponent(searching);
 
-  xhttp2.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      try {
-        let json = JSON.parse(this.responseText);
-        try {
-          let previous = document.getElementById("previous");
-          let first = document.getElementById("first");
-          let next = document.getElementById("next");
-          let last = document.getElementById("last");
-          if (json.rows.length > 1) {
-            for (let index = 0; index < json.rows.length; index++) {
-              if (json.rows[index].id == id) {
-                let firstGame;
-                let previousGame;
-                let nextGame;
-                let lastGame;
+//   xhttp2.onreadystatechange = function () {
+//     if (this.readyState == 4 && this.status == 200) {
+//       try {
+//         let json = JSON.parse(this.responseText);
+//         try {
+//           let previous = document.getElementById("previous");
+//           let first = document.getElementById("first");
+//           let next = document.getElementById("next");
+//           let last = document.getElementById("last");
+//           if (json.rows.length > 1) {
+//             for (let index = 0; index < json.rows.length; index++) {
+//               if (json.rows[index].id == id) {
+//                 let firstGame;
+//                 let previousGame;
+//                 let nextGame;
+//                 let lastGame;
 
-                switch (index) {
-                  case 0:
-                    nextGame = json.rows[index + 1].id;
-                    lastGame = json.rows[json.rows.length - 1].id;
-                    next.onclick = () => {
-                      goToGame(
-                        nextGame,
-                        table,
-                        request.white,
-                        request.black,
-                        request.ignore,
-                        request.minYear,
-                        request.maxYear,
-                        request.events,
-                        request.minEco,
-                        request.maxEco,
-                        request.base,
-                        request.searching
-                      );
-                    };
-                    last.onclick = () => {
-                      goToGame(
-                        lastGame,
-                        table,
-                        request.white,
-                        request.black,
-                        request.ignore,
-                        request.minYear,
-                        request.maxYear,
-                        request.events,
-                        request.minEco,
-                        request.maxEco,
-                        request.base,
-                        request.searching
-                      );
-                    };
-                    next.disabled = false;
-                    last.disabled = false;
-                    break;
-                  case json.rows.length - 1:
-                    firstGame = json.rows[0].id;
-                    previousGame = json.rows[index - 1].id;
-                    first.onclick = () => {
-                      goToGame(
-                        firstGame,
-                        table,
-                        request.white,
-                        request.black,
-                        request.ignore,
-                        request.minYear,
-                        request.maxYear,
-                        request.events,
-                        request.minEco,
-                        request.maxEco,
-                        request.base,
-                        request.searching
-                      );
-                    };
-                    previous.onclick = () => {
-                      goToGame(
-                        previousGame,
-                        table,
-                        request.white,
-                        request.black,
-                        request.ignore,
-                        request.minYear,
-                        request.maxYear,
-                        request.events,
-                        request.minEco,
-                        request.maxEco,
-                        request.base,
-                        request.searching
-                      );
-                    };
-                    first.disabled = false;
-                    previous.disabled = false;
+//                 switch (index) {
+//                   case 0:
+//                     nextGame = json.rows[index + 1].id;
+//                     lastGame = json.rows[json.rows.length - 1].id;
+//                     next.onclick = () => {
+//                       goToGame(
+//                         nextGame,
+//                         table,
+//                         request.white,
+//                         request.black,
+//                         request.ignore,
+//                         request.minYear,
+//                         request.maxYear,
+//                         request.events,
+//                         request.minEco,
+//                         request.maxEco,
+//                         request.base,
+//                         request.searching
+//                       );
+//                     };
+//                     last.onclick = () => {
+//                       goToGame(
+//                         lastGame,
+//                         table,
+//                         request.white,
+//                         request.black,
+//                         request.ignore,
+//                         request.minYear,
+//                         request.maxYear,
+//                         request.events,
+//                         request.minEco,
+//                         request.maxEco,
+//                         request.base,
+//                         request.searching
+//                       );
+//                     };
+//                     next.disabled = false;
+//                     last.disabled = false;
+//                     break;
+//                   case json.rows.length - 1:
+//                     firstGame = json.rows[0].id;
+//                     previousGame = json.rows[index - 1].id;
+//                     first.onclick = () => {
+//                       goToGame(
+//                         firstGame,
+//                         table,
+//                         request.white,
+//                         request.black,
+//                         request.ignore,
+//                         request.minYear,
+//                         request.maxYear,
+//                         request.events,
+//                         request.minEco,
+//                         request.maxEco,
+//                         request.base,
+//                         request.searching
+//                       );
+//                     };
+//                     previous.onclick = () => {
+//                       goToGame(
+//                         previousGame,
+//                         table,
+//                         request.white,
+//                         request.black,
+//                         request.ignore,
+//                         request.minYear,
+//                         request.maxYear,
+//                         request.events,
+//                         request.minEco,
+//                         request.maxEco,
+//                         request.base,
+//                         request.searching
+//                       );
+//                     };
+//                     first.disabled = false;
+//                     previous.disabled = false;
 
-                    break;
+//                     break;
 
-                  default:
-                    if (json.rows.length > 1) {
-                      firstGame = json.rows[0].id;
-                      previousGame = json.rows[index - 1].id;
-                      nextGame = json.rows[index + 1].id;
-                      lastGame = json.rows[json.rows.length - 1].id;
-                      first.onclick = () => {
-                        goToGame(
-                          firstGame,
-                          table,
-                          request.white,
-                          request.black,
-                          request.ignore,
-                          request.minYear,
-                          request.maxYear,
-                          request.events,
-                          request.minEco,
-                          request.maxEco,
-                          request.base,
-                          request.searching
-                        );
-                      };
-                      previous.onclick = () => {
-                        goToGame(
-                          previousGame,
-                          table,
-                          request.white,
-                          request.black,
-                          request.ignore,
-                          request.minYear,
-                          request.maxYear,
-                          request.events,
-                          request.minEco,
-                          request.maxEco,
-                          request.base,
-                          request.searching
-                        );
-                      };
-                      next.onclick = () => {
-                        goToGame(
-                          nextGame,
-                          table,
-                          request.white,
-                          request.black,
-                          request.ignore,
-                          request.minYear,
-                          request.maxYear,
-                          request.events,
-                          request.minEco,
-                          request.maxEco,
-                          request.base,
-                          request.searching
-                        );
-                      };
-                      last.onclick = () => {
-                        goToGame(
-                          lastGame,
-                          table,
-                          request.white,
-                          request.black,
-                          request.ignore,
-                          request.minYear,
-                          request.maxYear,
-                          request.events,
-                          request.minEco,
-                          request.maxEco,
-                          request.base,
-                          request.searching
-                        );
-                      };
-                      next.disabled = false;
-                      last.disabled = false;
-                      first.disabled = false;
-                      previous.disabled = false;
-                    }
-                    break;
-                }
-              }
-            }
-          }
-        } catch (error) {
-        } finally {
-          search(id, table);
-        }
-      } catch (error) {}
-    }
-  };
-  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp2.send(messenge);
+//                   default:
+//                     if (json.rows.length > 1) {
+//                       firstGame = json.rows[0].id;
+//                       previousGame = json.rows[index - 1].id;
+//                       nextGame = json.rows[index + 1].id;
+//                       lastGame = json.rows[json.rows.length - 1].id;
+//                       first.onclick = () => {
+//                         goToGame(
+//                           firstGame,
+//                           table,
+//                           request.white,
+//                           request.black,
+//                           request.ignore,
+//                           request.minYear,
+//                           request.maxYear,
+//                           request.events,
+//                           request.minEco,
+//                           request.maxEco,
+//                           request.base,
+//                           request.searching
+//                         );
+//                       };
+//                       previous.onclick = () => {
+//                         goToGame(
+//                           previousGame,
+//                           table,
+//                           request.white,
+//                           request.black,
+//                           request.ignore,
+//                           request.minYear,
+//                           request.maxYear,
+//                           request.events,
+//                           request.minEco,
+//                           request.maxEco,
+//                           request.base,
+//                           request.searching
+//                         );
+//                       };
+//                       next.onclick = () => {
+//                         goToGame(
+//                           nextGame,
+//                           table,
+//                           request.white,
+//                           request.black,
+//                           request.ignore,
+//                           request.minYear,
+//                           request.maxYear,
+//                           request.events,
+//                           request.minEco,
+//                           request.maxEco,
+//                           request.base,
+//                           request.searching
+//                         );
+//                       };
+//                       last.onclick = () => {
+//                         goToGame(
+//                           lastGame,
+//                           table,
+//                           request.white,
+//                           request.black,
+//                           request.ignore,
+//                           request.minYear,
+//                           request.maxYear,
+//                           request.events,
+//                           request.minEco,
+//                           request.maxEco,
+//                           request.base,
+//                           request.searching
+//                         );
+//                       };
+//                       next.disabled = false;
+//                       last.disabled = false;
+//                       first.disabled = false;
+//                       previous.disabled = false;
+//                     }
+//                     break;
+//                 }
+//               }
+//             }
+//           }
+//         } catch (error) {
+//         } finally {
+//           search(id, table);
+//         }
+//       } catch (error) {}
+//     }
+//   };
+//   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//   xhttp2.send(messenge);
 
-  try {
-    let rmTable = document.getElementById("table");
-    rmTable.remove();
-  } catch {}
-}
+//   try {
+//     let rmTable = document.getElementById("table");
+//     rmTable.remove();
+//   } catch {}
+// }
 
 function replaceNationalCharacters(text) {
   let toReplace = text;

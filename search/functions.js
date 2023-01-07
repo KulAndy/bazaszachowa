@@ -1,5 +1,7 @@
 "use strict";
 
+const { json } = require("express/lib/response");
+
 async function search(
   white,
   black,
@@ -43,28 +45,13 @@ async function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        console.log(json);
-        displayData(
-          json.rows,
-          json.white,
-          json.black,
-          json.ignore,
-          json.minYear,
-          json.maxYear,
-          json.event,
-          json.minEco,
-          json.maxEco,
-          json.base,
-          json.searching
-        );
+        displayData(json.rows, base);
         return json.rows;
       } catch (err) {
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();
-        } catch {
-          console.log(this.responseText);
-        }
+        } catch {}
         let table = document.createElement("table");
         table.id = "table";
         let caption = document.createElement("caption");
@@ -101,19 +88,7 @@ async function search(
   };
 }
 
-function displayData(
-  data,
-  white,
-  black,
-  ignore,
-  minYear,
-  maxYear,
-  events,
-  minEco,
-  maxEco,
-  base,
-  searching
-) {
+function displayData(data, base) {
   try {
     let rmTable = document.getElementById("table");
     rmTable.remove();
@@ -218,20 +193,27 @@ function displayData(
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      goToGame(
-        data[i].id,
-        data[i].table,
-        white,
-        black,
-        ignore,
-        minYear,
-        maxYear,
-        events,
-        minEco,
-        maxEco,
-        base,
-        searching
-      );
+      let form = document.createElement("form");
+      form.style.visibility = "hidden";
+      form.method = "POST";
+      form.action = "/game/index.php";
+      let inputList = document.createElement("input");
+      let ids = data.map(function (value) {
+        return value.id;
+      });
+      inputList.value = ids;
+      inputList.name = "list";
+      let inputCurrent = document.createElement("input");
+      inputCurrent.value = i;
+      let inputBase = document.createElement("input");
+      inputBase.name = "base";
+      inputBase.value = base;
+      inputCurrent.name = "current";
+      form.appendChild(inputList);
+      form.appendChild(inputCurrent);
+      form.appendChild(inputBase);
+      document.body.append(form);
+      form.submit();
     };
     td9.append(viewButton);
     let td10 = document.createElement("td");
@@ -310,50 +292,4 @@ function replaceNationalCharacters(text) {
   toReplace = toReplace.replace(/ż/g, "z");
   toReplace = toReplace.replace(/Ż/g, "Z");
   return toReplace;
-}
-
-function goToGame(
-  id,
-  table,
-  white,
-  black,
-  ignore,
-  minYear,
-  maxYear,
-  events,
-  minEco,
-  maxEco,
-  base,
-  searching
-) {
-  let idInput = document.getElementById("idInput");
-  idInput.value = id;
-  let tableInput = document.getElementById("tableInput");
-  tableInput.value = table;
-  let whiteInput = document.getElementById("whiteInput");
-  whiteInput.value = white;
-  let blackInput = document.getElementById("blackInput");
-  blackInput.value = black;
-  let ignoreInput = document.getElementById("ignoreInput");
-  if (ignore === "true") {
-    ignoreInput.value = "true";
-  } else {
-    ignoreInput.value = null;
-  }
-  let minYearInput = document.getElementById("minYearInput");
-  minYearInput.value = minYear;
-  let maxYearInput = document.getElementById("maxYearInput");
-  maxYearInput.value = maxYear;
-  let eventsInput = document.getElementById("eventsInput");
-  eventsInput.value = events;
-  let minEcoInput = document.getElementById("minEcoInput");
-  minEcoInput.value = minEco;
-  let maxEcoInput = document.getElementById("maxEcoInput");
-  maxEcoInput.value = maxEco;
-  let baseInput = document.getElementById("baseInput");
-  baseInput.value = base;
-  let searchingInput = document.getElementById("searchingInput");
-  searchingInput.value = searching;
-  let form = document.getElementById("form");
-  form.submit();
 }
