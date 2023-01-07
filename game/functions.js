@@ -363,7 +363,7 @@ async function viewGame(data) {
       resizable: true,
       figurine: true,
       coordsFactor: 1.25,
-      colorMarker: "cm-big",
+      // colorMarker: "cm-big",
     });
   } else {
     pgnView("board", {
