@@ -29,10 +29,9 @@ $minElo = 0;
 $maxElo = 0;
 if (isset($_GET['name']) && !empty($_GET)) {
     $basicName = htmlspecialchars($_GET['name']);
-    if( substr($_GET['name'], 1,1) == "'" ){
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['name'],2)));
-    }
-    else{
+    if (substr($_GET['name'], 1, 1) == "'") {
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['name'], 2)));
+    } else {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['name']));
     }
     $fullname = "+" . str_replace(" ", " +", $fullname);
@@ -94,8 +93,9 @@ if (isset($_GET['name']) && !empty($_GET)) {
 
         $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
         $currentDate = date_create(date("Y") . "-" . date("m"));
+        date_add($currentDate, date_interval_create_from_date_string("1 months"));
         $i = 0;
-        while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
+        do {
             if (date_format($startDate, "m") == "01") {
                 imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
                 imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
@@ -117,18 +117,17 @@ if (isset($_GET['name']) && !empty($_GET)) {
                 }
             }
             $i++;
-        }
+        } while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m"));
 
         $currenPointX = $margin;
         $currentPercent = 1 - ($initialRating[0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
         $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;;
 
         $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
-        $currentDate = date_create(date("Y") . "-" . date("m"));
         $i = 0;
         $j = 0;
         imagesetthickness($draw, 3);
-        while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
+        do {
             if (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m")) {
                 $newCurrenPointX = $margin + $k1 * $i;
                 $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
@@ -138,9 +137,6 @@ if (isset($_GET['name']) && !empty($_GET)) {
                 }
                 $currenPointX = $newCurrenPointX;
                 $currenPointY = $newCurrenPointY;
-                while (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m") && $j < sizeof($breakPoints) - 2) {
-                    $j++;
-                }
             } else {
                 $newCurrenPointX = $margin + $k1 * $i;
                 $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
@@ -153,7 +149,10 @@ if (isset($_GET['name']) && !empty($_GET)) {
             }
             date_add($startDate, date_interval_create_from_date_string("1 months"));
             $i++;
-        }
+            while (date_diff($startDate, date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]))->format("%R") == "-"  && $j < sizeof($breakPoints) - 1) {
+                $j++;
+            }
+        } while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m"));
         imagejpeg($draw);
     }
-} 
+}

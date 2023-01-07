@@ -101,7 +101,7 @@
     ?>
     <div id="info"></div>
     <table style='border: 0;'>
-        <tr style='display:flex;'>
+        <tr id="container" style='display:flex;'>
             <td id="stats" style='border: 0;'></td>
             <td style='border: 0;'>
                 <?php echo "<img id='graph' onerror='this.remove()' src='/player_data/graph.php?name=" . urlencode($basicName) . "'>"; ?>

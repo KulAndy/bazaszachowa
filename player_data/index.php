@@ -13,6 +13,17 @@ summary {
 p[style='text-align: center;'] {
     border: 1px solid black;
 }
+
+@media only screen and (max-width: 767px) {
+    #container {
+        flex-direction: column;
+    }
+
+    img {
+        width: min(95vw, 95vh) !important;
+        height: min(95vw, 95vh) !important;
+    }
+}
 </style>
 <?php
 include '../menu.php';
