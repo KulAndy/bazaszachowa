@@ -28,17 +28,18 @@ $last = null;
 $minElo = 0;
 $maxElo = 0;
 if (isset($_GET['name']) && !empty($_GET)) {
-    $basicName = htmlspecialchars($_GET['name']);
-    if (substr($_GET['name'], 1, 1) == "'") {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['name'], 2)));
+    $basicName = htmlspecialchars($_REQUEST['name']);
+    if (substr($_REQUEST['name'], 1, 1) == "'") {
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_REQUEST['name'], 2)));
     } else {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['name']));
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['name']));
     }
+    $fullname =
+        str_replace(".", "", $fullname);
+    $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
     $fullname = "+" . str_replace(" ", " +", $fullname);
-    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND White like ?
-        UNION DISTINCT
-        SELECT BlackElo as Elo, Year, Month  FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Month is not null AND BlackElo is not null AND Black like ?
-        ORDER by Year,Month";
+    $basicName =
+        str_replace(".", "", $basicName) . "%";
     $searching = $db->prepare($query);
     $searching->bind_param('ssss', $fullname, $_GET['name'], $fullname, $_GET['name']);
     $searching->execute();
@@ -83,7 +84,7 @@ if (isset($_GET['name']) && !empty($_GET)) {
         }
 
         imagefill($draw, 0, 0, $white);
-        imagestring($draw, 5, ($width - 10 * strlen($_GET['name'])) / 2, 5, $_GET['name'], $black);
+        imagestring($draw, 5, ($width - 10 * strlen(htmlspecialchars($_GET['name']))) / 2, 5, htmlspecialchars($_GET['name']), $black);
         $messange = "Wykres elo";
         imagestring($draw, 4, ($width - 10 * strlen($messange)) / 2, 20, $messange, $black);
         imagefilledrectangle($draw, $margin, $margin + $header, $margin, $heigth, $black);

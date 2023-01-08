@@ -14,8 +14,7 @@ if (mysqli_connect_errno()) {
 
 $db->set_charset("utf8");
 $data = array(
-    "rows" => array()
-    // "debbug" => array()
+    "rows" => array(),
 );
 
 $data['base'] = $_POST['base'];
@@ -91,6 +90,7 @@ if (isset($_POST['searching'])) {
                     $playerName
                 ));
                 $playerName = preg_replace("/ *$/", "", $playerName);
+                $playerName = preg_replace("/(^| |')\w{0,2}($| |')/", "", $playerName);
                 $playerName = str_replace(
                     " ",
                     " +",
@@ -118,6 +118,7 @@ if (isset($_POST['searching'])) {
                     $playerName
                 ));
                 $playerName = preg_replace("/ *$/", "", $playerName);
+                $playerName = preg_replace("/(^| |')\w{0,2}($| |')/", "", $playerName);
                 $playerName = str_replace(
                     " ",
                     " +",
@@ -265,7 +266,15 @@ if (isset($_POST['searching'])) {
         $toBind = array();
         if (isset($white)) {
             if (sizeof(explode(" ", $white)) > 1) {
-                $white = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white)))));
+                $white = "+" . str_replace(
+                    " ",
+                    " +",
+                    preg_replace(
+                        "/(^| |')\w{0,2}($| |')/",
+                        "",
+                        preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white))))
+                    )
+                );
                 $query = $query . " match(white) against(? in boolean mode) ";
             } else {
                 $query = $query . " match(white) against(?) ";
@@ -278,7 +287,15 @@ if (isset($_POST['searching'])) {
             }
 
             if (sizeof(explode(" ", $black)) > 1) {
-                $black = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black)))));
+                $black = "+" . str_replace(
+                    " ",
+                    " +",
+                    preg_replace(
+                        "/(^| |')\w{0,2}($| |')/",
+                        "",
+                        preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black))))
+                    )
+                );
                 $query = $query . " match(black) against(? in boolean mode) ";
             } else {
                 $query = $query . " match(black) against(?) ";
@@ -310,6 +327,9 @@ if (isset($_POST['searching'])) {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION ALL\nSELECT id, moves, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO  FROM $table WHERE ";
             if (isset($white)) {
+                $white =
+                    str_replace(".", "", $white);
+                $white = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $white);
                 if (sizeof(explode(" ", $white)) > 1) {
                     $query = $query . " match(black) against(? in boolean mode) ";
                 } else {
@@ -318,6 +338,9 @@ if (isset($_POST['searching'])) {
                 array_push($toBind, "\$white");
             }
             if (isset($black)) {
+                $black =
+                    str_replace(".", "", $black);
+                $black = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $black);
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }

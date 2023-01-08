@@ -15,6 +15,11 @@
         } else {
             $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['fullname']));
         }
+        $basicName =
+            str_replace(".", "", $basicName);
+        $fullname =
+            str_replace(".", "", $fullname);
+        $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
         $fullname = "+" . str_replace(" ", " +", $fullname);
     } else {
         die("Brak zawodnika do wyszukania");
@@ -22,7 +27,12 @@
     echo "<h1 style='margin: 0;margin-bottom: 0.4em;'>$basicName</h1>";
     $query = "SELECT max(WhiteElo) as maxElo FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(BlackElo) as maxElo FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
-    $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
+    $pom = str_replace(".", "", $_GET['fullname'])  . "%";
+
+    // echo "<p>$query</p>";
+    // echo "<p>$fullname</p>";
+    // echo "<p>$pom</p>";
+    $searching->bind_param('ssss', $fullname, $pom, $fullname, $pom);
     $searching->execute();
     $searching->store_result();
     $elo = false;
@@ -49,7 +59,7 @@
     }
     $query = "SELECT min(Year) as minYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT min(Year) as minYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
-    $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
+    $searching->bind_param('ssss', $fullname, $pom, $fullname, $pom);
     $searching->execute();
     $searching->store_result();
     $minY = null;

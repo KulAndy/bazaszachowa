@@ -15,7 +15,12 @@ if (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) {
     } else {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['fullname']));
     }
+    $fullname =
+        str_replace(".", "", $fullname);
+    $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
     $fullname = "+" . str_replace(" ", " +", $fullname);
+    $basicName =
+        str_replace(".", "", $basicName) . "%";
 } else {
     die("Brak zawodnika do wyszukania");
 }
