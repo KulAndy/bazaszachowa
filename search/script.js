@@ -1,22 +1,37 @@
 "use strict";
 
-if (
-  window.matchMedia("(max-width: 768px)").matches ||
-  window.matchMedia("(max-height: 768px)").matches
-) {
+if (window.outerWidth <= 768) {
   document.getElementsByTagName("details")[0].removeAttribute("open");
   document.getElementById("content").style.width = "100vw";
   document.getElementById("right_content").style.width = "100vw";
 }
 
 window.addEventListener("resize", function () {
-  if (
-    window.matchMedia("(max-width: 768px)").matches ||
-    window.matchMedia("(max-height: 768px)").matches
-  ) {
+  if (window.innerWidth <= 768) {
     document.getElementsByTagName("details")[0].removeAttribute("open");
     document.getElementById("content").style.width = "100vw";
     document.getElementById("right_content").style.width = "100vw";
+    for (
+      let i = 0;
+      i < this.document.getElementsByClassName("not_mobile").length;
+      i++
+    ) {
+      this.document.getElementsByClassName("not_mobile")[i].style.visibility =
+        "hidden";
+    }
+  } else {
+    console.log("dupa");
+    document.getElementsByTagName("details")[0].open = true;
+    document.getElementById("content").style.width = "fit-content";
+    document.getElementById("right_content").style.width = "30vw";
+    for (
+      let i = 0;
+      i < this.document.getElementsByClassName("not_mobile").length;
+      i++
+    ) {
+      this.document.getElementsByClassName("not_mobile")[i].style.visibility =
+        "visible";
+    }
   }
 });
 
