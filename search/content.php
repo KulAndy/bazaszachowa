@@ -1,18 +1,4 @@
 <div id="pre">
-    <form id="form" action="/game" method="get" style="display: none;">
-        <input id="idInput" name="id">
-        <input id="tableInput" name="table">
-        <input id="whiteInput" name="white">
-        <input id="blackInput" name="black">
-        <input id="ignoreInput" name="ignore">
-        <input id="minYearInput" name="minYear">
-        <input id="maxYearInput" name="maxYear">
-        <input id="eventsInput" name="events">
-        <input id="minEcoInput" name="minEco">
-        <input id="maxEcoInput" name="maxEco">
-        <input id="baseInput" name="base">
-        <input id="searchingInput" name="searching">
-    </form>
     <div id="searchContainer">
         <div class="not_mobile" style="width: 30vw;background-color:#c3df5d;">
         </div>
@@ -27,8 +13,8 @@
                         wikipedii</li>
                     <li>
                         <ul>baza
-                            <li>Polska - turnieje głównie z Polski, ok 550 tys. , szybsza baza </li>
-                            <li>Całość - wszystkie partie, ok 9 mln, wolniejsza baza</li>
+                            <li>Polska - turnieje głównie z Polski, ok 600 tys. , szybsza baza </li>
+                            <li>Całość - wszystkie partie, ok 10 mln, wolniejsza baza</li>
                         </ul>
                     </li>
                     <li>

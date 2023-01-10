@@ -32,7 +32,7 @@ $data = array(
 
 $query = 'SELECT opening, 
 COUNT(*) as count, 
-Round(SUM(substring_index(Result,"-",1))/COUNT(*) *100,2) as percent
+Round(SUM(substring_index(REPLACE(Result, "1/2","0.5"),"-",1))/COUNT(*) *100,2) as percent
 FROM `all_games` 
 INNER JOIN eco
 on all_games.ECO = eco.ECO
@@ -50,7 +50,7 @@ while ($searching->fetch()) {
 
 $query = 'SELECT opening, 
 COUNT(*) as count, 
-Round(SUM(substring_index(Result,"-",1))/COUNT(*) *100,2) as percent
+Round(SUM(substring_index(REPLACE(Result, "1/2","0.5"),"-",1))/COUNT(*) *100,2) as percent
 FROM `all_games` 
 INNER JOIN eco
 on all_games.ECO = eco.ECO
