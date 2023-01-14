@@ -178,6 +178,9 @@ span {
   #board {
     grid-template-columns: none !important;
   }
+  move-number {
+    width: 5ex;
+  }
   move-number:not([data-value="1"]):before {
     content: "\A";
     white-space: pre;
@@ -185,6 +188,13 @@ span {
   move-number::after {
     content: "\09";
     white-space: pre;
+  }
+  .pgnvjs .moves > move {
+    display: inline-flex;
+  }
+  .pgnvjs .moves move san {
+    display: inline-flex;
+    width: 7ex;
   }
 }
 

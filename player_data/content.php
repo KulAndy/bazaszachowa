@@ -27,7 +27,7 @@
         str_replace(".", "", $basicName);
     $query = "SELECT max(WhiteElo) as maxElo FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(BlackElo) as maxElo FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
-    $pom = str_replace(".", "", $_GET['fullname'])  . "%";
+    $pom = str_replace(".", "", $_GET['fullname'])  . "_";
 
     $searching->bind_param('ssss', $fullname, $pom, $fullname, $pom);
     $searching->execute();

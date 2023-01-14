@@ -20,7 +20,7 @@ if (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) {
     $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
     $fullname = "+" . str_replace(" ", " +", $fullname);
     $basicName =
-        str_replace(".", "", $basicName) . "%";
+        str_replace(".", "", $basicName) . "_";
 } else {
     die("Brak zawodnika do wyszukania");
 }
