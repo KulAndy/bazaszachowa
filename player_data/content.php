@@ -27,9 +27,8 @@
         str_replace(".", "", $basicName);
     $query = "SELECT max(WhiteElo) as maxElo FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(BlackElo) as maxElo FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
-    $pom = str_replace(".", "", $_GET['fullname'])  . "_";
 
-    $searching->bind_param('ssss', $fullname, $pom, $fullname, $pom);
+    $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
     $searching->execute();
     $searching->store_result();
     $elo = false;
@@ -56,7 +55,7 @@
     }
     $query = "SELECT min(Year) as minYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT min(Year) as minYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
-    $searching->bind_param('ssss', $fullname, $pom, $fullname, $pom);
+    $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
     $searching->execute();
     $searching->store_result();
     $minY = null;
@@ -77,7 +76,6 @@
             $minY = $min;
         }
     }
-
 
     $query = "SELECT max(Year) as maxYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(Year) as maxYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
     $searching = $db->prepare($query);
