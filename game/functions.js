@@ -316,7 +316,7 @@ async function viewGame(data) {
     if (data.Month == null) {
       game += "?.";
     } else {
-      game += data.Month;
+      game += data.Month + ".";
     }
     if (data.Day == null) {
       game += '?"]\n';
