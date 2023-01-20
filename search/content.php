@@ -14,7 +14,7 @@
                     <li>
                         <ul>baza
                             <li>Polska - turnieje głównie z Polski, ok 600 tys. , szybsza baza </li>
-                            <li>Całość - wszystkie partie, ok 10 mln, wolniejsza baza</li>
+                            <li>Całość - wszystkie partie, ok 11 mln, wolniejsza baza</li>
                         </ul>
                     </li>
                     <li>

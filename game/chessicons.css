@@ -140,6 +140,10 @@ cg-board {
   cursor: auto !important;
 }
 
+move-number {
+  background-color: #f0f7d4 !important;
+}
+
 button,
 span {
   width: fit-content;
@@ -156,7 +160,7 @@ span {
 }
 
 #boardMoves {
-  overflow: auto;
+  height: auto;
   background-color: #f0f7d4;
 }
 
@@ -165,42 +169,51 @@ span {
   height: min(320px, 81vw);
 }
 
+#boardButton {
+  margin: 20px;
+}
 @media only screen and (min-width: 768px) {
   #boardMoves {
-    display: block;
-    margin: auto;
-    height: min(380px, 81vw);
+    height: min(320px, 81vw);
+    grid-column: 2/3;
+    grid-row: 3/5;
+    margin-left: 9.33333px;
   }
-  #boardButton {
-    margin-top: 0 !important;
-    place-self: normal !important;
+
+  .outerBoard {
+    grid-row: 3/4;
+    grid-column: 1/2;
   }
+
   #board {
-    grid-template-columns: none !important;
+    grid-template-rows: 0px auto minmax(auto, 360px) 34px !important;
+    grid-template-columns: 320px 192px !important;
   }
-  move-number {
-    width: 5ex;
-  }
-  move-number:not([data-value="1"]):before {
-    content: "\A";
-    white-space: pre;
-  }
-  move-number::after {
-    content: "\09";
-    white-space: pre;
+
+  .pgnvjs .moves.list > move,
+  .pgnvjs .moves.list .move.filler {
+    flex: 0 0 35%;
+    display: flex;
+    /* padding: 0 0.3em; */
+    white-space: nowrap;
   }
   .pgnvjs .moves > move {
-    display: inline-flex;
-  }
-  .pgnvjs .moves move san {
-    display: inline-flex;
-    width: 7ex;
+    display: inline-block;
   }
 }
 
 @media only screen and (max-width: 767px) {
   #boardMoves {
-    height: min(320px, 81vw);
+    height: fit-content;
+    grid-column: 1/2;
+    grid-row: 5/6;
+    margin-left: 0;
+    padding-bottom: 2.5em;
+  }
+  #board {
+    width: fit-content;
+    grid-template-rows: 0px auto minmax(auto, 360px) auto minmax(0px, 198.143px) auto;
+    grid-template-columns: 320px !important;
   }
 }
 
@@ -291,6 +304,8 @@ table {
 
 #content2 {
   margin: auto;
+  display: flex;
+  justify-content: center;
 }
 
 #content3 {

@@ -363,7 +363,8 @@ async function viewGame(data) {
       resizable: true,
       figurine: true,
       coordsFactor: 1.25,
-      // colorMarker: "cm-big",
+      notationLayout: "list",
+      showResult: true,
     });
   } else {
     pgnView("board", {
@@ -373,9 +374,21 @@ async function viewGame(data) {
       resizable: true,
       figurine: true,
       coordsFactor: 1.25,
+      showResult: true,
     });
   }
 
+  window.addEventListener("resize", function () {
+    if (window.screen.availWidth >= 768 && window.innerWidth >= 768) {
+      document.getElementById("boardMoves").className = "moves list";
+      document.getElementById("board").className =
+        "blue pgnvjs viewMode layout-left";
+    } else {
+      document.getElementById("boardMoves").className = "moves inline";
+      document.getElementById("board").className =
+        "blue pgnvjs viewMode layout-top";
+    }
+  });
   window.addEventListener("keydown", function (e) {
     if (e.ctrlKey) {
       switch (e.which) {
