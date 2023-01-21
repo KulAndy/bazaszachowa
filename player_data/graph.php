@@ -40,6 +40,7 @@ if (isset($_GET['name']) && !empty($_GET)) {
         str_replace(".", "", $fullname);
 
     $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
+    $fullname = str_replace("-", " ", $fullname);
 
     $fullname = "+" . str_replace(" ", " +", $fullname);
     $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND White like ?
@@ -126,7 +127,7 @@ if (isset($_GET['name']) && !empty($_GET)) {
             if (date_format($startDate, "Y-m") == date_format($currentDate, "Y-m")) {
                 imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
                 for ($j = 0; $j <= $eloRange; $j++) {
-                    imagestring($draw, 3, 5, $margin + $header + $k2 * $j, $maxGraphElo - $j * 50, $black);
+                    imagestring($draw, 4, 5, $margin + $header + $k2 * $j, $maxGraphElo - $j * 50, $black);
                     imagefilledrectangle($draw, $margin, $margin + $header + $k2 * $j, $margin + $k1 * $i, $margin + $header + $k2 * $j, $black);
                     $minPoint = $margin + $header + $k2 * $j;
                     imagefilledrectangle($draw, $margin, $heigth, $margin + $k1 * $i, $heigth, $black);

@@ -18,6 +18,7 @@
         $fullname =
             str_replace(".", "", $fullname);
         $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
+        $fullname = str_replace("-", " ", $fullname);
         $fullname = "+" . str_replace(" ", " +", $fullname);
     } else {
         die("Brak zawodnika do wyszukania");

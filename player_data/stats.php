@@ -18,6 +18,7 @@ if (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) {
     $fullname =
         str_replace(".", "", $fullname);
     $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
+    $fullname = str_replace("-", " ", $fullname);
     $fullname = "+" . str_replace(" ", " +", $fullname);
     $basicName =
         str_replace(".", "", $basicName) . "_";
@@ -65,5 +66,4 @@ $searching->bind_result($opening, $count, $percent);
 while ($searching->fetch()) {
     array_push($data["blacks"], [$opening, $count, $percent]);
 }
-
 echo json_encode($data);
