@@ -46,6 +46,7 @@ async function search(
         displayData(json.rows, base);
         return json.rows;
       } catch (err) {
+        console.log(err);
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();
@@ -53,7 +54,8 @@ async function search(
         let table = document.createElement("table");
         table.id = "table";
         let caption = document.createElement("caption");
-        caption.innerText = "Wystapił błąd";
+        caption.innerText =
+          "Wystapił błąd\nSpróbuj odświeżyć stronę (Ctrl + Shift + R), a jeśli to nie pomoże powiadom administratora o problemie";
         caption.style.width = "13em";
         table.append(caption);
         pre.append(table);

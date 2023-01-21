@@ -214,7 +214,7 @@ if (isset($_POST['searching'])) {
                 $query .= "null as White, null as Black, null as Result, null as WhiteElo, null as BlackElo, null as ECO";
             }
         }
-        $query = $query . " order BY year DESC,month DESC,day DESC limit 10000";
+        $query = $query . " order BY year DESC,month DESC,day DESC,Round desc, Event, White, Black limit 10000";
         if (isset($event)) {
             $searching = $db->prepare($query);
             if (isset($ignore) && $ignore == "true") {
@@ -318,7 +318,7 @@ if (isset($_POST['searching'])) {
                 array_push($toBind, "\$minEco", "\$maxEco");
             }
         }
-        $query = $query . " order BY year DESC,month DESC,day DESC limit 10000";
+        $query = $query . " order BY year DESC,month DESC,day DESC,Round desc, Event, White, Black limit 10000";
         $searching = $db->prepare($query);
         $toEval = "\$searching -> bind_param(\"";
         foreach ($toBind as $param) {

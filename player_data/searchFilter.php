@@ -29,24 +29,24 @@ if (isset($_POST['opening']) && !empty($_POST['opening'])) {
 if ($color == "white") {
     if (isset($opening) && !empty($opening)) {
         $query = "SELECT $table.id, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, $table.ECO FROM $table 
-INNER JOIN eco on $table.ECO = eco.ECO WHERE MATCH(White) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC";
+INNER JOIN eco on $table.ECO = eco.ECO WHERE MATCH(White) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('ss', $playerFullname, $opening);
     } else {
         $query = "SELECT id, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table 
-            WHERE MATCH(White) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC";
+            WHERE MATCH(White) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('s', $playerFullname);
     }
 } else if ($color == "black") {
     if (isset($opening) && !empty($opening)) {
         $query = "SELECT $table.id,  Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, $table.ECO FROM $table 
-INNER JOIN eco on $table.ECO = eco.ECO WHERE MATCH(Black) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC";
+INNER JOIN eco on $table.ECO = eco.ECO WHERE MATCH(Black) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('ss', $playerFullname, $opening);
     } else {
         $query = "SELECT id, Event,Site, Year,Month, Day,Round, White, Black, Result, WhiteElo, BlackElo, ECO FROM $table 
-            WHERE MATCH(Black) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC";
+            WHERE MATCH(Black) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('s', $playerFullname);
     }

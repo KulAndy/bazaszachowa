@@ -9,6 +9,8 @@ $draw = @imagecreate($width + $margin * 2, $heigth + $margin * 2);
 $white = imagecolorallocate($draw, 255, 255, 255);
 $black = imagecolorallocate($draw, 0, 0, 0);
 $blue = imagecolorallocate($draw, 0, 0, 255);
+$red = imagecolorallocate($draw, 255, 0, 0);
+$green = imagecolorallocate($draw, 0, 255, 0);
 $heigth += $header;
 
 
@@ -99,15 +101,25 @@ if (isset($_GET['name']) && !empty($_GET)) {
         $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
         $currentDate = date_create(date("Y") . "-" . date("m"));
         $i = 0;
+        $period = ceil(((int) date_diff($startDate, $currentDate)->format("%Y")) / 22);
         while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
             if (date_format($startDate, "m") == "01") {
-                imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
-                imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
+                if (((int) date_diff($startDate, $currentDate)->format("%Y")) % $period == 0) {
+                    imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
+                    if ($period > 1) {
+                        imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $green);
+                    } else {
+                        imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
+                    }
+                } else {
+                    imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
+                }
             } else if (date_format($startDate, "Y-m") == date_format(date_create($initialRating[1] . "-" . $initialRating[2]), "Y-m") && $initialRating[2] < 10) {
                 if ($initialRating[2] < 5) {
                     imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y-m"), $black);
                 } else {
-                    imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
+                    if ($period == 1)
+                        imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
                 }
             }
             date_add($startDate, date_interval_create_from_date_string("1 months"));
@@ -121,6 +133,9 @@ if (isset($_GET['name']) && !empty($_GET)) {
                 }
             }
             $i++;
+        }
+        if (date_format($startDate, "m") == "01") {
+            imagestring($draw, 2, $margin + $k1 * --$i, $heigth, date_format($startDate, "Y"), $black);
         }
 
         $currenPointX = $margin;

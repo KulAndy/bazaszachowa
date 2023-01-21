@@ -1,7 +1,11 @@
 <div id="content" style="width: fit-content;">
     <form method="post" style="text-align: center;" target="_self">
         <label for="name">Gracz</label>
-        <input type="text" id="name" name="name" placeholder="Nowak, Jan" required><br>
+        <input type="text" id="name" name="name" placeholder="Nowak, Jan" required <?php
+                                                                                    if (isset($_POST['name']) && !empty($_POST['name'])) {
+                                                                                        echo  "value='" . htmlentities($_POST['name']) . "'";
+                                                                                    }
+                                                                                    ?>><br>
         <input type="submit" value="szukaj">
     </form>
     <?php

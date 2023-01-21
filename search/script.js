@@ -20,7 +20,6 @@ window.addEventListener("resize", function () {
         "hidden";
     }
   } else {
-    console.log("dupa");
     document.getElementsByTagName("details")[0].open = true;
     document.getElementById("content").style.width = "fit-content";
     document.getElementById("right_content").style.width = "30vw";
