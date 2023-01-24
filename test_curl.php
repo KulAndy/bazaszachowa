@@ -29,7 +29,9 @@
         $output = curl_exec($ch);
         curl_close($ch);
 
-        $pattern = "#<tr>(<td.*>.*</td>)+.*(" . str_replace(",", "", $fullname) . ".*).*(<td.*>.*</td>)+</tr>#im";
+        $pattern = "#<tr>(<td.*>.*</td>)+(.*pers_id.*).*(<td.*>.*</td>)+</tr>#im";
+        // echo $pattern;
+
         preg_match_all($pattern, $output, $finded);
         foreach ($finded as &$hitArray) {
             if (empty($hitArray)) {

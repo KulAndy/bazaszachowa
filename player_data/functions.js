@@ -719,14 +719,14 @@ function displayCrData(data) {
   container.id = "cr-data";
   let tr1 = document.createElement("tr");
   let td1_1 = document.createElement("th");
-  td1_1.innerText = "kat:";
+  td1_1.innerText = "Kategoria:";
   let td1_2 = document.createElement("td");
   td1_2.innerText = data.kat;
   let td1_3 = document.createElement("td");
   let photo = document.createElement("img");
   photo.src = `http://www.cr-pzszach.pl/ew/ew/images/${data.id}.jpg`;
   photo.onerror = function () {
-    this.remove();
+    this.parentElement.remove();
   };
   photo.id = "cr-foto";
   td1_3.append(photo);

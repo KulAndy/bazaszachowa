@@ -16,7 +16,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $output = curl_exec($ch);
 curl_close($ch);
 
-$pattern = "#<tr>(<td.*>.*</td>)+.*(" . str_replace(",", "", $fullname) . ".*).*(<td.*>.*</td>)+</tr>#im";
+$pattern = "#<tr>(<td.*>.*</td>)+(.*pers_id.*).*(<td.*>.*</td>)+</tr>#im";
 preg_match_all($pattern, $output, $finded);
 foreach ($finded as &$hitArray) {
     if (empty($hitArray)) {
@@ -27,9 +27,6 @@ foreach ($finded as &$hitArray) {
             if (empty($hit)) {
                 echo $hit;
                 unset($hit);
-            } else {
-                // $hit = htmlentities(mb_convert_encoding($hit, 'UTF-8', 'ASCII'), ENT_SUBSTITUTE, "UTF-8");
-                // $hit = str_replace("&lt;/td&gt;", "&lt;/td&gt;<br />", $hit);
             }
         }
     }
