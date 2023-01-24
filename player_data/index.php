@@ -34,6 +34,12 @@ p[style='text-align: center;'] {
         width: min(95vw, 95vh) !important;
         height: min(95vw, 95vh) !important;
     }
+
+    #cr-foto {
+        width: 100px !important;
+        height: auto !important;
+    }
+
 }
 </style>
 <?php
