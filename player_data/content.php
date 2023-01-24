@@ -33,11 +33,12 @@
     $searching->execute();
     $searching->store_result();
     $elo = false;
+    echo '<div id="info">';
     if ($searching->num_rows == 1) {
         $searching->bind_result($maxElo);
         while ($searching->fetch()) {
             if ($maxElo != null) {
-                echo "<p>najwyższy osiągnięty ranking: $maxElo</p>";
+                echo "<p id='maxElo'>najwyższy osiągnięty ranking: $maxElo</p>";
                 $elo = true;
             }
         }
@@ -50,7 +51,7 @@
             }
         }
         if ($maxElo > 0) {
-            echo "<p>najwyższy osiągnięty ranking: $max</p>";
+            echo "<p id='maxElo'>najwyższy osiągnięty ranking: $max</p>";
             $elo = true;
         }
     }
@@ -105,7 +106,7 @@
         echo "<p>gry z lat: $minY - $maxY</p>";
     }
     ?>
-    <div id="info"></div>
+    </div>
     <table style='border: 0;'>
         <tr id="container" style='display:flex;'>
             <td id="stats" style='border: 0;'></td>

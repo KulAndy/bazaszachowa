@@ -687,3 +687,79 @@ function displayFilter(data) {
   }
   pre.append(table);
 }
+
+function loadCrData() {
+  // centralny rejestr pl
+  const xhttp2 = new XMLHttpRequest();
+  xhttp2.open("POST", "/player_data/cr_data.php", true);
+  let messenge = "fullname=" + encodeURIComponent(request.fullname);
+  xhttp2.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      try {
+        let json = JSON.parse(this.responseText);
+        if (document.getElementById("maxElo")) {
+          json = json.filter((elem) => {
+            return elem.fide_id > 0;
+          });
+        }
+
+        if (json.length == 1) {
+          displayCrData(json[0]);
+        }
+      } catch (err) {}
+    }
+  };
+
+  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp2.send(messenge);
+}
+
+function displayCrData(data) {
+  let container = document.createElement("table");
+  container.id = "cr-data";
+  let tr1 = document.createElement("tr");
+  let td1_1 = document.createElement("th");
+  td1_1.innerText = "kat:";
+  let td1_2 = document.createElement("td");
+  td1_2.innerText = data.kat;
+  let td1_3 = document.createElement("td");
+  let photo = document.createElement("img");
+  photo.src = `http://www.cr-pzszach.pl/ew/ew/images/${data.id}.jpg`;
+  photo.onerror = function () {
+    this.remove();
+  };
+  photo.id = "cr-foto";
+  td1_3.append(photo);
+  td1_3.rowSpan = "3";
+  tr1.append(td1_1);
+  tr1.append(td1_2);
+  tr1.append(td1_3);
+
+  let tr2 = document.createElement("tr");
+  let td2_1 = document.createElement("th");
+  td2_1.innerText = "CR ID:";
+  let td2_2 = document.createElement("td");
+  let crLink = document.createElement("a");
+  crLink.href = `http://www.cr-pzszach.pl/ew/viewpage.php?page_id=1&zwiazek=&typ_czlonka=&pers_id=${data.id}`;
+  crLink.innerText = data.id;
+  td2_2.append(crLink);
+  tr2.append(td2_1);
+  tr2.append(td2_2);
+
+  let tr3 = document.createElement("tr");
+  let td3_1 = document.createElement("th");
+  td3_1.innerText = "FIDE ID:";
+  let td3_2 = document.createElement("td");
+  let fideLink = document.createElement("a");
+  fideLink.href = `https://ratings.fide.com/profile/${data.fide_id}`;
+  fideLink.innerText = data.fide_id;
+  td3_2.append(fideLink);
+  tr3.append(td3_1);
+  tr3.append(td3_2);
+
+  container.append(tr1);
+  container.append(tr2);
+  container.append(tr3);
+
+  document.getElementById("info").append(container);
+}

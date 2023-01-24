@@ -46,7 +46,6 @@ async function search(
         displayData(json.rows, base);
         return json.rows;
       } catch (err) {
-        console.log(err);
         try {
           let rmTable = document.getElementById("table");
           rmTable.remove();

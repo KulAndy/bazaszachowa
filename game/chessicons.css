@@ -141,7 +141,7 @@ cg-board {
 }
 
 move-number {
-  background-color: #f0f7d4 !important;
+  background-color: var(--document_content_background) !important;
 }
 
 button,
@@ -161,7 +161,7 @@ span {
 
 #boardMoves {
   height: auto;
-  background-color: #f0f7d4;
+  background-color: var(--document_content_background);
 }
 
 #board {
@@ -189,12 +189,14 @@ span {
     grid-template-rows: 0px auto minmax(auto, 360px) 34px !important;
     grid-template-columns: 320px 192px !important;
   }
+  .pgnvjs .moves.list > move-number {
+    flex: 0 0 20% !important;
+  }
 
   .pgnvjs .moves.list > move,
   .pgnvjs .moves.list .move.filler {
     flex: 0 0 35%;
     display: flex;
-    /* padding: 0 0.3em; */
     white-space: nowrap;
   }
   .pgnvjs .moves > move {
@@ -218,6 +220,14 @@ span {
 }
 
 /* /////////////////////////////////////////////////////////////////////////////// */
+:root {
+  --document_background: #c3df5d;
+  --document_font_color: #b2d732;
+  --document_footer: #092834;
+  --documnt_link: #66b032;
+  --document_link_hover: #347b98;
+  --document_content_background: #f0f7d4;
+}
 
 * {
   word-break: break-all;
@@ -236,7 +246,7 @@ table {
 
 body {
   overflow-x: hidden;
-  background-color: #c3df5d;
+  background-color: var(--document_background);
   width: 100vw;
 }
 
@@ -248,14 +258,14 @@ footer {
   bottom: 0;
   width: 100vw;
   height: 2.5em;
-  background-color: #092834;
+  background-color: var(--document_footer);
   color: white;
   justify-content: center;
   z-index: 3;
 }
 
 footer * {
-  color: #b2d732;
+  color: var(--document_font_color);
   margin: 2px;
   padding: 1px;
 }
@@ -263,13 +273,13 @@ footer * {
 a {
   font-weight: bolder;
   text-decoration: none;
-  color: #66b032;
+  color: var(--documnt_link);
   margin: 2px;
   padding: 1px;
 }
 
 a:hover {
-  color: #347b98;
+  color: var(--document_link_hover);
 }
 
 p a {
@@ -283,8 +293,8 @@ nav {
   left: 0;
   top: 0;
   width: 100vw;
-  background-color: #092834;
-  color: #b2d732;
+  background-color: var(--document_footer);
+  color: var(--document_font_color);
   text-align: center;
   z-index: 3;
   align-items: center;
@@ -314,7 +324,7 @@ table {
 }
 
 #info {
-  background-color: #f0f7d4;
+  background-color: var(--document_content_background);
   width: fit-content;
   margin: auto;
 }

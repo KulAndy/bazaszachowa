@@ -14,6 +14,17 @@ p[style='text-align: center;'] {
     border: 1px solid black;
 }
 
+#cr-data {
+    margin-top: 25px !important;
+    margin-bottom: 25px !important;
+    text-align: left;
+}
+
+
+#cr-foto {
+    width: 100px;
+}
+
 @media only screen and (max-width: 767px) {
     #container {
         flex-direction: column;
