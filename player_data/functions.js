@@ -403,6 +403,7 @@ function displayStats(json) {
   whiteTableCell.colSpan = "4";
   whiteTableCell.style.padding = 0;
   let whiteDetails = document.createElement("details");
+  whiteDetails.classList.add("details");
   if (window.outerWidth >= 768) {
     whiteDetails.open = true;
   }
@@ -410,14 +411,13 @@ function displayStats(json) {
   let whiteSummary = document.createElement("summary");
   let whiteTable = document.createElement("table");
   let whiteFilter = document.createElement("a");
-  whiteFilter.classList.add("space");
   whiteFilter.target = "_self";
   whiteFilter.innerText = "filtruj";
   whiteFilter.href = `/player_data/?fullname=${encodeURIComponent(
     request.fullname
   )}&color=white&opening=`;
 
-  whiteSummary.innerHTML = "<b class='space'>Białe&nbsp;</b>";
+  whiteSummary.innerHTML = "<b>Białe</b>";
   whiteSummary.append(whiteFilter);
   whiteDetails.append(whiteTable);
   whiteDetails.append(whiteSummary);
@@ -451,7 +451,6 @@ function displayStats(json) {
   }
 
   let blackFilter = document.createElement("a");
-  blackFilter.classList.add("space");
   blackFilter.innerText = "filtruj";
   blackFilter.href = `/player_data/?fullname=${encodeURIComponent(
     request.fullname
@@ -463,13 +462,14 @@ function displayStats(json) {
   blackTableCell.colSpan = "4";
   blackTableCell.style.padding = 0;
   let blackDetails = document.createElement("details");
+  blackDetails.classList.add("details");
   if (window.outerWidth >= 768) {
     blackDetails.open = true;
   }
   let blackSummary = document.createElement("summary");
   let blackTable = document.createElement("table");
 
-  blackSummary.innerHTML = "<b class='space'>Czarne</b>";
+  blackSummary.innerHTML = "<b>Czarne</b>";
   blackSummary.append(blackFilter);
   blackDetails.append(blackTable);
   blackDetails.append(blackSummary);
@@ -752,6 +752,8 @@ function loadCrData() {
           ambigous.id = "ambigous";
           let description = document.createElement("summary");
           description.innerText = "inni znalezieni zawodnicy";
+          description.style.width = "fit-content";
+          description.style.margin = "auto";
           ambigous.append(description);
           info.append(ambigous);
           for (let i = 1; i < json.length; i++) {
