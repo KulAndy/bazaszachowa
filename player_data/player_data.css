@@ -1,0 +1,54 @@
+th {
+  border: 2px solid black !important;
+}
+
+p[style="text-align: center;"] {
+  border: 1px solid black;
+}
+
+details {
+  text-align: left;
+}
+
+summary {
+  font-family: "Courier New";
+}
+
+details table {
+  width: 100% !important;
+  border-collapse: collapse;
+}
+
+details td {
+  padding: 0;
+}
+.space {
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+}
+
+#cr-data {
+  margin-top: 25px !important;
+  margin-bottom: 25px !important;
+  text-align: left;
+}
+
+#cr-foto {
+  width: 100px;
+}
+
+@media only screen and (max-width: 767px) {
+  #container {
+    flex-direction: column;
+  }
+
+  img {
+    width: min(95vw, 95vh) !important;
+    height: min(95vw, 95vh) !important;
+  }
+
+  #cr-foto {
+    width: 100px !important;
+    height: auto !important;
+  }
+}

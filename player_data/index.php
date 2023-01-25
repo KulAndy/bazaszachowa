@@ -1,47 +1,7 @@
 <?php
 require '../header.php';
 ?>
-<style>
-th {
-    border: 2px solid black !important;
-}
-
-summary {
-    border: 1px solid black;
-}
-
-p[style='text-align: center;'] {
-    border: 1px solid black;
-}
-
-#cr-data {
-    margin-top: 25px !important;
-    margin-bottom: 25px !important;
-    text-align: left;
-}
-
-
-#cr-foto {
-    width: 100px;
-}
-
-@media only screen and (max-width: 767px) {
-    #container {
-        flex-direction: column;
-    }
-
-    img {
-        width: min(95vw, 95vh) !important;
-        height: min(95vw, 95vh) !important;
-    }
-
-    #cr-foto {
-        width: 100px !important;
-        height: auto !important;
-    }
-
-}
-</style>
+<link rel="stylesheet" href="/player_data/player_data.css">
 <?php
 include '../menu.php';
 ?>

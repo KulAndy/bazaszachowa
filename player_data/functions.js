@@ -397,21 +397,34 @@ function displayStats(json) {
   th4.innerText = "filtr";
   tr1.append(th1, th2, th3, th4);
   table.append(tr1);
-  let trWhite = document.createElement("tr");
-  let thWhite = document.createElement("th");
-  thWhite.innerText = "Białe";
-  thWhite.colSpan = 3;
-  let tdWhiteFilter = document.createElement("td");
+  let sum = 0;
+  let whiteTableRow = document.createElement("tr");
+  let whiteTableCell = document.createElement("td");
+  whiteTableCell.colSpan = "4";
+  whiteTableCell.style.padding = 0;
+  let whiteDetails = document.createElement("details");
+  if (window.outerWidth >= 768) {
+    whiteDetails.open = true;
+  }
+
+  let whiteSummary = document.createElement("summary");
+  let whiteTable = document.createElement("table");
   let whiteFilter = document.createElement("a");
+  whiteFilter.classList.add("space");
   whiteFilter.target = "_self";
   whiteFilter.innerText = "filtruj";
   whiteFilter.href = `/player_data/?fullname=${encodeURIComponent(
     request.fullname
   )}&color=white&opening=`;
-  tdWhiteFilter.append(whiteFilter);
-  trWhite.append(thWhite, tdWhiteFilter);
-  table.append(trWhite);
-  let sum = 0;
+
+  whiteSummary.innerHTML = "<b class='space'>Białe&nbsp;</b>";
+  whiteSummary.append(whiteFilter);
+  whiteDetails.append(whiteTable);
+  whiteDetails.append(whiteSummary);
+  whiteTableCell.append(whiteDetails);
+  whiteTableRow.append(whiteTableCell);
+  table.append(whiteTableRow);
+
   for (let i = 0; i < json.whites.length; i++) {
     let tr = document.createElement("tr");
     let td1 = document.createElement("td");
@@ -434,24 +447,35 @@ function displayStats(json) {
     tr.append(td2);
     tr.append(td3);
     tr.append(td4);
-    table.append(tr);
+    whiteTable.append(tr);
   }
 
-  let trBlack = document.createElement("tr");
-  let thBlack = document.createElement("th");
-  thBlack.innerText = "Czarne";
-  thBlack.colSpan = 3;
-  let tdBlackFilter = document.createElement("td");
   let blackFilter = document.createElement("a");
+  blackFilter.classList.add("space");
   blackFilter.innerText = "filtruj";
   blackFilter.href = `/player_data/?fullname=${encodeURIComponent(
     request.fullname
   )}&color=black&opening=`;
   blackFilter.target = "_self";
 
-  tdBlackFilter.append(blackFilter);
-  trBlack.append(thBlack, tdBlackFilter);
-  table.append(trBlack);
+  let blackTableRow = document.createElement("tr");
+  let blackTableCell = document.createElement("td");
+  blackTableCell.colSpan = "4";
+  blackTableCell.style.padding = 0;
+  let blackDetails = document.createElement("details");
+  if (window.outerWidth >= 768) {
+    blackDetails.open = true;
+  }
+  let blackSummary = document.createElement("summary");
+  let blackTable = document.createElement("table");
+
+  blackSummary.innerHTML = "<b class='space'>Czarne</b>";
+  blackSummary.append(blackFilter);
+  blackDetails.append(blackTable);
+  blackDetails.append(blackSummary);
+  blackTableCell.append(blackDetails);
+  blackTableRow.append(blackTableCell);
+  table.append(blackTableRow);
 
   for (let i = 0; i < json.blacks.length; i++) {
     let tr = document.createElement("tr");
@@ -474,7 +498,7 @@ function displayStats(json) {
     tr.append(td2);
     tr.append(td3);
     tr.append(td4);
-    table.append(tr);
+    blackTable.append(tr);
   }
   let trSum = document.createElement("tr");
   let tdSum1 = document.createElement("td");
@@ -704,7 +728,35 @@ function loadCrData() {
         }
 
         if (json.length == 1) {
-          displayCrData(json[0]);
+          displayCrData("info", json[0]);
+        } else {
+          let info = document.getElementById("info");
+          let ambigousAlert = document.createElement("h3");
+          ambigousAlert.id = "ambigousAlert";
+          ambigousAlert.innerHTML =
+            "<span style='color:red;'>UWAGA: Znaleziono więcej niż jednego zawodnika o tym nazwisku</span>\
+            <br />najbardziej prawdopodobne:";
+          info.append(ambigousAlert);
+
+          json.forEach((element) => {});
+          json.sort((a, b) =>
+            categoryToRanking(a.kat) < categoryToRanking(b.kat)
+              ? 1
+              : categoryToRanking(b.kat) < categoryToRanking(a.kat)
+              ? -1
+              : 0
+          );
+
+          displayCrData("info", json[0]);
+          let ambigous = document.createElement("details");
+          ambigous.id = "ambigous";
+          let description = document.createElement("summary");
+          description.innerText = "inni znalezieni zawodnicy";
+          ambigous.append(description);
+          info.append(ambigous);
+          for (let i = 1; i < json.length; i++) {
+            displayCrData("ambigous", json[i]);
+          }
         }
       } catch (err) {}
     }
@@ -714,12 +766,17 @@ function loadCrData() {
   xhttp2.send(messenge);
 }
 
-function displayCrData(data) {
+function displayCrData(containerID, data) {
+  let container = crateTableData(data);
+  document.getElementById(containerID).append(container);
+}
+
+function crateTableData(data) {
   let container = document.createElement("table");
   container.id = "cr-data";
   let tr1 = document.createElement("tr");
   let td1_1 = document.createElement("th");
-  td1_1.innerText = "Kategoria:";
+  td1_1.innerText = "Tytuł/Kat.:";
   let td1_2 = document.createElement("td");
   td1_2.innerText = data.kat;
   let td1_3 = document.createElement("td");
@@ -760,6 +817,52 @@ function displayCrData(data) {
   container.append(tr1);
   container.append(tr2);
   container.append(tr3);
+  return container;
+}
 
-  document.getElementById("info").append(container);
+function categoryToRanking(category) {
+  switch (category.toUpperCase()) {
+    case "GM":
+      return 2600;
+    case "IM":
+      return 2450;
+    case "WGM":
+      return 2400;
+    case "M":
+      return 2400;
+    case "FM":
+      return 2300;
+    case "K++":
+      return 2300;
+    case "K+":
+      return 2275;
+    case "WIM":
+      return 2250;
+    case "CM":
+      return 2200;
+    case "K":
+      return 2200;
+    case "WFM":
+      return 2100;
+    case "I++":
+      return 2100;
+    case "I+":
+      return 2075;
+    case "WCM":
+      return 2050;
+    case "I":
+      return 2000;
+    case "II+":
+      return 1900;
+    case "II":
+      return 1800;
+    case "III":
+      return 1600;
+    case "IV":
+      return 1250;
+    case "V":
+      return 1200;
+    default:
+      return 1000;
+  }
 }
