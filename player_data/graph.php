@@ -43,10 +43,16 @@ if (isset($_GET['name']) && !empty($_GET)) {
     $fullname = str_replace("-", " ", $fullname);
 
     $fullname = "+" . str_replace(" ", " +", $fullname);
-    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table WHERE MATCH(White) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND White like ?
-        UNION DISTINCT
-        SELECT BlackElo as Elo, Year, Month  FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Month is not null AND BlackElo is not null AND Black like ?
-        ORDER by Year,Month";
+    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table 
+INNER JOIN $players_table
+on WhiteID = $players_table.id
+WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND $players_table.fullname like ?
+UNION DISTINCT
+SELECT BlackElo as Elo, Year, Month FROM $table 
+INNER JOIN $players_table
+on BlackID = $players_table.id
+WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not null AND BlackElo is not null AND $players_table.fullname like ?
+ORDER by Year, Month";
     $searching = $db->prepare($query);
     $searching->bind_param('ssss', $fullname, $_GET['name'], $fullname, $_GET['name']);
     $searching->execute();

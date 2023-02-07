@@ -541,7 +541,7 @@ async function filter(player, color, opening) {
         // console.log(json);
         return json.rows;
       } catch (err) {
-        // console.log(this.responseText);
+        // console.log(this.resORDER by Year, MonthponseText);
       }
     }
   };
