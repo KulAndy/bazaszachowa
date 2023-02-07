@@ -1,7 +1,4 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
 
 require 'login_data.php';
 @$db = new mysqli($host, $user, $password, $base);
@@ -490,6 +487,6 @@ while ($row = $result->fetch_assoc()) {
         }
     }
 }
-// $data['debbug'] = $_REQUEST;
+
 print_r(json_encode($data));
 $db->close();
