@@ -36,7 +36,7 @@ if ($color == "white") {
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
         INNER JOIN eco on $table.ECO = eco.ECO 
-        WHERE match(t1.fullname) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
+        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[player]' AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('ss', $playerFullname, $opening);
     } else {
@@ -45,7 +45,7 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        WHERE match(t1.fullname) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
+        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[player]' order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('s', $playerFullname);
     }
@@ -57,7 +57,7 @@ if ($color == "white") {
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
         INNER JOIN eco on $table.ECO = eco.ECO 
-        WHERE match(t2.fullname) against(? in boolean mode) AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
+        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[player]' AND opening like ? order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('ss', $playerFullname, $opening);
     } else {
@@ -66,7 +66,7 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        WHERE match(t2.fullname) against(? in boolean mode) order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
+        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[player]' order by Year DESC, Month DESC, Day DESC,Round desc, Event, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('s', $playerFullname);
     }

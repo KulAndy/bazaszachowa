@@ -806,20 +806,22 @@ function crateTableData(data) {
   tr2.append(td2_1);
   tr2.append(td2_2);
 
-  let tr3 = document.createElement("tr");
-  let td3_1 = document.createElement("th");
-  td3_1.innerText = "FIDE ID:";
-  let td3_2 = document.createElement("td");
-  let fideLink = document.createElement("a");
-  fideLink.href = `https://ratings.fide.com/profile/${data.fide_id}`;
-  fideLink.innerText = data.fide_id;
-  td3_2.append(fideLink);
-  tr3.append(td3_1);
-  tr3.append(td3_2);
-
   container.append(tr1);
   container.append(tr2);
-  container.append(tr3);
+  if (data.fide_id > 0) {
+    let tr3 = document.createElement("tr");
+    let td3_1 = document.createElement("th");
+    td3_1.innerText = "FIDE ID:";
+    let td3_2 = document.createElement("td");
+    let fideLink = document.createElement("a");
+    fideLink.href = `https://ratings.fide.com/profile/${data.fide_id}`;
+    fideLink.innerText = data.fide_id;
+    td3_2.append(fideLink);
+    tr3.append(td3_1);
+    tr3.append(td3_2);
+    container.append(tr3);
+  }
+
   return container;
 }
 

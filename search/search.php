@@ -126,7 +126,6 @@ if (isset($_POST['searching'])) {
             }
             $blacks = array_unique($blacks);
         }
-        $toBind = array();
         $query = "";
         if (isset($white) && isset($black)) {
             if (sizeof($whites) > 0 && sizeof($blacks) > 0) {
@@ -320,9 +319,9 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white))))
                     )
                 );
-                $query = $query . " match(t1.fullname) against(? in boolean mode) ";
+                $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[white]' ";
             } else {
-                $query = $query . " match(t1.fullname) against(?) ";
+                $query = $query . " match(t1.fullname) against(?) AND t1.fullname like '$_POST[white]' ";
             }
             array_push($toBind, "\$white");
         }
@@ -341,9 +340,9 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black))))
                     )
                 );
-                $query = $query . " match(t2.fullname) against(? in boolean mode) ";
+                $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[black]' ";
             } else {
-                $query = $query . " match(t2.fullname) against(?) ";
+                $query = $query . " match(t2.fullname) against(?) AND t2.fullname like '$_POST[black]' ";
             }
             array_push($toBind, "\$black");
         }
@@ -382,9 +381,9 @@ if (isset($_POST['searching'])) {
                     str_replace(".", "", $white);
                 $white = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $white);
                 if (sizeof(explode(" ", $white)) > 1) {
-                    $query = $query . " match(t2.fullname) against(? in boolean mode) ";
+                    $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[white]' ";
                 } else {
-                    $query = $query . " match(t2.fullname) against(?) ";
+                    $query = $query . " match(t2.fullname) against(?) AND t2.fullname like '$_POST[white]' ";
                 }
                 array_push($toBind, "\$white");
             }
@@ -397,9 +396,9 @@ if (isset($_POST['searching'])) {
                 }
 
                 if (sizeof(explode(" ", $black)) > 1) {
-                    $query = $query . " match(t1.fullname) against(? in boolean mode) ";
+                    $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[black]' ";
                 } else {
-                    $query = $query . " match(t1.fullname) against(?) ";
+                    $query = $query . " match(t1.fullname) against(?) AND t1.fullname like '$_POST[black]' ";
                 }
                 array_push($toBind, "\$black");
             }
