@@ -24,7 +24,6 @@ $query = "SELECT
     inner join $players_table as t1 on WhiteID = t1.id 
     inner join $players_table as t2 on BlackID = t2.id                         
     WHERE $table.id = ?";
-echo "$query\n $id";
 $searching = $db->prepare($query);
 $searching->bind_param("i", $id);
 $searching->execute();
