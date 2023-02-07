@@ -538,10 +538,10 @@ async function filter(player, color, opening) {
       try {
         let json = JSON.parse(this.responseText);
         displayFilter(json);
-        console.log(json);
+        // console.log(json);
         return json.rows;
       } catch (err) {
-        console.log(this.responseText);
+        // console.log(this.responseText);
       }
     }
   };
@@ -703,9 +703,7 @@ function displayFilter(data) {
     td10.innerHTML =
       "<button><a style='color: black;' href='/game_raw/?id=" +
       data[i].id +
-      "&table=" +
-      data[i].table +
-      "'>zobacz</a></button>";
+      "&table=all'>zobacz</a></button>";
     td10.classList.add("not_mobile");
     for (let i = 1; i <= 10; i++) {
       eval("tr.append(td" + i + ")");

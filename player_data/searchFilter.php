@@ -14,6 +14,8 @@ if (mysqli_connect_errno()) {
 
 $db->set_charset("utf8");
 
+$data['base'] = $_POST['base'];
+
 if (isset($_POST['player']) && !empty($_POST['player'])) {
     $playerBasic = $_POST['player'];
     $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerBasic)))));

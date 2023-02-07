@@ -15,7 +15,6 @@ $data = array(
 );
 
 $data['base'] = $_POST['base'];
-$data["debbug"] = [];
 
 if (isset($_POST['white']) && !empty($_POST['white'])) {
     $white = $_POST['white'];
