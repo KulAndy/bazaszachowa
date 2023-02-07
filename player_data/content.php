@@ -26,7 +26,17 @@
     echo "<h1 style='margin: 0;margin-bottom: 0.4em;'>$basicName</h1>";
     $basicName =
         str_replace(".", "", $basicName);
-    $query = "SELECT max(WhiteElo) as maxElo FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(BlackElo) as maxElo FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
+    $query = "SELECT max(WhiteElo) as maxElo 
+    FROM $table 
+    inner join $players_table as t1 on WhiteID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? 
+    UNION 
+    SELECT max(BlackElo) as maxElo 
+    FROM $table 
+    inner join $players_table as t1 on BlackID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? ";
     $searching = $db->prepare($query);
 
     $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
@@ -55,7 +65,17 @@
             $elo = true;
         }
     }
-    $query = "SELECT min(Year) as minYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT min(Year) as minYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
+    $query = "SELECT min(Year) as minYear 
+    FROM $table 
+    inner join $players_table as t1 on WhiteID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? 
+    UNION 
+    SELECT min(Year) as minYear 
+    FROM $table 
+    inner join $players_table as t1 on BlackID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? ";
     $searching = $db->prepare($query);
     $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
     $searching->execute();
@@ -79,7 +99,17 @@
         }
     }
 
-    $query = "SELECT max(Year) as maxYear FROM $table WHERE MATCH(White) against(? in boolean mode) AND White like ? UNION SELECT max(Year) as maxYear FROM $table WHERE MATCH(Black) against(? in boolean mode) AND Black like ?";
+    $query = "SELECT max(Year) as maxYear 
+    FROM $table 
+    inner join $players_table as t1 on WhiteID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? 
+    UNION 
+    SELECT min(Year) as minYear 
+    FROM $table 
+    inner join $players_table as t1 on BlackID = t1.id 
+    WHERE MATCH(t1.fullname) against(? in boolean mode) 
+    AND t1.fullname like ? ";
     $searching = $db->prepare($query);
     $searching->bind_param('ssss', $fullname, $_GET['fullname'], $fullname, $_GET['fullname']);
     $searching->execute();

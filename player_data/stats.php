@@ -31,15 +31,17 @@ $data = array(
     "blacks" => []
 );
 
-$query = 'SELECT opening, 
+$query = "SELECT opening, 
 COUNT(*) as count, 
-Round(SUM(substring_index(REPLACE(Result, "1/2","0.5"),"-",1))/COUNT(*) *100,2) as percent
-FROM `all_games` 
+Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) as percent
+FROM $table 
+inner join $players_table as t1 on WhiteID = t1.id 
 INNER JOIN eco
 on all_games.ECO = eco.ECO
-WHERE MATCH(White) against(? in boolean mode) AND White like ?
+WHERE MATCH(t1.fullname) against(? in boolean mode) 
+AND t1.fullname like ? 
 GROUP BY opening
-ORDER by COUNT(*) DESC, opening';
+ORDER by COUNT(*) DESC, opening";
 $searching = $db->prepare($query);
 $searching->bind_param('ss', $fullname, $_REQUEST['fullname']);
 $searching->execute();
@@ -49,15 +51,18 @@ while ($searching->fetch()) {
     array_push($data["whites"], [$opening, $count, $percent]);
 }
 
-$query = 'SELECT opening, 
+$query = "SELECT opening, 
 COUNT(*) as count, 
-Round(SUM(substring_index(REPLACE(Result, "1/2","0.5"),"-",1))/COUNT(*) *100,2) as percent
-FROM `all_games` 
+Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) as percent
+FROM $table 
+inner join $players_table as t1 on BlackID = t1.id 
 INNER JOIN eco
 on all_games.ECO = eco.ECO
-WHERE MATCH(Black) against(? in boolean mode) AND Black like ?
+WHERE MATCH(t1.fullname) against(? in boolean mode) 
+AND t1.fullname like ? 
 GROUP BY opening
-ORDER by COUNT(*) DESC, opening';
+ORDER by COUNT(*) DESC, opening";
+$searching = $db->prepare($query);
 $searching = $db->prepare($query);
 $searching->bind_param('ss', $fullname, $_REQUEST['fullname']);
 $searching->execute();
