@@ -134,14 +134,16 @@ if (isset($_POST['searching'])) {
                 foreach ($whites as $white) {
                     foreach ($blacks as $black) {
                         if ($white != $whites[0] || $black != $blacks[0]) {
-                            $query .= "\nUNION distinct\n";
+                            $query .= "
+                            UNION distinct
+                            ";
                         }
                         $updateQuery = "\$query .= 'SELECT 
                         $table.id, moves, Event,Site, Year,Month, Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
-                        WHERE match(white) against(\'+$white\' in boolean mode) and match(black) against(\'+$black\' in boolean mode)' ;";
+                        WHERE match(t1.fullname) against(\'+$white\' in boolean mode) and match(t2.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear)) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -164,7 +166,7 @@ if (isset($_POST['searching'])) {
                             FROM $table 
                             inner join $players_table as t1 on WhiteID = t1.id 
                             inner join $players_table as t2 on BlackID = t2.id 
-                            WHERE match(white) against(\'+$black\' in boolean mode) and match(black) against(\'+$white\' in boolean mode)' ;";
+                            WHERE match(t1.fullname) against(\'+$black\' in boolean mode) and match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                                 $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -186,14 +188,16 @@ if (isset($_POST['searching'])) {
             if (sizeof($whites) > 0) {
                 foreach ($whites as $white) {
                     if ($white != $whites[0]) {
-                        $query .= "\nUNION distinct\n";
+                        $query .= "
+                        UNION distinct
+                        ";
                     }
                     $updateQuery = "\$query .= 'SELECT 
                     $table.id, moves, Event,Site, Year,Month, Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
-                    WHERE match(white) against(\"+$white\" in boolean mode)' ;";
+                    WHERE match(t1.fullname) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -215,7 +219,7 @@ if (isset($_POST['searching'])) {
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
-                        WHERE match(black) against(\'+$white\' in boolean mode)' ;";
+                        WHERE match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -245,7 +249,7 @@ if (isset($_POST['searching'])) {
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
-                    WHERE match(black) against(\"+$black\" in boolean mode)' ;";
+                    WHERE match(t2.fullname) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                         $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -267,7 +271,7 @@ if (isset($_POST['searching'])) {
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id                         
-                        WHERE match(white) against(\'+$black\' in boolean mode)' ;";
+                        WHERE match(t1.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                             $query = $query . " and Year BETWEEN $minYear and $maxYear ";
@@ -317,9 +321,9 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white))))
                     )
                 );
-                $query = $query . " match(white) against(? in boolean mode) ";
+                $query = $query . " match(t1.fullname) against(? in boolean mode) ";
             } else {
-                $query = $query . " match(white) against(?) ";
+                $query = $query . " match(t1.fullname) against(?) ";
             }
             array_push($toBind, "\$white");
         }
@@ -338,9 +342,9 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black))))
                     )
                 );
-                $query = $query . " match(black) against(? in boolean mode) ";
+                $query = $query . " match(t2.fullname) against(? in boolean mode) ";
             } else {
-                $query = $query . " match(black) against(?) ";
+                $query = $query . " match(t2.fullname) against(?) ";
             }
             array_push($toBind, "\$black");
         }
@@ -379,9 +383,9 @@ if (isset($_POST['searching'])) {
                     str_replace(".", "", $white);
                 $white = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $white);
                 if (sizeof(explode(" ", $white)) > 1) {
-                    $query = $query . " match(black) against(? in boolean mode) ";
+                    $query = $query . " match(t2.fullname) against(? in boolean mode) ";
                 } else {
-                    $query = $query . " match(black) against(?) ";
+                    $query = $query . " match(t2.fullname) against(?) ";
                 }
                 array_push($toBind, "\$white");
             }
@@ -394,9 +398,9 @@ if (isset($_POST['searching'])) {
                 }
 
                 if (sizeof(explode(" ", $black)) > 1) {
-                    $query = $query . " match(white) against(? in boolean mode) ";
+                    $query = $query . " match(t1.fullname) against(? in boolean mode) ";
                 } else {
-                    $query = $query . " match(white) against(?) ";
+                    $query = $query . " match(t1.fullname) against(?) ";
                 }
                 array_push($toBind, "\$black");
             }

@@ -116,7 +116,7 @@ table {
   --document_footer: #092834;
   --documnt_link: #66b032;
   --document_link_hover: #347b98;
-  --document_content_background:#f0f7d4
+  --document_content_background: #f0f7d4;
 }
 * {
   max-width: 100vw;
@@ -187,6 +187,10 @@ td {
   border: solid black 2px;
   border-collapse: collapse;
   word-wrap: anywhere;
+}
+
+button {
+  overflow-wrap: break-word;
 }
 
 caption ~ tr th {

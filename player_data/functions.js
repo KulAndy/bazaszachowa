@@ -538,8 +538,11 @@ async function filter(player, color, opening) {
       try {
         let json = JSON.parse(this.responseText);
         displayFilter(json);
+        console.log(json);
         return json.rows;
-      } catch (err) {}
+      } catch (err) {
+        console.log(this.responseText);
+      }
     }
   };
   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
