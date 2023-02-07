@@ -19,7 +19,12 @@
         die("Nie podano partii do wyświetlenia");
     }
 
-    $query = "SELECT * FROM $table WHERE id = ?";
+    $query = "SELECT 
+    $table.id, moves, Event,Site, Year,Month, Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+    FROM $table 
+    inner join $players_table as t1 on WhiteID = t1.id 
+    inner join $players_table as t2 on BlackID = t2.id                         
+    WHERE $table.id = ?";
     $searching = $db -> prepare($query);
     $searching -> bind_param("i", $id );
     $searching -> execute();
@@ -57,5 +62,3 @@
     }
 
     $db -> close();
-
-?>
