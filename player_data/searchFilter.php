@@ -31,7 +31,7 @@ if (isset($_POST['opening']) && !empty($_POST['opening'])) {
 if ($color == "white") {
     if (isset($opening) && !empty($opening)) {
         $query = "SELECT 
-        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, $table.ECO   
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
@@ -54,7 +54,7 @@ if ($color == "white") {
 } else if ($color == "black") {
     if (isset($opening) && !empty($opening)) {
         $query = "SELECT 
-        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, $table.ECO   
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
