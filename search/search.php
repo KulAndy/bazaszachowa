@@ -137,11 +137,13 @@ if (isset($_POST['searching'])) {
                             ";
                         }
                         $updateQuery = "\$query .= 'SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
                         inner join $events_table on $table.EventID = $events_table.id
+                        inner join $rounds_table on $table.RoundID = $rounds_table.id
+                        inner join $results_table on $table.ResultID = $results_table.id
                         WHERE match(t1.fullname) against(\'+$white\' in boolean mode) and match(t2.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear)) {
@@ -161,11 +163,13 @@ if (isset($_POST['searching'])) {
                             $updateQuery = "\$query .= '
                             UNION distinct
                             SELECT 
-                            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                             FROM $table 
                             inner join $players_table as t1 on WhiteID = t1.id 
                             inner join $players_table as t2 on BlackID = t2.id 
                             inner join $events_table on $table.EventID = $events_table.id
+                            inner join $rounds_table on $table.RoundID = $rounds_table.id
+                            inner join $results_table on $table.ResultID = $results_table.id
                             WHERE match(t1.fullname) against(\'+$black\' in boolean mode) and match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -193,11 +197,13 @@ if (isset($_POST['searching'])) {
                         ";
                     }
                     $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
                     inner join $events_table on $table.EventID = $events_table.id
+                    inner join $rounds_table on $table.RoundID = $rounds_table.id
+                    inner join $results_table on $table.ResultID = $results_table.id
                     WHERE match(t1.fullname) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -216,11 +222,13 @@ if (isset($_POST['searching'])) {
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
                         inner join $events_table on $table.EventID = $events_table.id
+                        inner join $rounds_table on $table.RoundID = $rounds_table.id
+                        inner join $results_table on $table.ResultID = $results_table.id
                         WHERE match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -247,11 +255,13 @@ if (isset($_POST['searching'])) {
                         ";
                     }
                     $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
                     inner join $events_table on $table.EventID = $events_table.id
+                    inner join $rounds_table on $table.RoundID = $rounds_table.id
+                    inner join $results_table on $table.ResultID = $results_table.id
                     WHERE match(t2.fullname) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -270,11 +280,13 @@ if (isset($_POST['searching'])) {
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
                         inner join $events_table on $table.EventID = $events_table.id
+                        inner join $rounds_table on $table.RoundID = $rounds_table.id
+                        inner join $results_table on $table.ResultID = $results_table.id
                         WHERE match(t1.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
