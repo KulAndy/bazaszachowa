@@ -137,7 +137,7 @@ if (isset($_POST['searching'])) {
                             ";
                         }
                         $updateQuery = "\$query .= 'SELECT 
-                        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
@@ -161,7 +161,7 @@ if (isset($_POST['searching'])) {
                             $updateQuery = "\$query .= '
                             UNION distinct
                             SELECT 
-                            $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                             FROM $table 
                             inner join $players_table as t1 on WhiteID = t1.id 
                             inner join $players_table as t2 on BlackID = t2.id 
@@ -181,7 +181,7 @@ if (isset($_POST['searching'])) {
                     }
                 }
             } else {
-                $query = "SELECT null as id, null as moves, null as Event,null as Site, null as Year, null as Month, null as Day, null as Round,";
+                $query = "SELECT null as id, null as moves, null as Event,null as  null as Year, null as Month, null as Day, null as Round,";
                 $query .= "null as White, null as Black, null as Result, null as WhiteElo, null as BlackElo, null as ECO";
             }
         } else if (isset($white)) {
@@ -193,7 +193,7 @@ if (isset($_POST['searching'])) {
                         ";
                     }
                     $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
@@ -216,7 +216,7 @@ if (isset($_POST['searching'])) {
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
-                        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
@@ -235,7 +235,7 @@ if (isset($_POST['searching'])) {
                     }
                 }
             } else {
-                $query = "SELECT null as id, null as moves, null as Event,null as Site, null as Year, null as Month, null as Day, null as Round,";
+                $query = "SELECT null as id, null as moves, null as Event,null as  null as Year, null as Month, null as Day, null as Round,";
                 $query .= "null as White, null as Black, null as Result, null as WhiteElo, null as BlackElo, null as ECO";
             }
         } else if (isset($black)) {
@@ -247,7 +247,7 @@ if (isset($_POST['searching'])) {
                         ";
                     }
                     $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
@@ -270,7 +270,7 @@ if (isset($_POST['searching'])) {
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
-                        $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
                         inner join $players_table as t1 on WhiteID = t1.id 
                         inner join $players_table as t2 on BlackID = t2.id 
@@ -289,11 +289,11 @@ if (isset($_POST['searching'])) {
                     }
                 }
             } else {
-                $query = "SELECT null as id, null as moves, null as Event,null as Site, null as Year, null as Month, null as Day, null as Round,";
+                $query = "SELECT null as id, null as moves, null as Event,null as  null as Year, null as Month, null as Day, null as Round,";
                 $query .= "null as White, null as Black, null as Result, null as WhiteElo, null as BlackElo, null as ECO";
             }
         }
-        $query = $query . " order BY year DESC,month DESC,day DESC,Round desc, Event, White, Black limit 10000";
+        $query = $query . " order BY year DESC,month DESC,day DESC,Event, Round desc, White, Black limit 10000";
         if (isset($event)) {
             $searching = $db->prepare($query);
             if (isset($ignore) && $ignore == "true") {
@@ -308,7 +308,7 @@ if (isset($_POST['searching'])) {
         }
     } else if ($_POST['searching'] == 'fulltext') {
         $query = "SELECT                         
-                    $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
@@ -378,7 +378,7 @@ if (isset($_POST['searching'])) {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION DISTINCT
             SELECT 
-            $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
             FROM $table 
             inner join $players_table as t1 on WhiteID = t1.id 
             inner join $players_table as t2 on BlackID = t2.id 
@@ -432,7 +432,7 @@ if (isset($_POST['searching'])) {
                 array_push($toBind, "\$minEco", "\$maxEco");
             }
         }
-        $query = $query . " order BY year DESC,month DESC,day DESC,Round desc, Event, White, Black limit 10000";
+        $query = $query . " order BY year DESC,month DESC,day DESC,Event,Round desc, White, Black limit 10000";
         $searching = $db->prepare($query);
         $toEval = "\$searching -> bind_param(\"";
         foreach ($toBind as $param) {
