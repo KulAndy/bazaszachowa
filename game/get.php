@@ -15,15 +15,16 @@ if (isset($_POST['id']) && !empty($_POST['id'])) {
 }
 $data = array(
     "rows" => array()
-    // "debbug" => array()
 );
 
 $query = "SELECT 
-    $table.id, moves, Event,Site, Year,Month, Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+    $table.id, moves, $events_table.name as Event,Site, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
     FROM $table 
     inner join $players_table as t1 on WhiteID = t1.id 
-    inner join $players_table as t2 on BlackID = t2.id                         
+    inner join $players_table as t2 on BlackID = t2.id 
+    inner join $events_table on $table.EventID = $events_table.id
     WHERE $table.id = ?";
+
 $searching = $db->prepare($query);
 $searching->bind_param("i", $id);
 $searching->execute();
