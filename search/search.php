@@ -320,11 +320,13 @@ if (isset($_POST['searching'])) {
         }
     } else if ($_POST['searching'] == 'fulltext') {
         $query = "SELECT                         
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
                     inner join $players_table as t1 on WhiteID = t1.id 
                     inner join $players_table as t2 on BlackID = t2.id 
                     inner join $events_table on $table.EventID = $events_table.id
+                    inner join $rounds_table on $table.RoundID = $rounds_table.id
+                    inner join $results_table on $table.ResultID = $results_table.id
                     WHERE ";
         $toBind = array();
         if (isset($white)) {
@@ -338,11 +340,11 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white))))
                     )
                 );
-                $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[white]' ";
+                $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
             } else {
-                $query = $query . " match(t1.fullname) against(?) AND t1.fullname like '$_POST[white]' ";
+                $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
             }
-            array_push($toBind, "\$white");
+            array_push($toBind, '$white', '$_POST["white"]');
         }
         if (isset($black)) {
             if (sizeof($toBind) > 0) {
@@ -359,11 +361,11 @@ if (isset($_POST['searching'])) {
                         preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black))))
                     )
                 );
-                $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[black]' ";
+                $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
             } else {
-                $query = $query . " match(t2.fullname) against(?) AND t2.fullname like '$_POST[black]' ";
+                $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
             }
-            array_push($toBind, "\$black");
+            array_push($toBind, '$black', '$_POST["black"]');
         }
         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
             if (sizeof($toBind) > 0) {
@@ -390,22 +392,24 @@ if (isset($_POST['searching'])) {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION DISTINCT
             SELECT 
-            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,Round, t1.fullname as White, t2.fullname as Black, Result, WhiteElo, BlackElo, ECO   
+            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
             FROM $table 
             inner join $players_table as t1 on WhiteID = t1.id 
             inner join $players_table as t2 on BlackID = t2.id 
             inner join $events_table on $table.EventID = $events_table.id
+            inner join $rounds_table on $table.RoundID = $rounds_table.id
+            inner join $results_table on $table.ResultID = $results_table.id
             WHERE ";
             if (isset($white)) {
                 $white =
                     str_replace(".", "", $white);
                 $white = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $white);
                 if (sizeof(explode(" ", $white)) > 1) {
-                    $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[white]' ";
+                    $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
                 } else {
-                    $query = $query . " match(t2.fullname) against(?) AND t2.fullname like '$_POST[white]' ";
+                    $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
                 }
-                array_push($toBind, "\$white");
+                array_push($toBind, '$white', '$_POST["white"]');
             }
             if (isset($black)) {
                 $black =
@@ -416,11 +420,11 @@ if (isset($_POST['searching'])) {
                 }
 
                 if (sizeof(explode(" ", $black)) > 1) {
-                    $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[black]' ";
+                    $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
                 } else {
-                    $query = $query . " match(t1.fullname) against(?) AND t1.fullname like '$_POST[black]' ";
+                    $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
                 }
-                array_push($toBind, "\$black");
+                array_push($toBind, '$black', '$_POST["black"]');
             }
             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                 if (sizeof($toBind) > $toBindSize) {
