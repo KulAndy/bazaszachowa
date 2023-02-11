@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) {
 }
 if (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) {
     $basicName = htmlspecialchars($_REQUEST['fullname']);
-    if (substr($_REQUEST['fullname'], 1, 1) == "'") {
+    if (in_array(substr($_REQUEST['fullname'], 1, 1), ["'", "`"])) {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_REQUEST['fullname'], 2)));
     } else {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['fullname']));

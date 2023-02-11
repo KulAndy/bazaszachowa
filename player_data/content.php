@@ -10,7 +10,7 @@
     }
     if (isset($_GET['fullname']) && !empty($_GET['fullname'])) {
         $basicName = htmlspecialchars($_GET['fullname']);
-        if (substr($_GET['fullname'], 1, 1) == "'") {
+        if (in_array(substr($_GET['fullname'], 1, 1), ["'", "`"])) {
             $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['fullname'], 2)));
         } else {
             $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['fullname']));
@@ -23,7 +23,7 @@
     } else {
         die("Brak zawodnika do wyszukania");
     }
-    echo "<h1 style='margin: 0;margin-bottom: 0.4em;'>$basicName</h1>";
+    echo "<h1 style='margin: 0;margin-bottom: 0.4em;'>" . htmlentities($basicName) . "</h1>";
     $basicName =
         str_replace(".", "", $basicName);
     $query = "SELECT max(WhiteElo) as maxElo 

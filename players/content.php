@@ -1,16 +1,21 @@
 <div id="content" style="width: fit-content;">
-    <form method="post" style="text-align: center;" target="_self">
-        <label for="name">Gracz</label>
+    <form method="get" style="text-align: center;" target="_self">
+        <label for=" name">Gracz</label>
         <input <?php
-                if (isset($_POST['name']) && !empty($_POST['name'])) {
-                    echo  "value='" . htmlentities($_POST['name']) . "'";
+                if (isset($_GET['name']) && !empty($_GET['name'])) {
+                    echo  "value='" . htmlentities($_GET['name']) . "'";
                 }
                 ?> type="text" id="name" name="name" placeholder="Nowak, Jan" required autofocus>
         <br>
         <input type="submit" value="szukaj">
     </form>
     <?php
-    if (isset($_POST['name']) && !empty($_POST['name'])) {
+    if (isset($_GET['name']) && empty($_GET['name'])) {
+        include '../footer.php';
+        die("Brak zawodnika do wyszukania");
+    }
+
+    if (isset($_GET['name']) && !empty($_GET['name'])) {
         require 'login_data.php';
         @$db = new mysqli($host, $user, $password, $base);
 
@@ -19,7 +24,7 @@
              Spróbuj jeszcze raz później.</p>';
             exit;
         }
-        $name = $_POST['name'] . "%";
+        $name = $_GET['name'] . "%";
         $name = str_replace("ą", "a", $name);
         $name = str_replace("ć", "c", $name);
         $name = str_replace("ę", "e", $name);

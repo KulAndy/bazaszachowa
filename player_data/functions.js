@@ -59,6 +59,7 @@ async function search(
         return json.rows;
       } catch (err) {
         try {
+          console.log(this.responseText);
           let rmTable = document.getElementById("table");
           rmTable.remove();
         } catch {}
@@ -358,7 +359,10 @@ function loadStats() {
       try {
         let json = JSON.parse(this.responseText);
         displayStats(json);
-      } catch (err) {}
+      } catch (err) {
+        console.log(this.responseText);
+        console.log(err);
+      }
     }
   };
 
@@ -538,10 +542,10 @@ async function filter(player, color, opening) {
       try {
         let json = JSON.parse(this.responseText);
         displayFilter(json);
-        // console.log(json);
+        console.log(json);
         return json.rows;
       } catch (err) {
-        // console.log(this.resORDER by Year, MonthponseText);
+        console.log(this.responseText);
       }
     }
   };

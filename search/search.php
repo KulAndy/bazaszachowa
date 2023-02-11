@@ -136,6 +136,13 @@ if (isset($_POST['searching'])) {
                             UNION distinct
                             ";
                         }
+                        if (in_array(substr($white, 1, 1), ["'", "`"])) {
+                            $white = substr($white, 2);
+                        }
+                        if (in_array(substr($black, 1, 1), ["'", "`"])) {
+                            $black = substr($black, 2);
+                        }
+
                         $updateQuery = "\$query .= 'SELECT 
                         $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                         FROM $table 
@@ -160,6 +167,13 @@ if (isset($_POST['searching'])) {
                 if (isset($ignore) && $ignore == "true") {
                     foreach ($whites as $white) {
                         foreach ($blacks as $black) {
+                            if (in_array(substr($white, 1, 1), ["'", "`"])) {
+                                $white = substr($white, 2);
+                            }
+                            if (in_array(substr($black, 1, 1), ["'", "`"])) {
+                                $black = substr($black, 2);
+                            }
+
                             $updateQuery = "\$query .= '
                             UNION distinct
                             SELECT 
@@ -196,6 +210,10 @@ if (isset($_POST['searching'])) {
                         UNION distinct
                         ";
                     }
+                    if (in_array(substr($white, 1, 1), ["'", "`"])) {
+                        $white = substr($white, 2);
+                    }
+
                     $updateQuery = "\$query .= 'SELECT 
                     $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
@@ -219,6 +237,10 @@ if (isset($_POST['searching'])) {
 
                 if (isset($ignore) && $ignore == "true") {
                     foreach ($whites as $white) {
+                        if (in_array(substr($white, 1, 1), ["'", "`"])) {
+                            $white = substr($white, 2);
+                        }
+
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
@@ -254,6 +276,10 @@ if (isset($_POST['searching'])) {
                         UNION distinct
                         ";
                     }
+                    if (in_array(substr($black, 1, 1), ["'", "`"])) {
+                        $black = substr($black, 2);
+                    }
+
                     $updateQuery = "\$query .= 'SELECT 
                     $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
                     FROM $table 
@@ -277,6 +303,9 @@ if (isset($_POST['searching'])) {
 
                 if (isset($ignore) && $ignore == "true") {
                     foreach ($blacks as $black) {
+                        if (in_array(substr($black, 1, 1), ["'", "`"])) {
+                            $black = substr($black, 2);
+                        }
                         $updateQuery = "\$query .= '
                         UNION distinct
                         SELECT 
@@ -331,6 +360,9 @@ if (isset($_POST['searching'])) {
         $toBind = array();
         if (isset($white)) {
             if (sizeof(explode(" ", $white)) > 1) {
+                if (in_array(substr($white, 1, 1), ["'", "`"])) {
+                    $white = substr($white, 2);
+                }
                 $white = "+" . str_replace(
                     " ",
                     " +",
@@ -352,6 +384,9 @@ if (isset($_POST['searching'])) {
             }
 
             if (sizeof(explode(" ", $black)) > 1) {
+                if (in_array(substr($black, 1, 1), ["'", "`"])) {
+                    $black = substr($black, 2);
+                }
                 $black = "+" . str_replace(
                     " ",
                     " +",

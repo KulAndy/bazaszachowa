@@ -29,9 +29,9 @@ $last = null;
 
 $minElo = 0;
 $maxElo = 0;
-if (isset($_GET['name']) && !empty($_GET)) {
+if (isset($_GET['name']) && !empty($_GET['name'])) {
     $basicName = htmlspecialchars($_GET['name']);
-    if (substr($_GET['name'], 1, 1) == "'") {
+    if (in_array(substr($_GET['name'], 1, 1), ["'", "`"])) {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['name'], 2)));
     } else {
         $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['name']));

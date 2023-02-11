@@ -15,7 +15,7 @@
         </ul>
         <sub>* kod źródłowy dostępny na <a href="https://github.com/KulAndy/bazaszachowa">githubie</a></sub>
         <hr>
-        we wszystkich innych przypadkach obowiązuje licencja <a
-            href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a>
+        we wszystkich innych przypadkach obowiązuje licencja <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU
+            AGPLv3</a>
         </article>
 </div>

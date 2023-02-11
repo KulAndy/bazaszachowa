@@ -8,8 +8,8 @@ if (mysqli_connect_errno()) {
     exit;
 }
 
-if (isset($_POST['id']) && !empty($_POST['id'])) {
-    $id = $_POST['id'];
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = $_GET['id'];
 } else {
     die("Nie podano partii do wyświetlenia");
 }
@@ -18,7 +18,7 @@ $data = array(
 );
 
 $query = "SELECT 
-    $table.id, moves, $events_table.name as Event, $sites_table.site as Site, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
+    $table.id, compressed_moves as moves, $events_table.name as Event, $sites_table.site as Site, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
     FROM $table 
     inner join $players_table as t1 on WhiteID = t1.id 
     inner join $players_table as t2 on BlackID = t2.id 
@@ -33,6 +33,7 @@ $searching->bind_param("i", $id);
 $searching->execute();
 $result = $searching->get_result();
 while ($row = $result->fetch_assoc()) {
+    $row["moves"] = gzuncompress(substr($row['moves'], 4));
     array_push($data["rows"], $row);
 }
 print_r(json_encode($data));

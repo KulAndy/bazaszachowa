@@ -17,8 +17,13 @@ $db->set_charset("utf8");
 $data['base'] = $_POST['base'];
 
 if (isset($_POST['player']) && !empty($_POST['player'])) {
-    $playerBasic = $_POST['player'];
-    $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerBasic)))));
+    $playerBasic = htmlspecialchars($_POST['player']);
+    if (in_array(substr($playerBasic, 1, 1), ["'", "`"])) {
+        $playerFullname = substr($playerBasic, 2);
+        $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerFullname)))));
+    } else {
+        $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerBasic)))));
+    }
 }
 
 if (isset($_POST['color']) && !empty($_POST['color'])) {
@@ -39,10 +44,10 @@ if ($color == "white") {
         inner join $rounds_table on $table.RoundID = $rounds_table.id
         inner join $results_table on $table.ResultID = $results_table.id
         INNER JOIN eco on $table.ECO = eco.ECO 
-        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[player]' AND opening like ? 
+        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $searching->bind_param('ss', $playerFullname, $opening);
+        $searching->bind_param('sss', $playerFullname, $_POST["player"], $opening);
     } else {
         $query = "SELECT 
         $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
@@ -52,10 +57,10 @@ if ($color == "white") {
         inner join $rounds_table on $table.RoundID = $rounds_table.id
         inner join $results_table on $table.ResultID = $results_table.id
         inner join $events_table on $table.EventID = $events_table.id
-        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like '$_POST[player]' 
+        WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $searching->bind_param('s', $playerFullname);
+        $searching->bind_param('ss', $playerFullname, $_POST["player"]);
     }
 } else if ($color == "black") {
     if (isset($opening) && !empty($opening)) {
@@ -68,10 +73,10 @@ if ($color == "white") {
         inner join $rounds_table on $table.RoundID = $rounds_table.id
         inner join $results_table on $table.ResultID = $results_table.id
         INNER JOIN eco on $table.ECO = eco.ECO 
-        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[player]' AND opening like ? 
+        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $searching->bind_param('ss', $playerFullname, $opening);
+        $searching->bind_param('sss', $playerFullname, $_POST["player"], $opening);
     } else {
         $query = "SELECT 
         $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
@@ -84,7 +89,7 @@ if ($color == "white") {
         WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[player]' 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $searching->bind_param('s', $playerFullname);
+        $searching->bind_param('ss', $playerFullname, $_POST["player"]);
     }
 } else {
     exit;
