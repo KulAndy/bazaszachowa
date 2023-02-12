@@ -18,6 +18,7 @@ async function search(id, table, list, current) {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
+        console.log(json);
         if (list.length > 1) {
           switch (current) {
             case 0:
@@ -200,7 +201,10 @@ async function search(id, table, list, current) {
         }
 
         viewGame(json.rows[0]);
-      } catch (error) {}
+      } catch (error) {
+        console.log(this.responseText);
+        console.log(error);
+      }
     }
   };
   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -2,6 +2,7 @@
 var gameMoves;
 var mode;
 window.onload = async () => {
+  console.log(request);
   while (!request) {
     window.setTimeout(function () {}, 1000);
   }
