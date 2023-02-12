@@ -13,7 +13,7 @@ async function search(
   searching
 ) {
   const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/search/search.php", true);
+  xhttp2.open("POST", "/API/search_game.php", true);
   white = replaceNationalCharacters(white);
   black = replaceNationalCharacters(black);
   events = replaceNationalCharacters(events);
@@ -59,7 +59,6 @@ async function search(
         return json.rows;
       } catch (err) {
         try {
-          console.log(this.responseText);
           let rmTable = document.getElementById("table");
           rmTable.remove();
         } catch {}
@@ -352,16 +351,16 @@ async function loadGames() {
 
 function loadStats() {
   const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/player_data/stats.php", true);
-  let messenge = "fullname=" + encodeURIComponent(request.fullname);
+  xhttp2.open("POST", "/API/player_opening_stats.php", true);
+  let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
         displayStats(json);
       } catch (err) {
-        console.log(this.responseText);
-        console.log(err);
+        // console.log(this.responseText);
+        // console.log(err);
       }
     }
   };
@@ -527,11 +526,12 @@ function displayStats(json) {
 
 async function filter(player, color, opening) {
   const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/player_data/searchFilter.php", true);
+  xhttp2.open("POST", "/API/search_player_opening_game.php", true);
   player = replaceNationalCharacters(player);
   let messenge =
     "player=" +
     encodeURIComponent(player) +
+    "&base=all" +
     "&color=" +
     encodeURIComponent(color) +
     "&opening=" +
@@ -542,10 +542,10 @@ async function filter(player, color, opening) {
       try {
         let json = JSON.parse(this.responseText);
         displayFilter(json);
-        console.log(json);
+        // console.log(json);
         return json.rows;
       } catch (err) {
-        console.log(this.responseText);
+        // console.log(this.responseText);
       }
     }
   };
@@ -720,8 +720,8 @@ function displayFilter(data) {
 function loadCrData() {
   // centralny rejestr pl
   const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/player_data/cr_data.php", true);
-  let messenge = "fullname=" + encodeURIComponent(request.fullname);
+  xhttp2.open("POST", "/API/cr_data.php", true);
+  let messenge = "name=" + encodeURIComponent(request.fullname);
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       try {

@@ -1,6 +1,6 @@
 <?php
-if (isset($_POST['fullname']) && !empty($_POST['fullname'])) {
-    $fullname = $_POST['fullname'];
+if (isset($_POST['name']) && !empty($_POST['name'])) {
+    $fullname = $_POST['name'];
 } else {
     exit;
 }

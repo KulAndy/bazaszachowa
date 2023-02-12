@@ -83,10 +83,10 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        inner join $events_table on $table.EventID = $events_table.id
         inner join $rounds_table on $table.RoundID = $rounds_table.id
         inner join $results_table on $table.ResultID = $results_table.id
-        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like '$_POST[player]' 
+        inner join $events_table on $table.EventID = $events_table.id
+        WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
         $searching->bind_param('ss', $playerFullname, $_POST["player"]);

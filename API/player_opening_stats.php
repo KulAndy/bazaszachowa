@@ -8,12 +8,12 @@ if (mysqli_connect_errno()) {
              Spróbuj jeszcze raz później.</p>';
     exit;
 }
-if (isset($_REQUEST['fullname']) && !empty($_REQUEST['fullname'])) {
-    $basicName = htmlspecialchars($_REQUEST['fullname']);
-    if (in_array(substr($_REQUEST['fullname'], 1, 1), ["'", "`"])) {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_REQUEST['fullname'], 2)));
+if (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
+    $basicName = htmlspecialchars($_REQUEST['name']);
+    if (in_array(substr($_REQUEST['name'], 1, 1), ["'", "`"])) {
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_REQUEST['name'], 2)));
     } else {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['fullname']));
+        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['name']));
     }
     $fullname =
         str_replace(".", "", $fullname);
@@ -44,7 +44,7 @@ AND t1.fullname like ?
 GROUP BY opening
 ORDER by COUNT(*) DESC, opening";
 $searching = $db->prepare($query);
-$searching->bind_param('ss', $fullname, $_REQUEST['fullname']);
+$searching->bind_param('ss', $fullname, $_REQUEST['name']);
 $searching->execute();
 $searching->store_result();
 $searching->bind_result($opening, $count, $percent);
@@ -66,7 +66,7 @@ GROUP BY opening
 ORDER by COUNT(*) DESC, opening";
 $searching = $db->prepare($query);
 $searching = $db->prepare($query);
-$searching->bind_param('ss', $fullname, $_REQUEST['fullname']);
+$searching->bind_param('ss', $fullname, $_REQUEST['name']);
 $searching->execute();
 $searching->store_result();
 $searching->bind_result($opening, $count, $percent);

@@ -2,7 +2,6 @@
 var gameMoves;
 var mode;
 window.onload = async () => {
-  console.log(request);
   while (!request) {
     window.setTimeout(function () {}, 1000);
   }
@@ -11,5 +10,5 @@ window.onload = async () => {
   if (typeof request.list == "string") list = request.list.split(",");
   else list = request.list;
   let base = request.base;
-  await search(list[current], base, list, current);
+  await game_searching.search(list[current], base, list, current);
 };

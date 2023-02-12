@@ -12,7 +12,7 @@
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
     <title>Baza szachowa</title>
-    <link rel="stylesheet" href="chessicons.css">
+    <link rel="stylesheet" href="/css/chessicons.css">
 </head>
 
 <?php
@@ -24,8 +24,8 @@ include "../menu.php"
     let request = <?php echo json_encode($_REQUEST); ?>;
     </script>
     <script src="pgnv.js" type="text/javascript"></script>
-    <script defer src="functions.js"></script>
-    <script defer src="script.js"></script>
+    <script defer src="/script/game_display_functions.js"></script>
+    <script defer src="/script/game.js"></script>
     <?php require 'content.php';
     ?>
     <dialog id="dialog"></dialog>
