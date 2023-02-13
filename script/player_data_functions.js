@@ -525,7 +525,7 @@ async function filter(player, color, opening) {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        console.log(json);
+        displayFilter(json);
         return json.rows;
       } catch (err) {}
     }
