@@ -525,12 +525,9 @@ async function filter(player, color, opening) {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        displayFilter(json);
-        // console.log(json);
+        console.log(json);
         return json.rows;
-      } catch (err) {
-        // console.log(this.responseText);
-      }
+      } catch (err) {}
     }
   };
   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
