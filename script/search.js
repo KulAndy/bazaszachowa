@@ -150,10 +150,10 @@ ECO_letters.forEach((i) => {
   for (let j = 0; j < 10; j++) {
     for (let k = 0; k < 10; k++) {
       let option1 = document.createElement("option");
-      option1.value = i + j + k;
+      option1.value = parseInt(ECO_letters.indexOf(i) + "" + j + k) + 1;
       option1.innerText = i + j + k;
       let option2 = document.createElement("option");
-      option2.value = i + j + k;
+      option2.value = parseInt(ECO_letters.indexOf(i) + "" + j + k) + 1;
       option2.innerText = i + j + k;
       select1.append(option1);
       select2.append(option2);
@@ -161,7 +161,7 @@ ECO_letters.forEach((i) => {
   }
 });
 
-select2.value = "E99";
+select2.value = "500";
 
 let tr7 = document.createElement("tr");
 let baseLabel = document.createElement("td");

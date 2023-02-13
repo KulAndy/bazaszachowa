@@ -307,46 +307,18 @@ function replaceNationalCharacters(text) {
 async function loadGames() {
   let minEco = typeof request.minEco == "undefined" ? "" : request.minEco;
   let maxEco = typeof request.maxEco == "undefined" ? "" : request.maxEco;
-  if (request.color == "white") {
-    var rows = await search(
-      request.fullname,
-      "",
-      false,
-      "",
-      "",
-      "",
-      minEco,
-      maxEco,
-      "all",
-      "fulltext"
-    );
-  } else if (request.color == "black") {
-    var rows = await search(
-      "",
-      request.fullname,
-      false,
-      "",
-      "",
-      "",
-      minEco,
-      maxEco,
-      "all",
-      "fulltext"
-    );
-  } else {
-    var rows = await search(
-      request.fullname,
-      "",
-      true,
-      "",
-      "",
-      "",
-      minEco,
-      maxEco,
-      "all",
-      "fulltext"
-    );
-  }
+  await search(
+    request.fullname,
+    "",
+    true,
+    "",
+    "",
+    "",
+    minEco,
+    maxEco,
+    "all",
+    "fulltext"
+  );
 }
 
 function loadStats() {
@@ -359,8 +331,7 @@ function loadStats() {
         let json = JSON.parse(this.responseText);
         displayStats(json);
       } catch (err) {
-        // console.log(this.responseText);
-        // console.log(err);
+        console.log(this.responseText);
       }
     }
   };
@@ -389,17 +360,6 @@ function loadStats() {
 
 function displayStats(json) {
   let table = document.createElement("table");
-  let tr1 = document.createElement("tr");
-  let th1 = document.createElement("th");
-  th1.innerText = "debiut";
-  let th2 = document.createElement("th");
-  th2.innerText = "ilość";
-  let th3 = document.createElement("th");
-  th3.innerText = "%";
-  let th4 = document.createElement("th");
-  th4.innerText = "filtr";
-  tr1.append(th1, th2, th3, th4);
-  table.append(tr1);
   let sum = 0;
   let whiteTableRow = document.createElement("tr");
   let whiteTableCell = document.createElement("td");
@@ -413,6 +373,18 @@ function displayStats(json) {
 
   let whiteSummary = document.createElement("summary");
   let whiteTable = document.createElement("table");
+  let tr1 = document.createElement("tr");
+  let th1 = document.createElement("th");
+  th1.innerText = "debiut";
+  let th2 = document.createElement("th");
+  th2.innerText = "ilość";
+  let th3 = document.createElement("th");
+  th3.innerText = "%";
+  let th4 = document.createElement("th");
+  th4.innerText = "filtr";
+  tr1.append(th1, th2, th3, th4);
+  whiteTable.append(tr1);
+
   let whiteFilter = document.createElement("a");
   whiteFilter.target = "_self";
   whiteFilter.innerText = "filtruj";
@@ -471,6 +443,18 @@ function displayStats(json) {
   }
   let blackSummary = document.createElement("summary");
   let blackTable = document.createElement("table");
+
+  let tr2 = document.createElement("tr");
+  let th5 = document.createElement("th");
+  th5.innerText = "debiut";
+  let th6 = document.createElement("th");
+  th6.innerText = "ilość";
+  let th7 = document.createElement("th");
+  th7.innerText = "%";
+  let th8 = document.createElement("th");
+  th8.innerText = "filtr";
+  tr2.append(th5, th6, th7, th8);
+  blackTable.append(tr2);
 
   blackSummary.innerHTML = "<b>Czarne</b>";
   blackSummary.append(blackFilter);

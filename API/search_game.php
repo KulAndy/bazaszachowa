@@ -54,13 +54,13 @@ if (isset($_POST['event']) && !empty($_POST['event'])) {
 } else {
     $data['event'] = null;
 }
-if (isset($_POST['minEco']) && !empty($_POST['minEco']) &&  preg_match("/^[A-E][0-9][0-9]$/", $_POST['minEco'])) {
+if (isset($_POST['minEco']) && !empty($_POST['minEco']) &&  preg_match("/^[1-5][0-9]{0,2}$/", $_POST['minEco'])) {
     $minEco = $_POST['minEco'];
     $data['minEco'] = $minEco;
 } else {
     $data['minEco'] = null;
 }
-if (isset($_POST['maxEco']) && !empty($_POST['maxEco']) && preg_match("/^[A-E][0-9][0-9]$/", $_POST['maxEco'])) {
+if (isset($_POST['maxEco']) && !empty($_POST['maxEco']) && preg_match("/^[1-5][0-9]{0,2}$/", $_POST['maxEco'])) {
     $maxEco = $_POST['maxEco'];
     $data['maxEco'] = $maxEco;
 } else {
@@ -143,14 +143,13 @@ if (isset($_POST['searching'])) {
                             $black = substr($black, 2);
                         }
 
-                        $updateQuery = "\$query .= 'SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                        FROM $table 
-                        inner join $players_table as t1 on WhiteID = t1.id 
-                        inner join $players_table as t2 on BlackID = t2.id 
-                        inner join $events_table on $table.EventID = $events_table.id
-                        inner join $rounds_table on $table.RoundID = $rounds_table.id
-                        inner join $results_table on $table.ResultID = $results_table.id
+                        $updateQuery = "\$query .= 'SELECT
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                        FROM $table
+                        inner join $players_table as t1 on WhiteID = t1.id
+                        inner join $players_table as t2 on BlackID = t2.id
+                        inner join $events_table on $table.EventID = $events_table.id                                               
+                        inner join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t1.fullname) against(\'+$white\' in boolean mode) and match(t2.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear)) {
@@ -159,8 +158,8 @@ if (isset($_POST['searching'])) {
                         if (isset($event)) {
                             $query = $query . " and $events_table.name like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                            $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                         }
                     }
                 }
@@ -176,14 +175,13 @@ if (isset($_POST['searching'])) {
 
                             $updateQuery = "\$query .= '
                             UNION distinct
-                            SELECT 
-                            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                            FROM $table 
-                            inner join $players_table as t1 on WhiteID = t1.id 
-                            inner join $players_table as t2 on BlackID = t2.id 
-                            inner join $events_table on $table.EventID = $events_table.id
-                            inner join $rounds_table on $table.RoundID = $rounds_table.id
-                            inner join $results_table on $table.ResultID = $results_table.id
+                            SELECT
+                            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                            FROM $table
+                            inner join $players_table as t1 on WhiteID = t1.id
+                            inner join $players_table as t2 on BlackID = t2.id
+                            inner join $events_table on $table.EventID = $events_table.id                                                      
+                            inner join $eco_table on $table.ecoID = $eco_table.id
                             WHERE match(t1.fullname) against(\'+$black\' in boolean mode) and match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -192,8 +190,8 @@ if (isset($_POST['searching'])) {
                             if (isset($event)) {
                                 $query = $query . " and $events_table.name like ?";
                             }
-                            if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                                $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                            if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                                $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                             }
                         }
                     }
@@ -214,14 +212,13 @@ if (isset($_POST['searching'])) {
                         $white = substr($white, 2);
                     }
 
-                    $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                    FROM $table 
-                    inner join $players_table as t1 on WhiteID = t1.id 
-                    inner join $players_table as t2 on BlackID = t2.id 
-                    inner join $events_table on $table.EventID = $events_table.id
-                    inner join $rounds_table on $table.RoundID = $rounds_table.id
-                    inner join $results_table on $table.ResultID = $results_table.id
+                    $updateQuery = "\$query .= 'SELECT
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                    FROM $table
+                    inner join $players_table as t1 on WhiteID = t1.id
+                    inner join $players_table as t2 on BlackID = t2.id
+                    inner join $events_table on $table.EventID = $events_table.id                                    
+                    inner join $eco_table on $table.ecoID = $eco_table.id
                     WHERE match(t1.fullname) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -230,8 +227,8 @@ if (isset($_POST['searching'])) {
                     if (isset($event)) {
                         $query = $query . " and $events_table.name like ? ";
                     }
-                    if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                    if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                        $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                     }
                 }
 
@@ -243,14 +240,13 @@ if (isset($_POST['searching'])) {
 
                         $updateQuery = "\$query .= '
                         UNION distinct
-                        SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                        FROM $table 
-                        inner join $players_table as t1 on WhiteID = t1.id 
-                        inner join $players_table as t2 on BlackID = t2.id 
-                        inner join $events_table on $table.EventID = $events_table.id
-                        inner join $rounds_table on $table.RoundID = $rounds_table.id
-                        inner join $results_table on $table.ResultID = $results_table.id
+                        SELECT
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                        FROM $table
+                        inner join $players_table as t1 on WhiteID = t1.id
+                        inner join $players_table as t2 on BlackID = t2.id
+                        inner join $events_table on $table.EventID = $events_table.id                                            
+                        inner join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -259,8 +255,8 @@ if (isset($_POST['searching'])) {
                         if (isset($event)) {
                             $query = $query . " and $events_table.name like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                            $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                         }
                     }
                 }
@@ -280,14 +276,13 @@ if (isset($_POST['searching'])) {
                         $black = substr($black, 2);
                     }
 
-                    $updateQuery = "\$query .= 'SELECT 
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                    FROM $table 
-                    inner join $players_table as t1 on WhiteID = t1.id 
-                    inner join $players_table as t2 on BlackID = t2.id 
-                    inner join $events_table on $table.EventID = $events_table.id
-                    inner join $rounds_table on $table.RoundID = $rounds_table.id
-                    inner join $results_table on $table.ResultID = $results_table.id
+                    $updateQuery = "\$query .= 'SELECT
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                    FROM $table
+                    inner join $players_table as t1 on WhiteID = t1.id
+                    inner join $players_table as t2 on BlackID = t2.id
+                    inner join $events_table on $table.EventID = $events_table.id                                      
+                    inner join $eco_table on $table.ecoID = $eco_table.id
                     WHERE match(t2.fullname) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -296,8 +291,8 @@ if (isset($_POST['searching'])) {
                     if (isset($event)) {
                         $query = $query . " and $events_table.name like ? ";
                     }
-                    if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                        $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                    if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                        $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                     }
                 }
 
@@ -308,14 +303,13 @@ if (isset($_POST['searching'])) {
                         }
                         $updateQuery = "\$query .= '
                         UNION distinct
-                        SELECT 
-                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,$rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                        FROM $table 
-                        inner join $players_table as t1 on WhiteID = t1.id 
-                        inner join $players_table as t2 on BlackID = t2.id 
-                        inner join $events_table on $table.EventID = $events_table.id
-                        inner join $rounds_table on $table.RoundID = $rounds_table.id
-                        inner join $results_table on $table.ResultID = $results_table.id
+                        SELECT
+                        $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                        FROM $table
+                        inner join $players_table as t1 on WhiteID = t1.id
+                        inner join $players_table as t2 on BlackID = t2.id
+                        inner join $events_table on $table.EventID = $events_table.id                                              
+                        inner join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t1.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -324,8 +318,8 @@ if (isset($_POST['searching'])) {
                         if (isset($event)) {
                             $query = $query . " and $events_table.name like ? ";
                         }
-                        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
-                            $query = $query . " and CONV(eco, 16, 10) BETWEEN CONV( '$minEco', 16, 10) AND CONV( '$maxEco', 16, 10)";
+                        if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
+                            $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
                         }
                     }
                 }
@@ -349,13 +343,12 @@ if (isset($_POST['searching'])) {
         }
     } else if ($_POST['searching'] == 'fulltext') {
         $query = "SELECT                         
-                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-                    FROM $table 
-                    inner join $players_table as t1 on WhiteID = t1.id 
-                    inner join $players_table as t2 on BlackID = t2.id 
-                    inner join $events_table on $table.EventID = $events_table.id
-                    inner join $rounds_table on $table.RoundID = $rounds_table.id
-                    inner join $results_table on $table.ResultID = $results_table.id
+                    $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,  Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+                    FROM $table
+                    inner join $players_table as t1 on WhiteID = t1.id
+                    inner join $players_table as t2 on BlackID = t2.id
+                    inner join $events_table on $table.EventID = $events_table.id                                       
+                    inner join $eco_table on $table.ecoID = $eco_table.id
                     WHERE ";
         $toBind = array();
         if (isset($white)) {
@@ -416,24 +409,23 @@ if (isset($_POST['searching'])) {
             $query = $query . " $events_table.name like ?";
             array_push($toBind, "\$event");
         }
-        if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
+        if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
-            $query = $query . " CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+            $query = $query . " $eco_table.id BETWEEN  ? AND  ?";
             array_push($toBind, "\$minEco", "\$maxEco");
         }
         if (isset($ignore) && $ignore ==  "true") {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION DISTINCT
-            SELECT 
-            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-            FROM $table 
-            inner join $players_table as t1 on WhiteID = t1.id 
-            inner join $players_table as t2 on BlackID = t2.id 
-            inner join $events_table on $table.EventID = $events_table.id
-            inner join $rounds_table on $table.RoundID = $rounds_table.id
-            inner join $results_table on $table.ResultID = $results_table.id
+            SELECT
+            $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,  Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO as ECO   
+            FROM $table
+            inner join $players_table as t1 on WhiteID = t1.id
+            inner join $players_table as t2 on BlackID = t2.id
+            inner join $events_table on $table.EventID = $events_table.id                    
+            inner join $eco_table on $table.ecoID = $eco_table.id
             WHERE ";
             if (isset($white)) {
                 $white =
@@ -475,11 +467,11 @@ if (isset($_POST['searching'])) {
                 $query = $query . " $events_table.name like ?";
                 array_push($toBind, "\$event");
             }
-            if (isset($minEco) && isset($maxEco) && ($minEco != "A00" || $maxEco != "E99")) {
+            if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
-                $query = $query . " CONV(eco, 16, 10) BETWEEN CONV( ?, 16, 10) AND CONV( ?, 16, 10)";
+                $query = $query . " $eco_table.id BETWEEN  ? AND  ?";
                 array_push($toBind, "\$minEco", "\$maxEco");
             }
         }

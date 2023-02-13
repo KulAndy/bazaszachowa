@@ -18,24 +18,24 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     die("Nie podano partii do wyświetlenia");
 }
 
-$query = "SELECT 
-    $table.id, moves, $events_table.name as Event, $sites_table.site as Site, $table.Year, $table.Month, $table.Day, $rounds_table.round as Round, t1.fullname as White, t2.fullname as Black, $results_table.result as Result, WhiteElo, BlackElo, ECO   
-    FROM $table 
-    inner join $players_table as t1 on WhiteID = t1.id 
-    inner join $players_table as t2 on BlackID = t2.id 
-    inner join $events_table on $table.EventID = $events_table.id
-    inner join $sites_table on $table.siteID = $sites_table.id
-    inner join $rounds_table on $table.RoundID = $rounds_table.id
-    inner join $results_table on $table.ResultID = $results_table.id
-    WHERE $table.id = ?";
+$query =
+    "SELECT 
+$table.id, moves, $events_table.name as Event, $sites_table.site as Site, $table.Year, $table.Month, $table.Day,  Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo,$eco_table.ECO as  ECO   
+FROM $table 
+inner join $players_table as t1 on WhiteID = t1.id 
+inner join $players_table as t2 on BlackID = t2.id 
+inner join $events_table on $table.EventID = $events_table.id
+inner join $sites_table on $table.siteID = $sites_table.id    
+inner join $eco_table on $table.ecoID = $eco_table.id
+WHERE $table.id = ?";
 
 $searching = $db->prepare($query);
 $searching->bind_param("i", $id);
 $searching->execute();
 $result = $searching->get_result();
 while ($row = $result->fetch_assoc()) {
-    echo "[Event \"" . $row['Event'] . "\"]<br>";
-    echo "[Site \"" . $row['Site'] . "\"]<br>";
+    echo "[Event \"" . $row['Event'] . "\"] \n";
+    echo "[Site \"" . $row['Site'] . "\"] \n";
     echo "[Date \"" . $row['Year'] . ".";
     if ($row['Month'] == null) {
         echo "?.";
@@ -43,24 +43,24 @@ while ($row = $result->fetch_assoc()) {
         echo $row["Month"] . ".";
     }
     if ($row['Day'] == null) {
-        echo "?\"]<br>";
+        echo "?\"] \n";
     } else {
-        echo $row["Day"] . "\"]<br>";
+        echo $row["Day"] . "\"] \n";
     }
-    echo "[Round \"" . $row['Round'] . "\"]<br>";
-    echo "[White \"" . $row['White'] . "\"]<br>";
-    echo "[Black \"" . $row['Black'] . "\"]<br>";
-    echo "[Result \"" . $row['Result'] . "\"]<br>";
+    echo "[Round \"" . $row['Round'] . "\"] \n";
+    echo "[White \"" . $row['White'] . "\"] \n";
+    echo "[Black \"" . $row['Black'] . "\"] \n";
+    echo "[Result \"" . $row['Result'] . "\"] \n";
     if ($row['ECO'] != null) {
-        echo "[ECO \"" . $row['ECO'] . "\"]<br>";
+        echo "[ECO \"" . $row['ECO'] . "\"] \n";
     }
     if ($row['WhiteElo'] != null) {
-        echo "[WhiteElo \"" . $row['WhiteElo'] . "\"]<br>";
+        echo "[WhiteElo \"" . $row['WhiteElo'] . "\"] \n";
     }
     if ($row['BlackElo'] != null) {
-        echo "[BlackElo \"" . $row['BlackElo'] . "\"]<br>";
+        echo "[BlackElo \"" . $row['BlackElo'] . "\"] \n";
     }
-    echo "<br>" . $row['moves'] . "<br><br>";
+    echo " \n" . $row['moves'] . " \n \n";
 }
 
 $db->close();

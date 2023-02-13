@@ -44,9 +44,11 @@ async function search(
       try {
         let json = JSON.parse(this.responseText);
         displayData(json.rows, base);
+        console.log(json);
         return json.rows;
       } catch (err) {
         try {
+          console.log(this.responseText);
           let rmTable = document.getElementById("table");
           rmTable.remove();
         } catch {}

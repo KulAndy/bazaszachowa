@@ -1,3 +1,3 @@
 <?php
-    require 'content.php';
-?>
+header('Content-type: text/plain');
+require 'content.php';

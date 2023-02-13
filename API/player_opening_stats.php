@@ -36,9 +36,8 @@ COUNT(*) as count,
 Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) as percent
 FROM $table 
 inner join $players_table as t1 on WhiteID = t1.id 
-inner join $results_table on $table.ResultID = $results_table.id
-INNER JOIN eco
-on all_games.ECO = eco.ECO
+INNER JOIN $eco_table
+on all_games.ecoID = eco.id
 WHERE MATCH(t1.fullname) against(? in boolean mode) 
 AND t1.fullname like ? 
 GROUP BY opening
@@ -57,9 +56,8 @@ COUNT(*) as count,
 Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) as percent
 FROM $table 
 inner join $players_table as t1 on BlackID = t1.id 
-inner join $results_table on $table.ResultID = $results_table.id
-INNER JOIN eco
-on all_games.ECO = eco.ECO
+INNER JOIN $eco_table
+on all_games.ecoID = eco.id
 WHERE MATCH(t1.fullname) against(? in boolean mode) 
 AND t1.fullname like ? 
 GROUP BY opening
