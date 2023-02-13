@@ -699,7 +699,6 @@ function displayFilter(data) {
 }
 
 function loadCrData() {
-  // centralny rejestr pl
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/API/cr_data.php", true);
   let messenge = "name=" + encodeURIComponent(request.fullname);
@@ -855,4 +854,32 @@ function categoryToRanking(category) {
     default:
       return 1000;
   }
+}
+
+function designateMinMaxYearElo() {
+  const xhttp2 = new XMLHttpRequest();
+  xhttp2.open("POST", "/API/min_max_year_eco.php", true);
+  let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
+  xhttp2.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      try {
+        let json = JSON.parse(this.responseText);
+        putOnPageMinMaxYearElo(json);
+      } catch (err) {}
+    }
+  };
+
+  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp2.send(messenge);
+}
+
+function putOnPageMinMaxYearElo(data) {
+  try {
+    let eloDiv = document.getElementById("maxElo");
+    eloDiv.innerText = `najwyższy osiągnięty ranking: ${data.maxElo}`;
+  } catch {}
+  try {
+    let yearsDiv = document.getElementById("yearRange");
+    yearsDiv.innerText = `gry z lat: ${data.minYear} - ${data.maxYear}`;
+  } catch {}
 }
