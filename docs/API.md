@@ -26,7 +26,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
     }
 
   dane wyjściowe:
-  * json w formacie
+  * json
   * {
     * id: CR-ID
     * kat: kategoria/tytuł
@@ -43,7 +43,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
 
   dane wyjściowe:
 
-  * json z grami o danym id w formacie
+  * json z grami o danym id
   * {
     * id: id,
     * moves: ruchy,
@@ -71,6 +71,20 @@ zawsze metodą POST lub GET trzeba podać bazę partii
   dane wyjściowe:
 
   * plik jpeg
+
+* min_max_year_eco
+  * dane wejściowe metoda GET/POST
+  * {
+    * name: Nazwisko, Imię
+    }
+
+  dane wyjściowe:
+  * json
+  * {
+    * maxElo: maksymalny ranking w bazie
+    * minYear: rok najstarszej partii
+    * maxYear: rok najnowszej partii
+    }
 * player_opening_stats.php
   dane wejściowe:
 
@@ -81,7 +95,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
 
   dane wyjściowe:
 
-  * json w formacie:
+  * json:
   * {
     * whites: białe
     * {
@@ -116,7 +130,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
 
     dane wyjściowe:
 
-    * json w formacie
+    * json
     * {
       * id: id,
       * moves: ruchy,

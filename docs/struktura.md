@@ -10,15 +10,11 @@
   * players
 * **chess_events** - nazwy i daty turniejów
 * **sites** - miejsca
-* **rounds** - rundy
-* **results** - wyniki (1-0, 0-1, 1/2-1/2, *)
 * **eco** - kody eco, nazwy systematyczne debiutów i wariantów
 * **all_games** i **poland_games** - tabele zawierające wszystkie gry i tylko te z Polski
   relacje do
   * chess_events
   * sites
-  * rounds
-  * results
   * eco
   * all_playesrs/poland_players
 
