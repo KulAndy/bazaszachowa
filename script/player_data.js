@@ -5,12 +5,15 @@ window.onload = async () => {
     color: params.get("color"),
     opening: params.get("opening"),
   };
-  if (request.color == undefined) {
-    loadGames();
-  } else {
-    filter(request.fullname, request.color, request.opening);
-  }
   loadStats();
   loadCrData();
   designateMinMaxYearElo();
+  request.color == undefined
+    ? loadGames()
+    : filter(request.fullname, request.color, request.opening);
+  document.getElementById(
+    "graph"
+  ).src = `/API/graph.php?name=${encodeURIComponent(
+    request.fullname
+  )}&base=all`;
 };
