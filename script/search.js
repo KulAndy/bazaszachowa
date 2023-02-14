@@ -1,6 +1,6 @@
 "use strict";
 
-if (window.outerWidth <= 768) {
+if (window.innerWidth <= 768) {
   document.getElementsByTagName("details")[0].removeAttribute("open");
   document.getElementById("content").style.width = "100vw";
   document.getElementById("right_content").style.width = "100vw";

@@ -14,7 +14,7 @@
                     <img id='graph'>
             </tr>
         </table>
-        <table id='table'>
+        <table id='table' onerror="this.remove()">
         </table>
     </div>
 </div>
