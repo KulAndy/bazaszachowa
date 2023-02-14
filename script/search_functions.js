@@ -95,7 +95,7 @@ function displayData(data, base) {
     rmTable.remove();
   } catch {}
 
-  let pre = document.getElementById("searchContainer");
+  let pre = document.getElementById("games");
   let table = document.createElement("table");
   table.id = "table";
   let caption = document.createElement("caption");
