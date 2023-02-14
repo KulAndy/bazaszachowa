@@ -11,7 +11,7 @@
             <tr id=" container" style='display:flex;'>
                 <td id="stats" style='border: 0;'></td>
                 <td style='border: 0;'>
-                    <?php echo "<img id='graph' onerror='this.remove()' src='/API/graph.php?name=" . urlencode($_GET['fullname']) . "&base=all'>"; ?>
+                    <img id='graph'>
             </tr>
         </table>
         <table id='table'>
