@@ -13,6 +13,8 @@ div.not_mobile {
 #games {
   clear: both;
   width: 100vw;
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 768px) {
