@@ -354,6 +354,8 @@ th {
     background-color: #333;
     width: 100%;
     height: fit-content;
+    display: flex;
+    justify-content: space-evenly;
   }
 
   nav li {
