@@ -1,14 +1,14 @@
 "use strict";
 
 if (window.innerWidth <= 768) {
-  document.getElementsByTagName("details")[0].removeAttribute("open");
+  document.getElementById("help").removeAttribute("open");
   document.getElementById("content").style.width = "100vw";
   document.getElementById("right_content").style.width = "100vw";
 }
 
 window.addEventListener("resize", function () {
   if (window.innerWidth <= 768) {
-    document.getElementsByTagName("details")[0].removeAttribute("open");
+    document.getElementById("help").removeAttribute("open");
     document.getElementById("content").style.width = "100vw";
     document.getElementById("right_content").style.width = "100vw";
     for (
@@ -20,7 +20,7 @@ window.addEventListener("resize", function () {
         "hidden";
     }
   } else {
-    document.getElementsByTagName("details")[0].open = true;
+    document.getElementById("help").open = true;
     document.getElementById("content").style.width = "fit-content";
     document.getElementById("right_content").style.width = "30vw";
     for (

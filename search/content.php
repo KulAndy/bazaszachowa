@@ -3,7 +3,7 @@
     </div>
     <div id="content"></div>
     <div id="right_content">
-        <details open>
+        <details id="help" open>
             <summary>Pomoc</summary>
             <ul>Możliwe parametry wyszukiwania:
                 <li>Trzeba podać nazwisko przynajmniej jednego gracza</li>
