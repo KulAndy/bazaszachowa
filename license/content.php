@@ -1,5 +1,5 @@
 <div id="content">
-    <article">Całość strony jest udostępniona na następujących zasadach:
+    <article>Całość strony jest udostępniona na następujących zasadach:
         <ul>użytkownik
             <li> ma prawo używać strony w dowolnym celu</li>
             <li> ma prawo do analizowania strony*</li>

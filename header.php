@@ -19,8 +19,16 @@
             } else {
                 echo "https://";
             }
-            echo $_SERVER['SERVER_NAME'] ?>" target="_blank">
+            echo $_SERVER['SERVER_NAME'] ?>">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <?php
+    if ($_SERVER["DOCUMENT_URI"] == "/game/index.php") {
+        echo '<link rel="stylesheet" href="css/chessicons.css">';
+    }
+    ?>
 </head>
 
 <body>
+
+

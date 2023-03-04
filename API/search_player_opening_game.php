@@ -40,8 +40,8 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        inner join $events_table on $table.EventID = $events_table.id        
-        INNER JOIN $eco_table on $table.ecoID = $eco_table.ID 
+        LEFT join $events_table on $table.EventID = $events_table.id        
+        LEFT JOIN $eco_table on $table.ecoID = $eco_table.ID 
         WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
@@ -52,8 +52,8 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        inner join $events_table on $table.EventID = $events_table.id        
-        INNER JOIN $eco_table on $table.ecoID = $eco_table.ID 
+        LEFT join $events_table on $table.EventID = $events_table.id        
+        LEFT JOIN $eco_table on $table.ecoID = $eco_table.ID 
         WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
@@ -66,8 +66,8 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        inner join $events_table on $table.EventID = $events_table.id        
-        INNER JOIN $eco_table on $table.ecoID = $eco_table.ID 
+        LEFT join $events_table on $table.EventID = $events_table.id        
+        LEFT JOIN $eco_table on $table.ecoID = $eco_table.ID 
         WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
@@ -78,8 +78,8 @@ if ($color == "white") {
         FROM $table 
         inner join $players_table as t1 on WhiteID = t1.id 
         inner join $players_table as t2 on BlackID = t2.id 
-        inner join $events_table on $table.EventID = $events_table.id        
-        INNER JOIN $eco_table on $table.ecoID = $eco_table.ID 
+        LEFT join $events_table on $table.EventID = $events_table.id        
+        LEFT JOIN $eco_table on $table.ecoID = $eco_table.ID 
         WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
@@ -97,3 +97,15 @@ while ($row = $result->fetch_assoc()) {
 }
 print_r(json_encode($data));
 $db->close();
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_POST['name']) && !empty($_POST['name'])) {
     $fullname = $_POST['name'];
 } else {
@@ -12,8 +13,10 @@ curl_setopt(
     "typ_szukania=szukaj_czlonka&wyszukiwany_ciag=$fullname&szukaj=Szukaj"
 );
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_ENCODING, 'ISO-8859-2');
 
 $output = curl_exec($ch);
+$output = iconv("ISO-8859-2", "UTF-8", $output);
 curl_close($ch);
 
 $pattern = "#<tr>(<td.*>.*</td>)+(.*pers_id.*).*(<td.*>.*</td>)+</tr>#im";
@@ -40,6 +43,7 @@ foreach ($finded[0] as $hit) {
         "id" => $regexSplited[1],
         "kat" => $regexSplited[2],
         "fide_id" => $regexSplited[3],
+        "name" => $regexSplited[5]
     ];
     array_push($data, $tmp);
 }

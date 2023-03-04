@@ -37,7 +37,7 @@ Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) 
 FROM $table 
 inner join $players_table as t1 on WhiteID = t1.id 
 INNER JOIN $eco_table
-on all_games.ecoID = eco.id
+on $table.ecoID = $eco_table.id
 WHERE MATCH(t1.fullname) against(? in boolean mode) 
 AND t1.fullname like ? 
 GROUP BY opening
@@ -57,7 +57,7 @@ Round(SUM(substring_index(REPLACE(Result, '1/2','0.5'),'-',1))/COUNT(*) *100,2) 
 FROM $table 
 inner join $players_table as t1 on BlackID = t1.id 
 INNER JOIN $eco_table
-on all_games.ecoID = eco.id
+on $table.ecoID = $eco_table.id
 WHERE MATCH(t1.fullname) against(? in boolean mode) 
 AND t1.fullname like ? 
 GROUP BY opening
@@ -72,3 +72,10 @@ while ($searching->fetch()) {
     array_push($data["blacks"], [$opening, $count, $percent]);
 }
 echo json_encode($data);
+
+
+
+
+
+
+

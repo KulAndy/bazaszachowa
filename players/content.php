@@ -2,10 +2,11 @@
     <form method="get" style="text-align: center;" target="_self">
         <label for=" name">Gracz</label>
         <input <?php
-                if (isset($_GET['name']) && !empty($_GET['name'])) {
-                    echo  "value='" . htmlentities($_GET['name']) . "'";
-                }
-                ?> type="text" id="name" name="name" placeholder="Nowak, Jan" required autofocus>
+        if (isset($_GET['name']) && !empty($_GET['name'])) {
+            echo "value='" . htmlentities(trim($_GET['name'])) . "'";
+        }
+        ?> type="text" id="name" name="name" placeholder="Nowak, Jan"
+            required autofocus>
         <br>
         <input type="submit" value="szukaj">
     </form>
@@ -24,7 +25,7 @@
              Spróbuj jeszcze raz później.</p>';
             exit;
         }
-        $name = $_GET['name'] . "%";
+        $name = trim($_GET['name']) . "%";
         $name = str_replace("ą", "a", $name);
         $name = str_replace("ć", "c", $name);
         $name = str_replace("ę", "e", $name);
@@ -65,7 +66,7 @@
             }
         } else {
             $searching->bind_result($fullname);
-            echo "<table style='margin: auto;'><th>Nazwisko i Imię</th><th>profil</th>";
+            echo "<table style='margin: auto;border: 2px solid black'><th>Nazwisko i Imię</th><th>profil</th>";
             while ($searching->fetch()) {
                 echo "<tr><td>" . $fullname . "</td><td><a href='/player_data?fullname=" . urlencode($fullname) . "'>zobacz</a></tr>";
             }

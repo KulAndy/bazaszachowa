@@ -31,6 +31,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
     * id: CR-ID
     * kat: kategoria/tytuł
     * fide_id: FIDE-ID
+    * name: NAZWISKO Imię
     }
 
 * get_game.php

@@ -46,7 +46,6 @@
   * chessicons/
     * \[bw\]\[bknpqr\].svg - grafiki bierek
     * license.txt - plik z linkiem do strony autora grafik
-  * board.html - plik z [zewnętrznej bibliteki](https://github.com/mliebelt/PgnViewerJS/)
   * content.php - kontener na zawartość
   * index.php - plik domyślny, ustawia osobny nagłówek, wymaga menu,content,footer
   * pgnv.js - [zewnętrzna bibliteka](https://github.com/mliebelt/PgnViewerJS/) 

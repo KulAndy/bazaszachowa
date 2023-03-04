@@ -17,5 +17,5 @@
 
     <label for="file">Partia (akceptowane pliki *.pgn, *.txt, max 100MB)</label>
     <input type="file" id="file" name="file" accept=" .pgn, .txt"><br>
-    <input type="submit" name="submit" value=" wyślij">
+    <input type="submit" name="submit" value="wyślij">
 </form>

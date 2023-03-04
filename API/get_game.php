@@ -23,9 +23,9 @@ $table.id, moves, $events_table.name as Event, $sites_table.site as Site, $table
 FROM $table 
 inner join $players_table as t1 on WhiteID = t1.id 
 inner join $players_table as t2 on BlackID = t2.id 
-inner join $events_table on $table.EventID = $events_table.id
-inner join $sites_table on $table.siteID = $sites_table.id
-inner join $eco_table on $table.ecoID = $eco_table.id
+LEFT join $events_table on $table.EventID = $events_table.id
+LEFT join $sites_table on $table.siteID = $sites_table.id
+LEFT join $eco_table on $table.ecoID = $eco_table.id
 WHERE $table.id = ?";
 
 $searching = $db->prepare($query);
@@ -37,3 +37,6 @@ while ($row = $result->fetch_assoc()) {
 }
 print_r(json_encode($data));
 $db->close();
+
+
+

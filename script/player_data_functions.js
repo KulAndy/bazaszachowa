@@ -361,132 +361,137 @@ function loadStats() {
 function displayStats(json) {
   let table = document.createElement("table");
   let sum = 0;
-  let whiteTableRow = document.createElement("tr");
-  let whiteTableCell = document.createElement("td");
-  whiteTableCell.colSpan = "4";
-  whiteTableCell.style.padding = 0;
-  let whiteDetails = document.createElement("details");
-  whiteDetails.classList.add("details");
-  if (window.outerWidth >= 768) {
-    whiteDetails.open = true;
-  }
+  if (json.whites.length > 0) {
+    let whiteTableRow = document.createElement("tr");
+    let whiteTableCell = document.createElement("td");
+    whiteTableCell.colSpan = "4";
+    whiteTableCell.style.padding = 0;
+    let whiteDetails = document.createElement("details");
+    whiteDetails.classList.add("details");
+    if (window.outerWidth >= 768) {
+      whiteDetails.open = true;
+    }
 
-  let whiteSummary = document.createElement("summary");
-  let whiteTable = document.createElement("table");
-  let tr1 = document.createElement("tr");
-  let th1 = document.createElement("th");
-  th1.innerText = "debiut";
-  let th2 = document.createElement("th");
-  th2.innerText = "ilość";
-  let th3 = document.createElement("th");
-  th3.innerText = "%";
-  let th4 = document.createElement("th");
-  th4.innerText = "filtr";
-  tr1.append(th1, th2, th3, th4);
-  whiteTable.append(tr1);
+    let whiteSummary = document.createElement("summary");
+    let whiteTable = document.createElement("table");
+    let tr1 = document.createElement("tr");
+    let th1 = document.createElement("th");
+    th1.innerText = "debiut";
+    let th2 = document.createElement("th");
+    th2.innerText = "ilość";
+    let th3 = document.createElement("th");
+    th3.innerText = "%";
+    let th4 = document.createElement("th");
+    th4.innerText = "filtr";
+    tr1.append(th1, th2, th3, th4);
+    whiteTable.append(tr1);
 
-  let whiteFilter = document.createElement("a");
-  whiteFilter.target = "_self";
-  whiteFilter.innerText = "filtruj";
-  whiteFilter.href = `/player_data/?fullname=${encodeURIComponent(
-    request.fullname
-  )}&color=white&opening=`;
-
-  whiteSummary.innerHTML = "<b>Białe</b>";
-  whiteSummary.append(whiteFilter);
-  whiteDetails.append(whiteTable);
-  whiteDetails.append(whiteSummary);
-  whiteTableCell.append(whiteDetails);
-  whiteTableRow.append(whiteTableCell);
-  table.append(whiteTableRow);
-
-  for (let i = 0; i < json.whites.length; i++) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    td1.innerText = json.whites[i][0];
-    let td2 = document.createElement("td");
-    td2.innerText = json.whites[i][1];
-    let td3 = document.createElement("td");
-    sum += json.whites[i][1];
-    td3.innerText = json.whites[i][2];
-    let td4 = document.createElement("td");
-    let filter = document.createElement("a");
-    filter.innerText = "filtruj";
-    filter.target = "_self";
-    filter.href = `/player_data/?fullname=${encodeURIComponent(
+    let whiteFilter = document.createElement("a");
+    whiteFilter.target = "_self";
+    whiteFilter.innerText = "filtruj";
+    whiteFilter.href = `/player_data/?fullname=${encodeURIComponent(
       request.fullname
-    )}&color=white&opening=${encodeURIComponent(json.whites[i][0])}`;
+    )}&color=white&opening=`;
 
-    td4.append(filter);
-    tr.append(td1);
-    tr.append(td2);
-    tr.append(td3);
-    tr.append(td4);
-    whiteTable.append(tr);
+    whiteSummary.innerHTML = "<b>Białe</b>";
+    whiteSummary.append(whiteFilter);
+    whiteDetails.append(whiteTable);
+    whiteDetails.append(whiteSummary);
+    whiteTableCell.append(whiteDetails);
+    whiteTableRow.append(whiteTableCell);
+    table.append(whiteTableRow);
+
+    for (let i = 0; i < json.whites.length; i++) {
+      let tr = document.createElement("tr");
+      let td1 = document.createElement("td");
+      td1.innerText = json.whites[i][0];
+      let td2 = document.createElement("td");
+      td2.innerText = json.whites[i][1];
+      let td3 = document.createElement("td");
+      sum += json.whites[i][1];
+      td3.innerText = json.whites[i][2];
+      let td4 = document.createElement("td");
+      let filter = document.createElement("a");
+      filter.innerText = "filtruj";
+      filter.target = "_self";
+      filter.href = `/player_data/?fullname=${encodeURIComponent(
+        request.fullname
+      )}&color=white&opening=${encodeURIComponent(json.whites[i][0])}`;
+
+      td4.append(filter);
+      tr.append(td1);
+      tr.append(td2);
+      tr.append(td3);
+      tr.append(td4);
+      whiteTable.append(tr);
+    }
   }
 
-  let blackFilter = document.createElement("a");
-  blackFilter.innerText = "filtruj";
-  blackFilter.href = `/player_data/?fullname=${encodeURIComponent(
-    request.fullname
-  )}&color=black&opening=`;
-  blackFilter.target = "_self";
-
-  let blackTableRow = document.createElement("tr");
-  let blackTableCell = document.createElement("td");
-  blackTableCell.colSpan = "4";
-  blackTableCell.style.padding = 0;
-  let blackDetails = document.createElement("details");
-  blackDetails.classList.add("details");
-  if (window.outerWidth >= 768) {
-    blackDetails.open = true;
-  }
-  let blackSummary = document.createElement("summary");
-  let blackTable = document.createElement("table");
-
-  let tr2 = document.createElement("tr");
-  let th5 = document.createElement("th");
-  th5.innerText = "debiut";
-  let th6 = document.createElement("th");
-  th6.innerText = "ilość";
-  let th7 = document.createElement("th");
-  th7.innerText = "%";
-  let th8 = document.createElement("th");
-  th8.innerText = "filtr";
-  tr2.append(th5, th6, th7, th8);
-  blackTable.append(tr2);
-
-  blackSummary.innerHTML = "<b>Czarne</b>";
-  blackSummary.append(blackFilter);
-  blackDetails.append(blackTable);
-  blackDetails.append(blackSummary);
-  blackTableCell.append(blackDetails);
-  blackTableRow.append(blackTableCell);
-  table.append(blackTableRow);
-
-  for (let i = 0; i < json.blacks.length; i++) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    td1.innerText = json.blacks[i][0];
-    let td2 = document.createElement("td");
-    td2.innerText = json.blacks[i][1];
-    sum += json.blacks[i][1];
-    let td3 = document.createElement("td");
-    td3.innerText = json.blacks[i][2];
-    let td4 = document.createElement("td");
-    let filter = document.createElement("a");
-    filter.innerText = "filtruj";
-    filter.href = `/player_data/?fullname=${encodeURIComponent(
+  if (json.blacks.length > 0) {
+    let blackFilter = document.createElement("a");
+    blackFilter.innerText = "filtruj";
+    blackFilter.href = `/player_data/?fullname=${encodeURIComponent(
       request.fullname
-    )}&color=black&opening=${encodeURIComponent(json.blacks[i][0])}`;
-    filter.target = "_self";
-    td4.append(filter);
-    tr.append(td1);
-    tr.append(td2);
-    tr.append(td3);
-    tr.append(td4);
-    blackTable.append(tr);
+    )}&color=black&opening=`;
+    blackFilter.target = "_self";
+
+    let blackTableRow = document.createElement("tr");
+    let blackTableCell = document.createElement("td");
+    blackTableCell.colSpan = "4";
+    blackTableCell.style.padding = 0;
+    let blackDetails = document.createElement("details");
+    blackDetails.classList.add("details");
+    if (window.outerWidth >= 768) {
+      blackDetails.open = true;
+    }
+    let blackSummary = document.createElement("summary");
+    let blackTable = document.createElement("table");
+
+    let tr2 = document.createElement("tr");
+    let th5 = document.createElement("th");
+    th5.innerText = "debiut";
+    let th6 = document.createElement("th");
+    th6.innerText = "ilość";
+    let th7 = document.createElement("th");
+    th7.innerText = "%";
+    let th8 = document.createElement("th");
+    th8.innerText = "filtr";
+    tr2.append(th5, th6, th7, th8);
+    blackTable.append(tr2);
+
+    blackSummary.innerHTML = "<b>Czarne</b>";
+    blackSummary.append(blackFilter);
+    blackDetails.append(blackTable);
+    blackDetails.append(blackSummary);
+    blackTableCell.append(blackDetails);
+    blackTableRow.append(blackTableCell);
+    table.append(blackTableRow);
+
+    for (let i = 0; i < json.blacks.length; i++) {
+      let tr = document.createElement("tr");
+      let td1 = document.createElement("td");
+      td1.innerText = json.blacks[i][0];
+      let td2 = document.createElement("td");
+      td2.innerText = json.blacks[i][1];
+      sum += json.blacks[i][1];
+      let td3 = document.createElement("td");
+      td3.innerText = json.blacks[i][2];
+      let td4 = document.createElement("td");
+      let filter = document.createElement("a");
+      filter.innerText = "filtruj";
+      filter.href = `/player_data/?fullname=${encodeURIComponent(
+        request.fullname
+      )}&color=black&opening=${encodeURIComponent(json.blacks[i][0])}`;
+      filter.target = "_self";
+      td4.append(filter);
+      tr.append(td1);
+      tr.append(td2);
+      tr.append(td3);
+      tr.append(td4);
+      blackTable.append(tr);
+    }
   }
+
   let trSum = document.createElement("tr");
   let tdSum1 = document.createElement("td");
   tdSum1.innerText = "Suma";
@@ -761,23 +766,31 @@ function displayCrData(containerID, data) {
 function crateTableData(data) {
   let container = document.createElement("table");
   container.id = "cr-data";
-  let tr1 = document.createElement("tr");
-  let td1_1 = document.createElement("th");
-  td1_1.innerText = "Tytuł/Kat.:";
-  let td1_2 = document.createElement("td");
-  td1_2.innerText = data.kat;
-  let td1_3 = document.createElement("td");
+
+  let tr0 = document.createElement("tr");
+  let td0_1 = document.createElement("th");
+  td0_1.colSpan = "2";
+  td0_1.innerText = data.name;
+  let td0_2 = document.createElement("td");
   let photo = document.createElement("img");
   photo.src = `http://www.cr-pzszach.pl/ew/ew/images/${data.id}.jpg`;
   photo.onerror = function () {
     this.parentElement.remove();
   };
   photo.id = "cr-foto";
-  td1_3.append(photo);
-  td1_3.rowSpan = "3";
+  td0_2.append(photo);
+  td0_2.rowSpan = "4";
+
+  tr0.append(td0_1);
+  tr0.append(td0_2);
+
+  let tr1 = document.createElement("tr");
+  let td1_1 = document.createElement("th");
+  td1_1.innerText = "Tytuł/Kat.:";
+  let td1_2 = document.createElement("td");
+  td1_2.innerText = data.kat;
   tr1.append(td1_1);
   tr1.append(td1_2);
-  tr1.append(td1_3);
 
   let tr2 = document.createElement("tr");
   let td2_1 = document.createElement("th");
@@ -790,6 +803,7 @@ function crateTableData(data) {
   tr2.append(td2_1);
   tr2.append(td2_2);
 
+  container.append(tr0);
   container.append(tr1);
   container.append(tr2);
   if (data.fide_id > 0) {
@@ -876,10 +890,12 @@ function designateMinMaxYearElo() {
 function putOnPageMinMaxYearElo(data) {
   try {
     let eloDiv = document.getElementById("maxElo");
-    eloDiv.innerText = `najwyższy osiągnięty ranking: ${data.maxElo}`;
+    if (data.maxElo)
+      eloDiv.innerText = `najwyższy osiągnięty ranking: ${data.maxElo}`;
   } catch {}
   try {
     let yearsDiv = document.getElementById("yearRange");
-    yearsDiv.innerText = `gry z lat: ${data.minYear} - ${data.maxYear}`;
+    if (data.minYear && data.maxYear)
+      yearsDiv.innerText = `gry z lat: ${data.minYear} - ${data.maxYear}`;
   } catch {}
 }

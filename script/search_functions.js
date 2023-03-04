@@ -59,6 +59,7 @@ async function search(
           "Wystapił błąd\nSpróbuj odświeżyć stronę (Ctrl + Shift + R), a jeśli to nie pomoże powiadom administratora o problemie";
         caption.style.width = "13em";
         table.append(caption);
+        let pre = document.getElementById("games");
         pre.append(table);
       }
     }
