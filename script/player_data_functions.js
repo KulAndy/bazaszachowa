@@ -872,7 +872,7 @@ function categoryToRanking(category) {
 
 function designateMinMaxYearElo() {
   const xhttp2 = new XMLHttpRequest();
-  xhttp2.open("POST", "/API/min_max_year_eco.php", true);
+  xhttp2.open("POST", "/API/min_max_year_elo.php", true);
   let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
   xhttp2.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {

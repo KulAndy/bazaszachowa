@@ -54,7 +54,7 @@ if (isset($_POST['event']) && !empty($_POST['event'])) {
 } else {
     $data['event'] = null;
 }
-if (isset($_POST['minEco']) && !empty($_POST['minEco']) &&  preg_match("/^[1-5][0-9]{0,2}$/", $_POST['minEco'])) {
+if (isset($_POST['minEco']) && !empty($_POST['minEco']) && preg_match("/^[1-5][0-9]{0,2}$/", $_POST['minEco'])) {
     $minEco = $_POST['minEco'];
     $data['minEco'] = $minEco;
 } else {
@@ -82,11 +82,15 @@ if (isset($_POST['searching'])) {
                 $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
                 $playerName = preg_replace("/\(.*/", "", $playerName);
                 $playerName = preg_replace("/,$/", "", $playerName);
-                $playerName =  preg_replace('/\s+/', ' ', str_replace(
-                    "-",
-                    " ",
-                    $playerName
-                ));
+                $playerName = preg_replace(
+                    '/\s+/',
+                    ' ',
+                    str_replace(
+                        "-",
+                        " ",
+                        $playerName
+                    )
+                );
                 $playerName = preg_replace("/ *$/", "", $playerName);
                 $playerName = preg_replace("/(^| |')\w{0,2}($| |')/", "", $playerName);
                 $playerName = str_replace(
@@ -110,11 +114,15 @@ if (isset($_POST['searching'])) {
                 $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
                 $playerName = preg_replace("/\(.*/", "", $playerName);
                 $playerName = preg_replace("/,$/", "", $playerName);
-                $playerName =  preg_replace('/\s+/', ' ', str_replace(
-                    "-",
-                    " ",
-                    $playerName
-                ));
+                $playerName = preg_replace(
+                    '/\s+/',
+                    ' ',
+                    str_replace(
+                        "-",
+                        " ",
+                        $playerName
+                    )
+                );
                 $playerName = preg_replace("/ *$/", "", $playerName);
                 $playerName = preg_replace("/(^| |')\w{0,2}($| |')/", "", $playerName);
                 $playerName = str_replace(
@@ -148,8 +156,8 @@ if (isset($_POST['searching'])) {
                         FROM $table
                         inner join $players_table as t1 on WhiteID = t1.id
                         inner join $players_table as t2 on BlackID = t2.id
-                        LEFT join $events_table on $table.EventID = $events_table.id                                               
-                        LEFT join $eco_table on $table.ecoID = $eco_table.id
+                        left join $events_table on $table.EventID = $events_table.id                                               
+                        left join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t1.fullname) against(\'+$white\' in boolean mode) and match(t2.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear)) {
@@ -180,8 +188,8 @@ if (isset($_POST['searching'])) {
                             FROM $table
                             inner join $players_table as t1 on WhiteID = t1.id
                             inner join $players_table as t2 on BlackID = t2.id
-                            LEFT join $events_table on $table.EventID = $events_table.id                                                      
-                            LEFT join $eco_table on $table.ecoID = $eco_table.id
+                            left join $events_table on $table.EventID = $events_table.id                                                      
+                            left join $eco_table on $table.ecoID = $eco_table.id
                             WHERE match(t1.fullname) against(\'+$black\' in boolean mode) and match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                             eval($updateQuery);
                             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -217,8 +225,8 @@ if (isset($_POST['searching'])) {
                     FROM $table
                     inner join $players_table as t1 on WhiteID = t1.id
                     inner join $players_table as t2 on BlackID = t2.id
-                    LEFT join $events_table on $table.EventID = $events_table.id                                    
-                    LEFT join $eco_table on $table.ecoID = $eco_table.id
+                    left join $events_table on $table.EventID = $events_table.id                                    
+                    left join $eco_table on $table.ecoID = $eco_table.id
                     WHERE match(t1.fullname) against(\"+$white\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -245,8 +253,8 @@ if (isset($_POST['searching'])) {
                         FROM $table
                         inner join $players_table as t1 on WhiteID = t1.id
                         inner join $players_table as t2 on BlackID = t2.id
-                        LEFT join $events_table on $table.EventID = $events_table.id                                            
-                        LEFT join $eco_table on $table.ecoID = $eco_table.id
+                        left join $events_table on $table.EventID = $events_table.id                                            
+                        left join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t2.fullname) against(\'+$white\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -281,8 +289,8 @@ if (isset($_POST['searching'])) {
                     FROM $table
                     inner join $players_table as t1 on WhiteID = t1.id
                     inner join $players_table as t2 on BlackID = t2.id
-                    LEFT join $events_table on $table.EventID = $events_table.id                                      
-                    LEFT join $eco_table on $table.ecoID = $eco_table.id
+                    left join $events_table on $table.EventID = $events_table.id                                      
+                    left join $eco_table on $table.ecoID = $eco_table.id
                     WHERE match(t2.fullname) against(\"+$black\" in boolean mode)' ;";
                     eval($updateQuery);
                     if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -308,8 +316,8 @@ if (isset($_POST['searching'])) {
                         FROM $table
                         inner join $players_table as t1 on WhiteID = t1.id
                         inner join $players_table as t2 on BlackID = t2.id
-                        LEFT join $events_table on $table.EventID = $events_table.id                                              
-                        LEFT join $eco_table on $table.ecoID = $eco_table.id
+                        left join $events_table on $table.EventID = $events_table.id                                              
+                        left join $eco_table on $table.ecoID = $eco_table.id
                         WHERE match(t1.fullname) against(\'+$black\' in boolean mode)' ;";
                         eval($updateQuery);
                         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
@@ -347,8 +355,8 @@ if (isset($_POST['searching'])) {
                     FROM $table
                     inner join $players_table as t1 on WhiteID = t1.id
                     inner join $players_table as t2 on BlackID = t2.id
-                    LEFT join $events_table on $table.EventID = $events_table.id                                       
-                    LEFT join $eco_table on $table.ecoID = $eco_table.id
+                    left join $events_table on $table.EventID = $events_table.id                                       
+                    left join $eco_table on $table.ecoID = $eco_table.id
                     WHERE ";
         $toBind = array();
         if (isset($white)) {
@@ -416,7 +424,7 @@ if (isset($_POST['searching'])) {
             $query = $query . " $eco_table.id BETWEEN  ? AND  ?";
             array_push($toBind, "\$minEco", "\$maxEco");
         }
-        if (isset($ignore) && $ignore ==  "true") {
+        if (isset($ignore) && $ignore == "true") {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION DISTINCT
             SELECT DISTINCT
@@ -424,8 +432,8 @@ if (isset($_POST['searching'])) {
             FROM $table
             inner join $players_table as t1 on WhiteID = t1.id
             inner join $players_table as t2 on BlackID = t2.id
-            LEFT join $events_table on $table.EventID = $events_table.id                    
-            LEFT join $eco_table on $table.ecoID = $eco_table.id
+            left join $events_table on $table.EventID = $events_table.id                    
+            left join $eco_table on $table.ecoID = $eco_table.id
             WHERE ";
             if (isset($white)) {
                 $white =
@@ -541,9 +549,12 @@ while ($row = $result->fetch_assoc()) {
     }
 }
 
-$data = array_unique($data, SORT_REGULAR);
 print_r(json_encode($data));
 $db->close();
+
+
+
+
 
 
 
