@@ -719,7 +719,7 @@ function loadCrData() {
 
         if (json.length == 1) {
           displayCrData("info", json[0]);
-        } else {
+        } else if (json.length > 1) {
           let info = document.getElementById("info");
           let ambigousAlert = document.createElement("h3");
           ambigousAlert.id = "ambigousAlert";
@@ -899,3 +899,4 @@ function putOnPageMinMaxYearElo(data) {
       yearsDiv.innerText = `gry z lat: ${data.minYear} - ${data.maxYear}`;
   } catch {}
 }
+

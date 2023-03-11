@@ -8,7 +8,7 @@
 * **poland_players** i **all_players** - nazwiska tych zawodników, którzy występują w tabelach poland_games i all_games
   relacja do
   * players
-* **chess_events** - nazwy i daty turniejów
+* **chess_events** - nazwy turniejów
 * **sites** - miejsca
 * **eco** - kody eco, nazwy systematyczne debiutów i wariantów
 * **all_games** i **poland_games** - tabele zawierające wszystkie gry i tylko te z Polski

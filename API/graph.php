@@ -43,7 +43,8 @@ if (isset($_GET['name']) && !empty($_GET['name'])) {
     $fullname = str_replace("-", " ", $fullname);
 
     $fullname = "+" . str_replace(" ", " +", $fullname);
-    $query = "SELECT WhiteElo as Elo, Year, Month FROM $table 
+    $query = "      SELECT MAX(Elo) as Elo, Year, Month FROM(
+SELECT WhiteElo as Elo, Year, Month FROM $table 
 INNER JOIN $players_table
 on WhiteID = $players_table.id
 WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not null AND WhiteElo is not null AND $players_table.fullname like ?
@@ -52,7 +53,10 @@ SELECT BlackElo as Elo, Year, Month FROM $table
 INNER JOIN $players_table
 on BlackID = $players_table.id
 WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not null AND BlackElo is not null AND $players_table.fullname like ?
-ORDER by Year, Month";
+      ) as pom
+      group by Year, Month
+            ORDER by Year, Month
+";
     $searching = $db->prepare($query);
     $searching->bind_param('ssss', $fullname, $_GET['name'], $fullname, $_GET['name']);
     $searching->execute();
@@ -79,7 +83,7 @@ ORDER by Year, Month";
                 }
             }
         }
-        $monthNumber = 12 - $initialRating[2] + ((int)date("Y") - $initialRating[1] - 1) * 12 + (int)date("m");
+        $monthNumber = 12 - $initialRating[2] + ((int) date("Y") - $initialRating[1] - 1) * 12 + (int) date("m");
         $eloRange = ceil(($maxElo - $minElo) / 50) + 1;
         if ($monthNumber == 1) {
             $k1 = $width;
@@ -147,7 +151,8 @@ ORDER by Year, Month";
 
         $currenPointX = $margin;
         $currentPercent = 1 - ($initialRating[0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-        $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;;
+        $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;
+        ;
 
         $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
         $currentDate = date_create(date("Y") . "-" . date("m"));
