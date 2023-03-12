@@ -1,0 +1,286 @@
+:root {
+  --document_background: #c3df5d;
+  --document_font_color: #b2d732;
+  --document_footer: #092834;
+  --document_link: #66b032;
+  --document_link_hover: #347b98;
+  --document_content_background: #f0f7d4;
+  --document_active: #04aa6d;
+}
+* {
+  max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--document_background);
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.5em;
+  background-color: var(--document_footer);
+  color: white;
+  justify-content: center;
+  z-index: 3;
+}
+
+footer * {
+  color: var(--document_font_color);
+  margin: 2px;
+  padding: 1px;
+}
+
+a {
+  font-weight: bolder;
+  text-decoration: none;
+  color: var(--document_link);
+  margin: 2px;
+  padding: 1px;
+}
+
+a:hover {
+  color: var(--document_link_hover);
+}
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: var(--document_footer);
+  color: var(--document_font_color);
+  text-align: center;
+  z-index: 3;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 2.5em;
+}
+
+li {
+  list-style: disc;
+  margin-left: 5%;
+}
+
+table,
+tr,
+th,
+td {
+  border: solid black 2px;
+  border-collapse: collapse;
+  word-wrap: anywhere;
+}
+
+button {
+  overflow-wrap: break-word;
+}
+
+caption ~ tr th {
+  border: solid black 2px !important;
+}
+
+article {
+  margin: 10px;
+}
+
+.float_left {
+  float: left;
+}
+
+.copyleft {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+.no_border {
+  border: none;
+}
+
+.no_border td,
+tr,
+th {
+  border: none !important;
+}
+
+.error {
+  color: blue;
+  text-align: center;
+  font-weight: bolder;
+}
+
+#content,
+#content2,
+#left_content,
+#right_content {
+  background-color: var(--document_content_background);
+}
+
+#content {
+  margin-top: 0px !important;
+  margin: auto;
+  padding: 15px;
+  width: 60vw;
+}
+
+#content2 {
+  margin-left: 10px;
+}
+
+#left_content {
+  padding-top: 15px;
+  padding-left: 1.5em;
+  width: 20vw;
+}
+
+#left_content ul li {
+  list-style: disc;
+}
+
+#right_content {
+  margin-top: 15px;
+  padding-left: 1.5em;
+  width: 30vw;
+  height: fit-content;
+}
+
+#right_content ul li {
+  list-style: disc;
+}
+
+#pre {
+  margin-top: 15px;
+}
+
+#graph {
+  width: min(850px, 50vw, 70vh);
+  height: min(850px, 50vw, 70vh);
+}
+
+#pre table {
+  margin: auto;
+  width: fit-content;
+}
+
+#searchContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 768px) {
+  * {
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  nav ul,
+  nav li {
+    list-style-type: none;
+    width: 100%;
+  }
+  label {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .float_left {
+    float: none;
+  }
+  #left_content ul {
+    display: flex;
+  }
+  #left_content ul li {
+    list-style: none;
+    margin: 0;
+    margin-left: 5px;
+  }
+  article {
+    margin: 0;
+  }
+  #left_content {
+    width: 100%;
+  }
+
+  #left_content ul li:not(:last-of-type)::after {
+    content: ",";
+  }
+
+  #left_content2 {
+    margin-top: 15px;
+    padding-left: 1.5em;
+    width: fit-content !important;
+    height: fit-content;
+  }
+
+  #content {
+    width: fit-content;
+    margin: auto !important;
+  }
+  #content * {
+    word-wrap: break-word;
+  }
+  .not_mobile {
+    display: none !important;
+  }
+  #searchContainer {
+    display: block;
+  }
+  .desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  nav,
+  nav * {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  nav ul {
+    list-style-type: none;
+    overflow: hidden;
+    background-color: #333;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  nav li {
+    float: left;
+    list-style-type: none;
+  }
+
+  .mobile {
+    display: none;
+  }
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-weight: lighter;
+}
+
+nav li:not(.active) a:hover {
+  background-color: #111;
+}
+nav .active {
+  background-color: var(--document_active);
+}
+
+nav details[open] summary::marker {
+  content: "X";
+}
+
+nav details:not([open]) summary::marker {
+  content: "\2630";
+}

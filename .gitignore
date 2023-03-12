@@ -1,5 +1,5 @@
 .*
-*.inc
-login_data*.php
-phpmyadmin/*
-config.php
+package-lock.json
+node_modules/
+*settings.js
+app/settings.js
