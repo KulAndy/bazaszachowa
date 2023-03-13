@@ -101,9 +101,9 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         }
 
         imagefill($draw, 0, 0, $white);
-        imagestring($draw, 5, ($width - 10 * strlen($_GET['name'])) / 2, 5, $_GET['name'], $black);
+        imagestring($draw, 5, ($width - 5 * strlen($_GET['name'])) / 2, 5, $_GET['name'], $black);
         $messange = "Wykres elo";
-        imagestring($draw, 4, ($width - 10 * strlen($messange)) / 2, 20, $messange, $black);
+        imagestring($draw, 4, ($width - 4 * strlen($messange)) / 2, 20, $messange, $black);
         imagefilledrectangle($draw, $margin, $margin + $header, $margin, $heigth, $black);
 
         $maxPoint = $margin + $header;
@@ -159,32 +159,51 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $i = 0;
         $j = 0;
         imagesetthickness($draw, 3);
-        while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
-            if (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m")) {
-                $newCurrenPointX = $margin + $k1 * $i;
-                $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-                $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-                if ($currenPointX != $newCurrenPointX) {
-                    imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
-                }
-                $currenPointX = $newCurrenPointX;
-                $currenPointY = $newCurrenPointY;
-                while (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m") && $j < sizeof($breakPoints) - 1) {
-                    $j++;
-                }
-            } else {
-                $newCurrenPointX = $margin + $k1 * $i;
-                $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-                $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-                if ($currenPointX != $newCurrenPointX) {
-                    imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
-                }
-                $currenPointX = $newCurrenPointX;
-                $currenPointY = $newCurrenPointY;
-            }
-            date_add($startDate, date_interval_create_from_date_string("1 months"));
-            $i++;
+        // while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
+        //     if (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m")) {
+        //         $newCurrenPointX = $margin + $k1 * $i;
+        //         $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
+        //         $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
+        //         if ($currenPointX != $newCurrenPointX) {
+        //             imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+        //         }
+        //         $currenPointX = $newCurrenPointX;
+        //         $currenPointY = $newCurrenPointY;
+        //         while (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m") && $j < sizeof($breakPoints) - 1) {
+        //             $j++;
+        //         }
+        //     } else {
+        //         $newCurrenPointX = $margin + $k1 * $i;
+        //         $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
+        //         $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
+        //         if ($currenPointX != $newCurrenPointX) {
+        //             imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+        //         }
+        //         $currenPointX = $newCurrenPointX;
+        //         $currenPointY = $newCurrenPointY;
+        //     }
+        //     date_add($startDate, date_interval_create_from_date_string("1 months"));
+        //     $i++;
+        // }
+
+        $currentBreak = $breakPoints[0];
+        for ($i = 1; $i < sizeof($breakPoints); $i++) {
+            $newBreak = $breakPoints[$i];
+            $monthDiff = ($newBreak[1] - $currentBreak[1]) * 12 + ($newBreak[2] - $currentBreak[2]);
+            $newCurrenPointX = $currenPointX + $k1 * $monthDiff;
+            $newCurrentPercent = 1 - ($breakPoints[$i][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
+            $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
+            imageline($draw, $currenPointX, $currenPointY, $currenPointX + $k1 * ($monthDiff - 1), $currenPointY, $blue);
+            imageline($draw, $currenPointX + $k1 * ($monthDiff - 1), $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
+            $currentBreak = $newBreak;
+            $currenPointX = $newCurrenPointX;
+            $currenPointY = $newCurrenPointY;
+
         }
+        $monthDiff = ((int) date("Y") - $currentBreak[1]) * 12 + (date("m") - $currentBreak[2]);
+        imageline($draw, $currenPointX, $currenPointY, $currenPointX + $k1 * $monthDiff, $currenPointY, $blue);
+
+
         imagejpeg($draw);
     }
 }
