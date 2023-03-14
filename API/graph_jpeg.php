@@ -118,7 +118,7 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
                 if (((int) date_diff($startDate, $currentDate)->format("%Y")) % $period == 0) {
                     imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
                     if ($period > 1) {
-                        imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $green);
+                        imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $red);
                     } else {
                         imagefilledrectangle($draw, $margin + $k1 * $i, $margin + $header, $margin + $k1 * $i, $heigth, $black);
                     }
@@ -159,32 +159,6 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $i = 0;
         $j = 0;
         imagesetthickness($draw, 3);
-        // while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
-        //     if (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m")) {
-        //         $newCurrenPointX = $margin + $k1 * $i;
-        //         $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-        //         $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-        //         if ($currenPointX != $newCurrenPointX) {
-        //             imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
-        //         }
-        //         $currenPointX = $newCurrenPointX;
-        //         $currenPointY = $newCurrenPointY;
-        //         while (date_format($startDate, "Y-m") == date_format(date_create($breakPoints[$j][1] . "-" . $breakPoints[$j][2]), "Y-m") && $j < sizeof($breakPoints) - 1) {
-        //             $j++;
-        //         }
-        //     } else {
-        //         $newCurrenPointX = $margin + $k1 * $i;
-        //         $newCurrentPercent = 1 - ($breakPoints[$j][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-        //         $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
-        //         if ($currenPointX != $newCurrenPointX) {
-        //             imageline($draw, $currenPointX, $currenPointY, $newCurrenPointX, $newCurrenPointY, $blue);
-        //         }
-        //         $currenPointX = $newCurrenPointX;
-        //         $currenPointY = $newCurrenPointY;
-        //     }
-        //     date_add($startDate, date_interval_create_from_date_string("1 months"));
-        //     $i++;
-        // }
 
         $currentBreak = $breakPoints[0];
         for ($i = 1; $i < sizeof($breakPoints); $i++) {

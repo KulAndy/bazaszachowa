@@ -19,7 +19,7 @@
             } else {
                 echo "https://";
             }
-            echo $_SERVER['SERVER_NAME'] ?>">
+            echo $_SERVER['SERVER_NAME'] ?>" target="_blank">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <?php
@@ -30,5 +30,3 @@
 </head>
 
 <body>
-
-

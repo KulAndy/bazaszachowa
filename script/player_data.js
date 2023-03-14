@@ -13,7 +13,7 @@ window.onload = async () => {
     : filter(request.fullname, request.color, request.opening);
   document.getElementById(
     "graph"
-  ).src = `/API/graph.php?name=${encodeURIComponent(
+  ).src = `/API/graph_svg.php?name=${encodeURIComponent(
     request.fullname
   )}&base=all`;
 };
