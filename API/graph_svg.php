@@ -1,6 +1,5 @@
 <?php
 header("Content-Type: image/svg+xml");
-// header("Content-type: text/plain");
 $header = 10;
 $margin = 50;
 $width = 750;
@@ -141,7 +140,7 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $currentDate = date_create(date("Y") . "-" . date("m"));
         $i = 0;
         $period = ceil(((int) date_diff($startDate, $currentDate)->format("%Y")) / 22);
-        while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
+        while ($startDate <= $currentDate) {
             if (date_format($startDate, "m") == "01") {
                 if (((int) date_diff($startDate, $currentDate)->format("%Y")) % $period == 0) {
                     $text = $svg->createElement("text", date_format($startDate, "Y"));
@@ -240,18 +239,19 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;
         ;
 
-        $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
-        $currentDate = date_create(date("Y") . "-" . date("m"));
         $i = 0;
         $j = 0;
 
-        $currentBreak = $breakPoints[0];
-        for ($i = 1; $i < sizeof($breakPoints); $i++) {
+
+        $currentBreak = $initialRating;
+        for ($i = 0; $i < sizeof($breakPoints); $i++) {
             $newBreak = $breakPoints[$i];
             $monthDiff = ($newBreak[1] - $currentBreak[1]) * 12 + ($newBreak[2] - $currentBreak[2]);
             $newCurrenPointX = $currenPointX + $k1 * $monthDiff;
             $newCurrentPercent = 1 - ($breakPoints[$i][0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
+
             $newCurrenPointY = $newCurrentPercent * ($minPoint - $maxPoint) + $maxPoint;
+
             $line = $svg->createElement("line");
             $line->setAttribute("x1", $currenPointX);
             $line->setAttribute("y1", $currenPointY);
@@ -260,24 +260,25 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
             $line->setAttribute("style", "stroke:#00f;stroke-width:4");
             $svgElement->appendChild($line);
 
-
             $line = $svg->createElement("line");
             $line->setAttribute("x1", $currenPointX + $k1 * ($monthDiff - 1));
             $line->setAttribute("y1", $currenPointY);
-            $line->setAttribute("x2", $currenPointX + $k1 * $monthDiff);
+            $line->setAttribute("x2", $newCurrenPointX);
             $line->setAttribute("y2", $newCurrenPointY);
             $line->setAttribute("style", "stroke:#00f;stroke-width:4");
             $svgElement->appendChild($line);
-            $currentBreak = $newBreak;
+
             $currenPointX = $newCurrenPointX;
             $currenPointY = $newCurrenPointY;
+            $currentBreak = $newBreak;
 
         }
         $monthDiff = ((int) date("Y") - $currentBreak[1]) * 12 + (date("m") - $currentBreak[2]);
+
         $line = $svg->createElement("line");
         $line->setAttribute("x1", $currenPointX);
         $line->setAttribute("y1", $currenPointY);
-        $line->setAttribute("x2", $currenPointX + $k1 * $monthDiff);
+        $line->setAttribute("x2", $currenPointX + $k1 * (--$monthDiff));
         $line->setAttribute("y2", $currenPointY);
         $line->setAttribute("style", "stroke:#00f;stroke-width:4");
         $svgElement->appendChild($line);

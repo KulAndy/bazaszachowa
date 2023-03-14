@@ -113,7 +113,7 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $currentDate = date_create(date("Y") . "-" . date("m"));
         $i = 0;
         $period = ceil(((int) date_diff($startDate, $currentDate)->format("%Y")) / 22);
-        while (date_format($startDate, "Y-m") != date_format($currentDate, "Y-m")) {
+        while ($startDate <= $currentDate) {
             if (date_format($startDate, "m") == "01") {
                 if (((int) date_diff($startDate, $currentDate)->format("%Y")) % $period == 0) {
                     imagestring($draw, 2, $margin + $k1 * $i, $heigth, date_format($startDate, "Y"), $black);
@@ -160,8 +160,8 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
         $j = 0;
         imagesetthickness($draw, 3);
 
-        $currentBreak = $breakPoints[0];
-        for ($i = 1; $i < sizeof($breakPoints); $i++) {
+        $currentBreak = $initialRating;
+        for ($i = 0; $i < sizeof($breakPoints); $i++) {
             $newBreak = $breakPoints[$i];
             $monthDiff = ($newBreak[1] - $currentBreak[1]) * 12 + ($newBreak[2] - $currentBreak[2]);
             $newCurrenPointX = $currenPointX + $k1 * $monthDiff;
@@ -175,7 +175,7 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
 
         }
         $monthDiff = ((int) date("Y") - $currentBreak[1]) * 12 + (date("m") - $currentBreak[2]);
-        imageline($draw, $currenPointX, $currenPointY, $currenPointX + $k1 * $monthDiff, $currenPointY, $blue);
+        imageline($draw, $currenPointX, $currenPointY, $currenPointX + $k1 * --$monthDiff, $currenPointY, $blue);
 
 
         imagejpeg($draw);
