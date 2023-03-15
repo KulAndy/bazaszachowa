@@ -15,7 +15,8 @@
     <h4>Treść: </h4>
     <textarea rows="6" cols="50" name="content" form="form" placeholder="Wpisz tekst..."></textarea><br>
 
-    <label for="file">Partia (akceptowane pliki *.pgn, *.txt, max 100MB)</label>
-    <input type="file" id="file" name="file" accept=" .pgn, .txt"><br>
+    <label for="attachment">Partia (akceptowane pliki *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max
+        200MB)</label><br />
+    <input type="file" id="attachment" name="attachment" accept=" .pgn, .txt, .cbv, .zip, .7z, .rar " /><br />
     <input type="submit" name="submit" value="wyślij">
 </form>
