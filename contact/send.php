@@ -3,9 +3,9 @@ require '../header.php';
 include '../menu.php';
 ?>
 <style>
-    #content {
-        text-align: center;
-    }
+#content {
+    text-align: center;
+}
 </style>
 <?php
 $file_size =
@@ -43,7 +43,7 @@ if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['subject']
 
     $message = "--$boundary\r\n";
     $message .= "Content-Type: text/plain; charset=\"iso-8859-1\"\r\n";
-    $message .= $_POST['content'] . "\n kontakt: " . $_POST['email'] . "\n wygenerowano przez" . $_SERVER['SERVER_NAME'] . " " . date("Y.m.d H:i:s");
+    $message .= $_POST['content'] . "\n kontakt: " . $_POST['email'] . "\n wygenerowano przez " . $_SERVER['SERVER_NAME'] . " " . date("Y.m.d H:i:s");
     $message .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
     $message .= $message . "\r\n";
 
