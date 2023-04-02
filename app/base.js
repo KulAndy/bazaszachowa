@@ -1,48 +1,20 @@
 const SETTINGS = require("./settings");
-var mysql = require("mysql");
+var mysql = require("mysql2");
 
-var db = mysql.createConnection({
+var db = mysql.createPool({
   host: SETTINGS.host,
   user: SETTINGS.user,
   password: SETTINGS.password,
   database: SETTINGS.base,
+  // waitForConnections: true,
+  connectionLimit: 100,
+  queueLimit: 0,
+  debug: false,
 });
 
 const BASE = {
-  async searchPlayer(player, table, forFulltext = false) {
-    player += "%";
-    player = player.replaceAll("+", " ");
-
-    let query = `
-    SELECT
-    fullname
-    FROM ${
-      table == "poland" ? SETTINGS.poland_players : SETTINGS.all_players
-    } WHERE fullname like ? `;
-
-    let result = await this.execSearch(query, [player]);
-    if (forFulltext) {
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].fullname[1] == "'" || result[i].fullname[1] == "`") {
-          result[i].fullname = result[i].fullname.substring(1);
-        }
-        result[i].fullname = result[i].fullname.replace(/'/g, " ");
-        result[i].fullname = result[i].fullname.replace(/ \w?\.*$/g, "");
-        result[i].fullname = result[i].fullname.replace(/\(.*/g, "");
-        result[i].fullname = result[i].fullname.replace(/,$/g, "");
-        result[i].fullname = result[i].fullname.replace(/\s+/g, " ");
-        result[i].fullname = result[i].fullname.replace(/ *$/g, "");
-        result[i].fullname = result[i].fullname.replace(
-          /(^| |')\w{0,2}($| |')/g,
-          ""
-        );
-        result[i].fullname = result[i].fullname.trim();
-      }
-    }
-    result = [...new Set(result)];
-    result = result.map((a) => a.fullname);
-
-    return result;
+  async close() {
+    db.end();
   },
   async execSearch(query, params = []) {
     return new Promise((data) => {
@@ -58,6 +30,51 @@ const BASE = {
         }
       });
     });
+  },
+
+  async searchPlayer(player, table, forFulltext = false) {
+    player += "%";
+
+    let query = `
+    SELECT
+    fullname
+    FROM ${
+      table == "poland" ? SETTINGS.poland_players : SETTINGS.all_players
+    } WHERE fullname like ? `;
+
+    let result = await this.execSearch(query, [player]);
+    if (result.length == 0) {
+      query = `
+    SELECT
+    fullname
+    FROM ${SETTINGS.whole_players} WHERE fullname like ? `;
+
+      result = await this.execSearch(query, [player]);
+    }
+    if (forFulltext) {
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].fullname[1] == "'" || result[i].fullname[1] == "`") {
+          result[i].fullname = result[i].fullname.substring(1);
+        }
+        result[i].fullname = result[i].fullname.replace(/'/g, " ");
+        result[i].fullname = result[i].fullname.replaceAll("-", " ");
+        result[i].fullname = result[i].fullname.replace(/ \w?\.*$/g, "");
+        result[i].fullname = result[i].fullname.replace(/\(.*/g, "");
+        result[i].fullname = result[i].fullname.replace(/,$/g, "");
+        result[i].fullname = result[i].fullname.replace(/\s+/g, " ");
+        result[i].fullname = result[i].fullname.replace(/ *$/g, "");
+        result[i].fullname = result[i].fullname.replace(
+          /(^| |')\w{0,2}($| |')/g,
+          ""
+        );
+        result[i].fullname = "+" + result[i].fullname.replace(/ +/g, " +");
+        result[i].fullname = result[i].fullname.trim();
+      }
+    }
+    result = [...new Set(result)];
+    result = result.map((a) => a.fullname);
+
+    return result;
   },
 
   async getGame(id, base) {
@@ -111,10 +128,11 @@ const BASE = {
       fulltextPlayer = fulltextPlayer.replace(/,$/g, "");
       fulltextPlayer = fulltextPlayer.replace(/\s+/g, " ");
       fulltextPlayer = fulltextPlayer.replace(/ *$/g, "");
+      fulltextPlayer = fulltextPlayer.replaceAll("-", " ");
       fulltextPlayer = fulltextPlayer.replace(/(^| |')\w{0,2}($| |')/g, "");
       fulltextPlayer = fulltextPlayer.trim();
 
-      fulltextPlayer = "+" + fulltextPlayer.replace(/ /g, " +").trim();
+      fulltextPlayer = "+" + fulltextPlayer.replace(/ +/g, " +").trim();
     }
 
     return await this.execSearch(query, [fulltextPlayer, player]);
@@ -184,7 +202,8 @@ const BASE = {
         .replace(/ +[a-z0-9\.]\.* +/i)
         .replace(/ +[a-z0-9\.]$/i, "");
       fulltextPlayer = fulltextPlayer.replaceAll(".", "");
-      fulltextPlayer = "+" + fulltextPlayer.replace(/ /g, " +").trim();
+      fulltextPlayer = fulltextPlayer.replaceAll("-", " ");
+      fulltextPlayer = "+" + fulltextPlayer.replace(/ +/g, " +").trim();
     }
     let query = `
 SELECT max(WhiteElo) as maxElo, min(Year) as minYear, max(Year) as maxYear 
@@ -220,7 +239,8 @@ AND t1.fullname like ?     `;
         .replace(/ +[a-z0-9\.]\.* +/i)
         .replace(/ +[a-z0-9\.]$/i, "");
       fulltextPlayer = fulltextPlayer.replaceAll(".", "");
-      fulltextPlayer = "+" + fulltextPlayer.replace(/ /g, " +").trim();
+      fulltextPlayer = fulltextPlayer.replaceAll("-", " ");
+      fulltextPlayer = "+" + fulltextPlayer.replace(/ +/g, " +").trim();
       let query = `
       SELECT MAX(Elo) as Elo, Year, Month FROM(
           SELECT WhiteElo as Elo, Year, Month FROM ${
@@ -284,10 +304,8 @@ AND t1.fullname like ?     `;
           for (let i = 0; i < whites.length; i++) {
             for (let j = 0; j < blacks.length; j++) {
               let white = whites[i];
-              white = white.replace(/ /g, " +").trim();
 
               let black = blacks[j];
-              black = black.replace(/ /g, " +").trim();
               if (i != 0 || j != 0) {
                 query += `
                             UNION distinct
@@ -350,9 +368,11 @@ AND t1.fullname like ?     `;
                 base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
               }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t1.fullname) against('+${white}' in boolean mode) and 
-                    match(t2.fullname) against('+${black}' in boolean mode)               
+                    match(t1.fullname) against(? in boolean mode) and 
+                    match(t2.fullname) against(? in boolean mode)               
                 `;
+              params.push(white);
+              params.push(black);
               if (
                 minYear &&
                 maxYear &&
@@ -373,9 +393,7 @@ AND t1.fullname like ?     `;
             for (let i = 0; i < whites.length; i++) {
               for (let j = 0; j < blacks.length; j++) {
                 let white = whites[i];
-                white = white.replace(/ /g, " +").trim();
                 let black = blacks[j];
-                black = black.replace(/ /g, " +").trim();
                 if (["'", "`"].indexOf(white[1]) >= 0) {
                   white = white.substring(1);
                 }
@@ -435,9 +453,11 @@ AND t1.fullname like ?     `;
                   base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
                 }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t1.fullname) against('+${black}' in boolean mode) and 
-                    match(t2.fullname) against('+${white}' in boolean mode)                
+                    match(t1.fullname) against(? in boolean mode) and 
+                    match(t2.fullname) against(? in boolean mode)                
                 `;
+                params.push(black);
+                params.push(white);
                 if (
                   minYear &&
                   maxYear &&
@@ -457,7 +477,6 @@ AND t1.fullname like ?     `;
         } else if (whites) {
           for (let i = 0; i < whites.length; i++) {
             let white = whites[i];
-            white = white.replace(/ /g, " +").trim();
             if (i != 0) {
               query += `
                             UNION distinct
@@ -517,8 +536,9 @@ AND t1.fullname like ?     `;
               base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
             }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t1.fullname) against('+${white}' in boolean mode)           
+                    match(t1.fullname) against(? in boolean mode)           
                 `;
+            params.push(white);
             if (
               minYear &&
               maxYear &&
@@ -537,7 +557,6 @@ AND t1.fullname like ?     `;
           if (ignore) {
             for (let i = 0; i < whites.length; i++) {
               let white = whites[i];
-              white = white.replace(/ /g, " +").trim();
               query += `
                         UNION distinct
                         `;
@@ -595,8 +614,9 @@ AND t1.fullname like ?     `;
                 base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
               }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t2.fullname) against('+${white}' in boolean mode)           
+                    match(t2.fullname) against(? in boolean mode)           
                 `;
+              params.push(white);
               if (
                 minYear &&
                 maxYear &&
@@ -615,7 +635,6 @@ AND t1.fullname like ?     `;
         } else if (blacks) {
           for (let i = 0; i < blacks.length; i++) {
             let black = blacks[i];
-            black = black.replace(/ /g, " +").trim();
             if (i != 0) {
               query += `
                             UNION distinct
@@ -675,8 +694,9 @@ AND t1.fullname like ?     `;
               base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
             }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t2.fullname) against('+${black}' in boolean mode)           
+                    match(t2.fullname) against(? in boolean mode)           
                 `;
+            params.push(black);
             if (
               minYear &&
               maxYear &&
@@ -695,7 +715,6 @@ AND t1.fullname like ?     `;
           if (ignore) {
             for (let i = 0; i < blacks.length; i++) {
               let black = blacks[i];
-              black = black.replace(/ /g, " +").trim();
               query += `
                         UNION distinct
                         `;
@@ -753,8 +772,9 @@ AND t1.fullname like ?     `;
                 base == "poland" ? SETTINGS.poland_table : SETTINGS.all_table
               }.ecoID = ${SETTINGS.eco_table}.id
                     WHERE
-                    match(t1.fullname) against('+${black}' in boolean mode)           
+                    match(t1.fullname) against(? in boolean mode)           
                 `;
+              params.push(black);
               if (
                 minYear &&
                 maxYear &&
@@ -773,7 +793,8 @@ AND t1.fullname like ?     `;
         }
         query +=
           " order BY year DESC,month DESC,day DESC,Event,Round desc, White, Black limit 10000";
-        return await this.execSearch(query, params);
+
+        return params.length > 0 ? await this.execSearch(query, params) : [];
 
       case "fulltext":
         if (obj.white) var whites = JSON.parse(JSON.stringify(obj.white));
@@ -823,9 +844,10 @@ AND t1.fullname like ?     `;
             whites = whites.replace(/\s+/g, " ");
             whites = whites.replace(/ *$/g, "");
             whites = whites.replace(/(^| |')\w{0,2}($| |')/g, "");
+            whites = whites.replaceAll("-", " ");
             whites = whites.trim();
 
-            whites = "+" + whites.replace(/ /g, " +").trim();
+            whites = "+" + whites.replace(/ +/g, " +").trim();
           }
           queryFulltext +=
             " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
@@ -843,10 +865,12 @@ AND t1.fullname like ?     `;
             blacks = blacks.replace(/\s+/g, " ");
             blacks = blacks.replace(/ *$/g, "");
             blacks = blacks.replace(/(^| |')\w{0,2}($| |')/g, "");
+            blacks = blacks.replaceAll("-", " ");
             blacks = blacks.trim();
 
-            blacks = "+" + whites.replace(/ /g, " +").trim();
+            blacks = "+" + blacks.replace(/ +/g, " +").trim();
           }
+          if (whites) queryFulltext += " AND ";
           queryFulltext +=
             " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
           paramsFulltext.push(blacks, obj.black);
@@ -905,6 +929,7 @@ AND t1.fullname like ?     `;
             paramsFulltext.push(whites, obj.white);
           }
           if (blacks) {
+            if (whites) queryFulltext += " AND ";
             queryFulltext +=
               " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
 
@@ -927,7 +952,9 @@ AND t1.fullname like ?     `;
             " order BY year DESC,month DESC,day DESC,Event,Round desc, White, Black limit 10000";
         }
 
-        return await this.execSearch(queryFulltext, paramsFulltext);
+        return paramsFulltext.length > 0
+          ? await this.execSearch(queryFulltext, paramsFulltext)
+          : [];
     }
   },
 };

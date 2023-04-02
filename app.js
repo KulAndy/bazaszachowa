@@ -4,10 +4,14 @@
 //   res.end("hello world!\n");
 // });
 // server.listen(3000);
+const base = require("./app/base");
 
 const http = require("http");
 const ROUTER = require("./app/router");
 
 http
   .createServer((req, res) => ROUTER(req, res))
-  .listen(3000, () => console.log("listen on 3000"));
+  .listen(3000, () => console.log("listen on 3000"))
+  .on("close", function () {
+    base.close();
+  });

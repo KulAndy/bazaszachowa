@@ -9,6 +9,7 @@ const SETTINGS = {
   poland_table: "",
   all_players: "",
   poland_players: "",
+  whole_players: "",
   events_table: "",
   sites_table: "",
   rounds_table: "",

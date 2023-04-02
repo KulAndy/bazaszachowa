@@ -9,8 +9,11 @@ const APIControler = async (request, response) => {
       switch (true) {
         case /\/API\/graph/.test(request.url):
           let elo_history = await base.elo_history(data.name);
-          const image = await DRAWER.eloCurve(elo_history, data.name);
-          resources.sendImage(response, image, "jpeg");
+          //   const image = await DRAWER.eloJPEG(elo_history, data.name);
+          //   resources.sendImage(response, image, "jpeg");
+          const image = await DRAWER.eloSVG(elo_history, data.name);
+          resources.sendImage(response, image, "svg+xml");
+
           break;
 
         default:
