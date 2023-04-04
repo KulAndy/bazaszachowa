@@ -1,12 +1,6 @@
 <?php
 require 'login_data.php';
-@$db = new mysqli($host, $user, $password, $base);
 
-if (mysqli_connect_errno()) {
-    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-                     Spróbuj jeszcze raz później.</p>';
-    exit;
-}
 if (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
     $basicName = htmlspecialchars($_REQUEST['name']);
     if (in_array(substr($_REQUEST['name'], 1, 1), ["'", "`"])) {
@@ -36,7 +30,8 @@ $query = "SELECT max(WhiteElo) as maxElo, min(Year) as minYear, max(Year) as max
             WHERE MATCH(t1.fullname) against(? in boolean mode) 
             AND t1.fullname like ? ";
 $searching = $db->prepare($query);
-$searching->bind_param("ssss", $fullname, $_REQUEST["name"], $fullname, $_REQUEST["name"]);
-$searching->execute();
-$result = $searching->get_result();
-echo json_encode($result->fetch_assoc());
+$db->bind_param($searching, [$fullname, $_REQUEST["name"], $fullname, $_REQUEST["name"]]);
+$db->execute($searching);
+$result = $db->get_result($searching);
+echo json_encode($db->fetch_assoc($result));
+$db->close();

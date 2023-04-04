@@ -44,11 +44,9 @@ async function search(
       try {
         let json = JSON.parse(this.responseText);
         displayData(json.rows, base);
-        console.log(json);
         return json.rows;
       } catch (err) {
         try {
-          console.log(this.responseText);
           let rmTable = document.getElementById("table");
           rmTable.remove();
         } catch {}
@@ -173,13 +171,13 @@ function displayData(data, base) {
     let td6 = document.createElement("td");
     td6.innerText = data[i].Year + ".";
     if (data[i].Month == null) {
-      td6.innerText += "?";
+      td6.innerText += "? ";
     } else {
       td6.innerText += data[i].Month;
     }
     td6.innerText += ".";
     if (data[i].Day == null) {
-      td6.innerText += "?";
+      td6.innerText += "? ";
     } else {
       td6.innerText += data[i].Day;
     }
@@ -246,7 +244,7 @@ function download(data) {
       games += data[i].Month;
     }
     if (data[i].Day == null) {
-      games += '?"]\n';
+      games += '? "]\n';
     } else {
       games += data[i].Day + '"]\n';
     }

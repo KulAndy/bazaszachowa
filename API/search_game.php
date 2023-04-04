@@ -1,13 +1,6 @@
 <?php
 
 require 'login_data.php';
-@$db = new mysqli($host, $user, $password, $base);
-
-if (mysqli_connect_errno()) {
-    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-             Spróbuj jeszcze raz później.</p>';
-    exit;
-}
 
 $db->set_charset("utf8");
 $data = array(
@@ -72,11 +65,12 @@ if (isset($_POST['searching'])) {
     if ($_POST['searching'] == 'classic') {
         if (isset($white)) {
             $white = $white . "%";
-            $white_players = $db->prepare("SELECT DISTINCT CASE WHEN length(substring_index(fullname, '\'', 1)) = 1 THEN REPLACE(REPLACE(fullname, LEFT(fullname, 2), ''), '\'', ' ') ELSE REPLACE(fullname, '\'', ' ') END FROM $players_table WHERE fullname like ?");
-            $white_players->bind_param('s', $white);
-            $white_players->execute();
-            $result_white = $white_players->get_result();
-            $whites = $result_white->fetch_all();
+            $white_players = $db->prepare("SELECT DISTINCT CASE WHEN length(substring_index(fullname, '\'', 1)) = 1 THEN REPLACE(REPLACE(fullname, LEFT(fullname, 2), ''), '\'', ' ') ELSE REPLACE(fullname, '\'', ' ') END FROM $players_table WHERE fullname like ? ");
+            $db->bind_param($white_players, [$white]);
+            $db->execute($white_players);
+            $result_white = $db->get_result($white_players);
+            $whites = $db->fetch_all($result_white);
+
             foreach ($whites as &$player) {
                 $playerName = $player[0];
                 $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
@@ -104,11 +98,11 @@ if (isset($_POST['searching'])) {
         }
         if (isset($black)) {
             $black = $black . "%";
-            $black_players = $db->prepare("SELECT DISTINCT CASE WHEN length(substring_index(fullname, '\'', 1)) = 1 THEN REPLACE(REPLACE(fullname, LEFT(fullname, 2), ''), '\'', ' ') ELSE REPLACE(fullname, '\'', ' ') END FROM $players_table WHERE fullname like ?");
-            $black_players->bind_param('s', $black);
-            $black_players->execute();
-            $result_black = $black_players->get_result();
-            $blacks = $result_black->fetch_all();
+            $black_players = $db->prepare("SELECT DISTINCT CASE WHEN length(substring_index(fullname, '\'', 1)) = 1 THEN REPLACE(REPLACE(fullname, LEFT(fullname, 2), ''), '\'', ' ') ELSE REPLACE(fullname, '\'', ' ') END FROM $players_table WHERE fullname like ? ");
+            $db->bind_param($black_players, [$black]);
+            $db->execute($black_players);
+            $result_black = $db->get_result($black_players);
+            $blacks = $db->fetch_all($result_black);
             foreach ($blacks as &$player) {
                 $playerName = $player[0];
                 $playerName = preg_replace("/ \w?\.*$/", "", $playerName);
@@ -196,7 +190,7 @@ if (isset($_POST['searching'])) {
                                 $query = $query . " and Year BETWEEN $minYear and $maxYear ";
                             }
                             if (isset($event)) {
-                                $query = $query . " and $events_table.name like ?";
+                                $query = $query . " and $events_table.name like ? ";
                             }
                             if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
                                 $query = $query . " and $eco_table.id BETWEEN $minEco AND $maxEco";
@@ -340,12 +334,12 @@ if (isset($_POST['searching'])) {
         if (isset($event)) {
             $searching = $db->prepare($query);
             if (isset($ignore) && $ignore == "true") {
-                $searching->bind_param('ss', $event, $event);
+                $db->bind_param($searching, [$event, $event]);
             } else {
-                $searching->bind_param('s', $event);
+                $db->bind_param($searching, [$event]);
             }
-            $searching->execute();
-            $result = $searching->get_result();
+            $db->execute($searching);
+            $result = $db->get_result($searching);
         } else {
             $result = $db->query($query);
         }
@@ -377,7 +371,7 @@ if (isset($_POST['searching'])) {
             } else {
                 $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
             }
-            array_push($toBind, '$white', '$_POST["white"]');
+            array_push($toBind, $white, $_POST["white"]);
         }
         if (isset($black)) {
             if (sizeof($toBind) > 0) {
@@ -401,29 +395,31 @@ if (isset($_POST['searching'])) {
             } else {
                 $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
             }
-            array_push($toBind, '$black', '$_POST["black"]');
+            array_push($toBind, $black, $_POST["black"]);
         }
         if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
             $query = $query . " Year BETWEEN ? and ? ";
-            array_push($toBind, "\$minYear", "\$maxYear");
+            array_push($toBind, $minYear, $maxYear);
         }
         if (isset($event)) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
-            $query = $query . " $events_table.name like ?";
-            array_push($toBind, "\$event");
+            $query = $query . " $events_table.name like ? ";
+            array_push($toBind, $event);
         }
+
         if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
             if (sizeof($toBind) > 0) {
                 $query = $query . " and";
             }
-            $query = $query . " $eco_table.id BETWEEN  ? AND  ?";
-            array_push($toBind, "\$minEco", "\$maxEco");
+            $query = $query . " $eco_table.id BETWEEN  ? AND  ? ";
+            array_push($toBind, $minEco, $maxEco);
         }
+
         if (isset($ignore) && $ignore == "true") {
             $toBindSize = sizeof($toBind);
             $query = $query . "UNION DISTINCT
@@ -444,7 +440,7 @@ if (isset($_POST['searching'])) {
                 } else {
                     $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
                 }
-                array_push($toBind, '$white', '$_POST["white"]');
+                array_push($toBind, $white, $_POST["white"]);
             }
             if (isset($black)) {
                 $black =
@@ -459,53 +455,35 @@ if (isset($_POST['searching'])) {
                 } else {
                     $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
                 }
-                array_push($toBind, '$black', '$_POST["black"]');
+                array_push($toBind, $black, $_POST["black"]);
             }
             if (isset($minYear) && isset($maxYear) && ($minYear != 1475 || $maxYear != date("Y"))) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
                 $query = $query . " Year BETWEEN ? and ? ";
-                array_push($toBind, "\$minYear", "\$maxYear");
+                array_push($toBind, $minYear, $maxYear);
             }
             if (isset($event)) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
-                $query = $query . " $events_table.name like ?";
-                array_push($toBind, "\$event");
+                $query = $query . " $events_table.name like ? ";
+                array_push($toBind, $event);
             }
             if (isset($minEco) && isset($maxEco) && ($minEco != "1" || $maxEco != "500")) {
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }
-                $query = $query . " $eco_table.id BETWEEN  ? AND  ?";
-                array_push($toBind, "\$minEco", "\$maxEco");
+                $query = $query . " $eco_table.id BETWEEN  ? AND  ? ";
+                array_push($toBind, $minEco, $maxEco);
             }
         }
         $query = $query . " order BY year DESC,month DESC,day DESC,Event,Round desc, White, Black limit 10000";
         $searching = $db->prepare($query);
-        $toEval = "\$searching -> bind_param(\"";
-        foreach ($toBind as $param) {
-            eval("\$temp = gettype($param);");
-            if ($temp == "integer") {
-                $toEval .= "i";
-            } else if ($temp == "string") {
-                $toEval .= "s";
-            } else if ($temp == "double") {
-                $toEval .= "d";
-            }
-        }
-        $toEval = $toEval . "\"";
-        foreach ($toBind as $param) {
-            if (gettype($param) == "integer" || gettype($param) == "string" || gettype($param) == "double") {
-                $toEval .= ", $param";
-            }
-        }
-        $toEval = $toEval . ");";
-        eval($toEval);
-        $searching->execute();
-        $result = $searching->get_result();
+        $db->bind_param($searching, $toBind);
+        $db->execute($searching);
+        $result = $db->get_result($searching);
     }
 }
 
@@ -551,25 +529,3 @@ while ($row = $result->fetch_assoc()) {
 
 print_r(json_encode($data));
 $db->close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

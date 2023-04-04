@@ -43,7 +43,6 @@ async function search(
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        console.log(json);
         displayData(
           json.rows,
           json.white,
@@ -331,9 +330,7 @@ function loadStats() {
       try {
         let json = JSON.parse(this.responseText);
         displayStats(json);
-      } catch (err) {
-        console.log(this.responseText);
-      }
+      } catch (err) {}
     }
   };
 

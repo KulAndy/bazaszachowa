@@ -1,12 +1,5 @@
 <?php
 require 'login_data.php';
-@$db = new mysqli($host, $user, $password, $base);
-
-if (mysqli_connect_errno()) {
-    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-             Spróbuj jeszcze raz później.</p>';
-    exit;
-}
 
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     $id = $_POST['id'];
@@ -29,14 +22,11 @@ LEFT join $eco_table on $table.ecoID = $eco_table.id
 WHERE $table.id = ?";
 
 $searching = $db->prepare($query);
-$searching->bind_param("i", $id);
-$searching->execute();
-$result = $searching->get_result();
-while ($row = $result->fetch_assoc()) {
+$db->bind_param($searching, [$id]);
+$db->execute($searching);
+$result = $db->get_result($searching);
+while ($row = $db->fetch_assoc($result)) {
     array_push($data["rows"], $row);
 }
 print_r(json_encode($data));
 $db->close();
-
-
-

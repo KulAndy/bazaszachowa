@@ -23,13 +23,6 @@ $heigth += $header;
 
 require 'login_data.php';
 
-@$db = new mysqli($host, $user, $password, $base);
-
-if (mysqli_connect_errno()) {
-    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-                 Spróbuj jeszcze raz później.</p>';
-    exit;
-}
 $initialRating = null;
 $breakPoints = array();
 $last = null;
@@ -65,10 +58,10 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
             ORDER by Year, Month
 ";
     $searching = $db->prepare($query);
-    $searching->bind_param('ssss', $fullname, $_GET['name'], $fullname, $_GET['name']);
-    $searching->execute();
-    $searching->store_result();
-    $searching->bind_result($elo, $year, $month);
+    $db->bind_param($searching, [$fullname, $_GET['name'], $fullname, $_GET['name']]);
+    $db->execute($searching);
+    $db->store_result($searching);
+    $db->bind_result($searching, $elo, $year, $month);
     if ($searching->num_rows() > 0) {
 
         while ($searching->fetch()) {

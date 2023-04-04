@@ -1,13 +1,6 @@
 <?php
 require 'login_data.php';
-// $data = array();
-@$db = new mysqli($host, $user, $password, $base);
 
-if (mysqli_connect_errno()) {
-    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
-             Spróbuj jeszcze raz później.</p>';
-    exit;
-}
 if (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
     $basicName = htmlspecialchars($_REQUEST['name']);
     if (in_array(substr($_REQUEST['name'], 1, 1), ["'", "`"])) {
@@ -43,11 +36,12 @@ AND t1.fullname like ?
 GROUP BY opening
 ORDER by COUNT(*) DESC, opening";
 $searching = $db->prepare($query);
-$searching->bind_param('ss', $fullname, $_REQUEST['name']);
-$searching->execute();
-$searching->store_result();
-$searching->bind_result($opening, $count, $percent);
-while ($searching->fetch()) {
+$db->bind_param($searching, [$fullname, $_REQUEST['name']]);
+$db->execute($searching);
+$db->store_result($searching);
+$db->bind_result($searching, $opening, $count, $percent);
+
+while ($db->fetch($searching)) {
     array_push($data["whites"], [$opening, $count, $percent]);
 }
 
@@ -63,19 +57,11 @@ AND t1.fullname like ?
 GROUP BY opening
 ORDER by COUNT(*) DESC, opening";
 $searching = $db->prepare($query);
-$searching = $db->prepare($query);
-$searching->bind_param('ss', $fullname, $_REQUEST['name']);
-$searching->execute();
-$searching->store_result();
-$searching->bind_result($opening, $count, $percent);
-while ($searching->fetch()) {
+$db->bind_param($searching, [$fullname, $_REQUEST['name']]);
+$db->execute($searching);
+$db->store_result($searching);
+$db->bind_result($searching, $opening, $count, $percent);
+while ($db->fetch($searching)) {
     array_push($data["blacks"], [$opening, $count, $percent]);
 }
 echo json_encode($data);
-
-
-
-
-
-
-
