@@ -4,7 +4,129 @@
 
 <div id="searchContainer">
   <div class="not_mobile"></div>
-  <div id="content"></div>
+  <div id="content" style="width: fit-content">
+    <form id="form">
+      <table class="no_border">
+        <tr>
+          <td>Białe:</td>
+          <td colspan="3">
+            <input
+              list="whitelist"
+              type="text"
+              id="white"
+              placeholder="Nowak, Jan"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Czarne:</td>
+          <td colspan="3">
+            <input
+              list="blacklist"
+              type="text"
+              id="black"
+              placeholder="Nowak, Jan"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 21ch">ignoruj kolory</td>
+          <td colspan="3"><input id="ignoreColor" type="checkbox" /></td>
+        </tr>
+        <tr>
+          <td>lata:</td>
+          <td style="display: flex; justify-content: flex-end">
+            <input
+              type="number"
+              id="minYear"
+              step="1"
+              min="1475"
+              max="<?php echo date('Y') ?>"
+              style="width: 4em"
+            />
+          </td>
+          <td>-</td>
+          <td style="display: flex; justify-content: flex-start">
+            <input
+              type="number"
+              id="maxYear"
+              step="1"
+              min="1475"
+              max="2023"
+              style="width: 4em"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>turniej:</td>
+          <td colspan="3"><input id="event" type="text" /></td>
+        </tr>
+        <tr>
+          <td>ECO:</td>
+          <td style="display: flex; justify-content: flex-end">
+            <select id="select1">
+              <script>
+                let id = 1;
+                for (let letter of ["A", "B", "C", "D", "E"]) {
+                  for (let i = 0; i < 100; i++) {
+                    let option = document.createElement("option");
+                    option.value = id++;
+                    option.innerText = `${letter}${i < 10 ? "0" : ""}${i}`;
+                    if (id == 1) {
+                      option.selected = true;
+                    }
+                    document.getElementById("select1").append(option);
+                  }
+                }
+              </script>
+            </select>
+          </td>
+          <td>-</td>
+          <td style="display: flex; justify-content: flex-start">
+            <select id="select2">
+              <script>
+                let id2 = 1;
+                for (let letter of ["A", "B", "C", "D", "E"]) {
+                  for (let i = 0; i < 100; i++) {
+                    let option = document.createElement("option");
+                    option.value = id2++;
+                    option.innerText = `${letter}${i < 10 ? "0" : ""}${i}`;
+                    if (id2 == 501) {
+                      option.selected = true;
+                    }
+                    document.getElementById("select2").append(option);
+                  }
+                }
+              </script>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>baza:</td>
+          <td>
+            Polska <input type="radio" id="radioB1" name="base" checked />
+          </td>
+          <td colspan="2">
+            całość <input type="radio" id="radioB2" name="base" />
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 18ch">wyszukiwanie</td>
+          <td>
+            zwykłe<input type="radio" id="radioS1" name="searching" checked />
+          </td>
+          <td colspan="2">
+            dokładne<input type="radio" name="searching" id="radioS2" />
+          </td>
+        </tr>
+        <tr style="height: 4em">
+          <th colspan="4"><button id="search">szukaj</button></th>
+        </tr>
+      </table>
+      <datalist id="whitelist"></datalist>
+      <datalist id="blacklist"></datalist>
+    </form>
+  </div>
   <div id="right_content">
     <details id="help" open>
       <summary>Pomoc</summary>

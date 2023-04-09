@@ -171,13 +171,13 @@ function displayData(data, base) {
     let td6 = document.createElement("td");
     td6.innerText = data[i].Year + ".";
     if (data[i].Month == null) {
-      td6.innerText += "?";
+      td6.innerText += "? ";
     } else {
       td6.innerText += data[i].Month;
     }
     td6.innerText += ".";
     if (data[i].Day == null) {
-      td6.innerText += "?";
+      td6.innerText += "? ";
     } else {
       td6.innerText += data[i].Day;
     }
@@ -221,7 +221,7 @@ function displayData(data, base) {
       "<button><a style='color: black;' href='/game_raw/?id=" +
       data[i].id +
       "&table=" +
-      base +
+      data[i].table +
       "'>zobacz</a></button>";
     td10.classList.add("not_mobile");
     for (let i = 1; i <= 10; i++) {
@@ -244,7 +244,7 @@ function download(data) {
       games += data[i].Month;
     }
     if (data[i].Day == null) {
-      games += '?"]\n';
+      games += '? "]\n';
     } else {
       games += data[i].Day + '"]\n';
     }
@@ -292,4 +292,35 @@ function replaceNationalCharacters(text) {
   toReplace = toReplace.replace(/ż/g, "z");
   toReplace = toReplace.replace(/Ż/g, "Z");
   return toReplace;
+}
+
+function updateDataList(container, optlist, base) {
+  let searchbar = document.getElementById(container);
+  let datalist = document.getElementById(optlist);
+  let player = searchbar.value;
+  datalist.innerHTML = "";
+
+  if (player.length > 3) {
+    const xhttp2 = new XMLHttpRequest();
+    xhttp2.open("POST", "/API/search_player", true);
+    let messenge = "player=" + encodeURIComponent(player) + "&base=" + base;
+    xhttp2.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        try {
+          let json = JSON.parse(this.responseText);
+          for (let finded of json) {
+            let option = document.createElement("option");
+            option.value = finded.toString();
+            datalist.append(option);
+          }
+        } catch (err) {}
+      }
+    };
+
+    xhttp2.setRequestHeader(
+      "Content-type",
+      "application/x-www-form-urlencoded"
+    );
+    xhttp2.send(messenge);
+  }
 }

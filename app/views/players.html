@@ -1,7 +1,9 @@
+<script defer src="/script/players.js"></script>
 <div id="content" style="width: fit-content">
   <form method="get" style="text-align: center" target="_self">
     <label for=" name">Gracz</label>
     <input
+      list="players"
       type="text"
       id="name"
       name="name"
@@ -10,6 +12,8 @@
       autofocus
     />
     <br />
+    <datalist id="players"> </datalist>
+
     <input type="submit" value="szukaj" />
   </form>
 </div>

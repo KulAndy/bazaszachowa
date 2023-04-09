@@ -75,19 +75,19 @@ const APIControler = async (request, response) => {
           );
           resources.sendJSON(response, min_max_year_elo[0]);
           break;
+        case "/API/search_player":
+          let players_options = await base.searchPlayer(data.player, data.base);
+          resources.sendJSON(response, players_options);
+          break;
 
         default:
-          response.writeHead(200, { "Content-Type": "text/plain" });
-          response.write(JSON.stringify(data));
-          response.end();
+          resources.sendJSON(response, data);
           break;
       }
       break;
 
     default:
-      response.writeHead(200, { "Content-Type": "text/plain" });
-      response.write(JSON.stringify(data));
-      response.end();
+      resources.sendJSON(response, data);
       break;
   }
 };
