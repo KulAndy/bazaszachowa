@@ -1,5 +1,16 @@
 <?php
-require 'login_data.php';
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+require_once('login_data.php');
+@$db = new mysqli($host, $user, $password, $base);
+
+if (mysqli_connect_errno()) {
+    echo '<p>Błąd: Połączenie z bazą danych nie powiodło się.<br />
+             Spróbuj jeszcze raz później.</p>';
+    exit;
+}
 
 $db->set_charset("utf8");
 
@@ -7,12 +18,36 @@ $data['base'] = $_POST['base'];
 
 if (isset($_POST['player']) && !empty($_POST['player'])) {
     $playerBasic = htmlspecialchars($_POST['player']);
-    if (in_array(substr($playerBasic, 1, 1), ["'", "`"])) {
-        $playerFullname = substr($playerBasic, 2);
-        $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerFullname)))));
+    if (in_array(substr($_POST['player'], 1, 1), ["'", "`"])) {
+        $playerFullname = substr($_POST['player'], 2);
     } else {
-        $playerFullname = "+" . str_replace(" ", " +", preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $playerBasic)))));
+        $playerFullname = $_POST['player'];
     }
+    $playerFullname =  preg_replace(
+        "/\b\w\b/i",
+        "",
+        $playerFullname
+    );
+
+    $playerFullname = str_replace(
+        "-",
+        " ",
+        $playerFullname
+    );
+    $playerFullname = preg_replace(
+        '/\s+/',
+        ' ',
+        $playerFullname
+    );
+    $playerFullname = "+" . str_replace(
+        " ",
+        " +",
+        preg_replace(
+            "/(^| |')\w{0,2}($| |')/",
+            "",
+            $playerFullname
+        )
+    );
 }
 
 if (isset($_POST['color']) && !empty($_POST['color'])) {
@@ -34,8 +69,7 @@ if ($color == "white") {
         WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $db->bind_param($searching, [$playerFullname, $_POST["player"], $opening]);
-
+        $searching->bind_param('sss', $playerFullname, $_POST["player"], $opening);
     } else {
         $query = "SELECT 
         $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,  Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO   
@@ -47,7 +81,7 @@ if ($color == "white") {
         WHERE match(t1.fullname) against(? in boolean mode) AND t1.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $db->bind_param($searching, [$playerFullname, $_POST["player"]]);
+        $searching->bind_param('ss', $playerFullname, $_POST["player"]);
     }
 } else if ($color == "black") {
     if (isset($opening) && !empty($opening)) {
@@ -61,7 +95,7 @@ if ($color == "white") {
         WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? AND opening like ? 
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $db->bind_param($searching, [$playerFullname, $_POST["player"], $opening]);
+        $searching->bind_param('sss', $playerFullname, $_POST["player"], $opening);
     } else {
         $query = "SELECT 
         $table.id, moves, $events_table.name as Event, $table.Year, $table.Month, $table.Day,  Round, t1.fullname as White, t2.fullname as Black,  Result, WhiteElo, BlackElo, $eco_table.ECO   
@@ -73,17 +107,16 @@ if ($color == "white") {
         WHERE match(t2.fullname) against(? in boolean mode) AND t2.fullname like ?
         order by Year DESC, Month DESC, Day DESC,Event, Round desc, White, Black";
         $searching = $db->prepare($query);
-        $db->bind_param($searching, [$playerFullname, $_POST["player"]]);
+        $searching->bind_param('ss', $playerFullname, $_POST["player"]);
     }
 } else {
     exit;
 }
-
-$db->execute($searching);
-$result = $db->get_result($searching);
+$searching->execute();
+$result = $searching->get_result();
 
 $data = array();
-while ($row = $db->fetch_assoc($result)) {
+while ($row = $result->fetch_assoc()) {
     array_push($data, $row);
 }
 print_r(json_encode($data));

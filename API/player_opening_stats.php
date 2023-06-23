@@ -1,20 +1,40 @@
 <?php
-require 'login_data.php';
+require_once('login_data.php');
 
 if (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
     $basicName = htmlspecialchars($_REQUEST['name']);
     if (in_array(substr($_REQUEST['name'], 1, 1), ["'", "`"])) {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_REQUEST['name'], 2)));
+        $fullname = substr($_REQUEST['name'], 2);
     } else {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_REQUEST['name']));
+        $fullname = $_REQUEST['name'];
     }
-    $fullname =
-        str_replace(".", "", $fullname);
-    $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
-    $fullname = str_replace("-", " ", $fullname);
-    $fullname = "+" . str_replace(" ", " +", $fullname);
+    $fullname =  preg_replace(
+        "/\b\w\b/i",
+        "",
+        $fullname
+    );
+
+    $fullname = str_replace(
+        "-",
+        " ",
+        $fullname
+    );
+    $fullname = preg_replace(
+        '/\s+/',
+        ' ',
+        $fullname
+    );
+    $fullname = "+" . str_replace(
+        " ",
+        " +",
+        preg_replace(
+            "/(^| |')\w{0,2}($| |')/",
+            "",
+            $fullname
+        )
+    );
     $basicName =
-        str_replace(".", "", $basicName) . "_";
+        str_replace(".", "", $basicName);
 } else {
     die("Brak zawodnika do wyszukania");
 }
@@ -64,4 +84,5 @@ $db->bind_result($searching, $opening, $count, $percent);
 while ($db->fetch($searching)) {
     array_push($data["blacks"], [$opening, $count, $percent]);
 }
+
 echo json_encode($data);

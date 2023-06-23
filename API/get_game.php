@@ -1,5 +1,5 @@
 <?php
-require 'login_data.php';
+require_once ('login_data.php');
 
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     $id = $_POST['id'];

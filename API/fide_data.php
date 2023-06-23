@@ -35,52 +35,30 @@ if (isset($_REQUEST['name']) && !empty($_REQUEST['name'])) {
 } else {
     die("Brak zawodnika do wyszukania");
 }
+
 $query = "SELECT
-    MAX(rating) as maxElo, MAX(maxYear) as maxYear, MIN(minYear) minYear
-FROM
-    (
-    SELECT
-        MAX(WhiteElo) AS rating,
-        MIN(YEAR) AS minYear,
-        MAX(YEAR) AS maxYear
-    FROM
-        $table
-    INNER JOIN $players_table AS t1
-    ON
-        WhiteID = t1.id
-    WHERE
-        MATCH(t1.fullname) AGAINST(
-            ? IN BOOLEAN MODE
-        ) AND t1.fullname LIKE ?
-    UNION
-SELECT
-    MAX(BlackElo) AS rating,
-    MIN(YEAR) AS minYear,
-    MAX(YEAR) AS maxYear
-FROM
-    $table
-INNER JOIN $players_table AS t1
-ON
-    BlackID = t1.id
-WHERE
-    MATCH(t1.fullname) AGAINST(
-        ? IN BOOLEAN MODE
-    ) AND t1.fullname LIKE ?
-UNION
-SELECT
+    fideid,
+    name,
+    title,
     rating,
-    NULL,
-    NULL
-FROM
-    $fide_table
-WHERE
+    rapid_rating,
+    blitz_rating,
+    birthday
+    FROM
+    fide_players
+    WHERE
     MATCH(NAME) AGAINST(
         ? IN BOOLEAN MODE
-    ) AND NAME LIKE ?
-) AS pom";
+    ) AND NAME LIKE ?";
+
+
 $searching = $db->prepare($query);
-$db->bind_param($searching, [$fullname, $_REQUEST["name"], $fullname, $_REQUEST["name"], $fullname, $_REQUEST["name"]]);
+$db->bind_param($searching, [$fullname, $_REQUEST["name"]]);
 $db->execute($searching);
 $result = $db->get_result($searching);
-echo json_encode($db->fetch_assoc($result));
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    array_push($data, $row);
+}
+echo json_encode($data);
 $db->close();

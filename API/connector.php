@@ -47,7 +47,8 @@ class Connector
         return $result->fetch();
     }
 
-    public function fetch_all(&$result){
+    public function fetch_all(&$result)
+    {
         return $result->fetch_all();
     }
 
@@ -59,6 +60,7 @@ class Connector
 
     public function bind_param(object &$prepared, array $params)
     {
+
         $types = "";
         foreach ($params as &$param) {
             switch (gettype($param)) {
@@ -72,14 +74,17 @@ class Connector
                 case "double":
                     $types .= "d";
                     break;
+                case "resource":
+                    $types .= "b";
+                    break;
                 default:
                     unset($param);
                     break;
             }
         }
-
-        $prepared->bind_param($types, ...$params);
-
+        if (sizeof($params) > 0) {
+            $prepared->bind_param($types, ...$params);
+        }
     }
 
     public function bind_result(object &$executed, &...$args)

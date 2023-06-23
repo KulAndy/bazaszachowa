@@ -1,8 +1,7 @@
 <?php
 
-require 'login_data.php';
+require_once('login_data.php');
 
-$db->set_charset("utf8");
 $data = array(
     "rows" => array(),
 );
@@ -354,17 +353,32 @@ if (isset($_POST['searching'])) {
                     WHERE ";
         $toBind = array();
         if (isset($white)) {
+            $white =  preg_replace(
+                "/\b\w\b/i",
+                "",
+                $white
+            );
             if (sizeof(explode(" ", $white)) > 1) {
                 if (in_array(substr($white, 1, 1), ["'", "`"])) {
                     $white = substr($white, 2);
                 }
+                $white = str_replace(
+                    "-",
+                    " ",
+                    $white
+                );
+                $white = preg_replace(
+                    '/\s+/',
+                    ' ',
+                    $white
+                );
                 $white = "+" . str_replace(
                     " ",
                     " +",
                     preg_replace(
                         "/(^| |')\w{0,2}($| |')/",
                         "",
-                        preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $white))))
+                        $white
                     )
                 );
                 $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
@@ -379,16 +393,32 @@ if (isset($_POST['searching'])) {
             }
 
             if (sizeof(explode(" ", $black)) > 1) {
+                $black =  preg_replace(
+                    "/\b\w\b/i",
+                    "",
+                    $black
+                );
+
                 if (in_array(substr($black, 1, 1), ["'", "`"])) {
                     $black = substr($black, 2);
                 }
+                $black = str_replace(
+                    "-",
+                    " ",
+                    $black
+                );
+                $black = preg_replace(
+                    '/\s+/',
+                    ' ',
+                    $black
+                );
                 $black = "+" . str_replace(
                     " ",
                     " +",
                     preg_replace(
                         "/(^| |')\w{0,2}($| |')/",
                         "",
-                        preg_replace('/\s+/', ' ', str_replace("-", " ", preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $black))))
+                        $black
                     )
                 );
                 $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
@@ -432,9 +462,6 @@ if (isset($_POST['searching'])) {
             left join $eco_table on $table.ecoID = $eco_table.id
             WHERE ";
             if (isset($white)) {
-                $white =
-                    str_replace(".", "", $white);
-                $white = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $white);
                 if (sizeof(explode(" ", $white)) > 1) {
                     $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
                 } else {
@@ -443,9 +470,6 @@ if (isset($_POST['searching'])) {
                 array_push($toBind, $white, $_POST["white"]);
             }
             if (isset($black)) {
-                $black =
-                    str_replace(".", "", $black);
-                $black = preg_replace("/(^| |')\+\w{0,2}($| |')/", "", $black);
                 if (sizeof($toBind) > $toBindSize) {
                     $query = $query . " and";
                 }

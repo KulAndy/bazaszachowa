@@ -6,6 +6,11 @@ p[style="text-align: center;"] {
   border: 1px solid black;
 }
 
+iframe {
+  width: 90vw;
+  height: 80vh;
+}
+
 details[open] summary {
   list-style: "▼";
 }

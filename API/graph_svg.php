@@ -21,7 +21,7 @@ $svgElement->appendChild($background);
 $heigth += $header;
 
 
-require 'login_data.php';
+require_once('login_data.php');
 
 $initialRating = null;
 $breakPoints = array();
@@ -31,18 +31,36 @@ $minElo = 0;
 $maxElo = 0;
 if (isset($_GET['name']) && !empty($_GET['name'])) {
     $basicName = htmlspecialchars($_GET['name']);
-    if (in_array(substr($_GET['name'], 1, 1), ["'", "`"])) {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", substr($_GET['name'], 2)));
+    if (in_array(substr($_REQUEST['name'], 1, 1), ["'", "`"])) {
+        $fullname = substr($_REQUEST['name'], 2);
     } else {
-        $fullname = preg_replace("/ +[a-z0-9\.]$/i", "", preg_replace("/ +[a-z0-9\.]\.* +/i", "", $_GET['name']));
+        $fullname = $_REQUEST['name'];
     }
-    $fullname =
-        str_replace(".", "", $fullname);
+    $fullname =  preg_replace(
+        "/\b\w\b/i",
+        "",
+        $fullname
+    );
 
-    $fullname = preg_replace("/(^| |')\w{0,2}($| |')/", "", $fullname);
-    $fullname = str_replace("-", " ", $fullname);
-
-    $fullname = "+" . str_replace(" ", " +", $fullname);
+    $fullname = str_replace(
+        "-",
+        " ",
+        $fullname
+    );
+    $fullname = preg_replace(
+        '/\s+/',
+        ' ',
+        $fullname
+    );
+    $fullname = "+" . str_replace(
+        " ",
+        " +",
+        preg_replace(
+            "/(^| |')\w{0,2}($| |')/",
+            "",
+            $fullname
+        )
+    );
     $query = "      SELECT MAX(Elo) as Elo, Year, Month FROM(
 SELECT WhiteElo as Elo, Year, Month FROM $table 
 INNER JOIN $players_table
@@ -229,8 +247,7 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
 
         $currenPointX = $margin;
         $currentPercent = 1 - ($initialRating[0] - $minGraphElo) / ($maxGraphElo - $minGraphElo);
-        $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;
-        ;
+        $currenPointY = $currentPercent * ($minPoint - $maxPoint) + $maxPoint;;
 
         $i = 0;
         $j = 0;
@@ -264,7 +281,6 @@ WHERE MATCH($players_table.fullname) against(? in boolean mode) AND Month is not
             $currenPointX = $newCurrenPointX;
             $currenPointY = $newCurrenPointY;
             $currentBreak = $newBreak;
-
         }
         $monthDiff = ((int) date("Y") - $currentBreak[1]) * 12 + (date("m") - $currentBreak[2]);
 

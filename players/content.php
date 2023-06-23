@@ -1,13 +1,15 @@
 <div id="content" style="width: fit-content;">
     <form method="get" style="text-align: center;" target="_self">
         <label for=" name">Gracz</label>
-        <input <?php
-        if (isset($_GET['name']) && !empty($_GET['name'])) {
-            echo "value='" . htmlentities(trim($_GET['name'])) . "'";
-        }
-        ?> type="text" id="name" name="name" placeholder="Nowak, Jan"
-            required autofocus>
+        <input list="players" <?php
+                                if (isset($_GET['name']) && !empty($_GET['name'])) {
+                                    echo "value='" . htmlentities(trim($_GET['name'])) . "'";
+                                }
+                                ?> type="text" id="name" name="name" placeholder="Nowak, Jan" required autofocus>
         <br>
+        <datalist id="players">
+
+        </datalist>
         <input type="submit" value="szukaj">
     </form>
     <?php
