@@ -161,7 +161,6 @@ const DRAWER = {
     let current_point_y = current_percent * (min_point - max_point) + max_point;
     img.stroke("blue", 3);
 
-    console.log(data[0]);
     for (let i = 1; i < data.length; i++) {
       let new_break = data[i];
       let month_diff =
@@ -490,4 +489,3 @@ function years_diff(date1, date2) {
   }
   return diff;
 }
-

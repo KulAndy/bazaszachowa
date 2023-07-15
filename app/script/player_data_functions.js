@@ -206,7 +206,7 @@ function displayData(data, base) {
       let form = document.createElement("form");
       form.style.visibility = "hidden";
       form.method = "POST";
-      form.action = "/game";
+      form.action = "/game/index";
       let inputList = document.createElement("input");
       let ids = data.map(function (value) {
         return value.id;
@@ -304,7 +304,7 @@ function replaceNationalCharacters(text) {
   return toReplace;
 }
 
-async function loadGames() {
+async function loadGames(request) {
   let minEco = typeof request.minEco == "undefined" ? "" : request.minEco;
   let maxEco = typeof request.maxEco == "undefined" ? "" : request.maxEco;
   await search(
@@ -321,7 +321,7 @@ async function loadGames() {
   );
 }
 
-function loadStats() {
+function loadStats(request) {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/API/player_opening_stats", true);
   let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
@@ -329,7 +329,7 @@ function loadStats() {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
-        displayStats(json);
+        displayStats(json, request);
       } catch (err) {}
     }
   };
@@ -356,7 +356,7 @@ function loadStats() {
   };
 }
 
-function displayStats(json) {
+function displayStats(json, request) {
   let table = document.createElement("table");
   let sum = 0;
   if (json.whites.length > 0) {
@@ -406,7 +406,7 @@ function displayStats(json) {
       let td2 = document.createElement("td");
       td2.innerText = json.whites[i].count;
       let td3 = document.createElement("td");
-      sum += json.whites[i].count;
+      sum += json.whites[i][1];
       td3.innerText = json.whites[i].percent;
       let td4 = document.createElement("td");
       let filter = document.createElement("a");
@@ -471,7 +471,7 @@ function displayStats(json) {
       td1.innerText = json.blacks[i].opening;
       let td2 = document.createElement("td");
       td2.innerText = json.blacks[i].count;
-      sum += json.blacks[i].count;
+      sum += json.blacks[i][1];
       let td3 = document.createElement("td");
       td3.innerText = json.blacks[i].percent;
       let td4 = document.createElement("td");
@@ -667,7 +667,7 @@ function displayFilter(data) {
       let form = document.createElement("form");
       form.style.visibility = "hidden";
       form.method = "POST";
-      form.action = "/game";
+      form.action = "/game/index";
       let inputList = document.createElement("input");
       let ids = data.map(function (value) {
         return value.id;
@@ -701,11 +701,11 @@ function displayFilter(data) {
   pre.append(table);
 }
 
-function loadCrData() {
+function loadCrData(request) {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/API/cr_data", true);
   let messenge = "name=" + encodeURIComponent(request.fullname);
-  xhttp2.onreadystatechange = function () {
+  xhttp2.onreadystatechange = async function () {
     if (this.readyState == 4 && this.status == 200) {
       try {
         let json = JSON.parse(this.responseText);
@@ -716,7 +716,7 @@ function loadCrData() {
         }
 
         if (json.length == 1) {
-          displayCrData("info", json[0]);
+          await displayCrData("info", json[0]);
         } else if (json.length > 1) {
           let info = document.getElementById("info");
           let ambigousAlert = document.createElement("h3");
@@ -739,16 +739,19 @@ function loadCrData() {
           let ambigous = document.createElement("details");
           ambigous.id = "ambigous";
           let description = document.createElement("summary");
-          description.innerText = "inni znalezieni zawodnicy";
+          description.innerText = "inni znalezieni zawodnicy CR";
           description.style.width = "fit-content";
           description.style.margin = "auto";
           ambigous.append(description);
           info.append(ambigous);
           for (let i = 1; i < json.length; i++) {
-            displayCrData("ambigous", json[i]);
+            await displayCrData("ambigous", json[i]);
           }
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        loadFIDEData(request);
+      }
     }
   };
 
@@ -756,7 +759,7 @@ function loadCrData() {
   xhttp2.send(messenge);
 }
 
-function displayCrData(containerID, data) {
+async function displayCrData(containerID, data) {
   let container = crateTableData(data);
   document.getElementById(containerID).append(container);
 }
@@ -764,6 +767,10 @@ function displayCrData(containerID, data) {
 function crateTableData(data) {
   let container = document.createElement("table");
   container.id = "cr-data";
+
+  let caption = document.createElement("caption");
+  caption.innerHTML = "dane z <a href='https://www.cr-pzszach.pl'>CR</a>";
+  container.append(caption);
 
   let tr0 = document.createElement("tr");
   let td0_1 = document.createElement("th");
@@ -795,7 +802,7 @@ function crateTableData(data) {
   td2_1.innerText = "CR ID:";
   let td2_2 = document.createElement("td");
   let crLink = document.createElement("a");
-  crLink.href = `http://www.cr-pzszach.pl/ew/viewpage.php?page_id=1&zwiazek=&typ_czlonka=&pers_id=${data.id}`;
+  crLink.href = `http://www.cr-pzszach.pl/ew/viewpage?page_id=1&zwiazek=&typ_czlonka=&pers_id=${data.id}`;
   crLink.innerText = data.id;
   td2_2.append(crLink);
   tr2.append(td2_1);
@@ -868,7 +875,7 @@ function categoryToRanking(category) {
   }
 }
 
-function designateMinMaxYearElo() {
+function designateMinMaxYearElo(request) {
   const xhttp2 = new XMLHttpRequest();
   xhttp2.open("POST", "/API/min_max_year_elo", true);
   let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
@@ -897,3 +904,138 @@ function putOnPageMinMaxYearElo(data) {
       yearsDiv.innerText = `gry z lat: ${data.minYear} - ${data.maxYear}`;
   } catch {}
 }
+
+function loadFIDEData(request) {
+  const xhttp2 = new XMLHttpRequest();
+  xhttp2.open("POST", "/API/fide_data", true);
+  let messenge = "name=" + encodeURIComponent(request.fullname) + "&base=all";
+  xhttp2.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      try {
+        let json = JSON.parse(this.responseText);
+        if (json.length > 0) {
+          json.sort((a, b) => {
+            return b.rating - a.rating;
+          });
+          displayFideData(json);
+        }
+      } catch (error) {}
+    }
+  };
+
+  xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp2.send(messenge);
+}
+
+function displayFideData(data) {
+  let container = document.createElement("table");
+  container.id = "fide-data";
+  container.style.border = "none";
+  let caption = document.createElement("caption");
+  caption.innerHTML =
+    "dane z <a href='https://ratings.fide.com/download_lists.phtml'>FIDE</a>";
+  container.append(caption);
+  let details = document.createElement("details");
+  details.id = "ambigous2";
+  details.style.width = "fit-content";
+  details.style.margin = "auto";
+  let summary = document.createElement("summary");
+  summary.innerText = "inni znalezieni zawodnicy FIDE";
+  details.append(summary);
+  for (let i = 0; i < data.length; i++) {
+    let table = document.createElement("table");
+    let tr1 = document.createElement("tr");
+    let description1 = document.createElement("th");
+    description1.colSpan = "2";
+    description1.innerText = data[i].name;
+    tr1.append(description1);
+    let tr2 = document.createElement("tr");
+    let description2 = document.createElement("th");
+    description2.innerText = "ID";
+    let value2 = document.createElement("td");
+    value2.innerHTML = parseInt(data[i].fideid)
+      ? `<a href="https://ratings.fide.com/profile/${parseInt(
+          data[i].fideid
+        )}">${parseInt(data[i].fideid)}</a>`
+      : "brak";
+    tr2.append(description2, value2);
+    let tr3 = document.createElement("tr");
+    let description3 = document.createElement("th");
+    description3.innerText = "Tytuł";
+    let value3 = document.createElement("td");
+    value3.innerText = data[i].title ? data[i].title : "brak";
+    tr3.append(description3, value3);
+    let tr4 = document.createElement("tr");
+    let description4 = document.createElement("th");
+    description4.innerText = "Rocznik";
+    let value4 = document.createElement("td");
+    value4.innerText = data[i].birthday ? data[i].birthday : "brak";
+    tr4.append(description4, value4);
+    let tr5 = document.createElement("tr");
+    let description5 = document.createElement("th");
+    description5.colSpan = "2";
+    description5.innerText = "Elo";
+    tr5.append(description5);
+    let tr6 = document.createElement("tr");
+    let description6 = document.createElement("th");
+    description6.innerText = "Klasyczne";
+    let value6 = document.createElement("td");
+    value6.innerText = parseInt(data[i].rating)
+      ? parseInt(data[i].rating)
+      : "brak";
+    tr6.append(description6, value6);
+    let tr7 = document.createElement("tr");
+    let description7 = document.createElement("th");
+    description7.innerText = "Szybkie";
+    let value7 = document.createElement("td");
+    value7.innerText = parseInt(data[i].rapid_rating)
+      ? parseInt(data[i].rapid_rating)
+      : "brak";
+    tr7.append(description7, value7);
+    let tr8 = document.createElement("tr");
+    let description8 = document.createElement("th");
+    description8.innerText = "Błyskawiczne";
+    let value8 = document.createElement("td");
+    value8.innerText = parseInt(data[i].blitz_rating)
+      ? parseInt(data[i].blitz_rating)
+      : "brak";
+    tr8.append(description8, value8);
+    table.append(tr1);
+    table.append(tr2);
+    table.append(tr3);
+    table.append(tr4);
+    table.append(tr5);
+    table.append(tr6);
+    table.append(tr7);
+    table.append(tr8);
+    if (i == 0) {
+      container.append(table);
+    } else {
+      details.append(table);
+    }
+  }
+
+  document.getElementById("info").append(container);
+  if (data.length > 1) {
+    document.getElementById("info").append(details);
+  }
+}
+
+export {
+  search,
+  displayData,
+  download,
+  replaceNationalCharacters,
+  loadGames,
+  loadStats,
+  displayStats,
+  filter,
+  displayFilter,
+  loadCrData,
+  crateTableData,
+  categoryToRanking,
+  designateMinMaxYearElo,
+  putOnPageMinMaxYearElo,
+  loadFIDEData,
+  displayCrData,
+};

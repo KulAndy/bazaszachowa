@@ -97,6 +97,7 @@ body {
   margin: auto;
   display: flex;
   justify-content: center;
+  width: 0 !important;
 }
 
 #content3 {
@@ -132,8 +133,21 @@ body {
   outline: none;
 }
 
-#content2 {
-  width: 0 !important;
+.comment {
+  display: none;
+}
+
+.buttons {
+  grid-column: 1/2 !important;
+}
+
+#editboardButton {
+  display: none;
+}
+
+#boardButton {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 767px) {

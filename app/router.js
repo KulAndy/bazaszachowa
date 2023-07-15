@@ -1,4 +1,4 @@
-const APIControler = require("./API_controler");
+const APIController = require("./API_controler");
 const RESOURCE = require("./resources");
 const BASE = require("./base");
 const SETTINGS = require("./settings");
@@ -7,7 +7,7 @@ const MAILER = require("./mail_sender");
 const ROUTER = async (request, response) => {
   try {
     if (/^\/API\//.test(request.url)) {
-      await APIControler(request, response);
+      await APIController(request, response);
     } else {
       switch (request.method) {
         case "GET":
@@ -106,8 +106,7 @@ const ROUTER = async (request, response) => {
               let postfix = `<script defer>
                             document.getElementById("player").innerText = '${playerProfile.fullname}';
                         </script>
-                        <script src="/script/player_data_functions.js" defer></script>
-                        <script src="/script/player_data.js" defer></script>
+                        <script type="module" src="/script/player_data.js" defer></script>
                             `;
               await RESOURCE.sendFileWithHeader(
                 response,
@@ -146,14 +145,16 @@ const ROUTER = async (request, response) => {
               let games = await RESOURCE.RequestData(request);
               await RESOURCE.sendFileWithHeader(
                 response,
-                `<link rel="stylesheet" href="css/chessicons.css">
+                `<link rel="stylesheet" href="/css/game.css">
+                <link rel="stylesheet" href="/css/chessicons.css">
            <script>
                 let request = ${JSON.stringify(games)};
             </script>
             <script defer src="/script/pgnv.js" type="text/javascript"></script>
             <script defer src="/script/game_display_functions.js"></script>
             <script defer src="/script/game.js"></script>
-            `,
+            <dialog id="dialog"></dialog>
+                        `,
                 "/views/game.html",
                 '<dialog id="dialog"></dialog>'
               );

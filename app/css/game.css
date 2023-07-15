@@ -1,0 +1,75 @@
+#boardFen {
+  display: none;
+}
+
+#engine_container {
+  background-color: var(--document_content_background);
+}
+#engine_container * {
+  max-height: min(320px, 81vw) !important;
+}
+
+#engine_container p {
+  text-wrap: nowrap;
+  /* width: min(200px, 45vw, 47vh - 5em) !important; */
+  margin: 5px;
+}
+
+#engine_container h2 {
+  text-align: center;
+}
+
+#engine_container p span#engine_info {
+  text-wrap: wrap;
+  overflow-y: auto;
+  display: block;
+  height: min(160px, 40vw) !important;
+}
+
+p#first_v,
+p#second_v,
+p#third_v {
+  text-wrap: wrap;
+  max-height: 3em !important;
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  #engine_container {
+    height: fit-content;
+    grid-column: 1/2;
+    grid-row: 7/8;
+    margin-left: 0;
+    padding-bottom: 2.5em;
+    width: min(300px, 67vw, 71vh - 7em);
+  }
+  #tabs {
+    height: fit-content;
+    grid-column: 1/3;
+    grid-row: 6;
+    margin-left: 0;
+    padding-bottom: 2.5em;
+    text-align: center;
+    padding: 10px;
+  }
+  .inactive {
+    display: none;
+  }
+  .active {
+    /* display: block; */
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  #tabs {
+    display: none;
+  }
+
+  #engine_container {
+    grid-column: 4/5;
+    grid-row: 3/5;
+    margin-left: 9.33333px;
+    width: min(200px, 45vw, 47vh - 5em) !important;
+    height: min(320px, 81vw) !important;
+  }
+}

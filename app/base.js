@@ -32,6 +32,41 @@ const BASE = {
     });
   },
 
+  async fide_data(name) {
+    let name_ful;
+    if (name[1] == "'" || name[1] == "`") {
+      name_ful = name.substring(1);
+    } else {
+      name_ful = name;
+    }
+    name_ful = name_ful.replace(/'/g, " ");
+    name_ful = name_ful.replaceAll("-", " ");
+    name_ful = name_ful.replace(/ \w?\.*$/g, "");
+    name_ful = name_ful.replace(/\(.*/g, "");
+    name_ful = name_ful.replace(/,$/g, "");
+    name_ful = name_ful.replace(/\s+/g, " ");
+    name_ful = name_ful.replace(/ *$/g, "");
+    name_ful = name_ful.replace(/(^| |')\w{0,2}($| |')/g, "");
+    name_ful = "+" + name_ful.replace(/ +/g, " +");
+    name_ful = name_ful.trim();
+    let query = `SELECT
+      fideid,
+      name,
+      title,
+      rating,
+      rapid_rating,
+      blitz_rating,
+      birthday
+      FROM
+      fide_players
+      WHERE
+      MATCH(NAME) AGAINST(
+          ? IN BOOLEAN MODE
+      ) AND NAME LIKE ?`;
+    let result = await this.execSearch(query, [name_ful, name]);
+    return result;
+  },
+
   async searchPlayer(player, table, forFulltext = false) {
     player += "%";
 

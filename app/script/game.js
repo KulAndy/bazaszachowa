@@ -1,4 +1,5 @@
 "use strict";
+
 var gameMoves;
 var mode;
 window.onload = async () => {
@@ -10,5 +11,6 @@ window.onload = async () => {
   if (typeof request.list == "string") list = request.list.split(",");
   else list = request.list;
   let base = request.base;
+
   await game_searching.search(list[current], base, list, current);
 };

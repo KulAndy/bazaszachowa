@@ -2,7 +2,7 @@ const base = require("./base");
 const resources = require("./resources");
 const DRAWER = require("./drawing");
 
-const APIControler = async (request, response) => {
+const APIController = async (request, response) => {
   const data = await resources.RequestData(request);
   switch (request.method) {
     case "GET":
@@ -79,6 +79,12 @@ const APIControler = async (request, response) => {
           let players_options = await base.searchPlayer(data.player, data.base);
           resources.sendJSON(response, players_options);
           break;
+        case "/API/fide_data":
+          resources.sendJSON(response, await base.fide_data(data.name));
+          break;
+        case "/API/fide_data":
+          resources.sendJSON(response, await base.fide_data(data.name));
+          break;
 
         default:
           resources.sendJSON(response, data);
@@ -92,4 +98,4 @@ const APIControler = async (request, response) => {
   }
 };
 
-module.exports = APIControler;
+module.exports = APIController;

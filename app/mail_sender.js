@@ -25,7 +25,6 @@ const MAILER = {
       const filepath = files.file.filepath;
       fs.readFile(filepath, async function (error, data) {
         if (error) {
-          console.log(error);
           await RESOURCE.sendFileWithHeader(
             res,
             null,

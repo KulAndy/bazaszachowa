@@ -3,3 +3,4 @@ package-lock.json
 node_modules/
 *settings.js
 app/settings.js
+tmp/
