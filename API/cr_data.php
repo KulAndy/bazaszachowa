@@ -49,3 +49,6 @@ foreach ($finded[0] as $hit) {
 }
 
 echo json_encode($data);
+
+
+
