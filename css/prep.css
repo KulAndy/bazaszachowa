@@ -1,0 +1,145 @@
+:root {
+  --even-row: lemonchiffon;
+  --odd-row: lightcyan;
+}
+
+h1,
+h2 {
+  margin: 5px;
+}
+
+#content {
+  text-align: center;
+  height: max-content;
+  width: min(90vw, 715px);
+}
+
+#content2 {
+  display: grid;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#boardMoves {
+  background-color: white;
+  text-align: left;
+}
+
+#editboardButton {
+  display: none !important;
+}
+
+th {
+  border: solid 2px black !important;
+}
+
+#stats_container {
+  background-color: var(--document_content_background);
+  user-select: none;
+}
+
+table#stats tr td:first-child {
+  font-weight: bold;
+  color: var(--document_link);
+}
+
+#stats > tr:has(td) {
+  cursor: pointer;
+}
+
+#games {
+  cursor: pointer;
+}
+
+#games td {
+  color: var(--document_link);
+}
+
+#games_container,
+#stats_container {
+  max-height: 200px;
+  overflow-y: auto;
+  width: fit-content;
+}
+
+@media only screen and (max-width: 768px) {
+  #stats_container {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #games_container {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #loading {
+    transform: rotateX(180deg);
+  }
+  #games_container,
+  #stats_container {
+    direction: rtl;
+  }
+
+  #games tr,
+  #stats tr {
+    transform: rotateX(180deg);
+  }
+
+  #games_container,
+  #stats_container {
+    transform: rotateX(180deg);
+  }
+
+  #board {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  body {
+    overflow: hidden;
+  }
+
+  #stats_container {
+    grid-column: 2;
+    grid-row: 1/3;
+  }
+  #games_container {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  #board {
+    grid-column: 1;
+    grid-row: 1/4;
+  }
+}
+
+table tr:nth-child(2n) {
+  background-color: var(--even-row);
+}
+
+table tr:nth-child(2n) td {
+  background-color: var(--even-row);
+}
+table tr:nth-child(2n) th {
+  background-color: var(--even-row);
+}
+table tr:nth-child(2n) input {
+  background-color: var(--even-row);
+}
+
+table tr:nth-child(2n + 1) {
+  background-color: var(--odd-row);
+}
+
+table tr:nth-child(2n + 1) td {
+  background-color: var(--odd-row);
+}
+table tr:nth-child(2n + 1) th {
+  background-color: var(--odd-row);
+}
+table tr:nth-child(2n + 1) input {
+  background-color: var(--odd-row);
+}

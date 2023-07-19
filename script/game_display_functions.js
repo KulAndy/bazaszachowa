@@ -426,6 +426,14 @@ let game_searching = {
       }
     });
 
+    window.addEventListener("wheel", function (e) {
+      if (e.deltaY > 1) {
+        document.getElementById("boardButtonprev").click();
+      } else {
+        document.getElementById("boardButtonnext").click();
+      }
+    });
+
     window.addEventListener("keydown", function (e) {
       if (e.ctrlKey) {
         switch (e.which) {

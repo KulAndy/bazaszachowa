@@ -18,6 +18,21 @@
             echo urlencode($_GET['fullname']);
             ?>
         </details>
+        <table>
+            <tr>
+                <th colspan="2">przygotowanie (eksperymentalne)</th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/preparation/?name=<?php echo rawurlencode($_GET['fullname']) ?>&color=white">białe</a>
+                </td>
+                <td>
+                    <a href="/preparation/?name=<?php echo rawurlencode($_GET['fullname']) ?>&color=black">czarne</a>
+
+                </td>
+            </tr>
+
+        </table>
         <table style='border: 0;'>
             <tr id="container" style='display:flex;'>
                 <td id="stats" style='border: 0;'></td>

@@ -12,6 +12,9 @@
                 wyszukiwarka partii</a>
 
         </li>
+        <li <?php if ($_SERVER["DOCUMENT_URI"] == "/preparation/") echo 'class="active"' ?>>
+            <a target="_self" href="/preparation">przygotowanie (eksperymentalne)</a>
+        </li>
         <li <?php if ($_SERVER["DOCUMENT_URI"] == "/license/") echo 'class="active"' ?>> <a target="_self" href="/license/">
                 licencja</a>
 
@@ -20,10 +23,8 @@
                 fanów rodo</a>
 
         </li>
-        <li <?php if ($_SERVER["DOCUMENT_URI"] == "/contact/") echo 'class="active"' ?>> <a target="_self" href="/contact/">
+        <li <?php if ($_SERVER["DOCUMENT_URI"] == "/contact/") echo 'class="active"' ?>> <a target="_sel" href="/contact/">
                 kontakt</a>
-
-
         </li>
     </ul>
     <details class="mobile">
@@ -43,6 +44,9 @@
                     wyszukiwarka partii</a>
 
             </li>
+            <li <?php if ($_SERVER["DOCUMENT_URI"] == "/preparation/") echo 'class="active"' ?>>
+                <a target="_self" href="/preparation">przygotowanie (eksperymentalne)</a>
+            </li>
             <li <?php if ($_SERVER["DOCUMENT_URI"] == "/license/") echo 'class="active"' ?>> <a target="_self" href="/license/">
                     licencja</a>
 
@@ -51,9 +55,8 @@
                     fanów rodo</a>
 
             </li>
-            <li <?php if ($_SERVER["DOCUMENT_URI"] == "/contact/") echo 'class="active"' ?>> <a target="_self" href="/contact/">
+            <li <?php if ($_SERVER["DOCUMENT_URI"] == "/contact/") echo 'class="active"' ?>> <a target="_sel" href="/contact/">
                     kontakt</a>
-
             </li>
         </ul>
     </details>

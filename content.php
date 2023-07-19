@@ -1,4 +1,4 @@
-<div id="left_content" class="float_left">'
+<div id="left_content" class="float_left">
     <?php include 'left_content.php'; ?>
 </div>
 <div id="content" class="float_left">

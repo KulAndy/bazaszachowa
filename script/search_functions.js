@@ -283,8 +283,8 @@ function replaceNationalCharacters(text) {
   toReplace = toReplace.replace(/Ł/g, "L");
   toReplace = toReplace.replace(/ń/g, "n");
   toReplace = toReplace.replace(/Ń/g, "n");
-  toReplace = toReplace.replace(/o/g, "o");
-  toReplace = toReplace.replace(/O/g, "o");
+  toReplace = toReplace.replace(/ó/g, "o");
+  toReplace = toReplace.replace(/Ó/g, "o");
   toReplace = toReplace.replace(/ś/g, "s");
   toReplace = toReplace.replace(/Ś/g, "s");
   toReplace = toReplace.replace(/ź/g, "z");

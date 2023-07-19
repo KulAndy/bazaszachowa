@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://bazaszachowa.smallhost.pl/sitemap.xml
