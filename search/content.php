@@ -71,8 +71,8 @@
                 </tr>
                 <tr>
                     <td>baza:</td>
-                    <td>Polska <input type="radio" id="radioB1" name="base" checked></td>
-                    <td colspan="2"> całość <input type="radio" id="radioB2" name="base"></td>
+                    <td>Polska <input type="radio" id="radioB1" name="base"></td>
+                    <td colspan="2"> całość <input type="radio" id="radioB2" name="base" checked></td>
                 </tr>
                 <tr>
                     <td style="width: 18ch;">wyszukiwanie</td>
