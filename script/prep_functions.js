@@ -188,6 +188,38 @@ function mergeFensResults(results) {
 function searchFen(
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 ) {
+  let table = document.getElementById("stats");
+  table.innerHTML = "";
+  let headers = document.createElement("tr");
+  let header1 = document.createElement("th");
+  header1.innerText = "ruch";
+  let header2 = document.createElement("th");
+  header2.innerText = "liczba gier";
+  let header3 = document.createElement("th");
+  header3.innerText = "%";
+  let header4 = document.createElement("th");
+  header4.innerText = "najnowsze";
+  headers.appendChild(header1);
+  headers.appendChild(header2);
+  headers.appendChild(header3);
+  headers.appendChild(header4);
+  table.appendChild(headers);
+  let table2 = document.getElementById("games");
+  table2.innerHTML = "";
+  let headers2 = document.createElement("tr");
+  let header5 = document.createElement("th");
+  header5.innerText = "białe";
+  let header6 = document.createElement("th");
+  header6.innerText = "czarne";
+  let header7 = document.createElement("th");
+  header7.innerText = "wynik";
+  let header8 = document.createElement("th");
+  header8.innerText = "rok";
+  headers2.append(header5);
+  headers2.append(header6);
+  headers2.append(header7);
+  headers2.append(header8);
+  table2.append(headers2);
   fen = fen.trim();
   if (fen == "") {
     fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -219,22 +251,6 @@ function searchFen(
   moves_stats.sort((a, b) => {
     return b.games - a.games;
   });
-  let table = document.getElementById("stats");
-  table.innerHTML = "";
-  let headers = document.createElement("tr");
-  let header1 = document.createElement("th");
-  header1.innerText = "ruch";
-  let header2 = document.createElement("th");
-  header2.innerText = "liczba gier";
-  let header3 = document.createElement("th");
-  header3.innerText = "%";
-  let header4 = document.createElement("th");
-  header4.innerText = "najnowsze";
-  headers.appendChild(header1);
-  headers.appendChild(header2);
-  headers.appendChild(header3);
-  headers.appendChild(header4);
-  table.appendChild(headers);
   for (const stat of moves_stats) {
     let tr = document.createElement("tr");
     tr.onclick = function () {
@@ -256,22 +272,6 @@ function searchFen(
   }
 
   if (played.length > 0) {
-    let table2 = document.getElementById("games");
-    table2.innerHTML = "";
-    let headers2 = document.createElement("tr");
-    let header5 = document.createElement("th");
-    header5.innerText = "białe";
-    let header6 = document.createElement("th");
-    header6.innerText = "czarne";
-    let header7 = document.createElement("th");
-    header7.innerText = "wynik";
-    let header8 = document.createElement("th");
-    header8.innerText = "rok";
-    headers2.append(header5);
-    headers2.append(header6);
-    headers2.append(header7);
-    headers2.append(header8);
-    table2.append(headers2);
     for (let i = 0; i < played.length; i++) {
       const game = played[i];
       let tr = document.createElement("tr");
