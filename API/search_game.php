@@ -190,9 +190,9 @@ if (isset($_POST['searching'])) {
                         $white
                     )
                 );
-                $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
+                $query = $query . " whiteid = (SELECT id FROM $players_table WHERE  match(fullname) against(? in boolean mode) AND fullname like ? ) ";
             } else {
-                $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
+                $query = $query . " whiteid = (SELECT id FROM $players_table WHERE  match(fullname) against(?) AND fullname like ? ) ";
             }
             array_push($toBind, $white, $_POST["white"]);
         }
@@ -230,9 +230,9 @@ if (isset($_POST['searching'])) {
                         $black
                     )
                 );
-                $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
+                $query = $query . " blackid = (SELECT id FROM $players_table WHERE  match(fullname) against(? in boolean mode) AND fullname like ? ) ";
             } else {
-                $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
+                $query = $query . " blackid = (SELECT id FROM $players_table WHERE  match(fullname) against(?) AND fullname like ? ) ";
             }
             array_push($toBind, $black, $_POST["black"]);
         }
@@ -272,9 +272,9 @@ if (isset($_POST['searching'])) {
             WHERE ";
             if (isset($white)) {
                 if (sizeof(explode(" ", $white)) > 1) {
-                    $query = $query . " match(t2.fullname) against(? in boolean mode) AND t2.fullname like ? ";
+                    $query = $query . " blackid = (SELECT id FROM $players_table WHERE  match(fullname) against(? in boolean mode) AND fullname like ? ) ";
                 } else {
-                    $query = $query . " match(t2.fullname) against(?) AND t2.fullname like ? ";
+                    $query = $query . " blackid = (SELECT id FROM $players_table WHERE  match(fullname) against(?) AND fullname like ? ) ";
                 }
                 array_push($toBind, $white, $_POST["white"]);
             }
@@ -284,9 +284,9 @@ if (isset($_POST['searching'])) {
                 }
 
                 if (sizeof(explode(" ", $black)) > 1) {
-                    $query = $query . " match(t1.fullname) against(? in boolean mode) AND t1.fullname like ? ";
+                    $query = $query . " whiteid = (SELECT id FROM $players_table WHERE  match(fullname) against(? in boolean mode) AND fullname like ? ) ";
                 } else {
-                    $query = $query . " match(t1.fullname) against(?) AND t1.fullname like ? ";
+                    $query = $query . " whiteid = (SELECT id FROM $players_table WHERE  match(fullname) against(?) AND fullname like ? ) ";
                 }
                 array_push($toBind, $black, $_POST["black"]);
             }
