@@ -128,10 +128,6 @@ span {
 }
 
 /* /////////////////////////////////////////////////////////////////////////////// */
-:root {
-  --document_background: #c3df5d;
-  --document_content_background: #f0f7d4;
-}
 
 body {
   overflow-x: hidden;

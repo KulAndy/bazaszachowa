@@ -1,6 +1,6 @@
 div.not_mobile {
   width: 30vw;
-  background-color: #c3df5d;
+  background-color: var(--document_background);
 }
 #content {
   width: fit-content;

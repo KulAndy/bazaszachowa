@@ -277,14 +277,14 @@ function searchFen(
       let tr = document.createElement("tr");
 
       tr.onclick = () => {
-        let form = document.createElement("form");
-        form.style.visibility = "hidden";
-        form.method = "POST";
-        form.action = "/game/index.php";
-        let inputList = document.createElement("input");
         let ids = played.map(function (value) {
           return value.id;
         });
+        let form = document.createElement("form");
+        form.style.visibility = "hidden";
+        form.method = "POST";
+        form.action = `/game/index.php?id=${ids[i]}&base=all`;
+        let inputList = document.createElement("input");
         inputList.value = ids;
         inputList.name = "list";
         let inputCurrent = document.createElement("input");

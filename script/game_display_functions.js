@@ -15,92 +15,20 @@ let game_searching = {
             switch (current) {
               case 0:
                 next.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = current + 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  nextGame(table, list, current);
                 };
                 last.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = list.length - 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  lastGame(table, list, current);
                 };
                 next.disabled = false;
                 last.disabled = false;
                 break;
               case list.length - 1:
                 first.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = 0;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  firstGame(table, list, current);
                 };
                 previous.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = current - 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  previousGame(table, list, current);
                 };
                 first.disabled = false;
                 previous.disabled = false;
@@ -109,88 +37,16 @@ let game_searching = {
 
               default:
                 first.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = 0;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  firstGame(table, list, current);
                 };
                 previous.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = current - 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  previousGame(table, list, current);
                 };
                 next.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = current + 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  nextGame(table, list, current);
                 };
                 last.onclick = () => {
-                  let form = document.createElement("form");
-                  form.style.visibility = "hidden";
-                  form.method = "POST";
-                  form.action = "/game/index.php";
-                  form.target = "_self";
-                  let inputList = document.createElement("input");
-                  inputList.value = list;
-                  inputList.name = "list";
-                  let inputCurrent = document.createElement("input");
-                  inputCurrent.value = list.length - 1;
-                  let inputBase = document.createElement("input");
-                  inputBase.name = "base";
-                  inputBase.value = table;
-                  inputCurrent.name = "current";
-                  form.appendChild(inputList);
-                  form.appendChild(inputCurrent);
-                  form.appendChild(inputBase);
-                  document.body.append(form);
-                  form.submit();
+                  lastGame(table, list, current);
                 };
                 next.disabled = false;
                 last.disabled = false;
@@ -512,3 +368,41 @@ let game_searching = {
     }
   },
 };
+
+function nextGame(table, list, current) {
+  gotToGame(table, list, current + 1);
+}
+
+function lastGame(table, list, current) {
+  gotToGame(table, list, list.length - 1);
+}
+
+function previousGame(table, list, current) {
+  gotToGame(table, list, current - 1);
+}
+
+function firstGame(table, list, current) {
+  gotToGame(table, list, 0);
+}
+
+function gotToGame(table, list, index) {
+  let form = document.createElement("form");
+  form.style.visibility = "hidden";
+  form.method = "POST";
+  form.action = `/game/index.php?id=${list[index]}&base=${table}`;
+  form.target = "_self";
+  let inputList = document.createElement("input");
+  inputList.value = list;
+  inputList.name = "list";
+  let inputCurrent = document.createElement("input");
+  inputCurrent.value = index;
+  let inputBase = document.createElement("input");
+  inputBase.name = "base";
+  inputBase.value = table;
+  inputCurrent.name = "current";
+  form.appendChild(inputList);
+  form.appendChild(inputCurrent);
+  form.appendChild(inputBase);
+  document.body.append(form);
+  form.submit();
+}

@@ -159,11 +159,6 @@ function displayData(data, base) {
   }
   for (let i = 0; i < data.length; i++) {
     let tr = document.createElement("tr");
-    if (i % 2 == 0) {
-      tr.style.backgroundColor = "LemonChiffon";
-    } else {
-      tr.style.backgroundColor = "LightCyan";
-    }
     let td1 = document.createElement("td");
     td1.innerText = data[i].White;
     let td2 = document.createElement("td");
@@ -203,14 +198,14 @@ function displayData(data, base) {
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      let form = document.createElement("form");
-      form.style.visibility = "hidden";
-      form.method = "POST";
-      form.action = "/game/index.php";
-      let inputList = document.createElement("input");
       let ids = data.map(function (value) {
         return value.id;
       });
+      let form = document.createElement("form");
+      form.style.visibility = "hidden";
+      form.method = "POST";
+      form.action = `/game/index.php?id=${ids[i]}&base=all`;
+      let inputList = document.createElement("input");
       inputList.value = ids;
       inputList.name = "list";
       let inputCurrent = document.createElement("input");
@@ -228,7 +223,7 @@ function displayData(data, base) {
     td9.append(viewButton);
     let td10 = document.createElement("td");
     td10.innerHTML =
-      "<button><a style='color: black;' href='/game_raw/?id=" +
+      "<button><a style='color: var(--document_font_color);' href='/game_raw/?id=" +
       data[i].id +
       "&table=" +
       data[i].table +
@@ -620,11 +615,6 @@ function displayFilter(data) {
   }
   for (let i = 0; i < data.length; i++) {
     let tr = document.createElement("tr");
-    if (i % 2 == 0) {
-      tr.style.backgroundColor = "LemonChiffon";
-    } else {
-      tr.style.backgroundColor = "LightCyan";
-    }
     let td1 = document.createElement("td");
     td1.innerText = data[i].White;
     let td2 = document.createElement("td");
@@ -664,14 +654,14 @@ function displayFilter(data) {
     viewButton.innerText = "zobacz";
     viewButton.style.fontWeight = "bolder";
     viewButton.onclick = () => {
-      let form = document.createElement("form");
-      form.style.visibility = "hidden";
-      form.method = "POST";
-      form.action = "/game/index.php";
-      let inputList = document.createElement("input");
       let ids = data.map(function (value) {
         return value.id;
       });
+      let form = document.createElement("form");
+      form.style.visibility = "hidden";
+      form.method = "POST";
+      form.action = `/game/index.php?id=${ids[i]}&base=all`;
+      let inputList = document.createElement("input");
       inputList.value = ids;
       inputList.name = "list";
       let inputCurrent = document.createElement("input");
@@ -689,7 +679,7 @@ function displayFilter(data) {
     td9.append(viewButton);
     let td10 = document.createElement("td");
     td10.innerHTML =
-      "<button><a style='color: black;' href='/game_raw/?id=" +
+      "<button><a style='color: var(--document_font_color);' href='/game_raw/?id=" +
       data[i].id +
       "&table=all'>zobacz</a></button>";
     td10.classList.add("not_mobile");
