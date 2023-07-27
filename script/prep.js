@@ -18,9 +18,9 @@ var board = PGNV.pgnEdit("board", {
 
 window.addEventListener("wheel", function (e) {
   if (e.deltaY > 1) {
-    document.getElementById("boardButtonprev").click();
-  } else {
     document.getElementById("boardButtonnext").click();
+  } else {
+    document.getElementById("boardButtonprev").click();
   }
   e.stopPropagation();
   window.setTimeout(function () {

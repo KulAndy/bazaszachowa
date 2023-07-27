@@ -79,22 +79,10 @@ async function search(
     let rmTable = document.getElementById("table");
     rmTable.remove();
   } catch {}
-  let content = document.getElementById("content");
-  let loading = document.createElement("p");
-  loading.id = "loading";
-  loading.innerText = "Ładowanie ";
-  content.append(loading);
-  let counter = 0;
-  const interval = setInterval(function () {
-    loading.innerText = "Ładowanie ";
-    for (let i = 0; i < (counter % 10) + 1; i++) {
-      loading.innerText += ".";
-    }
-    counter++;
-  }, 500);
+  let loading = document.getElementById("loading");
+  loading.style.display = "block";
   xhttp2.onloadend = function () {
-    clearInterval(interval);
-    document.getElementById("loading").remove();
+    loading.style.display = "none";
   };
 }
 
@@ -332,22 +320,10 @@ function loadStats(request) {
   xhttp2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp2.send(messenge);
 
-  let content = document.getElementById("stats");
-  let loading = document.createElement("p");
-  loading.id = "loadingStats";
-  loading.innerText = "Ładowanie statystyk\n";
-  content.append(loading);
-  let counter = 0;
-  const intervalStats = setInterval(function () {
-    loading.innerText = "Ładowanie statystyk\n";
-    for (let i = 0; i < (counter % 10) + 1; i++) {
-      loading.innerText += ".";
-    }
-    counter++;
-  }, 500);
+  let loading = document.getElementById("loadingStats");
+  loading.style.display = "block";
   xhttp2.onloadend = function () {
-    clearInterval(intervalStats);
-    document.getElementById("loadingStats").remove();
+    loading.style.display = "none";
   };
 }
 
@@ -706,15 +682,20 @@ function loadCrData(request) {
         }
 
         if (json.length == 1) {
-          await displayCrData("info", json[0]);
+          await displayCrData("cr-data-container", json[0]);
         } else if (json.length > 1) {
-          let info = document.getElementById("info");
+          let info = document.getElementById("cr-data-container");
           let ambigousAlert = document.createElement("h3");
           ambigousAlert.id = "ambigousAlert";
           ambigousAlert.innerHTML =
             "<span style='color:red;'>UWAGA: Znaleziono więcej niż jednego zawodnika o tym nazwisku</span>\
             <br />najbardziej prawdopodobne:";
-          info.append(ambigousAlert);
+          document
+            .getElementById("data-container")
+            .parentElement.insertBefore(
+              ambigousAlert,
+              document.getElementById("data-container")
+            );
 
           json.forEach((element) => {});
           json.sort((a, b) =>
@@ -725,7 +706,7 @@ function loadCrData(request) {
               : 0
           );
 
-          displayCrData("info", json[0]);
+          displayCrData("cr-data-container", json[0]);
           let ambigous = document.createElement("details");
           ambigous.id = "ambigous";
           let description = document.createElement("summary");
@@ -759,7 +740,7 @@ function crateTableData(data) {
   container.id = "cr-data";
 
   let caption = document.createElement("caption");
-  caption.innerHTML = "dane z <a href='https://www.cr-pzszach.pl'>CR</a>";
+  caption.innerHTML = "<a href='https://www.cr-pzszach.pl'>CR</a>";
   container.append(caption);
 
   let tr0 = document.createElement("tr");
@@ -923,7 +904,7 @@ function displayFideData(data) {
   container.style.border = "none";
   let caption = document.createElement("caption");
   caption.innerHTML =
-    "dane z <a href='https://ratings.fide.com/download_lists.phtml'>FIDE</a>";
+    "<a href='https://ratings.fide.com/download_lists.phtml'>FIDE</a>";
   container.append(caption);
   let details = document.createElement("details");
   details.id = "ambigous2";
@@ -1005,9 +986,9 @@ function displayFideData(data) {
     }
   }
 
-  document.getElementById("info").append(container);
+  document.getElementById("fide-data-container").append(container);
   if (data.length > 1) {
-    document.getElementById("info").append(details);
+    document.getElementById("fide-data-container").append(details);
   }
 }
 

@@ -17,9 +17,11 @@
                 </tr>
                 <tr>
                     <td>lata:</td>
-                    <td style="display: flex; justify-content: flex-end;"><input type="number" id="minYear" step="1" min="1475" max="<?php echo date('Y') ?>" style="width: 4em;"></td>
+                    <td style="display: flex; justify-content: flex-end;"><input type="number" id="minYear" step="1"
+                            min="1475" max="<?php echo date('Y') ?>" style="width: 4em;"></td>
                     <td> - </td>
-                    <td style="display: flex; justify-content: flex-start;"><input type="number" id="maxYear" step="1" min="1475" max="2023" style="width: 4em;"></td>
+                    <td style="display: flex; justify-content: flex-start;"><input type="number" id="maxYear" step="1"
+                            min="1475" max="2023" style="width: 4em;"></td>
                 </tr>
                 <tr>
                     <td>turniej:</td>
@@ -86,6 +88,10 @@
             <datalist id="whitelist"></datalist>
             <datalist id="blacklist"></datalist>
         </form>
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spin"></div>
+            <p>Ładowanie ...</p>
+        </div>
     </div>
     <div id="right_content">
         <details id="help" open>

@@ -10,7 +10,8 @@
             <p id="yearRange"></p>
         </div>
         <details style="width: fit-content;margin: auto;">
-            <summary>profil na yottabase <a href="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">link</a>
+            <summary>profil na yottabase <a
+                    href="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">link</a>
             </summary>
             <iframe src="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
             </iframe>
@@ -18,6 +19,10 @@
             echo urlencode($_GET['fullname']);
             ?>
         </details>
+        <div id="data-container">
+            <div id="cr-data-container"></div>
+            <div id="fide-data-container"></div>
+        </div>
         <table>
             <tr>
                 <th colspan="2">przygotowanie (eksperymentalne)</th>
@@ -35,7 +40,12 @@
         </table>
         <table style='border: 0;'>
             <tr id="container" style='display:flex;'>
-                <td id="stats" style='border: 0;'></td>
+                <td id="stats" style='border: 0;'>
+                    <div id="loadingStats" class="loading" style="display: none;">
+                        <div class="spin"></div>
+                        <p>Ładowanie statystyk ... </p>
+                    </div>
+                </td>
                 <td style='border: 0;'>
                     <img id='graph' onerror="this.remove()">
                 </td>
@@ -43,5 +53,9 @@
         </table>
         <table id='table'>
         </table>
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spin"></div>
+            <p>Ładowanie ...</p>
+        </div>
     </div>
 </div>

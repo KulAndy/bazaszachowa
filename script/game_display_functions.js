@@ -92,12 +92,13 @@ let game_searching = {
     let playersData =
       `<a href='/player_data/?fullname=${encodeURIComponent(data.White)}'>` +
       data.White +
-      "</a>";
+      "</a> ";
     if (data.WhiteElo != null) {
-      playersData += " " + data.WhiteElo;
+      playersData += " " + data.WhiteElo + " ";
     }
     playersData +=
-      " - " +
+      data.Result +
+      " " +
       `<a href='/player_data/?fullname=${encodeURIComponent(data.Black)}'>` +
       data.Black +
       "</a>";
@@ -107,7 +108,7 @@ let game_searching = {
     players.innerHTML = playersData;
     let siteDate = document.createElement("p");
     siteDate.style.textAlign = "center";
-    let siteDateData = data.Year + ".";
+    let siteDateData = data.Event + " " + data.Year + ".";
     if (data.Month == null) {
       siteDateData += "?.";
     } else {
@@ -122,20 +123,7 @@ let game_searching = {
     siteDate.innerText = siteDateData;
     siteDate.style.marginTop = "5px";
 
-    let result = document.createElement("p");
-    result.innerText += data.Result;
-    result.style.textAlign = "center";
-    result.style.marginTop = "5px";
-
-    let Event = document.createElement("p");
-    Event.innerText += data.Event;
-    Event.style.textAlign = "center";
-    Event.style.marginTop = "5px";
-
     let buttonP = document.createElement("p");
-    buttonP.style.textAlign = "center";
-    buttonP.style.marginTop = "5px";
-    buttonP.style.marginBottom = "15px";
     buttonP.id = "buttonP";
 
     let button = document.createElement("button");
@@ -184,8 +172,6 @@ let game_searching = {
     pre.prepend(buttonP);
     info.append(players);
     info.append(siteDate);
-    info.append(Event);
-    info.append(result);
     pre.prepend(info);
     let pgnView = PGNV.pgnEdit;
     if (window.screen.availWidth >= 768 && window.innerWidth >= 768) {
@@ -275,18 +261,25 @@ let game_searching = {
         document.getElementById("boardMoves").className = "moves list";
         document.getElementById("board").className =
           "blue pgnvjs viewMode layout-left";
+        try {
+          document
+            .getElementById("engine_container")
+            .classList.remove("inactive");
+        } catch {}
       } else {
         document.getElementById("boardMoves").className = "moves inline";
         document.getElementById("board").className =
           "blue pgnvjs viewMode layout-top";
+
+        document.getElementById("engine_container").classList.add("inactive");
       }
     });
 
     window.addEventListener("wheel", function (e) {
       if (e.deltaY > 1) {
-        document.getElementById("boardButtonprev").click();
-      } else {
         document.getElementById("boardButtonnext").click();
+      } else {
+        document.getElementById("boardButtonprev").click();
       }
     });
 

@@ -3,9 +3,9 @@ require '../header.php';
 include '../menu.php';
 ?>
 <style>
-#content {
-    text-align: center;
-}
+    #content {
+        text-align: center;
+    }
 </style>
 <?php
 $file_size =
@@ -32,7 +32,7 @@ if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['subject']
     $temp_file = $_FILES['attachment']['tmp_name'];
     $file_size = $_FILES['attachment']['size'];
     $file_type = $_FILES['attachment']['type'];
-    $file_content = file_get_contents($temp_file);
+    @$file_content = file_get_contents($temp_file);
     $file_encoded = chunk_split(base64_encode($file_content));
 
     $boundary = md5(uniqid(time()));
@@ -43,7 +43,8 @@ if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['subject']
 
     $message = "--$boundary\r\n";
     $message .= "Content-Type: text/plain; charset=\"iso-8859-1\"\r\n";
-    $message .= $_POST['content'] . "\n kontakt: " . $_POST['email'] . "\n wygenerowano przez " . $_SERVER['SERVER_NAME'] . " " . date("Y.m.d H:i:s");
+    $message .= $_POST['content'] . "\n kontakt: " . $_POST['email'] . "\n wygenerowano przez " . $_SERVER['SERVER_NAME'] . " " . date("Y.m.d H:i:s") . "\r\n\r\n";
+    $message .= "--$boundary\r\n";
     $message .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
     $message .= $message . "\r\n";
 
@@ -59,7 +60,6 @@ if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['subject']
     } else {
         echo "Napotkano problem<br>Proszę spróbować później";
     }
-    print_r(error_get_last());
 } else {
     echo "Brakuje danych w formularzu";
 }

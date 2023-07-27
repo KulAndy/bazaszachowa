@@ -6,7 +6,6 @@ window.onload = async () => {
   while (!request) {
     window.setTimeout(function () {}, 1000);
   }
-  console.log(request);
   let current = parseInt(request.current);
   let list;
   if (typeof request.list == "string") {
@@ -16,9 +15,6 @@ window.onload = async () => {
     current = 0;
   } else list = request.list;
   let base = request.base;
-  console.log(list);
-    console.log(list == undefined);
-    
 
   await game_searching.search(list[current], base, list, current);
 };

@@ -11,10 +11,11 @@
         </datalist>
         <br>
         <label for="white">color</label><br />
-        <label for="white">białe</label>
         <input type="radio" name="color" id="white" value="white" checked>
+        <label for="white">białe</label>
+        <input type="radio" name="color" id="black" value="black">
         <label for="black">czarne</label>
-        <input type="radio" name="color" id="black" value="black"> <br>
+        <br>
         <input type="submit" value="szukaj">
     </form>
 </div>

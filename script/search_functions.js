@@ -69,22 +69,10 @@ async function search(
     let rmTable = document.getElementById("table");
     rmTable.remove();
   } catch {}
-  let content = document.getElementById("content");
-  let loading = document.createElement("p");
-  loading.id = "loading";
-  loading.innerText = "Ładowanie ";
-  content.append(loading);
-  let counter = 0;
-  const interval = setInterval(function () {
-    loading.innerText = "Ładowanie ";
-    for (let i = 0; i < (counter % 10) + 1; i++) {
-      loading.innerText += ".";
-    }
-    counter++;
-  }, 500);
+  let loading = document.getElementById("loading");
+  loading.style.display = "block";
   xhttp2.onloadend = function () {
-    clearInterval(interval);
-    document.getElementById("loading").remove();
+    loading.style.display = "none";
   };
 }
 
@@ -295,6 +283,7 @@ function updateDataList(container, optlist, base) {
   let player = searchbar.value;
   datalist.innerHTML = "";
 
+  console.log(player);
   if (player.length > 3) {
     const xhttp2 = new XMLHttpRequest();
     xhttp2.open("POST", "/API/search_player.php", true);
@@ -308,7 +297,10 @@ function updateDataList(container, optlist, base) {
             option.value = finded.toString();
             datalist.append(option);
           }
-        } catch (err) {}
+        } catch (err) {
+          console.log(this.responseText);
+          console.log(err);
+        }
       }
     };
 

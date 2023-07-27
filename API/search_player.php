@@ -3,7 +3,11 @@
 require_once("./login_data.php");
 
 $player = $_REQUEST['player'] . "%";
-$forFulltext = (bool)$_REQUEST['forfulltext'];
+if (isset($_REQUEST['forfulltext']) && $_REQUEST['forfulltext'] == "true") {
+    $forFulltext = true;
+} else {
+    $forFulltext = false;
+}
 
 $query = "
 SELECT 

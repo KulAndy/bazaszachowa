@@ -3,6 +3,10 @@ h2 {
   margin: 5px;
 }
 
+table#games tr:has(td:hover) td {
+  color: var(--document_link_hover);
+}
+
 #content {
   text-align: center;
   height: max-content;
@@ -12,6 +16,7 @@ h2 {
 #content2 {
   display: grid;
   background-color: rgba(0, 0, 0, 0);
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
 }
 
 #boardMoves {
@@ -35,6 +40,11 @@ th {
 table#stats tr td:first-child {
   font-weight: bold;
   color: var(--document_link);
+}
+
+table#stats tr:hover td:first-child {
+  font-weight: bold;
+  color: var(--document_link_hover);
 }
 
 #stats > tr:has(td) {
@@ -108,6 +118,10 @@ table#stats tr td:first-child {
   #board {
     grid-column: 1;
     grid-row: 1/4;
+  }
+
+  table#games td {
+    white-space: nowrap;
   }
 }
 

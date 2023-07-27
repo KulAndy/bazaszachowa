@@ -55,6 +55,12 @@ details:not([open]) summary {
   width: 100px;
 }
 
+#data-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media only screen and (max-width: 768px) {
   #container {
     flex-direction: column !important;

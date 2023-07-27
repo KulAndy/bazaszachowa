@@ -1,35 +1,42 @@
 :root {
-  --document_background: #c3df5d;
+  --color1: #d4f1f4;
+  --color2: #75e6da;
+  --color3: #189ab4;
+  --color4: #05445e;
+  --color5: #033c47;
+
+  --complementary: #e6754b;
+
+  --document_background: var(--color2);
   --document_font_color: black;
   --document_footer: #092834;
-  --document_link: #66b032;
-  --document_link_hover: #347b98;
-  --document_content_background: #f0f7d4;
-  --document_active: #04aa6d;
-  --even-row: lemonchiffon;
-  --odd-row: lightcyan;
+  --document_link: var(--color3);
+  --document_link_hover: var(--complementary);
+  --document_content_background: var(--color1);
+  --document_active: var(--color4);
+
+  --even-row: #d4f1f4;
+  --odd-row: #fffacd;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --document_background: #1c1f29;
+    --document_background: var(--color4);
     --document_font_color: #f2f2f2;
     --document_footer: #2f3645;
-    --document_link: #0d6974;
-    --document_link_hover: #12c5e0;
-    --document_content_background: #262c3a;
-    --document_active: #3e4e6e;
+    --document_link: var(--color3);
+    --document_link_hover: var(--complementary);
+    --document_content_background: var(--color5);
+    --document_active: var(--color1);
+
     --even-row: #444444;
     --odd-row: #333333;
   }
 
-  input {
-    background-color: black;
-    color: white;
-  }
-
+  input,
   option,
-  select {
+  select,
+  textarea {
     background-color: black;
     color: white;
   }
@@ -53,7 +60,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button {
+button,
+input[type="submit"] {
   background-color: var(--document_link);
   color: var(--document_font_color);
   padding: 10px 20px;
@@ -114,6 +122,10 @@ nav {
   align-items: center;
   flex-wrap: wrap;
   line-height: 2.5em;
+}
+
+summary {
+  color: var(--document_link);
 }
 
 li {
@@ -201,7 +213,7 @@ th {
 }
 
 #pre {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 #graph {
@@ -222,6 +234,7 @@ th {
 body {
   background-color: var(--document_background);
   touch-action: manipulation;
+  padding-bottom: 2.5em;
 }
 
 @media only screen and (max-width: 768px) {
@@ -294,6 +307,10 @@ body {
   .desktop {
     display: none;
   }
+
+  input[type="radio"] {
+    float: left;
+  }
 }
 
 @media only screen and (min-width: 769px) {
@@ -307,7 +324,7 @@ body {
   nav ul {
     list-style-type: none;
     overflow: hidden;
-    background-color: #333;
+    background-color: var(--document_footer);
     width: 100%;
     height: fit-content;
     display: flex;
@@ -326,17 +343,17 @@ body {
 
 nav li a {
   display: block;
-  color: white;
   text-align: center;
   text-decoration: none;
   font-weight: lighter;
 }
 
 nav li:not(.active) a:hover {
-  background-color: #111;
+  background-color: var(--color5);
 }
 nav .active {
   background-color: var(--document_active);
+  color: var(--document_content_background);
 }
 
 nav details[open] summary::marker {
@@ -353,4 +370,29 @@ nav details:not([open]) summary::marker {
 
 #table tr:nth-child(2n + 1) {
   background-color: var(--odd-row);
+}
+
+.loading {
+  width: 240px;
+  margin: auto;
+  padding: 20px 0 10px;
+  color: #fff;
+  text-align: center;
+}
+.spin {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 10px solid var(--document_font_color);
+  border-right: 10px solid transparent;
+  border-radius: 30px;
+  animation: spin 2s linear 0s infinite normal;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

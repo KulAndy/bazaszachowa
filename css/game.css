@@ -77,3 +77,32 @@ p#third_v {
     height: min(320px, 81vw) !important;
   }
 }
+
+*:has(#board) {
+  padding-bottom: 2em;
+}
+
+:root {
+  --highlight: rgba(255, 255, 153, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --highlight: rgba(153, 153, 255, 1) !important;
+  }
+  #boardMoves {
+    background-color: black;
+    color: var(--document_font_color);
+  }
+}
+
+#buttonP {
+  text-align: center;
+  margin-top: 5px;
+}
+
+@media only screen and (min-width: 769px) {
+  body {
+    overflow: hidden;
+  }
+}

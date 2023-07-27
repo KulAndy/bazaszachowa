@@ -44,8 +44,12 @@ async function searchGames(
             fens_obj = mergedFens;
             searchFen(document.getElementById("boardFen").value);
           })
-          .catch((error) => {});
-      } catch (err) {}
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

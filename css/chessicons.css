@@ -54,14 +54,12 @@ move-number {
   background-color: var(--document_content_background) !important;
 }
 
+/* /////////////////////////////////////////////////////////////////////////////// */
+
 button,
 span {
   width: fit-content;
   height: fit-content;
-}
-
-.cm-big {
-  background-color: white;
 }
 
 #boardButton {
@@ -126,8 +124,6 @@ span {
     grid-template-columns: 320px !important;
   }
 }
-
-/* /////////////////////////////////////////////////////////////////////////////// */
 
 body {
   overflow-x: hidden;
