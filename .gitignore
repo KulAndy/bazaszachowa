@@ -1,3 +1,6 @@
 .*
 *.inc
+data/
 data/settings.php
+*settings.php
+vendore/

@@ -67,7 +67,7 @@ ORDER by Year, Month
         }
     }
 
-    if (sizeof($result) > 0) {
+    if (sizeof($result) > 1) {
 
         $monthNumber = 12 - $initialRating[2] + ((int) date("Y") - $initialRating[1] - 1) * 12 + (int) date("m");
         $eloRange = ceil(($maxElo - $minElo) / 50) + 1;

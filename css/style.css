@@ -263,6 +263,10 @@ nav details {
   .float_left {
     float: none;
   }
+
+  .no_border {
+    margin: auto;
+  }
   #left_content * {
     width: fit-content;
   }
