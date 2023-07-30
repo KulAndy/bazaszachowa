@@ -24,10 +24,10 @@ function create_menu_content(): void
 
         $regex_url = str_replace("/", "\\/", $url["url"]);
 ?>
-<li <?php if (preg_match("/^$regex_url(index.php)?$/", $_SERVER["DOCUMENT_URI"])) echo 'class="active"' ?>>
-    <a target="_self" href="<?php echo $url["url"] ?>"><?php echo $url["name"] ?></a>
-</li>
-<?php
+        <li <?php if (preg_match("/^$regex_url(index.php)?$/", $_SERVER["DOCUMENT_URI"])) echo 'class="active"' ?>>
+            <a target="_self" href="<?php echo $url["url"] ?>"><?php echo $url["name"] ?></a>
+        </li>
+    <?php
 
     }
 }
@@ -35,7 +35,7 @@ function create_menu_content(): void
 function wrap_content(string $filename, string $container_id = "", array $classes = []): void
 {
     ?>
-<div <?php if ($container_id != "") {
+    <div <?php if ($container_id != "") {
                 echo "id='$container_id' ";
             }
             if (sizeof($classes) > 0) {
@@ -47,21 +47,21 @@ function wrap_content(string $filename, string $container_id = "", array $classe
             } ?>>
 
 
-    <?php
+        <?php
         if (file_exists($filename)) {
             include($filename);
         } else {
             echo "Nie udało się załadować zawartości";
         }
         ?>
-</div>
+    </div>
 
 <?php
 }
 function create_standard_content(string $dir, array $css_files = [],  array $js_modules = [], array $js_scripts = [], bool $req_js_module = false, bool $id_content = true): void
 {
 ?>
-<html lang="pl">
+    <html lang="pl">
     <?php
     create_header();
     ?>
@@ -86,15 +86,19 @@ function create_standard_content(string $dir, array $css_files = [],  array $js_
         ?>
     </body>
 
-</html>
+    </html>
 <?php
 }
 
 function export_urls_to_js()
 {
-    $path = __DIR__ . "/../../script/settings.js";
-    $script = "
-    const URLS =" . json_encode($GLOBALS["urls"]) . ";
+    $settings_php = __DIR__ . "/../../data/settings.php";
+    $settings_js = __DIR__ . "/../../script/settings.js";
+    if (!file_exists($settings_js) || filemtime($settings_js) < filemtime($settings_php)) {
+
+        $path = __DIR__ . "/../../script/settings.js";
+        $script = "
+        const URLS =" . json_encode($GLOBALS["urls"]) . ";
     const API =" . json_encode($GLOBALS["api"]) . ";
     const NOMENU_URLS = " . json_encode($GLOBALS["nomenu_urls"]) . ";
     export default {
@@ -102,7 +106,8 @@ function export_urls_to_js()
         API,
         NOMENU_URLS
     }
-
-";
-    file_put_contents($path, $script);
+    
+    ";
+        file_put_contents($path, $script);
+    }
 }
