@@ -1,4 +1,5 @@
 .*
 *.inc
-data/settings.php
-*settings.php
+login_data*.php
+phpmyadmin/*
+config.php

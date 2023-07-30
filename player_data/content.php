@@ -58,4 +58,4 @@
             <p>Ładowanie ...</p>
         </div>
     </div>
-</div>"players_data"
+</div>
