@@ -81,10 +81,11 @@ window.onload = async () => {
   if (REQUEST_GET.color == "white") {
     result = await SEARCH.games(REQUEST_GET.name, "", false);
   } else {
-    REQUEST_GET.result = await SEARCH.games("", REQUEST_GET.name, false);
+    result = await SEARCH.games("", REQUEST_GET.name, false);
   }
   console.timeLog();
 
+  console.log();
   await TREE.get_tree(result.rows);
   console.timeEnd();
   window.addEventListener("mouseup", function () {
