@@ -66,15 +66,22 @@ table#stats tr:hover td:first-child {
   width: fit-content;
 }
 
+#stats th,
+#games th {
+  text-align: center;
+}
+
 @media only screen and (max-width: 768px) {
   #stats_container {
     grid-column: 1;
     grid-row: 2;
+    margin: auto;
   }
 
   #games_container {
     grid-column: 1;
     grid-row: 1;
+    margin: auto;
   }
 
   #loading {
@@ -85,14 +92,17 @@ table#stats tr:hover td:first-child {
     direction: rtl;
   }
 
-  #games tr,
-  #stats tr {
-    transform: rotateX(180deg);
+  #games tr > *,
+  #stats tr > *,
+  #games_container,
+  #stats_container,
+  #loading_tree {
+    transform: rotate(180deg);
   }
 
-  #games_container,
-  #stats_container {
-    transform: rotateX(180deg);
+  #stats,
+  #games {
+    text-align: end;
   }
 
   #board {

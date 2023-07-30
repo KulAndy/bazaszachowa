@@ -249,19 +249,19 @@ function trim(str) {
  * PUBLIC CONSTANTS
  **************************************************************************/
 
-const BLACK = "b";
-const WHITE = "w";
+export const BLACK = "b";
+export const WHITE = "w";
 
-const EMPTY = -1;
+export const EMPTY = -1;
 
-const PAWN = "p";
-const KNIGHT = "n";
-const BISHOP = "b";
-const ROOK = "r";
-const QUEEN = "q";
-const KING = "k";
+export const PAWN = "p";
+export const KNIGHT = "n";
+export const BISHOP = "b";
+export const ROOK = "r";
+export const QUEEN = "q";
+export const KING = "k";
 
-const SQUARES = (function () {
+export const SQUARES = (function () {
   /* from the ECMA-262 spec (section 12.6.4):
    * "The mechanics of enumerating the properties ... is
    * implementation dependent"
@@ -279,7 +279,7 @@ const SQUARES = (function () {
   return keys;
 })();
 
-const FLAGS = {
+export const FLAGS = {
   NORMAL: "n",
   CAPTURE: "c",
   BIG_PAWN: "b",
@@ -289,7 +289,7 @@ const FLAGS = {
   QSIDE_CASTLE: "q",
 };
 
-const Chess = function (fen) {
+export const Chess = function (fen) {
   var board = new Array(128);
   var kings = { w: EMPTY, b: EMPTY };
   var turn = WHITE;
@@ -301,6 +301,9 @@ const Chess = function (fen) {
   var header = {};
   var comments = {};
 
+  /* if the user passes in a fen string, load it, else default to
+   * starting position
+   */
   if (typeof fen === "undefined") {
     load(DEFAULT_POSITION);
   } else {

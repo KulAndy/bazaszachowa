@@ -1,8 +1,10 @@
+<script type="module" src="/script/search.js"></script>
+<link rel="stylesheet" href="css/search.css">
 <div id="searchContainer">
     <div class="not_mobile"></div>
     <div id="content" style="width: fit-content;">
         <form id="form">
-            <table class=" no_border">
+            <table class="no_border">
                 <tr>
                     <td>Białe:</td>
                     <td colspan="3"><input list="whitelist" type="text" id="white" placeholder="Nowak, Jan"></td>
@@ -17,11 +19,9 @@
                 </tr>
                 <tr>
                     <td>lata:</td>
-                    <td style="display: flex; justify-content: flex-end;"><input type="number" id="minYear" step="1"
-                            min="1475" max="<?php echo date('Y') ?>" style="width: 4em;"></td>
+                    <td style="display: flex; justify-content: flex-end;"><input type="number" id="minYear" step="1" min="1475" max="<?php echo date('Y') ?>" style="width: 4em;"></td>
                     <td> - </td>
-                    <td style="display: flex; justify-content: flex-start;"><input type="number" id="maxYear" step="1"
-                            min="1475" max="2023" style="width: 4em;"></td>
+                    <td style="display: flex; justify-content: flex-start;"><input type="number" id="maxYear" step="1" min="1475" max="2023" style="width: 4em;"></td>
                 </tr>
                 <tr>
                     <td>turniej:</td>
@@ -73,8 +73,8 @@
                 </tr>
                 <tr>
                     <td>baza:</td>
-                    <td>Polska <input type="radio" id="radioB1" name="base"></td>
-                    <td colspan="2"> całość <input type="radio" id="radioB2" name="base" checked></td>
+                    <td>Polska <input type="radio" id="radioB1" name="base" value="poland"></td>
+                    <td colspan="2"> całość <input type="radio" id="radioB2" name="base" value="all" checked></td>
                 </tr>
                 <tr>
                     <td style="width: 18ch;">wyszukiwanie</td>
@@ -131,4 +131,6 @@
         </details>
     </div>
 </div>
-<div id="games"></div>
+<div id="games_container">
+    <table id="games"></table>
+</div>

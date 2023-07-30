@@ -15,7 +15,6 @@
 
 #engine_container p {
   text-wrap: nowrap;
-  /* width: min(200px, 45vw, 47vh - 5em) !important; */
   margin: 5px;
 }
 
@@ -58,9 +57,6 @@ p#third_v {
   }
   .inactive {
     display: none;
-  }
-  .active {
-    /* display: block; */
   }
 }
 

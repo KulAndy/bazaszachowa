@@ -237,6 +237,10 @@ body {
   padding-bottom: 2.5em;
 }
 
+nav details {
+  width: 100%;
+}
+
 @media only screen and (max-width: 768px) {
   * {
     word-break: keep-all;
@@ -395,4 +399,44 @@ nav details:not([open]) summary::marker {
   to {
     transform: rotate(360deg);
   }
+}
+
+table#games tr:nth-child(2n) {
+  background-color: var(--even-row);
+}
+
+table#games tr:nth-child(2n) td {
+  background-color: var(--even-row);
+}
+table#games tr:nth-child(2n) th {
+  background-color: var(--even-row);
+}
+table#games tr:nth-child(2n) input {
+  background-color: var(--even-row);
+}
+
+table#games tr:nth-child(2n + 1) {
+  background-color: var(--odd-row);
+}
+
+table#games tr:nth-child(2n + 1) td {
+  background-color: var(--odd-row);
+}
+table#games tr:nth-child(2n + 1) th {
+  background-color: var(--odd-row);
+}
+table#games tr:nth-child(2n + 1) input {
+  background-color: var(--odd-row);
+}
+
+table#games button a {
+  color: var(--document_font_color);
+}
+
+table#games button:hover a {
+  color: var(--document_link_hover);
+}
+
+table#games tr td button:hover {
+  color: var(--document_link_hover);
 }

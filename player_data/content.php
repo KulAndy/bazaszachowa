@@ -9,16 +9,6 @@
             <p id="maxElo"></p>
             <p id="yearRange"></p>
         </div>
-        <details style="width: fit-content;margin: auto;">
-            <summary>profil na yottabase <a
-                    href="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">link</a>
-            </summary>
-            <iframe src="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
-            </iframe>
-            <?php
-            echo urlencode($_GET['fullname']);
-            ?>
-        </details>
         <div id="data-container">
             <div id="cr-data-container"></div>
             <div id="fide-data-container"></div>
@@ -36,12 +26,22 @@
 
                 </td>
             </tr>
-
         </table>
+        <details style="width: fit-content;margin: auto;">
+            <summary>profil na yottabase <a href="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']);
+                                                                                    ?>">link</a>
+            </summary>
+            <iframe src="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
+            </iframe>
+            <?php
+            echo urlencode($_GET['fullname']);
+            ?>
+        </details>
+
         <table style='border: 0;'>
             <tr id="container" style='display:flex;'>
                 <td id="stats" style='border: 0;'>
-                    <div id="loadingStats" class="loading" style="display: none;">
+                    <div id="loading_stats" class="loading" style="display: none;">
                         <div class="spin"></div>
                         <p>Ładowanie statystyk ... </p>
                     </div>
@@ -51,11 +51,11 @@
                 </td>
             </tr>
         </table>
-        <table id='table'>
+        <table id='games'>
         </table>
         <div id="loading" class="loading" style="display: none;">
             <div class="spin"></div>
             <p>Ładowanie ...</p>
         </div>
     </div>
-</div>
+</div>"players_data"

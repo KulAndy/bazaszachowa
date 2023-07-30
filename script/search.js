@@ -1,4 +1,9 @@
 "use strict";
+import SETTINGS from "./settings.js";
+import DISPLAY from "./display_functions.js";
+import SEARCH from "./search_functions.js";
+
+console.log(SETTINGS);
 
 if (window.innerWidth <= 768) {
   document.getElementById("help").removeAttribute("open");
@@ -34,14 +39,12 @@ window.addEventListener("resize", function () {
   }
 });
 
-let button = document.getElementById("search");
-
 document.getElementById("form").onsubmit = (e) => {
   e.preventDefault();
   validate();
 };
 
-function validate() {
+async function validate() {
   let white = document.getElementById("white");
   let black = document.getElementById("black");
   let ignoreColor = document.getElementById("ignoreColor");
@@ -71,7 +74,7 @@ function validate() {
     } else if (parseInt(eco1.value, 16) > parseInt(eco2.value, 16)) {
       alert("Podano zły zakres kodów eco");
     } else {
-      search(
+      const RESULT = await SEARCH.games(
         white.value.trim(),
         black.value.trim(),
         ignoreColor.checked,
@@ -83,21 +86,25 @@ function validate() {
         base,
         searching
       );
+
+      DISPLAY.games_list(RESULT.rows, RESULT.table);
     }
   }
 }
 
 document.getElementById("white").oninput = () => {
-  updateDataList(
+  DISPLAY.update_data_list(
     "white",
     "whitelist",
-    document.getElementById("radioB1").checked ? "poland" : "all"
+    document.getElementById("radioB1").checked ? "poland" : "all",
+    SETTINGS.API
   );
 };
 document.getElementById("black").oninput = () => {
-  updateDataList(
+  DISPLAY.update_data_list(
     "black",
     "blacklist",
-    document.getElementById("radioB1").checked ? "poland" : "all"
+    document.getElementById("radioB1").checked ? "poland" : "all",
+    SETTINGS.API
   );
 };

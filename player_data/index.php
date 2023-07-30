@@ -1,12 +1,3 @@
 <?php
-require '../header.php';
-?>
-<link rel="stylesheet" href="/css/player_data.css">
-<?php
-include '../menu.php';
-?>
-<script type="module" src="/script/player_data.js" defer></script>
-<?php
-require 'content.php';
-include '../footer.php';
-?>
+require("../php_functions/functions.php");
+create_standard_content(__DIR__, ["player_data"], ["players_data"], [], true, false);

@@ -1,20 +1,20 @@
-"use strict";
+import SEARCHING from "./search_functions.js";
+import DISPLAY from "./display_functions.js";
 
-var gameMoves;
-var mode;
 window.onload = async () => {
-  while (!request) {
-    window.setTimeout(function () {}, 1000);
-  }
-  let current = parseInt(request.current);
-  let list;
-  if (typeof request.list == "string") {
-    list = request.list.split(",");
-  } else if (request.list == undefined) {
-    list = [request.id];
-    current = 0;
-  } else list = request.list;
-  let base = request.base;
+  const REQUEST_GET = get_data();
+  const REQUEST_POST = post_data();
 
-  await game_searching.search(list[current], base, list, current);
+  let current = parseInt(REQUEST_POST.current) || 0;
+  let list;
+  try {
+    list = REQUEST_POST.list.split(",");
+  } catch {
+    list = [REQUEST_GET.id];
+  }
+  let base = REQUEST_GET.base;
+
+  const GAME = await SEARCHING.game(list[current], base);
+  DISPLAY.game_controls(base, list, current);
+  DISPLAY.game(GAME);
 };

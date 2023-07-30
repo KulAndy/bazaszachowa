@@ -1,4 +1,4 @@
-.chessicons cg-board piece.bishop.white {
+/* .chessicons cg-board piece.bishop.white {
   background-image: url("chessicons/wb.svg");
 }
 
@@ -44,7 +44,7 @@
 
 .chessicons cg-board piece.rook.black {
   background-image: url("chessicons/br.svg");
-}
+} */
 
 cg-board {
   cursor: auto !important;
@@ -76,6 +76,10 @@ span {
 #board {
   width: min(400px, 90vw, 95vh - 10em);
   height: min(320px, 81vw);
+}
+
+#boardInner {
+  margin: auto;
 }
 
 @media only screen and (min-width: 768px) {

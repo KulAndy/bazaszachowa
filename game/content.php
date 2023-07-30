@@ -1,3 +1,4 @@
+<dialog id="dialog"></dialog>
 <div id="content3">
     <div id="buttonContainer">
         <button id="first" title="Ctrl + &uarr;  " disabled>pierwsza partia</button>

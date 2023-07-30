@@ -1,4 +1,22 @@
-<form action="/contact/send.php" method="post" id="form" target="_self" enctype="multipart/form-data">
+<style>
+    @media only screen and (min-width: 769px) {
+        #content {
+            display: flex;
+        }
+    }
+
+    #content {
+        width: max-content;
+    }
+
+
+
+    #content address {
+        height: fit-content;
+        background-color: var(--odd-row);
+    }
+</style>
+<form action="<?php echo $GLOBALS["nomenu_urls"]["send_mail"]; ?>" method="post" id="form" target="_self" enctype="multipart/form-data">
     <h3>Email: </h3>
     <input type="email" name="email" required>
     <h3>Temat: </h3>
@@ -10,17 +28,15 @@
     <label for="sub3">Błąd w partii</label><br>
     <input type="radio" id="sub4" name="subject" value="Brakująca partia" required>
     <label for="sub4">Brakująca partia</label><br>
-    <input type="radio" id="sub5" name="subject" value="Błąd techniczny" required>
-    <label for="sub5">Błąd techniczny</label><br>
-    <input type="radio" id="sub6" name="subject" value="Inne" required>
-    <label for="sub6">Inne</label><br>
+    <input type="radio" id="sub5" name="subject" value="Inne" required>
+    <label for="sub5">Inne</label><br>
     <h4>Treść: </h4>
     <textarea rows="6" cols="50" name="content" form="form" placeholder="Wpisz tekst..."></textarea><br>
 
     <label for="attachment">Partia (akceptowane pliki *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max
         200MB)</label><br />
     <input type="file" id="attachment" name="attachment" accept=" .pgn, .txt, .cbv, .zip, .7z, .rar " /><br />
-    <input type="submit" name="submit" value="wyślij">
+    <input type="submit" name="submit" value="wyślij" />
 </form>
 <address>
     <p>telefon: <a href="tel:+48730758890">+48 730 758 890</a></p>

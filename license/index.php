@@ -1,6 +1,3 @@
 <?php
-    require '../header.php';
-    include '../menu.php';
-    require 'content.php';
-    include '../footer.php';
-?>
+require("../php_functions/functions.php");
+create_standard_content(__DIR__);

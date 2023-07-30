@@ -1,6 +1,6 @@
 div.not_mobile {
   width: 30vw;
-  background-color: var(--document_background);
+  visibility: hidden;
 }
 #content {
   width: fit-content;
@@ -10,7 +10,7 @@ div.not_mobile {
   margin-top: 0;
 }
 
-#games {
+#games_container {
   clear: both;
   width: 100%;
   display: flex;
@@ -23,5 +23,21 @@ div.not_mobile {
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  #stats_container {
+    grid-column: 2;
+    grid-row: 1/3;
+  }
+  #games_container {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  #board {
+    grid-column: 1;
+    grid-row: 1/4;
   }
 }

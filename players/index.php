@@ -1,10 +1,3 @@
 <?php
-require '../header.php';
-include '../menu.php';
-?>
-<script defer src="/script/players.js">
-</script>
-<?php
-require 'content.php';
-include '../footer.php';
-?>
+require_once("./../php_functions/functions.php");
+create_standard_content(__DIR__);

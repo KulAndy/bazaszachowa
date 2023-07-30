@@ -39,31 +39,31 @@
 |ecoID|	smallint|	Nie	|	|eco -> id	|
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|10891801	|A	|Nie|	
-|WhiteID	|BTREE	|Nie	|Nie	|WhiteID	|1046412	|A	|Nie	|
-|BlackID	|BTREE	|Nie	|Nie	|BlackID	|1107381	|A	|Nie	|
-|eventID	|BTREE	|Nie	|Nie	|eventID	|583884	|A	|Nie|	
-|siteID	|BTREE	|Nie	|Nie	|siteID	|303594	|A	|Nie	|
-|Year	|BTREE	|Nie	|Nie	|Year	|5899	|A	|Nie	|
-|ecoID	|BTREE	|Nie	|Nie	|ecoID	|6148	|A	|Nie	|
-|Result	|BTREE	|Nie	|Nie	|Result	|32	|A	|Tak	|
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	| Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|WhiteID	|BTREE	|Nie	|Nie	|WhiteID	|A	|Nie	|
+|BlackID	|BTREE	|Nie	|Nie	|BlackID	|A	|Nie	|
+|eventID	|BTREE	|Nie	|Nie	|eventID	|A	|Nie|	
+|siteID	|BTREE	|Nie	|Nie	|siteID	|A	|Nie	|
+|Year	|BTREE	|Nie	|Nie	|Year	|A	|Nie	|
+|ecoID	|BTREE	|Nie	|Nie	|ecoID	|A	|Nie	|
+|Result	|BTREE	|Nie	|Nie	|Result	|A	|Tak	|
 
 #### all_players
 | Kolumna | Typ | Null | Ustawienia domyślne| Odsyłacze do |
 | ------- | --- | ---- | -------------------| --------------- |
-|id (Podstawowy)	|mediumint	|Nie		|players -> id|		
-|fullname	|varchar(80)	|Nie		|players -> fullname|	
+|id (Podstawowy)	|mediumint	|Nie |		|players -> id|		
+|fullname	|varchar(80)	|Nie |		|players -> fullname|	
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|484362	|A	|Nie|	
-|fullname	|BTREE	|Tak	|Nie	|fullname	|484362	|A	|Nie|	
-|all_players	|BTREE |	Nie	|Nie	|id|	484362|	A	|Nie	|
-|               |      |     |       |fullname|	484362|	A|	Nie|
-|fullname_2	|FULLTEXT	|Nie	|Nie	|fullname	|484362	|	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id     	|A	|Nie|	
+|fullname	|BTREE	|Tak	|Nie	|fullname	|A	|Nie|	
+|all_players	|BTREE |	Nie	|Nie	|id 	|A	|Nie	|
+|               |      |     |       |fullname	|A|	Nie|
+|fullname_2	|FULLTEXT	|Nie	|Nie	|fullname	|	|Nie|	
 
 #### chess_events
 | Kolumna | Typ | Null | 
@@ -72,11 +72,11 @@
 |name	|varchar(100)	|Nie|	
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|188112	|A	|Nie|	
-|name	|BTREE	|Tak	|Nie	|fullname	|181251	|A	|Nie|	
-|name_2	|FULLTEXT	|Nie	|Nie	|fullname	|188112	|	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|name	|BTREE	|Tak	|Nie	|fullname	|A	|Nie|	
+|name_2	|FULLTEXT	|Nie	|Nie	|fullname|	|Nie|	
 
 #### eco
 | Kolumna | Typ | Null | Ustawienia domyślne |
@@ -87,11 +87,11 @@
 |variant	|text	|Tak	|NULL|	
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|500	|A	|Nie|	
-|ECO	|BTREE	|Tak	|Nie	|ECO	|500	|A	|Nie|	
-|ECO_2	|BTREE	|Nie	|Nie	|ECO	|500	|A	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|ECO	|BTREE	|Tak	|Nie	|ECO	|A	|Nie|	
+|ECO_2	|BTREE	|Nie	|Nie	|ECO	|A	|Nie|	
 
 #### eco
 | Kolumna | Typ | Null | Ustawienia domyślne |
@@ -117,10 +117,10 @@
 |flag	|varchar(2)	|Tak	|NULL		|
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|fideid	|1258560	|A	|Nie|	
-|name	|FULLTEXT	|Nie	|Nie	|name	|1258560	|	|Tak|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|fideid	|A	|Nie|	
+|name	|FULLTEXT	|Nie	|Nie	|name	|	|Tak|	
 
 #### players
 | Kolumna | Typ | Null |  
@@ -129,14 +129,14 @@
 |fullname	|varchar(80)	|Nie|
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|1638362	|A	|Nie|	
-|fullname	|BTREE	|Tak	|Nie	|fullname	|1523240	|A	|Nie|	
-|idx_players_relation	|BTREE |	Nie	|Nie	|id|	1638155|	A	|Nie	|
-|               |      |     |       |fullname|	1634356|	A|	Nie|
-|fullname_2	|BTREE	|Nie	|Nie	|fullname	|1638362	|	A|Nie|	
-|fullname_3	|FULLTEXT	|Nie	|Nie	|fullname	|1638362	|	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|fullname	|BTREE	|Tak	|Nie	|fullname	|A	|Nie|	
+|idx_players_relation	|BTREE |	Nie	|Nie	|id|	A	|Nie	|
+|               |      |     |       |fullname|	A|	Nie|
+|fullname_2	|BTREE	|Nie	|Nie	|fullname	|	A|Nie|	
+|fullname_3	|FULLTEXT	|Nie	|Nie	|fullname	|	|Nie|	
 
 
 #### poland_games
@@ -158,15 +158,15 @@
 |ecoID|	smallint|	Nie	|	|eco -> id	|
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|647473	|A	|Nie|	
-|Year	|BTREE	|Nie	|Nie	|Year	|156	|A	|Nie	|
-|WhiteID	|BTREE	|Nie	|Nie	|WhiteID	|49161	|A	|Nie	|
-|BlackID	|BTREE	|Nie	|Nie	|BlackID	|42598	|A	|Nie	|
-|eventID	|BTREE	|Nie	|Nie	|eventID	|13556	|A	|Nie|	
-|siteID	|BTREE	|Nie	|Nie	|siteID	|6204	|A	|Nie	|
-|ecoID	|BTREE	|Nie	|Nie	|ecoID	|429	|A	|Nie	|
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|Year	|BTREE	|Nie	|Nie	|Year	|A	|Nie	|
+|WhiteID	|BTREE	|Nie	|Nie	|WhiteID	|A	|Nie	|
+|BlackID	|BTREE	|Nie	|Nie	|BlackID	|A	|Nie	|
+|eventID	|BTREE	|Nie	|Nie	|eventID	|A	|Nie|	
+|siteID	|BTREE	|Nie	|Nie	|siteID	|A	|Nie	|
+|ecoID	|BTREE	|Nie	|Nie	|ecoID	|A	|Nie	|
 
 
 #### poland_players
@@ -176,13 +176,13 @@
 |fullname	|varchar(80)	|Nie		|players -> fullname|	
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|47765	|A	|Nie|	
-|fullname	|BTREE	|Tak	|Nie	|fullname	|47765	|A	|Nie|	
-|pol_players	|BTREE |	Nie	|Nie	|id|	47396	|	A	|Nie	|
-|               |      |     |       |fullname|	47765|	A|	Nie|
-|fullname_2	|FULLTEXT	|Nie	|Nie	|fullname	|47765	|	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|fullname	|BTREE	|Tak	|Nie	|fullname	|A	|Nie|	
+|pol_players	|BTREE |	Nie	|Nie	|id |A	|Nie	|
+|               |      |     |       |fullname|	A|	Nie|
+|fullname_2	|FULLTEXT	|Nie	|Nie	|fullname	|	|Nie|	
 
 #### sites
 | Kolumna | Typ | Null | 
@@ -191,28 +191,23 @@
 |site	|varchar(80)	|Nie|	
 
 ##### Indeksy
-|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Moc	|Metoda porównywania napisów	|Null|
-|-------------- |------ | ------------- |---------- | --------- | ----- | ------------------------------ | -- |
-|PRIMARY	|BTREE	|Tak	|Nie	|id	|88910	|A	|Nie|	
-|sites	|BTREE	|Tak	|Nie	|site	|88604	|A	|Nie|	
-|site	|BTREE	|Nie	|Nie	|site	|88910	|A	|Nie|	
+|Nazwa klucza	|Typ	|Jednoznaczny	|Spakowany	|Kolumna	|Metoda porównywania napisów	|Null|
+|-------------- |------ | ------------- |---------- | --------- | ------------------------------ | -- |
+|PRIMARY	|BTREE	|Tak	|Nie	|id	|A	|Nie|	
+|sites	|BTREE	|Tak	|Nie	|site	|A	|Nie|	
+|site	|BTREE	|Nie	|Nie	|site	|A	|Nie|	
 
 
 ## strona
 
 /
 
-* **composer.json** - plik composera
-* **composer.lock** - plik composera
 * **content.php** - kontener z zawartością strony, wymaga left_content i manifest
-* **footer.php** - stopka `<footer>`
-* **header.php** - nagłówek `<head>`
 * **index.php** - plik domyślny, wymaga header, menu, content, footer
 * **left_content.php** - zawiera przydatne linki
 * **LICENSE** - licencja
 * **manifest.php** - manifest
-* **menu.php** - menu nawigacyjne 
-* **API/** - API, patrz docs/API.md
+* **API/** - API, patrz [/docs/API.md](/docs/API.md)
 * **contact/** - formularz kontaktowy
   * **content.php** - formularz, przekierowuje do send
   * **index.php** - strona domyślna, wymaga content
@@ -223,66 +218,42 @@
   * **reset.css** - reset css-a
   * **search.css** - arkusz wyszukiwarki partii
   * **style.css** - domyślny arkusz stylów
+  * **chessicons/**
+        * **\[bw\]\[bknpqr\].svg** - grafiki bierek
 * **docs/** - dokumentacja
   * **API.md** - opis API
   * **struktura.md** - ten plik
   * **struktura.png** - grafika z relacją bazy danych
 * **game/** - przeglądarka gier
-  * **chessicons/**
-    * **\[bw\]\[bknpqr\].svg** - grafiki bierek
     * **license.txt** - plik z linkiem do strony autora grafik
   * **content.php** - kontener na zawartość
   * **index.php** - plik domyślny, ustawia osobny nagłówek, wymaga menu,content,footer
 * **game_raw/** - partia w formacie [PGN](http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm)
   * **content.php** - zawartość strony, wymaga login_data
   * **index.php** - plik domyślny, wymaga content
-  * **login_data.php** - plik z danymi do łączenia z bazą
-  trzeba ustawić zmienne:
-        *  `$host = "localhost"` - host;
-        *  `$user = "user"` - użytkownik;
-        *  `$password = "password"` - hasło;
-        *  `$base = "base"` - baza;
-        *  `$table = "games"` - tabela z grami;
-        *  `$players_table = "players"` - tamela z zawodnikami;
-        *  `$events_table = "events"` - tabela z turniejami;
-        *  `$sites_table = "sites"` - tabela z miejscami;
 * **license/** - licencja
   * **index.php** - plik domyślny, wymaga header, menu, content, footer
   * **content.php** - faktyczna licencja
 * **markodwn** - parser markdown
     * **MarkodowParser.php** - opakowanie klasy
-    * **parse.php** - skrypt do parsowania srton markdown
+    * **parse.php** - skrypt do parsowania stron markdown
         * metoda: GET
         * ```
           {
               url: url - adres
           }
           ```
+* **php_functions** - funkcje php patrz [/docs/php.md](/docs/php.md)
 * **player_data/** - dane o zawodniku
   * **content** - kontener na dane
   * **index.php** - plik domyślny
 * **players/** - wyszukiwarka graczy
   * **content.php** - formularz do wyszukiwania i skrypt do wyszukiwania w bazie
   * **index.php** - plik domyślny
-  * **login_data.php** - plik z danymi do łączenia z bazą danych
-  trzeba ustawić zmienne:
-    *  `$host = "localhost"` - host;
-      *  `$user = "user"` - użytkownik;
-      *  `$password = "password"` - hasło;
-      *  `$base = "base"` - baza;
-      *  `$table1 = "used_players"` - tabela z użytymi graczami;
-      *  `$table2 = "players"` - tabela ze wszystkimi graczami;
 * **rodo**/ - informacja dla fanów RODO
   * **content.php** -informacja
   * **index.php** - plik domyślny
-* **script/** - katalog ze skryptami javascripta 
-  * **game_display_functions.js** - funkcje do wyświetlania gier
-  * **game.js** - główny skrypt game/
-  * **pgnv.js** - [zewnętrzna bibliteka](https://github.com/mliebelt/PgnViewerJS/) 
-  * **player_data_functions.js** - funkcje do danych zawodnika
-  * **player_data.js** - główny skrypt player_data/
-  * **search_functions.js** - funckje do wyszukiwania gier 
-  * **search.js** - główny skrypt search/
+* **script/** - katalog ze skryptami javascripta patrz [/docs/javascript.md](/docs/javascript.md)
 * **search/** - wyszukiwarka partii
   * **content.php** - kontener na zawartość
   * **index.php** - plik domyślny

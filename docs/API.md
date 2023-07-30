@@ -4,51 +4,32 @@ pod adresem bazaszachowa.smallhost.pl/API/(plik) jest następujące API
 
 zawsze metodą POST lub GET trzeba podać bazę partii
 
-* login_data.php - dane logowania
-  
-  koniecznie w php-ie trzeba ustawić zmienne
-  *  `$host = "localhost"` - host;
-  *  `$user = "user"` - użytkownik;
-  *  `$password = "password"` - hasło;
-  *  `$base = "base"` - baza;
-  *  `$table = "games"` - tabela z grami;
-  *  `$players_table = "players"` - tamela z zawodnikami;
-  *  `$events_table = "events"` - tabela z turniejami;
-  *  `$sites_table = "sites"` - tabela z miejscami;
-  *  `$rounds_table = "rounds"` - tabela z rundami;
-  *  `$results_table = "results"` - tabela z rezultatami;
-  *  `@$db = new Connector($host, $user, $password, $base);` - instancja klasy Connector (opakowującej mysqli)
-  
 * cr_data.php
-  dane wejściowe:
-  * meoda POST
+  * dane wejściowe:
   ```
   {
     name: Nazwisko, Imię
-    }
+  }
     ```
 
-  dane wyjściowe:
-  * json
+  * dane wyjściowe:
   ```
   {
     id: CR-ID
     kat: kategoria/tytuł
     fide_id: FIDE-ID
     name: NAZWISKO Imię
-    }
+  }
     ```
 *   fide_data.php
-    dane wejściowe
-    * metoda GET/POST
+    * dane wejściowe
     ```
     {
         name: name - nazwisko, imię
     }
     ```
 
-    dane wyjściowe
-    * json
+    * dane wyjściowe
     ```
     {
         fideid: fideid - id FIDE,
@@ -62,60 +43,71 @@ zawsze metodą POST lub GET trzeba podać bazę partii
     ```
 
 * get_game.php
-  dane wejściowe:
-
-  * metoda POST
-  ```
-  {
-    "id": id
-    }
-    ```
-
-  dane wyjściowe:
-
-  * json z grami o danym id
+  * dane wejściowe:
   ```
   {
     id: id,
-    moves: ruchy,
-    Event: turniej,
-    Site: miejsce,
-    Year: rok,
-    Month: miesiąc,
-    Day: dzień miesiąca,
-    Round: runda,
-    White: biały,
-    Black: czarny,
-    Result: wynik,
-    WhiteElo: elo białego,
-    BlackElo: elo czarnego,
-    ECO: eco
-    }
+    table: tabela
+  }
+    ```
+
+  * dane wyjściowe:
+  ```
+    [
+        {
+            id: id1,
+            moves: ruchy,
+            Event: turniej,
+            Site: miejsce,
+            Year: rok,
+            Month: miesiąc,
+            Day: dzień miesiąca,
+            Round: runda,
+            White: biały,
+            Black: czarny,
+            Result: wynik,
+            WhiteElo: elo białego,
+            BlackElo: elo czarnego,
+            ECO: eco
+        },
+        {
+            id: id2,
+            moves: ruchy,
+            Event: turniej,
+            Site: miejsce,
+            Year: rok,
+            Month: miesiąc,
+            Day: dzień miesiąca,
+            Round: runda,
+            White: biały,
+            Black: czarny,
+            Result: wynik,
+            WhiteElo: elo białego,
+            BlackElo: elo czarnego,
+            ECO: eco
+        }
+    ]
     ```
 * graph_jpeg.php / graph_svg.php
-  dane wejściowe:
-
-  * metoda GET
+  * dane wejściowe:
   ```
   {
     name: "Nazisko, Imię"
     }
     ```
 
-  dane wyjściowe:
+  * dane wyjściowe:
+    plik jpeg / svg
 
-  * plik jpeg
-
-* min_max_year_eco
-  * dane wejściowe metoda GET/POST
+* min_max_year_eco.php
+  * dane wejściowe
   ```
   {
     name: Nazwisko, Imię
     }
     ```
 
-  dane wyjściowe:
-  * json
+  * dane wyjściowe:
   ```
   {
     maxElo: maksymalny ranking w bazie
@@ -124,18 +116,14 @@ zawsze metodą POST lub GET trzeba podać bazę partii
     }
     ```
 * player_opening_stats.php
-  dane wejściowe:
-
-  * metoda POST lub GET
+  * dane wejściowe:
   ```
   {
     name: "Nazwisko, Imię"
     }
     ```
 
-  dane wyjściowe:
-
-  * json:
+  * dane wyjściowe:
   ```
   {
     whites: białe
@@ -152,14 +140,13 @@ zawsze metodą POST lub GET trzeba podać bazę partii
       }
     }
     ```
-* search_game.php
-  dane wejściowe:
 
-  * metoda POST
-  ```
+* search_game.php
+  * dane wejściowe:
+    ```
   {
     white: biały (opcjonalne, jeśli ustawiono black),
-    black: czarny (opcjonalne, jęsli ustawiono white),
+    black: czarny (opcjonalne, jeśli ustawiono white),
     [ignore: ignorowanie kolorów (true/false, domyślnie false)],
     [minYear: minimalny rok gry (włącznie)],
     [maxYear: maksymalny rok gry (włącznie)],
@@ -171,9 +158,7 @@ zawsze metodą POST lub GET trzeba podać bazę partii
     }
     ```
 
-    dane wyjściowe:
-
-    * json
+   * dane wyjściowe:
     ```
     {
       id: id,
@@ -193,13 +178,39 @@ zawsze metodą POST lub GET trzeba podać bazę partii
       }
       ```
 * search_player_opening_game.php
-  dane wejściowe:
-
-  * metoda POST
+  * dane wejściowe:
   ```
+  {
+    name: "Nazwisko, Imię"
+  }
+  ```
+  * dane wyjściowe
+    ```
   {
     player: Nazwisko, Imię,
     color: kolor (white/black)
     [, opening: debiut]
     }
+    ```
+* search_player.php
+    * dane wejściowe
+    ```    
+    {
+        name: "Nazwisko, Imię
+    }
+
+    ```
+    * dane wyjściowe
+    ```    
+    [
+            {
+                fullname: player1
+            },
+            {
+                fullname: player2
+            },
+            .
+            .
+            .
+    ]
     ```
