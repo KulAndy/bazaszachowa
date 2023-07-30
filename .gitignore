@@ -1,3 +1,4 @@
 .*
 *.inc
 data/settings.php
+*settings.php
