@@ -36,7 +36,6 @@ function send_bug(
         add_report($conn, $gameid, $table, $token, $type, $notices, $link);
         $expiration_time = time() + (15 * 60);
         checkAndSetCookie('sended_bugs', $expiration_time);
-        print_r($_POST["remember"]);
         if (isset($_POST["remember"]) && $_POST["remember"] == "on") {
             setcookie("firstname", $firstname, 0, '/');
             setcookie("lastname", $lastname, 0, '/');
