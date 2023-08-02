@@ -19,7 +19,18 @@ window.onload = () => {
 
 const load_games = async (fullname, color = null, opening = null) => {
   if (color === null) {
-    const GAMES = await SEARCH.games(fullname, "");
+    const GAMES = await SEARCH.games(
+      fullname,
+      "",
+      true,
+      "",
+      "",
+      "",
+      1,
+      500,
+      "all",
+      "fulltext"
+    );
     DISPLAY.games_list(GAMES.rows, GAMES.table);
   } else {
     const GAMES = await SEARCH.opening_games(fullname, color, opening);

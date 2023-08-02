@@ -187,7 +187,7 @@ function search_games(
                 }
             }
             if (isset($black_like)) {
-                if (sizeof($params) > 0) {
+                if (isset($params[":white"])) {
                     $query = $query . " and";
                 }
 
@@ -226,22 +226,16 @@ function search_games(
                 }
             }
             if (($min_year != 1475 || $max_year != date("Y"))) {
-                if (sizeof($params) > 0) {
-                    $query = $query . " and";
-                }
+                $query = $query . " and";
                 $query = $query . " Year BETWEEN $min_year and $max_year ";
             }
             if (isset($event_like)) {
-                if (sizeof($params) > 0) {
-                    $query = $query . " and";
-                }
+                $query = $query . " and";
                 $query = $query . " $events_table.name like :event ";
             }
 
             if (($min_eco != 1 || $max_eco != 500)) {
-                if (sizeof($params) > 0) {
-                    $query = $query . " and";
-                }
+                $query = $query . " and";
                 $query = $query . " $eco_table.id BETWEEN  $min_eco AND  $max_eco ";
             }
 
@@ -264,7 +258,7 @@ function search_games(
                     }
                 }
                 if (isset($black_like)) {
-                    if (sizeof($params) > $paramsSize) {
+                    if (isset($params[":white"])) {
                         $query = $query . " and";
                     }
 
@@ -275,21 +269,15 @@ function search_games(
                     }
                 }
                 if (($min_year != 1475 || $max_eco != date("Y"))) {
-                    if (sizeof($params) > $paramsSize) {
-                        $query = $query . " and";
-                    }
+                    $query = $query . " and";
                     $query = $query . " Year BETWEEN $min_year and $max_year ";
                 }
                 if (isset($event_like)) {
-                    if (sizeof($params) > $paramsSize) {
-                        $query = $query . " and";
-                    }
+                    $query = $query . " and";
                     $query = $query . " $events_table.name like :event ";
                 }
                 if (($min_eco != 1 || $max_eco != 500)) {
-                    if (sizeof($params) > $paramsSize) {
-                        $query = $query . " and";
-                    }
+                    $query = $query . " and";
                     $query = $query . " $eco_table.id BETWEEN  $min_eco AND  $max_eco ";
                 }
             }

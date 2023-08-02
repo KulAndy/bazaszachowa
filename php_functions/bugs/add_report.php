@@ -22,6 +22,7 @@ function add_report(
     on :token = token
     ";
 
+
     $params = [
         ":gameid" => $gameid,
         ":table" => $table,

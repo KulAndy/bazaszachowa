@@ -652,7 +652,6 @@ const DISPLAY = {
     let bt1 = document.createElement("button");
     bt1.innerText = "notacja";
     bt1.onclick = () => {
-      console.log(board_moves_id, engine_container_id);
       let engine_container = document.getElementById(engine_container_id);
       let moves = document.getElementById(board_moves_id);
       engine_container.classList.add("inactive");

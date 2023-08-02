@@ -3,8 +3,6 @@ import SETTINGS from "./settings.js";
 import DISPLAY from "./display_functions.js";
 import SEARCH from "./search_functions.js";
 
-console.log(SETTINGS);
-
 if (window.innerWidth <= 768) {
   document.getElementById("help").removeAttribute("open");
   document.getElementById("content").style.width = "100vw";
