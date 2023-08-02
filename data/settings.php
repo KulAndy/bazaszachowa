@@ -35,7 +35,9 @@ $GLOBALS["nomenu_urls"] = [
     "game" => "/game/",
     "game_raw" => "/game_raw/",
     "profile" => "/player_data/",
-    "send_mail" => "/contact/send.php"
+    "send_mail" => "/contact/send.php",
+    "bugs_report" => "/contact/bug_report.php",
+    "activation" => "/activation/"
 ];
 
 $GLOBALS["api"] = [
@@ -67,8 +69,19 @@ $GLOBALS["database"] = [
     "players_all" => "",
     "table_pol" => "",
     "players_pol" => "",
-    "events_table" => "c",
+    "events_table" => "",
     "sites_table" => "",
     "eco_table" => "",
     "fide_table" => "",
+
+    "bug_report" => "",
+    "bug_reporters" => "",
+    "bug_reporters_status" => "",
+    "bug_types" => ""
+
+];
+
+$GLOBALS["recaptcha"] = [
+    "public" => "",
+    "private" => ""
 ];
