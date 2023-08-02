@@ -16,5 +16,5 @@ window.onload = async () => {
 
   const GAME = await SEARCHING.game(list[current], base);
   DISPLAY.game_controls(base, list, current);
-  DISPLAY.game(GAME);
+  DISPLAY.game(GAME, get_csrf_token());
 };

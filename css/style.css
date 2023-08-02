@@ -163,6 +163,10 @@ article {
   transform: rotate(180deg);
 }
 
+.error {
+  background-color: red;
+}
+
 .no_border {
   border: none;
 }

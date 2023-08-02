@@ -1,3 +1,15 @@
+<?php
+    $csrf_token = bin2hex(random_bytes(32));
+    $_SESSION['csrf_token'] = $csrf_token;
+
+
+    ?>
+<script>
+function get_csrf_token() {
+    return "<?php echo $csrf_token ?>";
+}
+</script>
+
 <dialog id="dialog"></dialog>
 <div id="content3">
     <div id="buttonContainer">

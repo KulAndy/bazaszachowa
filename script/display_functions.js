@@ -495,6 +495,7 @@ const DISPLAY = {
   },
   async game(
     data,
+    csrf_token,
     main_container = "pre",
     board_id = "board",
     engine_container_id = "engine_container",
@@ -601,7 +602,18 @@ const DISPLAY = {
       a.download = "game.pgn";
       a.click();
     };
+
+    let error = document.createElement("button");
+    error.classList.add("error");
+    error.innerText = "Zgłoś błąd";
+    error.addEventListener("click", function () {
+      const REQUEST_GET = get_data();
+
+      DISPLAY.error_form(REQUEST_GET.id, REQUEST_GET.base, csrf_token);
+    });
+
     buttonP.append(button);
+    buttonP.append(error);
 
     pre.prepend(buttonP);
     info.append(players);
@@ -841,6 +853,33 @@ const DISPLAY = {
           break;
       }
     }
+  },
+  error_form(game_id, table, csrf_token) {
+    const form = document.createElement("form");
+    form.method = "post";
+    form.action = SETTINGS.NOMENU_URLS.bugs_report;
+
+    const id_input = document.createElement("input");
+    id_input.type = "hidden";
+    id_input.name = "id";
+    id_input.value = game_id;
+
+    const table_input = document.createElement("input");
+    table_input.type = "hidden";
+    table_input.name = "table";
+    table_input.value = table;
+
+    const csrf_token_input = document.createElement("input");
+    csrf_token_input.type = "hidden";
+    csrf_token_input.name = "csrf_token";
+    csrf_token_input.value = csrf_token;
+
+    form.appendChild(id_input);
+    form.appendChild(table_input);
+    form.appendChild(csrf_token_input);
+
+    document.body.appendChild(form);
+    form.submit();
   },
 };
 

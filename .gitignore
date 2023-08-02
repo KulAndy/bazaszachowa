@@ -1,4 +1,5 @@
 .*
+!.htaccess
 *.inc
 data/
 data/settings.php

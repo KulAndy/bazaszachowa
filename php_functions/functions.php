@@ -5,6 +5,7 @@ require_once(__DIR__ . "/db/functions.php");
 require_once(__DIR__ . "/html/functions.php");
 require_once(__DIR__ . "/graph/functions.php");
 require_once(__DIR__ . "/player_data/functions.php");
+require_once(__DIR__ . "/bugs/functions.php");
 function replace_national(string $name): string
 {
     $name = str_replace("ą", "a", $name);
