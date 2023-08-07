@@ -11,6 +11,8 @@
             minimum
             ostatnich 3 lat przynajmniej z bazy z której korzystał i zgłoszenia ewentualnych błędów </li>
         <li> zobowiązuje się postawić piwo autorowi strony</li>
+        <li>zgłaszać błędy w partiach mogą tylko osoby, których dane są publicznie dostępne (np. zarejestrowani w
+            FIDE, PZSzach lub ich partie znajdują się w bazie)</li>
     </ul>
     <sub>* kod źródłowy dostępny na <a href="https://github.com/KulAndy/bazaszachowa">githubie</a></sub>
     <hr>

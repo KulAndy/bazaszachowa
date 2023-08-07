@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?([a-z0-9.-]+)$ [NC]
+RewriteRule ^(.*\.md)$ /markdown/parse.php?url=https://%2/docs/$1 [L]
+
