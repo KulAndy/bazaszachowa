@@ -7,16 +7,16 @@
 
   --complementary: #e6754b;
 
-  --document_background: var(--color2);
+  --document_background: AntiqueWhite;
   --document_font_color: black;
-  --document_footer: #092834;
-  --document_link: var(--color3);
-  --document_link_hover: var(--complementary);
-  --document_content_background: var(--color1);
-  --document_active: var(--color4);
+  --document_footer: Tan;
+  --document_link: black;
+  --document_link_hover: Gray;
+  --document_content_background: Seashell;
+  --document_active: Peru;
 
-  --even-row: #d4f1f4;
-  --odd-row: #fffacd;
+  --even-row: AliceBlue;
+  --odd-row: BurlyWood;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,6 +53,15 @@
   img#graph {
     filter: invert(100%) hue-rotate(100deg);
   }
+
+  .error {
+    background-color: red !important;
+  }
+
+  button,
+  input[type="submit"] {
+    background-color: var(--document_link);
+  }
 }
 
 button:disabled {
@@ -62,7 +71,6 @@ button:disabled {
 
 button,
 input[type="submit"] {
-  background-color: var(--document_link);
   color: var(--document_font_color);
   padding: 10px 20px;
   border: none;
@@ -130,7 +138,6 @@ summary {
 
 li {
   list-style: disc;
-  margin-left: 5%;
 }
 
 table,
@@ -164,7 +171,7 @@ article {
 }
 
 .error {
-  background-color: red;
+  background-color: Gainsboro;
 }
 
 .no_border {
@@ -187,6 +194,7 @@ th {
 #content {
   margin-top: 0px !important;
   margin: auto;
+  padding-top: 25px;
   padding: 15px;
   width: 60vw;
 }
@@ -346,6 +354,8 @@ nav details {
   nav li {
     float: left;
     list-style-type: none;
+    display: inline-flex;
+    align-items: center;
   }
 
   .mobile {
@@ -358,14 +368,6 @@ nav li a {
   text-align: center;
   text-decoration: none;
   font-weight: lighter;
-}
-
-nav li:not(.active) a:hover {
-  background-color: var(--color5);
-}
-nav .active {
-  background-color: var(--document_active);
-  color: var(--document_content_background);
 }
 
 nav details[open] summary::marker {

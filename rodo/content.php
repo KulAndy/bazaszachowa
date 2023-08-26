@@ -6,7 +6,7 @@
         <br>
         Z dedykacją dla was zamieszczam tę piosenkę.
         <br>
-        <video src="/video/Szymon Podwin - _Całujcie mnie wszyscy w dupę_ (Julian Tuwim).mp4" autoplay loop
-            controls></video>
+        <br>
+        <iframe src="/audio/Szymon-Podwin-_Całujcie-mnie-wszyscy-w-dupę_-_Julian-Tuwim_.mp3" frameborder="0" allow="autoplay"></iframe>
         <figcaption>Szymon Podwin - "Całujcie mnie wszyscy w dupę" (Julian Tuwim) </figcaption>
     </article>

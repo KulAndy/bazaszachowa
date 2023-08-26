@@ -789,11 +789,6 @@ const DISPLAY = {
     let buttons = document.getElementById(board_buttons);
     buttons.tabIndex = -1;
     buttons.focus();
-    let style = document.createElement("style");
-    style.innerText = "#board{width: fit-content!important}";
-
-    document.body.append(style);
-    document.getElementById(board_id).style.width = "fit-content";
   },
   async game_controls(
     table,

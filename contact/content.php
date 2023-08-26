@@ -35,7 +35,7 @@
 
     <label for="attachment">Partia (akceptowane pliki *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max
         200MB)</label><br />
-    <input type="file" id="attachment" name="attachment" accept=" .pgn, .txt, .cbv, .zip, .7z, .rar " /><br />
+    <input type="file" id="attachment" name="attachment" accept=" .pgn, .txt, .cbv, .zip, .7z, .rar " /><br /> <br />
     <input type="submit" name="submit" value="wyślij" />
 </form>
 <address>
