@@ -47,7 +47,7 @@ create_header();
         $message = "--$boundary\r\n";
         $message .= "Content-Type: text/plain; charset=\"iso-8859-1\"\r\n";
         $message .= $_POST['content'] . "\n kontakt: " . $_POST['email'] . "\n wygenerowano przez " . $_SERVER['SERVER_NAME'] . " " . date("Y.m.d H:i:s");
-        $message .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+        $message .= "\r\nContent-Transfer-Encoding: 8bit\r\n\r\n";
         $message .= $message . "\r\n";
 
         if (!empty($_FILES['attachment']['name'])) {

@@ -15,7 +15,7 @@
         </div>
         <table>
             <tr>
-                <th colspan="2">przygotowanie (eksperymentalne)</th>
+                <th colspan="2">przygotowanie</th>
             </tr>
             <tr>
                 <td>

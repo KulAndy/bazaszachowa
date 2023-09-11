@@ -1,10 +1,9 @@
 import SEARCH from "./search_functions.js";
-import TREE from "./tree_functions.js";
+import ChessProcessor from "./tree_functions.js";
 
 const REQUEST_GET = get_data();
 
 window.onload = async () => {
-  console.time();
   var board = PGNV.pgnEdit("board", {
     theme: "zeit",
     resizable: false,
@@ -13,17 +12,31 @@ window.onload = async () => {
     orientation: REQUEST_GET.color == "white" ? "black" : "white",
   });
 
-  window.addEventListener("wheel", function (e) {
-    if (e.deltaY > 1) {
-      document.getElementById("boardButtonnext").click();
-    } else {
-      document.getElementById("boardButtonprev").click();
-    }
-    e.stopPropagation();
+  let result;
+  console.time();
+  if (REQUEST_GET.color == "white") {
+    result = await SEARCH.games(REQUEST_GET.name, "", false);
+  } else {
+    result = await SEARCH.games("", REQUEST_GET.name, false);
+  }
+  console.timeLog();
+  const processor = new ChessProcessor();
+  console.timeLog();
+  processor.getTree(result.rows);
+  console.timeEnd();
+
+  window.addEventListener("mouseup", function () {
     window.setTimeout(function () {
-      TREE.search_fen(document.getElementById("boardFen").value, board);
+      processor.searchFEN(document.getElementById("boardFen").value, board);
     }, 100);
   });
+
+  window.addEventListener("keydown", function () {
+    window.setTimeout(function () {
+      processor.searchFEN(document.getElementById("boardFen").value, board);
+    }, 100);
+  });
+
   document.getElementById("games").addEventListener("wheel", function (e) {
     e.stopPropagation();
   });
@@ -76,34 +89,22 @@ window.onload = async () => {
     URL.revokeObjectURL(url);
   });
 
-  console.timeLog();
-  let result;
-  if (REQUEST_GET.color == "white") {
-    result = await SEARCH.games(REQUEST_GET.name, "", false);
-  } else {
-    result = await SEARCH.games("", REQUEST_GET.name, false);
-  }
-  console.timeLog();
-
-  console.log();
-  await TREE.get_tree(result.rows);
-  console.timeEnd();
-  window.addEventListener("mouseup", function () {
+  window.addEventListener("wheel", function (e) {
+    if (e.deltaY > 1) {
+      document.getElementById("boardButtonnext").click();
+    } else {
+      document.getElementById("boardButtonprev").click();
+    }
+    e.stopPropagation();
     window.setTimeout(function () {
-      TREE.search_fen(document.getElementById("boardFen").value, board);
-    }, 100);
-  });
-
-  window.addEventListener("keydown", function () {
-    window.setTimeout(function () {
-      TREE.search_fen(document.getElementById("boardFen").value, board);
+      processor.searchFEN(document.getElementById("boardFen").value, board);
     }, 100);
   });
 
   window.setInterval(function () {
-    if (TREE.current_fen != document.getElementById("boardFen").value) {
-      TREE.current_fen = document.getElementById("boardFen").value;
-      TREE.search_fen(document.getElementById("boardFen").value, board);
+    if (processor.currentFEN != document.getElementById("boardFen").value) {
+      processor.currentFEN = document.getElementById("boardFen").value;
+      processor.searchFEN(document.getElementById("boardFen").value, board);
     }
   }, 500);
 
