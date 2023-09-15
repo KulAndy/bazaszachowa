@@ -3,6 +3,7 @@ import SETTINGS from "./settings.js";
 import SEARCH from "./search_functions.js";
 import STOCKFISH_CONTROLLER from "./stockfish_controller.js";
 import GENERIC from "./generic_functions.js";
+import ChessProcessor from "./tree_functions.js";
 
 const DISPLAY = {
   games_list(data, base = "all", games_list_id = "games") {
@@ -875,6 +876,117 @@ const DISPLAY = {
     document.body.appendChild(form);
     form.submit();
   },
+  tree(fens, games, statsId, gamesId, board) {
+    const table = document.getElementById(statsId);
+    table.innerHTML = "";
+    const headers = document.createElement("tr");
+    const moveHeader = document.createElement("th");
+    moveHeader.innerText = "ruch";
+    const countHeader = document.createElement("th");
+    countHeader.innerText = "liczba gier";
+    const percentHeader = document.createElement("th");
+    percentHeader.innerText = "%";
+    const lastHeader = document.createElement("th");
+    lastHeader.innerText = "najnowsze";
+    headers.appendChild(moveHeader);
+    headers.appendChild(countHeader);
+    headers.appendChild(percentHeader);
+    headers.appendChild(lastHeader);
+    table.appendChild(headers);
+
+    const table2 = document.getElementById(gamesId);
+    table2.innerHTML = "";
+    const headers2 = document.createElement("tr");
+    const whiteHeader = document.createElement("th");
+    whiteHeader.innerText = "białe";
+    const blackHeader = document.createElement("th");
+    blackHeader.innerText = "czarne";
+    const resultHeader = document.createElement("th");
+    resultHeader.innerText = "wynik";
+    const yearHeader = document.createElement("th");
+    yearHeader.innerText = "rok";
+    headers2.append(whiteHeader);
+    headers2.append(resultHeader);
+    headers2.append(blackHeader);
+    headers2.append(yearHeader);
+    table2.append(headers2);
+
+    const played = [];
+
+    try {
+      for (const game of games) {
+        if (fens.indexes.includes(game.id)) {
+          played.push(game);
+          if (played.length >= 100) {
+            break;
+          }
+        }
+      }
+    } catch (err) {
+      return;
+    }
+
+    const movesStats = [];
+    try {
+      for (const key in fens) {
+        if (key !== "indexes") {
+          const move = fens[key];
+          move.move = key;
+          movesStats.push(move);
+        }
+      }
+    } catch {}
+
+    movesStats.sort((a, b) => {
+      return b.games - a.games;
+    });
+
+    for (const stat of movesStats) {
+      const tr = document.createElement("tr");
+      tr.onclick = () => {
+        ChessProcessor.moveSan(stat.move, board);
+      };
+      const moveCell = document.createElement("td");
+      moveCell.innerText = stat.move;
+      const countCell = document.createElement("td");
+      countCell.innerText = stat.games;
+      const percentCell = document.createElement("td");
+      percentCell.innerText = ((stat.points / stat.games) * 100).toFixed(2);
+      const lastCell = document.createElement("td");
+      lastCell.innerText = stat.last;
+      tr.appendChild(moveCell);
+      tr.appendChild(countCell);
+      tr.appendChild(percentCell);
+      tr.appendChild(lastCell);
+      table.append(tr);
+    }
+
+    if (played.length > 0) {
+      const ids = played.map((value) => value.id);
+      for (let i = 0; i < played.length; i++) {
+        const game = played[i];
+        const tr = document.createElement("tr");
+
+        tr.onclick = () => {
+          gotToGame("all", ids, i, false);
+        };
+
+        const whiteCell = document.createElement("td");
+        whiteCell.innerText = game.White;
+        const blackCell = document.createElement("td");
+        blackCell.innerText = game.Black;
+        const resultCell = document.createElement("td");
+        resultCell.innerText = game.Result;
+        const yearCell = document.createElement("td");
+        yearCell.innerText = game.Year;
+        tr.append(whiteCell);
+        tr.append(resultCell);
+        tr.append(blackCell);
+        tr.append(yearCell);
+        table2.append(tr);
+      }
+    }
+  },
 };
 
 function nextGame(table, list, current) {
@@ -893,12 +1005,14 @@ function firstGame(table, list, current) {
   gotToGame(table, list, 0);
 }
 
-function gotToGame(table, list, index) {
+function gotToGame(table, list, index, sameTab = true) {
   let form = document.createElement("form");
   form.style.visibility = "hidden";
   form.method = "POST";
   form.action = `${SETTINGS.NOMENU_URLS.game}?id=${list[index]}&base=${table}`;
-  form.target = "_self";
+  if (sameTab) {
+    form.target = "_self";
+  }
   let inputList = document.createElement("input");
   inputList.value = list;
   inputList.name = "list";

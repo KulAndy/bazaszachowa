@@ -1,5 +1,6 @@
 import SEARCH from "./search_functions.js";
 import ChessProcessor from "./tree_functions.js";
+import DISPLAY from "./display_functions.js";
 
 const REQUEST_GET = get_data();
 
@@ -22,18 +23,24 @@ window.onload = async () => {
   console.timeLog();
   const processor = new ChessProcessor();
   console.timeLog();
-  processor.getTree(result.rows);
+  await processor.getTree(result.rows);
   console.timeEnd();
 
   window.addEventListener("mouseup", function () {
     window.setTimeout(function () {
-      processor.searchFEN(document.getElementById("boardFen").value, board);
+      const fens = processor.searchFEN(
+        document.getElementById("boardFen").value
+      );
+      DISPLAY.tree(fens, processor.games, "stats", "games", board);
     }, 100);
   });
 
   window.addEventListener("keydown", function () {
     window.setTimeout(function () {
-      processor.searchFEN(document.getElementById("boardFen").value, board);
+      const fens = processor.searchFEN(
+        document.getElementById("boardFen").value
+      );
+      DISPLAY.tree(fens, processor.games, "stats", "games", board);
     }, 100);
   });
 
@@ -97,14 +104,20 @@ window.onload = async () => {
     }
     e.stopPropagation();
     window.setTimeout(function () {
-      processor.searchFEN(document.getElementById("boardFen").value, board);
+      const fens = processor.searchFEN(
+        document.getElementById("boardFen").value
+      );
+      DISPLAY.tree(fens, processor.games, "stats", "games", board);
     }, 100);
   });
 
   window.setInterval(function () {
     if (processor.currentFEN != document.getElementById("boardFen").value) {
       processor.currentFEN = document.getElementById("boardFen").value;
-      processor.searchFEN(document.getElementById("boardFen").value, board);
+      const fens = processor.searchFEN(
+        document.getElementById("boardFen").value
+      );
+      DISPLAY.tree(fens, processor.games, "stats", "games", board);
     }
   }, 500);
 
