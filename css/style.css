@@ -257,6 +257,7 @@ nav details {
   * {
     word-break: keep-all;
     overflow-wrap: normal;
+    max-width: 100%;
   }
 
   body {
@@ -314,9 +315,6 @@ nav details {
   #content {
     width: fit-content;
     margin: auto !important;
-  }
-  #content * {
-    word-wrap: break-word;
   }
   .not_mobile {
     display: none !important;

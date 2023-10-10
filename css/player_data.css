@@ -1,5 +1,6 @@
 th {
   border: 2px solid black !important;
+  word-wrap: break-word;
 }
 
 p[style="text-align: center;"] {

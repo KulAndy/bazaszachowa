@@ -32,6 +32,7 @@ function search_opening_game(PDO $conn, $name, $color, $opening = null)
         $query .= " AND opening like :opening";
         $params[":opening"] = $opening;
     }
+    $query .= " order BY year DESC,month DESC,day DESC,Event,Round desc, White, Black limit 10000";
 
     return bind_params($conn, $query, $params);
 }

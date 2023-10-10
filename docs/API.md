@@ -179,19 +179,34 @@ zawsze metodą POST lub GET trzeba podać bazę partii
       ```
 * search_player_opening_game.php
   * dane wejściowe:
-  ```
-  {
-    name: "Nazwisko, Imię"
-  }
-  ```
-  * dane wyjściowe
-    ```
+ ```
   {
     player: Nazwisko, Imię,
     color: kolor (white/black)
     [, opening: debiut]
     }
-    ```
+    ```  
+  * dane wyjściowe:
+  ```
+    {
+      id: id,
+      moves: ruchy,
+      Event: turniej,
+      Site: miejsce,
+      Year: rok,
+      Month: miesiąc,
+      Day: dzień miesiąca,
+      Round: runda,
+      White: biały,
+      Black: czarny,
+      Result: wynik,
+      WhiteElo: elo białego,
+      BlackElo: elo czarnego
+      [, ECO: eco]
+      }
+      ```
+
+   
 * search_player.php
     * dane wejściowe
     ```    

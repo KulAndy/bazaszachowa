@@ -30,6 +30,7 @@ table#games tr:has(td:hover) td {
 
 th {
   border: solid 2px black !important;
+  word-wrap: break-word;
 }
 
 #stats_container {
