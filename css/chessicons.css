@@ -84,9 +84,10 @@ body {
 }
 
 #content2 {
-  margin: auto;
+  margin-left: calc(50vw - 175px);
   display: flex;
   justify-content: center;
+  width: 0 !important;
 }
 
 #content3 {
@@ -148,10 +149,6 @@ body {
 #boardButton {
   display: flex;
   justify-content: center;
-}
-
-#content2 {
-  width: 0 !important;
 }
 
 @media only screen and (max-width: 767px) {
