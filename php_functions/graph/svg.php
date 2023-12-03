@@ -123,7 +123,7 @@ ORDER by Year, Month
         $minPoint = $margin + $header;
 
         $startDate = date_create($initialRating[1] . "-" . $initialRating[2]);
-        $currentDate = date_create(date("Y") . "-" . (date("m") + 1));
+        $currentDate = new DateTime(date("Y-m-d"));
         $i = 0;
         $period = ceil(((int) date_diff($startDate, $currentDate)->format("%Y")) / 22);
         while ($startDate <= $currentDate) {

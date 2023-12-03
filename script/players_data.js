@@ -11,10 +11,10 @@ window.onload = () => {
     SETTINGS.API.graph.svg
   }?name=${encodeURIComponent(FULLNAME)}&base=all`;
   load_games(FULLNAME, COLOR, OPENING);
-  load_opening_stats(FULLNAME);
-  load_min_max_year_elo(FULLNAME);
   load_cr_data(FULLNAME);
   load_fide_data(FULLNAME);
+  load_opening_stats(FULLNAME);
+  load_min_max_year_elo(FULLNAME);
 };
 
 const load_games = async (fullname, color = null, opening = null) => {

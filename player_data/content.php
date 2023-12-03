@@ -31,11 +31,9 @@
             <summary>profil na yottabase <a href="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']);
                                                                                     ?>">link</a>
             </summary>
-            <iframe src="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
+            <iframe loading="lazy"
+                src=" https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
             </iframe>
-            <?php
-            echo urlencode($_GET['fullname']);
-            ?>
         </details>
 
         <table style='border: 0;'>
