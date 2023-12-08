@@ -67,6 +67,15 @@ table#stats tr:hover td:first-child {
   width: fit-content;
 }
 
+#stats_container tr td:nth-of-type(2),
+#stats_container tr td:nth-of-type(3) {
+  min-width: 6ch;
+}
+
+#games_container tr td:nth-of-type(2) {
+  text-align: center;
+}
+
 #stats th,
 #games th {
   text-align: center;
@@ -99,6 +108,10 @@ table#stats tr:hover td:first-child {
   #stats_container,
   #loading_tree {
     transform: rotate(180deg);
+  }
+
+  #stats_container tr td:nth-of-type(5){
+    transform: rotateX(180deg);
   }
 
   #stats,
@@ -163,3 +176,4 @@ table tr:nth-child(2n + 1) th {
 table tr:nth-child(2n + 1) input {
   background-color: var(--odd-row);
 }
+

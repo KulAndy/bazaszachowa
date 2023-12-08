@@ -888,10 +888,14 @@ const DISPLAY = {
     percentHeader.innerText = "%";
     const lastHeader = document.createElement("th");
     lastHeader.innerText = "najnowsze";
+    const hotHeader = document.createElement("th");
+    hotHeader.innerText = "trend";
+
     headers.appendChild(moveHeader);
     headers.appendChild(countHeader);
     headers.appendChild(percentHeader);
     headers.appendChild(lastHeader);
+    headers.appendChild(hotHeader);
     table.appendChild(headers);
 
     const table2 = document.getElementById(gamesId);
@@ -941,6 +945,13 @@ const DISPLAY = {
       return b.games - a.games;
     });
 
+    const yearBound = 10;
+    const currentYear = new Date().getFullYear();
+    let total = movesStats.reduce(
+      (total, stat) => total + stat.years.length * yearBound,
+      0
+    );
+
     for (const stat of movesStats) {
       const tr = document.createElement("tr");
       tr.onclick = () => {
@@ -954,10 +965,26 @@ const DISPLAY = {
       percentCell.innerText = ((stat.points / stat.games) * 100).toFixed(2);
       const lastCell = document.createElement("td");
       lastCell.innerText = stat.last;
+      let moveTotal = stat.years.reduce(
+        (total, year) =>
+          total +
+          (year <= currentYear - yearBound - 1
+            ? 1
+            : yearBound - (currentYear - year)),
+        0
+      );
+
+      let hotCell = document.createElement("td");
+      let hotBar = document.createElement("progress");
+      hotBar.value = moveTotal;
+      hotBar.max = total;
+      hotCell.appendChild(hotBar);
+
       tr.appendChild(moveCell);
       tr.appendChild(countCell);
       tr.appendChild(percentCell);
       tr.appendChild(lastCell);
+      tr.appendChild(hotCell);
       table.append(tr);
     }
 

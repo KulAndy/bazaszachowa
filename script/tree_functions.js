@@ -45,6 +45,7 @@ class ChessProcessor {
                   fens[fen][move].last
                 );
                 fensObj[fen][move].points += fens[fen][move].points;
+                fensObj[fen][move].years.push(...fens[fen][move].years);
               } else {
                 fensObj[fen][move] = { ...fens[fen][move] };
               }
@@ -80,6 +81,7 @@ class ChessProcessor {
               result.data.last
             );
             fens[fen][move].points += result.data.points;
+            fens[fen][move].years.push(...result.data.years);
           } else {
             fens[fen][move] = result.data;
           }
@@ -104,6 +106,7 @@ class ChessProcessor {
         games: 1,
         last: year,
         points,
+        years: [year],
       },
     };
   }
