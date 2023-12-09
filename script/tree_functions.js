@@ -8,7 +8,6 @@ const cutStringToPenultimateSpace = (inputString) =>
 
 class ChessProcessor {
   constructor() {
-    this.chess = new Chess();
     this.currentFEN = "";
     this.fensObj = {};
     this.games = [];
@@ -69,6 +68,7 @@ class ChessProcessor {
     let chess = new Chess();
     const fens = {};
 
+    let i = 0;
     for (const move of moves) {
       const result = this.processMove(chess, move, points, row.Year);
       if (result.fen) {
@@ -88,6 +88,9 @@ class ChessProcessor {
         } else {
           fens[fen] = { [move]: result.data, indexes: [row.id] };
         }
+      }
+      if (i++ >= 50) {
+        return fens;
       }
     }
 
