@@ -6,16 +6,16 @@ $conn = start_connection();
 echo json_encode(
     search_games(
         $conn,
-        $_REQUEST["base"],
-        $_REQUEST["white"],
-        $_REQUEST["black"],
-        $_REQUEST["ignore"] == "true",
-        (int)$_REQUEST["minYear"],
-        (int)$_REQUEST["maxYear"],
-        $_REQUEST["event"],
-        (int)$_REQUEST["minEco"],
-        (int)$_REQUEST["maxEco"],
-        $_REQUEST["searching"]
+        $_REQUEST["base"] ?? null,
+        $_REQUEST["white"] ?? null,
+        $_REQUEST["black"] ?? null,
+        ($_REQUEST["ignore"] ?? false) == "true",
+        (int)($_REQUEST["minYear"] ?? 1475),
+        (int)($_REQUEST["maxYear"] ?? date("Y")),
+        $_REQUEST["event"] ?? null,
+        (int)($_REQUEST["minEco"] ?? 1),
+        (int)($_REQUEST["maxEco"] ?? 500),
+        ($_REQUEST["searching"] ?? "classic")
     )
 );
 

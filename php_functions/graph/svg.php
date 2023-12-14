@@ -126,7 +126,7 @@ ORDER by Year, Month
         $currentDate = new DateTime(date("Y-m-d"));
         $i = 0;
         $period = ceil(((int) date_diff($startDate, $currentDate)->format("%Y")) / 22);
-        while ($startDate <= $currentDate) {
+        while ($startDate < $currentDate) {
             if (date_format($startDate, "m") == "01") {
                 if (((int) date_diff($startDate, $currentDate)->format("%Y")) % $period == 0) {
                     $text = $svg->createElement("text", date_format($startDate, "Y"));

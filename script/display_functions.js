@@ -975,9 +975,17 @@ const DISPLAY = {
       );
 
       let hotCell = document.createElement("td");
-      let hotBar = document.createElement("progress");
+      let hotBar;
+      if (!!document.createElement("meter")) {
+        hotBar = document.createElement("meter");
+      } else {
+        hotBar = document.createElement("progress");
+      }
       hotBar.value = moveTotal;
       hotBar.max = total;
+
+      hotBar.low = total / 7;
+      hotBar.optimum = total / 5;
       hotCell.appendChild(hotBar);
 
       tr.appendChild(moveCell);

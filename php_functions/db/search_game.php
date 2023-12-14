@@ -92,7 +92,7 @@ function search_games(
                     $query .= "blackid in (SELECT id FROM $players_table WHERE fullname LIKE :blacklike) ";
                 }
 
-                if (!($min_eco != 1475)  || $max_year != (int)date(("Y"))) {
+                if (!($min_year != 1475)  || $max_year != (int)date(("Y"))) {
                     $query = $query . " and Year BETWEEN $min_year and $max_year ";
                 }
                 if (isset($event_like)) {

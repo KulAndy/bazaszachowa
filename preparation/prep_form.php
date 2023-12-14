@@ -9,7 +9,7 @@
         <datalist id="players">
         </datalist>
         <br>
-        <label for="white">color</label><br />
+        <label for="white">kolor</label><br />
         <input type="radio" name="color" id="white" value="white" checked>
         <label for="white">białe</label>
         <input type="radio" name="color" id="black" value="black">

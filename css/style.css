@@ -316,6 +316,7 @@ nav details {
     width: fit-content;
     margin: auto !important;
   }
+
   .not_mobile {
     display: none !important;
   }

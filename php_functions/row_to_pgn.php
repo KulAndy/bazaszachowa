@@ -34,7 +34,7 @@ function row_to_pgn(array $row): string
         if (!empty($row['ECO'])) {
             $pgn .= "[ECO \"" . $row['ECO'] . "\"] \n";
         }
-        if (!empty($row['Whit)eElo'])) {
+        if (!empty($row['WhiteElo'])) {
             $pgn .= "[WhiteElo \"" . $row['WhiteElo'] . "\"]\n";
         }
         if (!empty($row['BlackElo'])) {
