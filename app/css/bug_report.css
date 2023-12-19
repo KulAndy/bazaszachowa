@@ -1,0 +1,38 @@
+td:has(input[type="submit"]) {
+  text-align: center;
+}
+
+label[for="agreement"] {
+  font-size: 0.6em;
+}
+
+@media screen and (min-width: 769px) {
+  #content {
+    width: fit-content;
+    margin: auto;
+  }
+  label[for="agreement"] {
+    display: inline-flex;
+    font-size: 0.6em;
+    max-width: 65vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  table {
+    display: block;
+  }
+
+  tr,
+  div {
+    display: flex;
+  }
+  label {
+    float: left;
+    margin-right: 5px;
+  }
+
+  input[type="checkbox"] {
+    float: left;
+  }
+}
