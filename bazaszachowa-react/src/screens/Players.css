@@ -1,0 +1,9 @@
+#players #content {
+  width: fit-content;
+  text-align: center !important;
+}
+
+#players #content td {
+  width: fit-content;
+  text-align: left !important;
+}

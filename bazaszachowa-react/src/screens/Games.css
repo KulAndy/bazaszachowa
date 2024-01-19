@@ -1,0 +1,34 @@
+#games div.not_mobile {
+  width: 30vw;
+  visibility: hidden;
+}
+#games #content {
+  width: fit-content;
+}
+
+#games #right_content {
+  margin-top: 0;
+}
+
+#games #games_container {
+  clear: both;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+  #games #content,
+  #games #right_content {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  #games #games_container {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
