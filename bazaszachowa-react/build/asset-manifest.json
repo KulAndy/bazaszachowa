@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.560fe576.css",
+    "main.js": "/static/js/main.178cb457.js",
+    "static/js/787.a2d521ea.chunk.js": "/static/js/787.a2d521ea.chunk.js",
+    "static/media/Szymon-Podwin-_Całujcie-mnie-wszyscy-w-dupę_-_Julian-Tuwim_.mp3": "/static/media/Szymon-Podwin-_Całujcie-mnie-wszyscy-w-dupę_-_Julian-Tuwim_.33bfa9287a1b909bf9da.mp3",
+    "index.html": "/index.html",
+    "main.560fe576.css.map": "/static/css/main.560fe576.css.map",
+    "main.178cb457.js.map": "/static/js/main.178cb457.js.map",
+    "787.a2d521ea.chunk.js.map": "/static/js/787.a2d521ea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.560fe576.css",
+    "static/js/main.178cb457.js"
+  ]
+}

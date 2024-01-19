@@ -1,0 +1,51 @@
+#preparation h1 {
+  text-align: center;
+}
+#preparation table tr:nth-child(2n) {
+  background-color: var(--even-row);
+}
+
+#preparation table tr:nth-child(2n) td {
+  background-color: var(--even-row);
+}
+#preparation table tr:nth-child(2n) th {
+  background-color: var(--even-row);
+}
+#preparation table tr:nth-child(2n) input {
+  background-color: var(--even-row);
+}
+
+#preparation table tr:nth-child(2n + 1) {
+  background-color: var(--odd-row);
+}
+
+#preparation table tr:nth-child(2n + 1) td {
+  background-color: var(--odd-row);
+}
+#preparation table tr:nth-child(2n + 1) th {
+  background-color: var(--odd-row);
+}
+#preparation table tr:nth-child(2n + 1) input {
+  background-color: var(--odd-row);
+}
+
+#preparation table,
+#preparation tr,
+#preparation th,
+#preparation td {
+  border: 2px solid black;
+  height: fit-content;
+  width: fit-content;
+}
+
+#preparation table#stats tr td:first-child {
+  font-weight: bold;
+  color: var(--document_link);
+  cursor: pointer;
+  user-select: none;
+}
+
+#preparation #games td {
+  color: var(--document_link);
+  cursor: pointer;
+}
