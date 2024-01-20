@@ -65,17 +65,25 @@
   padding: 0;
 }
 
-#player .cr-data {
+#player .cr-data,
+#player .fide-data {
   text-align: left;
+  margin: auto;
 }
 
 #player .cr-foto {
   width: 100px;
 }
 
+#player #container {
+  display: flex;
+  border: none;
+}
+
 @media only screen and (max-width: 768px) {
   #player #container {
     flex-direction: column !important;
+    align-items: center;
   }
 
   #player img {

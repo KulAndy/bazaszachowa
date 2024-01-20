@@ -235,7 +235,7 @@ const Player = () => {
           ></iframe>
         </details>
         <table style={{ border: 0, margin: "auto" }}>
-          <tr id="container" style={{ display: "flex" }}>
+          <tr id="container">
             <td id="stats" style={{ border: 0 }}>
               {loadingStats ? (
                 <div>

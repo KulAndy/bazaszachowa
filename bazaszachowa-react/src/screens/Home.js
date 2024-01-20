@@ -1,8 +1,10 @@
 import Content from "../components/Content";
+import logo from "../logo.svg";
+import "./Home.css";
 
 const Home = () => {
   return (
-    <div>
+    <div id="home">
       <Content contentId="left_content" classNames={["float_left"]}>
         <p>
           Przydatne linki <br />
@@ -38,8 +40,10 @@ const Home = () => {
         </ul>
       </Content>
       <Content classNames={["float_left"]}>
+        <img src={logo} alt="Logo" id="logo" />
+      </Content>
+      <Content contentId="right_content" classNames={["float_left"]}>
         <article>
-          <h1>Manifest</h1>
           <p>
             Z uwagi na to, że aktualnie w Polsce nie ma serwisu udostępniającego
             partie szachowe, bo jedyny istniejący został zawieszony, a jest to
@@ -61,13 +65,13 @@ const Home = () => {
             </a>
             .<br />
           </p>
+          <hr />
+          <p>
+            Baza partii będzie aktualizowana mniej więcej raz na miesiąc i można
+            z niej korzystać w zgodzie z zamieszczoną na stronie{" "}
+            <a href="/license"> licencją </a> &#127866;.
+          </p>
         </article>
-        <hr />
-        <p>
-          Baza partii będzie aktualizowana mniej więcej raz na miesiąc i można z
-          niej korzystać w zgodzie z zamieszczoną na stronie{" "}
-          <a href="/license"> licencją </a> &#127866;.
-        </p>
       </Content>
     </div>
   );

@@ -2,7 +2,7 @@ import React from "react";
 const FidePlayer = ({ player, showSource = false }) => {
   return (
     <>
-      <table>
+      <table className="fide-data">
         {showSource && (
           <caption>
             <a href="https://ratings.fide.com/download_lists.phtml">FIDE</a>
