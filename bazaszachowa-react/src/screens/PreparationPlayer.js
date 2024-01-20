@@ -27,7 +27,10 @@ const PreparationPlayer = ({ player, color }) => {
   const [doMove, setDoMove] = useState(() => {});
   const [gamesFilter, setGamesFilter] = useState([]);
   const [notationLayout, setNotationLayout] = useState(
-    window.innerHeight > window.innerWidth ? "bottom" : "right"
+    window.innerHeight > window.innerWidth ||
+      Math.max(window.innerWidth, window.innerHeight) <= 768
+      ? "bottom"
+      : "right"
   );
 
   const [boardSize, setBoardSize] = useState(
@@ -47,7 +50,10 @@ const PreparationPlayer = ({ player, color }) => {
         10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
     );
     setNotationLayout(
-      window.innerHeight > window.innerWidth ? "bottom" : "right"
+      window.innerHeight > window.innerWidth ||
+        Math.max(window.innerWidth, window.innerHeight) <= 768
+        ? "bottom"
+        : "right"
     );
   };
 
