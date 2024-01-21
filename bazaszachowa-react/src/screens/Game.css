@@ -23,7 +23,7 @@
 #game #previous a,
 #game #next a,
 #game #last a {
-  color: black;
+  color: var(--document_font_color);
 }
 
 #board_analysis {
@@ -113,18 +113,5 @@
 
   #game #board {
     grid-column: 1/3;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  #game #first,
-  #game #previous,
-  #game #next,
-  #game #last,
-  #game #first a,
-  #game #previous a,
-  #game #next a,
-  #game #last a {
-    color: white;
   }
 }
