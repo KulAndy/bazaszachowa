@@ -147,7 +147,17 @@ const ChessEditor = ({
           setHistory(newHistory);
           setIndex(newHistory.length - 1);
         }
+      } else if (
+        move?.from &&
+        chess
+          .moves({ square: move.from, verbose: true })
+          .map((obj) => obj.to)
+          .includes(move.to)
+      ) {
+        setPromotionMenuVisible(true);
+        return false;
       }
+      return true;
     }
     return true;
   };
