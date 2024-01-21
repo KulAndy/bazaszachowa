@@ -197,7 +197,7 @@ const ChessEditor = ({
   const captureSquare = (square) => {
     let chess = new Chess(history.current[index.current].fen);
     if (!chess.game_over()) {
-      if (sourceSquare == null) {
+      if (sourceSquare === null) {
         setSourceSquare(square);
         setTargetSquares(
           chess.moves({ square, verbose: true }).map((move) => move.to)
@@ -214,13 +214,13 @@ const ChessEditor = ({
   };
 
   const download = () => {
-    const pgn = `[Event "*"]
-[Site "*"]
-[Date "*"]
-[Round "*"]
-[White "*"]
-[Black "*"]
-[Result "*"]
+    const pgn = `[Event "${headers?.Event || "*"}"]
+[Site "${headers?.Site || "*"}"]
+[Date "${headers?.Date || "*"}"]
+[Round "${headers?.Round || "*"}"]
+[White "${headers?.White || "*"}"]
+[Black "${headers?.Black || "*"}"]
+[Result "${headers?.Result || "*"}"]
       
 ${
   history.current.length === 1 ? "1. " : writeMove(history.current, 1, false)
@@ -244,7 +244,7 @@ ${
     if (variant) {
       notation += "(";
     }
-    if (move.turn == "w") {
+    if (move.turn === "w") {
       notation += moveNumber + ". ";
     } else if (variant || forked) {
       notation += moveNumber + "... ";
@@ -351,7 +351,7 @@ ${
         <div id="info">
           <p>
             {headers?.WhiteElo > 0 ? headers?.WhiteElo : ""}
-            {profileUrl == null ? (
+            {profileUrl === null ? (
               <>{headers.White}</>
             ) : (
               <Link to={profileUrl + encodeURIComponent(headers.White)}>
@@ -359,7 +359,7 @@ ${
               </Link>
             )}{" "}
             {headers.Result}
-            {profileUrl == null ? (
+            {profileUrl === null ? (
               <>{headers.Black}</>
             ) : (
               <Link to={profileUrl + encodeURIComponent(headers.Black)}>
@@ -493,7 +493,7 @@ ${
               setIndex(getLastMoveIndex(index.current));
             }}
             isFirst={index.current === 0}
-            isLast={getNextMoveIndex(index.current) == null}
+            isLast={getNextMoveIndex(index.current) === null}
             zoomIn={zoomIn}
             zoomOut={zoomOut}
             download={download}

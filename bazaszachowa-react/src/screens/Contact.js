@@ -23,7 +23,7 @@ const Contact = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formData.email.trim() == admin_mail) {
+    if (formData.email.trim() === admin_mail) {
       alert("Niedozwolony adres");
     } else if (!emailRegex.test(formData.email)) {
       alert("To nie jest poprawny email");
@@ -40,7 +40,7 @@ const Contact = () => {
           body: form,
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           alert("Poprawnie wysłano wiadomość");
         } else {
           alert("Nie udało się wysłać wiadomości");

@@ -6,7 +6,9 @@
   --color5: #033c47;
 
   --complementary: #e6754b;
+}
 
+:root:has(.light) {
   --document_background: AntiqueWhite;
   --document_font_color: black;
   --document_footer: Tan;
@@ -19,45 +21,43 @@
   --odd-row: BurlyWood;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --document_background: var(--color4);
-    --document_font_color: #f2f2f2;
-    --document_footer: #2f3645;
-    --document_link: var(--color3);
-    --document_link_hover: var(--complementary);
-    --document_content_background: var(--color5);
-    --document_active: var(--color1);
+:root:has(.dark) {
+  --document_background: var(--color4);
+  --document_font_color: #f2f2f2;
+  --document_footer: #2f3645;
+  --document_link: var(--color3);
+  --document_link_hover: var(--complementary);
+  --document_content_background: var(--color5);
+  --document_active: var(--color1);
 
-    --even-row: #444444;
-    --odd-row: #333333;
-  }
+  --even-row: #444444;
+  --odd-row: #333333;
+}
 
-  input,
-  option,
-  select,
-  textarea {
-    background-color: black;
-    color: white;
-  }
+.dark input,
+.dark option,
+.dark select,
+.dark textarea {
+  background-color: black;
+  color: white;
+}
 
-  input[type="checkbox"] + label::before,
-  input[type="radio"] + label::before {
-    background-color: black;
-  }
+.dark input[type="checkbox"] + label::before,
+.dark input[type="radio"] + label::before {
+  background-color: black;
+}
 
-  #boardButton span {
-    background-color: black !important;
-  }
+.dark #boardButton span {
+  background-color: black !important;
+}
 
-  img#graph {
-    filter: invert(100%) hue-rotate(100deg);
-  }
+.dark img#graph {
+  filter: invert(100%) hue-rotate(100deg);
+}
 
-  button,
-  input[type="submit"] {
-    background-color: var(--document_link);
-  }
+.dark button,
+.dark input[type="submit"] {
+  background-color: var(--document_link);
 }
 
 .error {
@@ -206,7 +206,6 @@ article:first-of-type(p) {
 #content2 {
   margin-left: 10px;
 }
-
 
 #pre {
   margin-top: 10px;
