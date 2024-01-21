@@ -108,32 +108,6 @@ span.target svg {
   border-radius: 10px;
 }
 
-#notation:empty {
-  width: 100px;
-}
-
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-thumb {
-    background: darkcyan !important;
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #b30000 !important;
-  }
-
-  #notation,
-  #notation span,
-  #notation p {
-    color: white;
-    background-color: black;
-  }
-
-  .promotion * {
-    color: white;
-  }
-}
-
 ::-webkit-scrollbar-thumb {
   background: gainsboro;
   border-radius: 10px;
@@ -141,6 +115,30 @@ span.target svg {
 
 ::-webkit-scrollbar-thumb:hover {
   background: black;
+}
+
+#notation:empty {
+  width: 100px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: darkcyan !important;
+  border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #b30000 !important;
+}
+
+.dark #notation,
+.dark #notation span,
+.dark #notation p {
+  color: white;
+  background-color: black;
+}
+
+.dark .promotion * {
+  color: white;
 }
 
 *:focus {

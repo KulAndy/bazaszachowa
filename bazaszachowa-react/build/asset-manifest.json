@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.76ba60ff.css",
+    "main.css": "/static/css/main.463d1cc5.css",
     "main.js": "/static/js/main.2932e63a.js",
     "static/js/787.a2d521ea.chunk.js": "/static/js/787.a2d521ea.chunk.js",
     "static/media/Szymon-Podwin-_Całujcie-mnie-wszyscy-w-dupę_-_Julian-Tuwim_.mp3": "/static/media/Szymon-Podwin-_Całujcie-mnie-wszyscy-w-dupę_-_Julian-Tuwim_.33bfa9287a1b909bf9da.mp3",
     "static/media/logo.svg": "/static/media/logo.be7ecdeb486e9b5928f29440cac33906.svg",
     "index.html": "/index.html",
-    "main.76ba60ff.css.map": "/static/css/main.76ba60ff.css.map",
+    "main.463d1cc5.css.map": "/static/css/main.463d1cc5.css.map",
     "main.2932e63a.js.map": "/static/js/main.2932e63a.js.map",
     "787.a2d521ea.chunk.js.map": "/static/js/787.a2d521ea.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.76ba60ff.css",
+    "static/css/main.463d1cc5.css",
     "static/js/main.2932e63a.js"
   ]
 }
