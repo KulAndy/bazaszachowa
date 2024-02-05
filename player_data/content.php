@@ -32,7 +32,7 @@
                                                                                     ?>">link</a>
             </summary>
             <iframe loading="lazy"
-                src=" https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
+                src="https://www.yottachess.com/player/<?php echo rawurlencode($_GET['fullname']); ?>">
             </iframe>
         </details>
 

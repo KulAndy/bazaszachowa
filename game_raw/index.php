@@ -10,3 +10,5 @@ if (sizeof($rows) > 0) {
 } else {
     echo row_to_pgn([]);
 }
+
+close_connection($conn);

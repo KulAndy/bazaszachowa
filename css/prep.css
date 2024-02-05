@@ -10,7 +10,7 @@ table#games tr:has(td:hover) td {
 #content {
   text-align: center;
   height: max-content;
-  width: min(90vw, 715px);
+  width: fit-content;
 }
 
 #content2 {
@@ -176,3 +176,4 @@ table tr:nth-child(2n + 1) th {
 table tr:nth-child(2n + 1) input {
   background-color: var(--odd-row);
 }
+

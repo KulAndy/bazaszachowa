@@ -8,3 +8,4 @@ require_once(__DIR__ . "/search_players.php");
 require_once(__DIR__ . "/close_connection.php");
 require_once(__DIR__ . "/min_max_year_elo.php");
 require_once(__DIR__ . "/search_opening_game.php");
+require_once(__DIR__ . "/get_ids.php");
