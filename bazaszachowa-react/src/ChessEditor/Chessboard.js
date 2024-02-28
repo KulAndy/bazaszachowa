@@ -2,14 +2,23 @@ import "./style.css";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChessRook,
-  faChessKnight,
-  faChessBishop,
-  faChessQueen,
-  faChessKing,
-  faChessPawn,
-  faCircle,
+  faChessRook as faChessRookSolid,
+  faChessKnight as faChessKnightSolid,
+  faChessBishop as faChessBishopSolid,
+  faChessQueen as faChessQueenSolid,
+  faChessKing as faChessKingSolid,
+  faChessPawn as faChessPawnSolid,
+  faCircle as faCircleSolid,
 } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faChessRook as faChessRookRegular,
+  faChessKnight as faChessKnightRegular,
+  faChessBishop as faChessBishopRegular,
+  faChessQueen as faChessQueenRegular,
+  faChessKing as faChessKingRegular,
+  faChessPawn as faChessPawnRegular,
+} from "@fortawesome/free-regular-svg-icons";
 
 const Chessboard = ({
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
@@ -51,54 +60,80 @@ const Chessboard = ({
     for (let j = 0; j < piecesPlacementRows[i].length && j < 8; j++) {
       let piece = null;
       let color = null;
+      let contour = null;
+      let contourColor = null;
       switch (piecesPlacementRows[i][j]) {
         case "R":
-          piece = faChessRook;
+          piece = faChessRookSolid;
           color = whitePiecesColor;
+          contour = faChessRookRegular;
+          contourColor = blackPiecesColor;
           break;
         case "N":
-          piece = faChessKnight;
+          piece = faChessKnightSolid;
           color = whitePiecesColor;
+          contour = faChessKnightRegular;
+          contourColor = blackPiecesColor;
           break;
         case "B":
-          piece = faChessBishop;
+          piece = faChessBishopSolid;
           color = whitePiecesColor;
+          contour = faChessBishopRegular;
+          contourColor = blackPiecesColor;
           break;
         case "Q":
-          piece = faChessQueen;
+          piece = faChessQueenSolid;
           color = whitePiecesColor;
+          contour = faChessQueenRegular;
+          contourColor = blackPiecesColor;
           break;
         case "K":
-          piece = faChessKing;
+          piece = faChessKingSolid;
           color = whitePiecesColor;
+          contour = faChessKingRegular;
+          contourColor = blackPiecesColor;
           break;
         case "P":
-          piece = faChessPawn;
+          piece = faChessPawnSolid;
           color = whitePiecesColor;
+          contour = faChessPawnRegular;
+          contourColor = blackPiecesColor;
           break;
         case "r":
-          piece = faChessRook;
+          piece = faChessRookSolid;
           color = blackPiecesColor;
+          contour = faChessRookRegular;
+          contourColor = whitePiecesColor;
           break;
         case "n":
-          piece = faChessKnight;
+          piece = faChessKnightSolid;
           color = blackPiecesColor;
+          contour = faChessKnightRegular;
+          contourColor = whitePiecesColor;
           break;
         case "b":
-          piece = faChessBishop;
+          piece = faChessBishopSolid;
           color = blackPiecesColor;
+          contour = faChessBishopRegular;
+          contourColor = whitePiecesColor;
           break;
         case "q":
-          piece = faChessQueen;
+          piece = faChessQueenSolid;
           color = blackPiecesColor;
+          contour = faChessQueenRegular;
+          contourColor = whitePiecesColor;
           break;
         case "k":
-          piece = faChessKing;
+          piece = faChessKingSolid;
           color = blackPiecesColor;
+          contour = faChessKingRegular;
+          contourColor = whitePiecesColor;
           break;
         case "p":
-          piece = faChessPawn;
+          piece = faChessPawnSolid;
           color = blackPiecesColor;
+          contour = faChessPawnRegular;
+          contourColor = whitePiecesColor;
           break;
         default:
           const n = parseInt(piecesPlacementRows[i][j]);
@@ -130,8 +165,9 @@ const Chessboard = ({
                 >
                   <span className="target">
                     <FontAwesomeIcon
-                      icon={faCircle}
+                      icon={faCircleSolid}
                       color={targetColor}
+                      style={{ color: targetColor }}
                       size={boardSize / 9}
                       className={targetColor}
                     />
@@ -204,15 +240,25 @@ const Chessboard = ({
           >
             {targetSquares.includes(square) && (
               <FontAwesomeIcon
-                icon={faCircle}
+                icon={faCircleSolid}
                 color={targetColor}
+                style={{ color: targetColor }}
                 className={targetColor + " target fa-stack-1x"}
+              />
+            )}
+            {contourColor === blackPiecesColor && (
+              <FontAwesomeIcon
+                icon={contour}
+                color={contourColor}
+                style={{ color: contourColor }}
+                className={contourColor + "Contour fa fa-stack-2x"}
               />
             )}
             <FontAwesomeIcon
               icon={piece}
               color={color}
-              className={color + " fa fa-stack-2x"}
+              style={{ color }}
+              className={color + " fa fa-stack-3x"}
             />
           </span>
         </div>
