@@ -1,11 +1,21 @@
+.white,
+.white * {
+  color: white;
+}
+
 .black,
 .black * {
   color: black;
 }
 
-.white,
-.white * {
+.whiteContour,
+.whiteContour * {
   color: white;
+}
+
+.blackContour,
+.blackContour * {
+  color: black;
 }
 
 .gray,
