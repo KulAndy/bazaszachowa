@@ -1,3 +1,7 @@
+tr a{
+    display: contents;
+}
+
 #preparation h1 {
   text-align: center;
 }
