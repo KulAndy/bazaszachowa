@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { URLS } from "../settings";
 
 const PreparationForm = () => {
-  const navigate = useNavigate();
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    navigate(`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`);
+    setSubmitted(true);
   };
 
   return (
@@ -49,6 +48,11 @@ const PreparationForm = () => {
       <p style={{ textAlign: "center" }}>
         <input type="submit" value="szukaj" />
       </p>
+      {submitted && (
+        <Link
+          to={`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`}
+        />
+      )}
     </form>
   );
 };

@@ -91,6 +91,9 @@ const Game = () => {
       });
   }, [state, base, gameid, list]);
 
+  const firstGame = list.indexOf(gameid) <= 0;
+  const lastGame = list.indexOf(gameid) >= list.length - 1;
+
   return (
     <div id="game">
       <Content>
@@ -100,12 +103,8 @@ const Game = () => {
           </button>
         </div>
         <div id="buttonContainer">
-          <button
-            id="first"
-            title="Ctrl + ↑  "
-            disabled={list.indexOf(gameid) <= 0}
-          >
-            {list.indexOf(gameid) <= 0 ? (
+          <button id="first" title="Ctrl + ↑  " disabled={firstGame}>
+            {firstGame ? (
               <>pierwsza partia</>
             ) : (
               <Link
@@ -121,12 +120,8 @@ const Game = () => {
               </Link>
             )}
           </button>
-          <button
-            id="previous"
-            title="Ctrl + ←"
-            disabled={list.indexOf(gameid) === 0}
-          >
-            {list.indexOf(gameid) <= 0 ? (
+          <button id="previous" title="Ctrl + ←" disabled={firstGame}>
+            {firstGame ? (
               <>poprzednia partia</>
             ) : (
               <Link
@@ -144,12 +139,8 @@ const Game = () => {
               </Link>
             )}
           </button>
-          <button
-            id="next"
-            title="Ctrl + →"
-            disabled={list.indexOf(gameid) === list.length - 1}
-          >
-            {list.indexOf(gameid) === list.length - 1 ? (
+          <button id="next" title="Ctrl + →" disabled={lastGame}>
+            {lastGame ? (
               <>następna partia</>
             ) : (
               <Link
@@ -167,12 +158,8 @@ const Game = () => {
               </Link>
             )}
           </button>
-          <button
-            id="last"
-            title="Ctrl + ↓"
-            disabled={list.indexOf(gameid) === list.length - 1}
-          >
-            {list.indexOf(gameid) === list.length - 1 ? (
+          <button id="last" title="Ctrl + ↓" disabled={lastGame}>
+            {lastGame ? (
               <>ostatnia partia</>
             ) : (
               <Link

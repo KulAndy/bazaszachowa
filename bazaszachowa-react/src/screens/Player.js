@@ -189,29 +189,33 @@ const Player = () => {
         </div>
         <div style={{ width: "fit-content", margin: "auto" }}>
           <table>
-            <tr>
-              <th colSpan={2}>przygotowanie</th>
-            </tr>
-            <tr>
-              <td>
-                <Link
-                  to={
-                    URLS.preparation.url + encodeURIComponent(name) + "/white"
-                  }
-                >
-                  białe
-                </Link>
-              </td>
-              <td>
-                <Link
-                  to={
-                    URLS.preparation.url + encodeURIComponent(name) + "/black"
-                  }
-                >
-                  czarne
-                </Link>
-              </td>
-            </tr>
+            <thead>
+              <tr>
+                <th colSpan={2}>przygotowanie</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <Link
+                    to={
+                      URLS.preparation.url + encodeURIComponent(name) + "/white"
+                    }
+                  >
+                    białe
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    to={
+                      URLS.preparation.url + encodeURIComponent(name) + "/black"
+                    }
+                  >
+                    czarne
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <details>
@@ -235,31 +239,33 @@ const Player = () => {
           ></iframe>
         </details>
         <table style={{ border: 0, margin: "auto" }}>
-          <tr id="container">
-            <td id="stats" style={{ border: 0 }}>
-              {loadingStats ? (
-                <div>
-                  <div className="loading">
-                    <div className="spin"></div>
-                    <p>Ładowanie statystyk ... </p>
+          <tbody>
+            <tr id="container">
+              <td id="stats" style={{ border: 0 }}>
+                {loadingStats ? (
+                  <div>
+                    <div className="loading">
+                      <div className="spin"></div>
+                      <p>Ładowanie statystyk ... </p>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <OpeningsStats stats={stats} name={name} />
-              )}
-            </td>
-            <td style={{ border: 0 }}>
-              <img
-                id="graph"
-                onError={(e) => {
-                  e.target.closest("td").remove();
-                }}
-                src={
-                  API.BASE_URL + API.graph + "svg/" + encodeURIComponent(name)
-                }
-              />
-            </td>
-          </tr>
+                ) : (
+                  <OpeningsStats stats={stats} name={name} />
+                )}
+              </td>
+              <td style={{ border: 0 }}>
+                <img
+                  id="graph"
+                  onError={(e) => {
+                    e.target.closest("td").remove();
+                  }}
+                  src={
+                    API.BASE_URL + API.graph + "svg/" + encodeURIComponent(name)
+                  }
+                />
+              </td>
+            </tr>
+          </tbody>
         </table>
         {loadingGames ? (
           <div>

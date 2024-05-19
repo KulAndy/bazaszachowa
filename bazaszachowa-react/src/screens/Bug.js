@@ -33,7 +33,6 @@ const Bug = () => {
     } else if (!emailRegex.test(formData.email)) {
       alert("To nie jest poprawny email");
     } else {
-      console.log(formData);
       const form = new FormData();
       const content = `${formData.type}:
       ${formData.notices}
@@ -45,7 +44,7 @@ const Bug = () => {
       form.append("email", formData.email);
       form.append(
         "subject",
-        "Błąd w partii" + (base + "-" + gameid) + formData.type
+        "Błąd w partii " + (base + "-" + gameid) + " - " + formData.type
       );
       form.append("content", content);
       form.append("attachment", []);

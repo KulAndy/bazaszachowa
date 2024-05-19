@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { NOMENU_URLS } from "../settings";
+
 const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
-  const navigate = useNavigate();
   if (noEmpty && (!games || games.length === 0)) {
     return <></>;
   }
@@ -33,7 +32,7 @@ const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
   const game2pgn = (game) =>
     `[Event "${game.Event}"]
 [Site "${game.Site}"]
-[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
+[Date "${game.Year}.${game.Month || "??"}.${game.Day || "??"}"]
 [Round "${game.Round}"]
 [White "${game.White}"]
 [Black "${game.Black}"]
@@ -59,30 +58,36 @@ ${game.moves}
             Pobierz
           </button>
         </caption>
-        <tr>
-          <th>Biały</th>
-          <th style={{ whiteSpace: "nowrap" }}>Wynik</th>
-          <th>Czarny</th>
-          <th>Rok</th>
-        </tr>
-        {items.map((item) => (
-          <tr
-            onClick={() => {
-              navigate(`${NOMENU_URLS.game}${base}/${item.id}`, {
-                state: {
-                  base,
-                  gameid: item.id,
-                  list: items.map((elem) => elem.id),
-                },
-              });
-            }}
-          >
-            <td>{item.White}</td>
-            <td style={{ textAlign: "center" }}>{item.Result}</td>
-            <td>{item.Black}</td>
-            <td>{item.Year}</td>
+        <thead>
+          <tr>
+            <th>Biały</th>
+            <th style={{ whiteSpace: "nowrap" }}>Wynik</th>
+            <th>Czarny</th>
+            <th>Rok</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.key}>
+              <Link
+                to={{
+                  pathname: `${NOMENU_URLS.game}${base}/${item.id}`,
+                  state: {
+                    base,
+                    gameid: item.id,
+                    list: items.map((elem) => elem.id),
+                  },
+                }}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <td>{item.White}</td>
+                <td style={{ textAlign: "center" }}>{item.Result}</td>
+                <td>{item.Black}</td>
+                <td>{item.Year}</td>
+              </Link>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );

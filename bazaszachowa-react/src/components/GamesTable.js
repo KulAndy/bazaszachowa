@@ -102,7 +102,9 @@ ${game.moves}
           </td>
           <td class="not_mobile">
             <button>
-              <a href={`${NOMENU_URLS.game_raw}${base}/${item.id}`}>zobacz</a>
+              <Link to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}>
+                zobacz
+              </Link>
             </button>
           </td>
         </tr>
