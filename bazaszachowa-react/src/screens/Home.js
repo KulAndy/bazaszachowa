@@ -41,6 +41,11 @@ const Home = () => {
       </Content>
       <Content classNames={["float_left"]}>
         <img src={logo} alt="Logo" id="logo" />
+        <hr />
+        <p>
+          Chętni mogą dorzucić się do hostingu:{" "}
+          <a href="https://zrzutka.pl/z/bazaszachowa">zrzutka</a>
+        </p>
       </Content>
       <Content contentId="right_content" classNames={["float_left"]}>
         <article>
