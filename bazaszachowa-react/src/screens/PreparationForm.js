@@ -7,11 +7,9 @@ import { URLS } from "../settings";
 const PreparationForm = () => {
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
   };
 
   return (
@@ -46,13 +44,12 @@ const PreparationForm = () => {
         <label htmlFor="black">czarne</label>
       </p>
       <p style={{ textAlign: "center" }}>
-        <input type="submit" value="szukaj" />
-      </p>
-      {submitted && (
         <Link
           to={`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`}
-        />
-      )}
+        >
+          <input type="submit" value="szukaj" />
+        </Link>
+      </p>
     </form>
   );
 };

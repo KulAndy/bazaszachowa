@@ -1,5 +1,5 @@
-tr a{
-    display: contents;
+tr a {
+  display: contents;
 }
 
 #preparation h1 {
@@ -43,7 +43,7 @@ tr a{
   user-select: none;
 }
 
-#preparation table#stats tr td:first-child {
+#preparation table#stats tr:not(:has(td:hover)) td:first-child {
   font-weight: bold;
   color: var(--document_link);
   cursor: pointer;
@@ -51,5 +51,14 @@ tr a{
 
 #preparation #games td {
   color: var(--document_link);
+}
+
+#preparation #games tr:has(td):hover * {
   cursor: pointer;
+  color: var(--document_link_hover);
+}
+
+#preparation #stats tr:has(td):hover * {
+  cursor: pointer;
+  color: var(--document_link_hover);
 }
