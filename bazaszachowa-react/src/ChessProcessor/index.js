@@ -33,10 +33,6 @@ class ChessProcessor {
             if (move !== "indexes") {
               if (fensObj[fen][move]) {
                 fensObj[fen][move].games += fens[fen][move].games;
-                fensObj[fen][move].last = Math.max(
-                  fensObj[fen][move].last,
-                  fens[fen][move].last
-                );
                 fensObj[fen][move].points += fens[fen][move].points;
                 fensObj[fen][move].years.push(...fens[fen][move].years);
               } else {
@@ -70,10 +66,6 @@ class ChessProcessor {
         if (fen in fens) {
           if (fens[fen][move]) {
             fens[fen][move].games += 1;
-            fens[fen][move].last = Math.max(
-              fens[fen][move].last,
-              result.data.last
-            );
             fens[fen][move].points += result.data.points;
             fens[fen][move].years.push(...result.data.years);
           } else {
@@ -155,10 +147,6 @@ class ChessProcessor {
           this.fensObj[fen].indexes.push(row.id); // Adding the row id directly
           if (this.fensObj[fen][move]) {
             this.fensObj[fen][move].games += 1;
-            this.fensObj[fen][move].last = Math.max(
-              this.fensObj[fen][move].last,
-              result.data.last
-            );
             this.fensObj[fen][move].points += result.data.points;
             this.fensObj[fen][move].years.push(result.data.year);
           } else {

@@ -1,24 +1,46 @@
 import React from "react";
 
 const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
-  if (stats === undefined || stats === null || stats.length === 0) {
+  if (!stats || stats.length === 0) {
     return <></>;
   }
 
-  const smoothFactor = 10;
+  const yearBound = 10;
   const currentYear = new Date().getFullYear();
 
-  const paretoScores = stats.map((item) =>
-    item.years.reduce((total, year) => {
-      const yearFactor = (1 + smoothFactor) / (currentYear - year + 1);
-      return total + yearFactor;
-    }, 0)
-  );
-
-  const totalParetoScore = paretoScores.reduce(
-    (total, score) => total + score,
+  // Calculate total
+  const total = stats.reduce(
+    (total, stat) => total + stat.years.length * Math.pow(1.25, yearBound),
     0
   );
+
+  // Calculate values for each item
+  const values = stats.map((item) =>
+    item.years.reduce(
+      (accum, year) =>
+        accum +
+        Math.pow(
+          1.25,
+          year <= currentYear - yearBound - 1
+            ? 1
+            : yearBound - (currentYear - year)
+        ),
+      0
+    )
+  );
+
+  const maxValue = Math.max(...values);
+  const maxYear = Math.max(...stats.map((item) => Math.max(...item.years)));
+
+  let scaleFactor = 1;
+  const denominator =
+    1 +
+    (maxYear <= currentYear - yearBound
+      ? yearBound
+      : currentYear - maxYear + 1);
+  if (maxValue !== 0 && maxValue < total / denominator) {
+    scaleFactor = total / maxValue / denominator;
+  }
 
   return (
     <div {...props}>
@@ -33,25 +55,22 @@ const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
           </tr>
         </thead>
         <tbody>
-          {stats.map((item, index) => {
-            const paretoScore = (paretoScores[index] / totalParetoScore) * 100;
-            return (
-              <tr
-                key={item.move}
-                onClick={() => {
-                  doMove(item.move);
-                }}
-              >
-                <td>{item.move}</td>
-                <td>{item.games}</td>
-                <td>{((item.points / item.games) * 100).toFixed(2)}</td>
-                <td>{item.last}</td>
-                <td>
-                  <meter max={100} value={paretoScore} />
-                </td>
-              </tr>
-            );
-          })}
+          {stats.map((item, index) => (
+            <tr
+              key={item.move}
+              onClick={() => {
+                doMove(item.move);
+              }}
+            >
+              <td>{item.move}</td>
+              <td>{item.games}</td>
+              <td>{((item.points / item.games) * 100).toFixed(2)}</td>
+              <td>{Math.max(...item.years)}</td>
+              <td>
+                <meter max={total} value={values[index] * scaleFactor} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
