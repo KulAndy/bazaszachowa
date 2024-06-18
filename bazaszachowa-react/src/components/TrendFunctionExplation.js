@@ -218,11 +218,11 @@ const TrendFunctionExplation = () => {
                     <mn>1</mn>
                   </mtd>
                   <mtd>
-                    <mi>c</mi>
-                    <mo>+</mo>
-                    <mn>1</mn>
-                    <mo>-</mo>
                     <mi>Y</mi>
+                    <mo>{">"}</mo>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>b</mi>
                   </mtd>
                 </mtr>
               </mtable>
