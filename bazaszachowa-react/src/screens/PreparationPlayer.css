@@ -33,10 +33,7 @@ tr a {
   background-color: var(--odd-row);
 }
 
-#preparation table,
-#preparation tr,
-#preparation th,
-#preparation td {
+#preparation :is(table, tr, th, td) {
   border: 2px solid black;
   height: fit-content;
   width: fit-content;
@@ -61,4 +58,16 @@ tr a {
 #preparation #stats tr:has(td):hover * {
   cursor: pointer;
   color: var(--document_link_hover);
+}
+
+math {
+  width: fit-content;
+}
+
+:has(math) {
+  text-align: left;
+}
+
+mspace {
+  width: 1ch;
 }

@@ -7,6 +7,7 @@ import ChessProcessor from "./../ChessProcessor";
 import { NOMENU_URLS, API } from "../settings";
 import PositionMoves from "../components/PositionsMoves";
 import LinkGamesTable from "../components/LinkGamesTable";
+import TrendFunctionExplation from "../components/TrendFunctionExplation";
 
 const processor = new ChessProcessor();
 
@@ -171,44 +172,50 @@ const PreparationPlayer = ({ player, color }) => {
             );
           }}
         />
-        <div
-          style={{
-            display: "flex",
-            flexDirection:
-              notationLayout === "bottom" ? "column-reverse" : "column",
-            justifyContent: "flex-start",
-            alignItems: notationLayout === "bottom" ? "center" : "flex-start",
-            maxHeight: boardSize,
-            overflow: "auto",
-          }}
-        >
-          {games.length === 0 ? (
-            <div>
-              <div className="loading">
-                <div className="spin"></div>
-                <p>Ładowanie statystyk </p>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection:
+                notationLayout === "bottom" ? "column-reverse" : "column",
+              justifyContent: "flex-start",
+              alignItems: notationLayout === "bottom" ? "center" : "flex-start",
+              maxHeight: boardSize,
+              overflow: "auto",
+            }}
+          >
+            {games.length === 0 ? (
+              <div>
+                <div className="loading">
+                  <div className="spin"></div>
+                  <p>Ładowanie statystyk </p>
+                </div>
               </div>
-            </div>
-          ) : (
-            <>
-              <PositionMoves
-                stats={tree}
-                doMove={doMove}
-                style={{
-                  maxHeight: boardSize / 2,
-                  overflow: "auto",
-                }}
-              />
-              <LinkGamesTable
-                games={games.filter((game) => gamesFilter.includes(game.id))}
-                noEmpty={true}
-                style={{
-                  maxHeight: boardSize / 2,
-                  overflow: "auto",
-                }}
-              />
-            </>
-          )}
+            ) : (
+              <>
+                <PositionMoves
+                  stats={tree}
+                  doMove={doMove}
+                  style={{
+                    maxHeight: boardSize / 2,
+                    overflow: "auto",
+                  }}
+                />
+                <LinkGamesTable
+                  games={games.filter((game) => gamesFilter.includes(game.id))}
+                  noEmpty={true}
+                  style={{
+                    maxHeight: boardSize / 2,
+                    overflow: "auto",
+                  }}
+                />
+              </>
+            )}
+          </div>
+          <details>
+            <summary>Obliczanie trendu</summary>
+            <TrendFunctionExplation />
+          </details>
         </div>
       </div>
     </div>

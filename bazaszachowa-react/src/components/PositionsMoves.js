@@ -7,20 +7,19 @@ const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
 
   const yearBound = 10;
   const currentYear = new Date().getFullYear();
+  const base = Math.pow(yearBound, 1 / yearBound);
 
-  // Calculate total
   const total = stats.reduce(
-    (total, stat) => total + stat.years.length * Math.pow(1.25, yearBound),
+    (total, stat) => total + stat.years.length * Math.pow(base, yearBound),
     0
   );
 
-  // Calculate values for each item
   const values = stats.map((item) =>
     item.years.reduce(
       (accum, year) =>
         accum +
         Math.pow(
-          1.25,
+          base,
           year <= currentYear - yearBound - 1
             ? 1
             : yearBound - (currentYear - year)

@@ -1,0 +1,465 @@
+import React from "react";
+
+const TrendFunctionExplation = () => {
+  const obecnyRok = new Date().getFullYear();
+
+  return (
+    <div>
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>b</mi>
+            <mo>=</mo>
+            <mn>10</mn>
+            <mo>,</mo>
+          </mrow>
+          <mrow>
+            <mi>c</mi>
+            <mo>=</mo>
+            <mn>{obecnyRok}</mn>
+            <mo>,</mo>
+          </mrow>
+          <mrow>
+            <mi>&alpha;</mi>
+            <mo>=</mo>
+            <mroot>
+              <mi>b</mi>
+              <mn>b</mn>
+            </mroot>
+          </mrow>
+        </math>
+      </p>
+      <br />
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>T</mi>
+            <mo>=</mo>
+            <munderover>
+              <mo>∑</mo>
+              <mrow>
+                <mi>i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mi>n</mi>
+            </munderover>
+            <mrow>
+              <mo>(</mo>
+              <mo>|</mo>
+              <msub>
+                <mi>s</mi>
+                <mi>i</mi>
+              </msub>
+              <mo>|</mo>
+              <mo>×</mo>
+              <msup>
+                <mn>&alpha;</mn>
+                <mi>b</mi>
+              </msup>
+              <mo>)</mo>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>L</mi>
+            <mo>(</mo>
+            <mi>y</mi>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mrow>
+              <mo>{"{"}</mo>
+              <mtable>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                  </mtd>
+                  <mtd>
+                    <mi>y</mi>
+                    <mo>&#x2264;</mo>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>b</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mi>b</mi>
+                    <mo>-</mo>
+                    <mo>(</mo>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>y</mi>
+                    <mo>)</mo>
+                  </mtd>
+                  <mtd>
+                    <mi>y</mi>
+                    <mo>{">"}</mo>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>b</mi>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                  </mtd>
+                </mtr>
+              </mtable>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <msub>
+              <mi>v</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>=</mo>
+            <munderover>
+              <mo>∑</mo>
+              <mrow>
+                <mi>j=1</mi>
+              </mrow>
+              <mrow>
+                <mo>|</mo>
+                <msub>
+                  <mi>s</mi>
+                  <mi>i</mi>
+                </msub>
+                <mo>|</mo>
+              </mrow>
+            </munderover>
+            <msup>
+              <mn>&alpha;</mn>
+              <mi>
+                <mrow>
+                  <mtext>L</mtext>
+                  <mo>(</mo>
+                  <msub>
+                    <mi>s</mi>
+                    <mi>ij</mi>
+                  </msub>
+                  <mo>)</mo>
+                </mrow>
+              </mi>
+            </msup>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>V</mi>
+            <mo>=</mo>
+            <mrow>
+              <mo>max</mo>
+              <mo>(</mo>
+              <mi>v</mi>
+              <mo>)</mo>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>Y</mi>
+            <mo>=</mo>
+            <mrow>
+              <mo>max</mo>
+              <mo>(</mo>
+              <mtext>rok w </mtext>
+              <mspace />
+              <mi>s</mi>
+              <mo>)</mo>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>d</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mrow>
+              <mo>{"{"}</mo>
+              <mtable>
+                <mtr>
+                  <mtd>
+                    <mi>b</mi>
+                  </mtd>
+                  <mtd>
+                    <mi>Y</mi>
+                    <mo>&#x2264;</mo>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>b</mi>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mi>c</mi>
+                    <mo>-</mo>
+                    <mi>Y</mi>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                  </mtd>
+                  <mtd>
+                    <mi>c</mi>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>-</mo>
+                    <mi>Y</mi>
+                  </mtd>
+                </mtr>
+              </mtable>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>&lambda;</mi>
+            <mo>=</mo>
+            <mrow>
+              <mo>{"{"}</mo>
+              <mtable>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                  </mtd>
+                  <mtd>
+                    <mi>V</mi>
+                    <mo>=</mo>
+                    <mn>0</mn>
+                    <mspace />
+                    <mo>∧</mo>
+                    <mspace />
+                    <mi>V</mi>
+                    <mo>&#x2265;</mo>
+                    <mfrac>
+                      <mi>T</mi>
+                      <mi>d</mi>
+                    </mfrac>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mfrac>
+                      <mi>T</mi>
+                      <mrow>
+                        <mi>V</mi>
+                        <mo>×</mo>
+                        <mi>d</mi>
+                      </mrow>
+                    </mfrac>
+                  </mtd>
+                  <mtd>
+                    <mn>~</mn>
+                    <mo>{"("}</mo>
+                    <mi>V</mi>
+                    <mo>=</mo>
+                    <mn>0</mn>
+                    <mspace />
+                    <mo>∧</mo>
+                    <mspace />
+                    <mi>V</mi>
+                    <mo>&#x2265;</mo>
+                    <mfrac>
+                      <mi>T</mi>
+                      <mi>d</mi>
+                    </mfrac>
+                    <mo>{")"}</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+            </mrow>
+          </mrow>
+        </math>
+      </p>
+
+      <p>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+          <mrow>
+            <mi>f</mi>
+            <mo>(</mo>
+            <mi>x</mi>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
+                <msub>
+                  <mi>v</mi>
+                  <mi>x</mi>
+                </msub>
+                <mo>×</mo>
+                <mi>&lambda;</mi>
+              </mrow>
+              <mi>T</mi>
+            </mfrac>
+          </mrow>
+        </math>
+      </p>
+      <strong>Stałe:</strong>
+      <ul>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>b</mi>
+            <mo>=</mo>
+            <mn>10</mn>
+          </math>
+          : Stała reprezentująca po ilu latach prawdopodobieństwo na ruch się
+          wyrównuje.
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>c</mi>
+            <mo>=</mo>
+            <mn>{obecnyRok}</mn>
+          </math>
+          : Stała reprezentująca aktualny rok.
+        </li>
+      </ul>
+      <strong>Zmienne:</strong>
+      <ul>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>T</mi>
+          </math>
+          : Suma maksymalnych możliwych wartości.
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <msub>
+              <mi>s</mi>
+              <mi>i</mi>
+            </msub>
+          </math>
+          : Statystyka lat dla danego ruchu{" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>i</mi>
+          </math>
+          .
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mo>|</mo>
+            <msub>
+              <mi>s</mi>
+              <mi>i</mi>
+            </msub>
+            <mo>|</mo>
+          </math>
+          : Ilość lat (wystąpień ruchu){" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>i</mi>
+          </math>
+          .
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <msub>
+              <mi>s</mi>
+              <mi>ij</mi>
+            </msub>
+          </math>
+          :
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mspace />
+            <mi>j</mi>
+          </math>
+          -ty rok .
+        </li>
+
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <msub>
+              <mi>v</mi>
+              <mi>i</mi>
+            </msub>
+          </math>
+          : Tablica wartości obliczonych dla każdej statystyki{" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>i</mi>
+          </math>
+          .
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>V</mi>
+          </math>
+          : Maksymalna wartość spośród wszystkich wartości{" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>v</mi>
+          </math>
+          .
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>Y</mi>
+          </math>
+          : Maksymalny rok wśród wszystkich statystyk.
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>d</mi>
+          </math>
+          : Mianownik używany do celów skalowania.
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>&lambda;</mi>
+          </math>
+          : Współczynnik skalowania dostosowany na podstawie maksymalnej
+          wartości.
+        </li>
+      </ul>
+      <strong>Funkcje:</strong>
+      <ul>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>L</mi>
+            <mo>(</mo>
+            <mi>y</mi>
+            <mo>)</mo>
+          </math>
+          : Funkcja określająca wagę roku{" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>y</mi>
+          </math>
+          .
+        </li>
+        <li>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>f</mi>
+            <mo>(</mo>
+            <mi>x</mi>
+            <mo>)</mo>
+          </math>
+          : Funkcja obliczająca skalowaną wartość trendu dla ruchu{" "}
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>x</mi>
+          </math>
+          .
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export default TrendFunctionExplation;
