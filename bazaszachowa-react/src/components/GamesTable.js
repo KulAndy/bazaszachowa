@@ -72,7 +72,7 @@ ${game.moves}
           <br />
           partię
         </th>
-        <th className="not_mobile">RAW</th>
+        <th className="not_mobile">PGN</th>
       </tr>
       {items.map((item) => (
         <tr>

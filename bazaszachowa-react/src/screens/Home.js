@@ -1,5 +1,6 @@
 import Content from "../components/Content";
 import logo from "../logo.svg";
+import { API } from "../settings";
 import "./Home.css";
 
 const Home = () => {
@@ -13,6 +14,12 @@ const Home = () => {
           Alternatywa
           <li>
             <a href="https://www.yottachess.com/">yottachess</a>
+          </li>
+          <li>
+            <a href="https://www.chessbites.com/">chessbites</a>
+          </li>
+          <li>
+            <a href="https://chessify.me/analysis/chess-database">chessify</a>
           </li>
           <li>
             <a href="https://chess-results.com/PartieSuche.aspx?lan=3">

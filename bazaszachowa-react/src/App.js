@@ -19,6 +19,7 @@ import Bug from "./screens/Bug";
 import Docs from "./screens/Docs";
 import { useTheme } from "./components/ThemeProvider";
 import Cookies from "js-cookie";
+import Downloads from "./screens/Downloads";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -53,6 +54,7 @@ const App = () => {
             element={<Preparation />}
           />
           <Route path={NOMENU_URLS.docs + ":file?"} element={<Docs />} />
+          <Route path={URLS.downloads.url} element={<Downloads />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
