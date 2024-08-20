@@ -45,14 +45,14 @@ const StockfishAnalysis = ({
   stockfish.onmessage = function (event) {
     let message = event.data;
     if (message.includes("info depth")) {
-      var match = message.match(/score (cp|mate) ([-\d]+) .*$/);
+      const match = message.match(/score (cp|mate) ([-\d]+) .*$/);
 
       if (match) {
         const chess = new Chess(fen);
         const turn = chess.turn();
-        var type = match[1];
-        var value = parseInt(match[2]);
-        let infoArr = message.split(" pv ");
+        const type = match[1];
+        const value = parseInt(match[2]);
+        const infoArr = message.split(" pv ");
         const key = infoArr[1].split(" ")[0];
 
         let san = null;
@@ -83,8 +83,12 @@ const StockfishAnalysis = ({
       }
     } else if (message.startsWith("bestmove")) {
       message = message.replace(/bestmove |ponder |\(none\) /g, "");
-      let best = message.trim().split(" ")[0];
-      if (best.length > 0) {
+      const best = message
+        .trim()
+        .split(" ")
+        .filter((item) => item !== "(none)")[0];
+
+      if (best) {
         setBest(best);
       }
       if (currentDepth < depth) {
@@ -102,19 +106,7 @@ const StockfishAnalysis = ({
     return () => {
       stockfish.postMessage("stop");
     };
-  }, []);
-
-  useEffect(() => {
-    stockfish.postMessage("setoption name Threads value " + threads);
-  }, [threads]);
-
-  useEffect(() => {
-    stockfish.postMessage("setoption name MultiPV value " + multiPV);
-  }, [multiPV]);
-
-  useEffect(() => {
-    stockfish.postMessage("setoption name Hash value " + hashSize);
-  }, [hashSize]);
+  }, [threads, multiPV, hashSize]);
 
   useEffect(() => {
     stockfish.postMessage("stop");
@@ -130,9 +122,9 @@ const StockfishAnalysis = ({
   }, [fen, threads, multiPV, hashSize]);
 
   useEffect(() => {
-    stockfish.postMessage("position fen " + fen);
+    // stockfish.postMessage("position fen " + fen);
     stockfish.postMessage("go depth " + currentDepth);
-  }, [depth, currentDepth]);
+  }, [currentDepth]);
 
   const valuesArray = Object.values(variants)
     .filter((item) => item.san !== null)
@@ -149,39 +141,46 @@ const StockfishAnalysis = ({
     });
 
   return (
-    <div id="engine_container" className={!visible ? "inactive" : ""}>
-      <p>
-        Najlepszy ruch{" "}
-        {best !== null ? (
-          <span style={{ fontWeight: "bolder" }}>
-            {variants[best]?.san || ""}
-          </span>
-        ) : (
-          <span>
-            {valuesArray.length === 0 ? <>-</> : <>{valuesArray[0].san}</>}
-          </span>
-        )}
-      </p>
-      <p>
-        Ocena{" "}
-        {best !== null ? (
-          <span style={{ fontWeight: "bolder" }}>
-            {variants[best]?.prefix || ""}
-            {Math.abs(variants[best]?.value || "")}
-          </span>
-        ) : (
-          <span>
-            {valuesArray.length === 0 ? (
-              <>-</>
-            ) : (
-              <>
-                {valuesArray[0].prefix}
-                {valuesArray[0].value}
-              </>
-            )}
-          </span>
-        )}
-      </p>
+    <div id="engine_container" className={visible || "inactive"}>
+      {best ? (
+        <>
+          <p>
+            Najlepszy ruch{" "}
+            <span style={{ fontWeight: "bolder" }}>
+              {variants[best]?.san || ""}
+            </span>
+          </p>
+          <p>
+            Ocena{" "}
+            <span style={{ fontWeight: "bolder" }}>
+              {variants[best]?.prefix || ""}
+              {Math.abs(variants[best]?.value || "")}
+            </span>
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            Najlepszy ruch{" "}
+            <span>
+              {valuesArray.length === 0 ? <>-</> : <>{valuesArray[0].san}</>}
+            </span>
+          </p>
+          <p>
+            Ocena{" "}
+            <span>
+              {valuesArray.length === 0 ? (
+                <>-</>
+              ) : (
+                <>
+                  {valuesArray[0].prefix}
+                  {valuesArray[0].value}
+                </>
+              )}
+            </span>
+          </p>
+        </>
+      )}
       {valuesArray.map((value, index) => (
         <>
           {index < 3 && (

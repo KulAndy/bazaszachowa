@@ -33,29 +33,29 @@ const App = () => {
       <Menu links={URLS} />
       <Router>
         <Routes>
-          <Route path={URLS.home.url} element={<Home />} />
-          <Route path={URLS.contact.url} element={<Contact />} />
-          <Route path={URLS.rodo.url} element={<Rodo />} />
-          <Route path={URLS.license.url} element={<License />} />
-          <Route path={URLS.players.url + ":name?"} element={<Players />} />
+          <Route path={URLS.home.url} Component={Home} />
+          <Route path={URLS.contact.url} Component={Contact} />
+          <Route path={URLS.rodo.url} Component={Rodo} />
+          <Route path={URLS.license.url} Component={License} />
+          <Route path={URLS.players.url + ":name?"} Component={Players} />
           <Route
             path={NOMENU_URLS.profile + ":name/:color?/:opening?"}
-            element={<Player />}
+            Component={Player}
           />
-          <Route path={URLS.search.url} element={<Games />} />
-          <Route path={NOMENU_URLS.game + ":base/:gameid"} element={<Game />} />
+          <Route path={URLS.search.url} Component={Games} />
+          <Route path={NOMENU_URLS.game + ":base/:gameid"} Component={Game} />
           <Route
             path={URLS.preparation.url + ":player?/:color?"}
-            element={<Preparation />}
+            Component={Preparation}
           />
-          <Route path={NOMENU_URLS.bug + ":base/:gameid"} element={<Bug />} />
+          <Route path={NOMENU_URLS.bug + ":base/:gameid"} Component={Bug} />
           <Route
             path={URLS.preparation.url + "/:color?"}
-            element={<Preparation />}
+            Component={Preparation}
           />
-          <Route path={NOMENU_URLS.docs + ":file?"} element={<Docs />} />
-          <Route path={URLS.downloads.url} element={<Downloads />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path={NOMENU_URLS.docs + ":file?"} Component={Docs} />
+          <Route path={URLS.downloads.url} Component={Downloads} />
+          <Route path="*" Component={NotFound} />
         </Routes>
       </Router>
       <Footer />

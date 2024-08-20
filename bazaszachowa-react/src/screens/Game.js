@@ -13,11 +13,13 @@ const Game = () => {
 
   const base = state?.base || params.base || "all";
   const gameid = state?.gameid || params.gameid || 0;
+  // eslint-disable-next-line
   const list = state?.list || [];
 
   const [pgn, setPgn] = useState(null);
 
   const [fen, setFen] = useState();
+  // eslint-disable-next-line
   const [doMove, setDoMove] = useState(null);
   const [boardSize, setBoardSize] = useState(
     Math.min(
@@ -70,6 +72,8 @@ const Game = () => {
             break;
           case "ArrowUp":
             document.getElementById("last_link").click();
+            break;
+          default:
             break;
         }
       }

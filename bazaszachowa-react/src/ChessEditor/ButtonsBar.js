@@ -96,7 +96,18 @@ const ButtonsBar = ({
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [
+    download,
+    firstMove,
+    flip,
+    lastMove,
+    nextMove,
+    playing,
+    prevMove,
+    setPlaying,
+    zoomIn,
+    zoomOut,
+  ]);
 
   return (
     <div

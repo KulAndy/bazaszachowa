@@ -6,27 +6,10 @@ const GamesTable = ({ games, base = "all", noEmpty = false }) => {
   if (noEmpty && (!games || games.length === 0)) {
     return <></>;
   }
-  let items = games.map((game, index) => ({
+  const items = games.map((game, index) => ({
     ...game,
     key: index,
   }));
-
-  const download = (games) => {
-    let pgn = "";
-    for (const game of games) {
-      pgn += game2pgn(game);
-    }
-
-    const blob = new Blob([pgn], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "games.pgn";
-    link.click();
-
-    URL.revokeObjectURL(url);
-  };
 
   const game2pgn = (game) =>
     `[Event "${game.Event}"]
@@ -43,6 +26,22 @@ const GamesTable = ({ games, base = "all", noEmpty = false }) => {
 ${game.moves}
 
 `;
+  const download = (games) => {
+    let pgn = "";
+    for (const game of games) {
+      pgn += game2pgn(game);
+    }
+
+    const blob = new Blob([pgn], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "games.pgn";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <table id="games">

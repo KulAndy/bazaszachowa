@@ -60,26 +60,20 @@ const PreparationPlayer = ({ player, color }) => {
 
   const loadGames = useCallback(
     async (player, color) => {
-      try {
-        const response = await fetch(
-          `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
-            player
-          )}/${color}`
-        );
-        const data = await response.json();
+      const response = await fetch(
+        `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
+          player
+        )}/${color}`
+      );
+      const data = await response.json();
 
-        console.time();
-        await processor.getTree(data);
-        console.timeEnd();
+      await processor.getTree(data);
 
-        const fens = processor.searchFEN(fen);
+      const fens = processor.searchFEN(fen);
 
-        setGames(data);
-        setTree(fens.moves);
-        setGamesFilter(fens.indexes);
-      } catch (error) {
-        console.error("Error loading games:", error);
-      }
+      setGames(data);
+      setTree(fens.moves);
+      setGamesFilter(fens.indexes);
     },
     [fen]
   );
@@ -92,11 +86,14 @@ const PreparationPlayer = ({ player, color }) => {
 
   useEffect(() => {
     loadGames(player, color);
+    // eslint-disable-next-line
   }, [player, color]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!fen || games.length === 0) return;
+      if (!fen || games.length === 0) {
+        return;
+      }
 
       const fetchedFens = processor.searchFEN(fen);
       setTree(fetchedFens.moves);
@@ -125,6 +122,8 @@ const PreparationPlayer = ({ player, color }) => {
             break;
           case "ArrowUp":
             document.getElementById("last_link").click();
+            break;
+          default:
             break;
         }
       }

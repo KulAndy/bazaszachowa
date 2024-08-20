@@ -14,20 +14,17 @@ const Players = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (player !== null && player !== undefined) {
-        try {
-          const response = await fetch(
-            API.BASE_URL + API.players + encodeURIComponent(player.trim())
-          );
+        const response = await fetch(
+          API.BASE_URL + API.players + encodeURIComponent(player.trim())
+        );
 
-          const jsonData = await response.json();
-          setPlayers(jsonData);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+        const jsonData = await response.json();
+        setPlayers(jsonData);
       }
     };
 
     fetchData();
+    // eslint-disable-next-line
   }, [name]);
 
   const handleSubmit = (e) => {

@@ -52,10 +52,10 @@ const Chessboard = ({
     ? fen?.split(" ")[0]
     : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   const piecesPlacementRows = piecesPlacement.split("/");
-  let board = [];
+  const board = [];
   let key = 0;
   for (let i = 0; i < piecesPlacementRows.length && i < 8; i++) {
-    let row = [];
+    const row = [];
     let counter = 0;
     for (let j = 0; j < piecesPlacementRows[i].length && j < 8; j++) {
       let piece = null;
@@ -138,7 +138,7 @@ const Chessboard = ({
         default:
           const n = parseInt(piecesPlacementRows[i][j]);
           for (let k = 0; k < n; k++) {
-            let square = LETTERS[counter] + (8 - i);
+            const square = LETTERS[counter] + (8 - i);
             if (targetSquares.includes(square)) {
               row.push(
                 <div
@@ -204,7 +204,7 @@ const Chessboard = ({
           }
           continue;
       }
-      let square = LETTERS[counter] + (8 - i);
+      const square = LETTERS[counter] + (8 - i);
       row.push(
         <div
           onDragOver={allowDrop}

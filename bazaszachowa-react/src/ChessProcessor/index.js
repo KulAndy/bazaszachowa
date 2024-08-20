@@ -55,7 +55,7 @@ class ChessProcessor {
     );
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
-    let chess = new Chess();
+    const chess = new Chess();
     const fens = {};
 
     let i = 0;
@@ -132,7 +132,7 @@ class ChessProcessor {
     );
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
-    let chess = new Chess();
+    const chess = new Chess();
     const fens = {};
 
     let i = 0;
@@ -165,7 +165,6 @@ class ChessProcessor {
     const batchSize = 5;
     let index = 0;
 
-    console.time();
     const processBatch = async () => {
       for (let i = 0; i < batchSize && index < this.games.length; i++) {
         const row = this.games[index];
@@ -177,7 +176,6 @@ class ChessProcessor {
         setTimeout(processBatch, 0);
       } else {
         this.isCompleted = true;
-        console.timeEnd();
       }
     };
 

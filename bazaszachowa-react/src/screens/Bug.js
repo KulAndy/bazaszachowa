@@ -30,17 +30,15 @@ const Bug = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email.trim() === admin_mail) {
       alert("Niedozwolony adres");
-    } else if (!emailRegex.test(formData.email)) {
-      alert("To nie jest poprawny email");
-    } else {
+    } else if (emailRegex.test(formData.email)) {
       const form = new FormData();
       const content = `${formData.type}:
-      ${formData.notices}
-      ${
-        formData.link.trim().length > 0
-          ? "prawidłowa partia: " + formData.link
-          : ""
-      }`;
+        ${formData.notices}
+        ${
+          formData.link.trim().length > 0
+            ? "prawidłowa partia: " + formData.link
+            : ""
+        }`;
       form.append("email", formData.email);
       form.append(
         "subject",
@@ -63,6 +61,8 @@ const Bug = () => {
       } catch (error) {
         alert("Nie udało się wysłać wiadomości");
       }
+    } else {
+      alert("To nie jest poprawny email");
     }
   };
 

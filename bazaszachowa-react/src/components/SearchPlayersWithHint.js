@@ -33,19 +33,15 @@ const SearchPlayersWithHints = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        if (text.trim().length >= 4) {
-          const response = await fetch(
-            API.BASE_URL + API.players + encodeURIComponent(text.trim())
-          );
+      if (text.trim().length >= 4) {
+        const response = await fetch(
+          API.BASE_URL + API.players + encodeURIComponent(text.trim())
+        );
 
-          const jsonData = await response.json();
-          setPlayers(jsonData);
-        } else {
-          setPlayers([]);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        const jsonData = await response.json();
+        setPlayers(jsonData);
+      } else {
+        setPlayers([]);
       }
     };
 

@@ -2,7 +2,6 @@ import "./Player.css";
 import React, { useState, useEffect } from "react";
 import Content from "../components/Content";
 import { useParams, Link } from "react-router-dom";
-import settings from "../settings";
 import CrPlayersList from "../components/CrPlayerList";
 import FidePlayersList from "../components/FidePlayerList";
 import OpeningsStats from "../components/OpeningStats";
@@ -26,9 +25,7 @@ const Player = () => {
   const [games, setGames] = useState(null);
 
   const loadExtremes = () => {
-    fetch(
-      settings.API.BASE_URL + settings.API.extremes + encodeURIComponent(name)
-    )
+    fetch(API.BASE_URL + API.extremes + encodeURIComponent(name))
       .then((response) => response.json())
       .then((data) => {
         setLoadingExtremes(false);
@@ -42,7 +39,7 @@ const Player = () => {
   };
 
   const loadCr = () => {
-    fetch(settings.API.BASE_URL + settings.API.cr + encodeURIComponent(name))
+    fetch(API.BASE_URL + API.cr + encodeURIComponent(name))
       .then((response) => response.json())
       .then((data) => {
         setLoadingCr(false);
@@ -54,7 +51,7 @@ const Player = () => {
   };
 
   const loadFide = () => {
-    fetch(settings.API.BASE_URL + settings.API.fide + encodeURIComponent(name))
+    fetch(API.BASE_URL + API.fide + encodeURIComponent(name))
       .then((response) => response.json())
       .then((data) => {
         setLoadingFide(false);
@@ -66,16 +63,13 @@ const Player = () => {
   };
 
   const loadStats = () => {
-    fetch(
-      settings.API.BASE_URL + settings.API.openings + encodeURIComponent(name)
-    )
+    fetch(API.BASE_URL + API.openings + encodeURIComponent(name))
       .then((response) => response.json())
       .then((data) => {
         setLoadingStats(false);
         setStats(data);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         setLoadingStats(false);
       });
   };
@@ -83,26 +77,26 @@ const Player = () => {
   const loadGames = () => {
     setLoadingGames(true);
     let url;
-    if (color !== undefined && opening !== undefined) {
+    if (color && opening) {
       url =
-        settings.API.BASE_URL +
-        settings.API.games.filter +
+        API.BASE_URL +
+        API.games.filter +
         encodeURIComponent(name) +
         "/" +
         color +
         "/" +
         opening;
-    } else if (color !== undefined) {
+    } else if (color) {
       url =
-        settings.API.BASE_URL +
-        settings.API.games.filter +
+        API.BASE_URL +
+        API.games.filter +
         encodeURIComponent(name) +
         "/" +
         color;
     } else {
       url =
-        settings.API.BASE_URL +
-        settings.API.games.normal +
+        API.BASE_URL +
+        API.games.normal +
         "?white=" +
         encodeURIComponent(name) +
         "&black=" +
@@ -135,10 +129,12 @@ const Player = () => {
     loadFide();
     loadStats();
     loadGames();
+    // eslint-disable-next-line
   }, [name]);
 
   useEffect(() => {
     loadGames();
+    // eslint-disable-next-line
   }, [color, opening]);
 
   return (
@@ -230,6 +226,7 @@ const Player = () => {
             </a>
           </summary>
           <iframe
+            title="Profile na yottachess"
             loading="lazy"
             src={`https://www.yottachess.com/player/${encodeURIComponent(
               name
@@ -262,6 +259,7 @@ const Player = () => {
                   src={
                     API.BASE_URL + API.graph + "svg/" + encodeURIComponent(name)
                   }
+                  alt="Wykres rankingu"
                 />
               </td>
             </tr>

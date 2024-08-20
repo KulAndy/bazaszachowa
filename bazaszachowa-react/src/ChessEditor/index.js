@@ -59,11 +59,35 @@ const ChessEditor = ({
       setI(i + 1);
     }
   };
+  const getPrevIndex = (currentIndex) => {
+    if (currentIndex === 0) {
+      return 0;
+    } else {
+      return history.current[currentIndex].prev;
+    }
+  };
+
+  const getNextMoveIndex = (currentIndex) => {
+    if (
+      history.current[currentIndex] !== undefined &&
+      history.current[currentIndex].next !== undefined
+    ) {
+      return history.current[currentIndex].next;
+    }
+  };
+
+  const getLastMoveIndex = (currentIndex) => {
+    let nextMoveIndex = getNextMoveIndex(currentIndex);
+    while (nextMoveIndex != null && getNextMoveIndex(nextMoveIndex) != null) {
+      nextMoveIndex = getNextMoveIndex(nextMoveIndex);
+    }
+    return nextMoveIndex;
+  };
 
   const addMove = (move) => {
-    let chess = new Chess(history.current[index.current].fen);
+    const chess = new Chess(history.current[index.current].fen);
     if (!chess.game_over()) {
-      let moveNo = history.current[index.current]?.moveNo || 0;
+      const moveNo = history.current[index.current]?.moveNo || 0;
       let doneMove;
       try {
         doneMove = chess.move(move);
@@ -114,7 +138,7 @@ const ChessEditor = ({
               }
             }
           }
-          let newHistory = [...history.current];
+          const newHistory = [...history.current];
           const fen = chess.fen();
           const moveObj = {
             variations: [],
@@ -162,31 +186,6 @@ const ChessEditor = ({
     return true;
   };
 
-  const getPrevIndex = (currentIndex) => {
-    if (currentIndex === 0) {
-      return 0;
-    } else {
-      return history.current[currentIndex].prev;
-    }
-  };
-
-  const getNextMoveIndex = (currentIndex) => {
-    if (
-      history.current[currentIndex] !== undefined &&
-      history.current[currentIndex].next !== undefined
-    ) {
-      return history.current[currentIndex].next;
-    }
-  };
-
-  const getLastMoveIndex = (currentIndex) => {
-    let nextMoveIndex = getNextMoveIndex(currentIndex);
-    while (nextMoveIndex != null && getNextMoveIndex(nextMoveIndex) != null) {
-      nextMoveIndex = getNextMoveIndex(nextMoveIndex);
-    }
-    return nextMoveIndex;
-  };
-
   let notationPlacement;
   switch (notationLayout) {
     case "left":
@@ -205,7 +204,7 @@ const ChessEditor = ({
   }
 
   const captureSquare = (square) => {
-    let chess = new Chess(history.current[index.current].fen);
+    const chess = new Chess(history.current[index.current].fen);
     if (!chess.game_over()) {
       if (sourceSquare === null) {
         setSourceSquare(square);
@@ -221,30 +220,6 @@ const ChessEditor = ({
         }
       }
     }
-  };
-
-  const download = () => {
-    const pgn = `[Event "${headers?.Event || "*"}"]
-[Site "${headers?.Site || "*"}"]
-[Date "${headers?.Date || "*"}"]
-[Round "${headers?.Round || "*"}"]
-[White "${headers?.White || "*"}"]
-[Black "${headers?.Black || "*"}"]
-[Result "${headers?.Result || "*"}"]
-      
-${
-  history.current.length === 1 ? "1. " : writeMove(history.current, 1, false)
-} ${headers?.Result || "*"}`;
-
-    const blob = new Blob([pgn], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "game.pgn";
-    link.click();
-
-    URL.revokeObjectURL(url);
   };
 
   const writeMove = (moves, index, variant, forked) => {
@@ -277,6 +252,30 @@ ${
     return notation;
   };
 
+  const download = () => {
+    const pgn = `[Event "${headers?.Event || "*"}"]
+[Site "${headers?.Site || "*"}"]
+[Date "${headers?.Date || "*"}"]
+[Round "${headers?.Round || "*"}"]
+[White "${headers?.White || "*"}"]
+[Black "${headers?.Black || "*"}"]
+[Result "${headers?.Result || "*"}"]
+      
+${
+  history.current.length === 1 ? "1. " : writeMove(history.current, 1, false)
+} ${headers?.Result || "*"}`;
+
+    const blob = new Blob([pgn], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "game.pgn";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (getNextMoveIndex(index.current) != null && playing) {
@@ -293,10 +292,12 @@ ${
         clearTimeout(timer);
       };
     }, 250);
+    // eslint-disable-next-line
   }, [playing, index, i]);
 
   useEffect(() => {
     setFen(history.current[index.current].fen);
+    // eslint-disable-next-line
   }, [history.current, index.current]);
 
   useEffect(() => {
@@ -316,7 +317,7 @@ ${
       index.current = 0;
       let currentIndex = index.current || 0;
       let counter = history.current[currentIndex]?.moveNo || 1;
-      let newHistory = [...history.current];
+      const newHistory = [...history.current];
       const newChess = new Chess();
       for (const move of moves) {
         newChess.move(move);
@@ -353,6 +354,7 @@ ${
       setIndex(history.current.length - 1);
     }
     setDoMove(() => addMove);
+    // eslint-disable-next-line
   }, [pgn]);
 
   return (

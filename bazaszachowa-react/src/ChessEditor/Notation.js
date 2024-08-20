@@ -7,7 +7,7 @@ const Notation = ({
   currentIndex = 0,
   height = 400,
 }) => {
-  let moveComponents = [];
+  const moveComponents = [];
   const processMove = (move, isMain) => {
     if (move.turn === "w") {
       moveComponents.push(
@@ -29,7 +29,7 @@ const Notation = ({
     );
 
     if (move.variations.length > 0) {
-      for (let variation of move.variations) {
+      for (const variation of move.variations) {
         moveComponents.push(
           <span style={{ fontWeight: isMain ? "bold" : "normal" }}>( </span>
         );

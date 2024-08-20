@@ -1,6 +1,5 @@
 import Content from "../components/Content";
 import logo from "../logo.svg";
-import { API } from "../settings";
 import "./Home.css";
 
 const Home = () => {

@@ -16,11 +16,7 @@ export const ThemeProvider = ({ children }) => {
       "(prefers-color-scheme: dark)"
     ).matches;
 
-    return storedTheme !== undefined
-      ? storedTheme
-      : prefersDarkMode
-      ? "dark"
-      : "light";
+    return storedTheme || (prefersDarkMode ? "dark" : "light");
   };
 
   const [theme, setTheme] = useState(getInitialTheme);
@@ -46,6 +42,7 @@ export const ThemeProvider = ({ children }) => {
 
   const memoizedTheme = useMemo(() => theme, [theme]);
 
+  // eslint-disable-next-line
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       const newTheme = prevTheme === "light" ? "dark" : "light";

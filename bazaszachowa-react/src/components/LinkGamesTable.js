@@ -7,10 +7,25 @@ const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
   if (noEmpty && (!games || games.length === 0)) {
     return <></>;
   }
-  let items = games.map((game, index) => ({
+  const items = games.map((game, index) => ({
     ...game,
     key: index,
   }));
+  const game2pgn = (game) =>
+    `[Event "${game.Event}"]
+[Site "${game.Site}"]
+[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
+[Round "${game.Round}"]
+[White "${game.White}"]
+[Black "${game.Black}"]
+[Result "${game.Result}"]
+[ECO "${game.ECO}"]
+[WhiteElo "${game.WhiteElo || 0}"]
+[BlackElo "${game.BlackElo || 0}"]
+
+${game.moves}
+`;
+
   const download = (games) => {
     let pgn = "";
     for (const game of games) {
@@ -24,19 +39,6 @@ const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
     link.click();
     URL.revokeObjectURL(url);
   };
-  const game2pgn = (game) =>
-    `[Event "${game.Event}"]
-[Site "${game.Site}"]
-[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
-[Round "${game.Round}"]
-[White "${game.White}"]
-[Black "${game.Black}"]
-[Result "${game.Result}"]
-[ECO "${game.ECO}"]
-[WhiteElo "${game.WhiteElo || 0}"]
-[BlackElo "${game.BlackElo || 0}"]
-${game.moves}
-`;
   return (
     <div {...props}>
       <table id="games">
