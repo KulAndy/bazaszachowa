@@ -1,5 +1,6 @@
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import { useTheme } from "./ThemeProvider";
+import { Link } from "react-router-dom";
 
 const Menu = ({ links }) => {
   const { theme } = useTheme();
@@ -12,7 +13,7 @@ const Menu = ({ links }) => {
         </li>
         {Object.keys(links).map((key) => (
           <li key={key}>
-            <a href={links[key].url}>{links[key].name}</a>
+            <Link to={links[key].url}>{links[key].name}</Link>
           </li>
         ))}
       </ul>
@@ -24,7 +25,7 @@ const Menu = ({ links }) => {
           </li>
           {Object.keys(links).map((key) => (
             <li key={key}>
-              <a href={links[key].url}>{links[key].name}</a>
+              <Link to={links[key].url}>{links[key].name}</Link>
             </li>
           ))}
         </ul>

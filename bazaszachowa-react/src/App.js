@@ -30,8 +30,8 @@ const App = () => {
 
   return (
     <div className={`App ${theme}`}>
-      <Menu links={URLS} />
       <Router>
+        <Menu links={URLS} />
         <Routes>
           <Route path={URLS.home.url} Component={Home} />
           <Route path={URLS.contact.url} Component={Contact} />
