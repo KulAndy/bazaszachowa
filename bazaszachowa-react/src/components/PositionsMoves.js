@@ -1,12 +1,51 @@
 import React from "react";
 
+const systemBase = 1 / 2;
+const calcPropability = ({
+  moveStats = {},
+  yearsMap = {},
+  year,
+  minYear = 0,
+  eps = 0.1,
+}) => {
+  let probability = 1;
+
+  for (let currentYear = minYear; currentYear <= year; currentYear++) {
+    probability *= systemBase;
+    const yearPercentage =
+      yearsMap[currentYear] &&
+      moveStats[currentYear] &&
+      moveStats[currentYear].count
+        ? Math.max(moveStats[currentYear].count / yearsMap[currentYear], eps) *
+          Math.max(
+            moveStats[currentYear].points / moveStats[currentYear].count,
+            eps
+          )
+        : eps ** 2;
+
+    probability += yearPercentage * systemBase;
+  }
+
+  return probability;
+};
+
 const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
   if (!stats || stats.length === 0) {
     return <></>;
   }
+  const currentYear = new Date().getFullYear();
+
+  const yearsMap = {};
+  const moveMap = {};
+  for (const stat of stats) {
+    moveMap[stat.move] = {};
+    for (const year of stat.years) {
+      yearsMap[year] = (yearsMap[year] || 0) + 1;
+      moveMap[stat.move][year] = (moveMap[stat.move][year] || 0) + 1;
+    }
+  }
 
   const yearBound = 10;
-  const currentYear = new Date().getFullYear();
   const base = Math.pow(yearBound, 1 / yearBound);
 
   const total = stats.reduce(
@@ -41,6 +80,29 @@ const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
     scaleFactor = total / maxValue / denominator;
   }
 
+  const minYear = Math.min(...Object.keys(yearsMap));
+  const values2 = stats.map((item) =>
+    calcPropability({
+      moveStats: item.stats,
+      yearsMap,
+      year: currentYear,
+      minYear,
+      eps: 0.1,
+    })
+  );
+
+  const maxValue2 = Math.max(...values2);
+
+  let scaleFactor2 = 1;
+  const denominator2 =
+    1 +
+    (maxYear <= currentYear - yearBound
+      ? yearBound
+      : currentYear - maxYear + 1);
+  if (maxValue2 !== 0 && maxValue2 < 1 / denominator2) {
+    scaleFactor2 = 1 / maxValue2 / denominator2;
+  }
+
   return (
     <div {...props}>
       <table id="stats">
@@ -50,7 +112,8 @@ const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
             <th>l. gier</th>
             <th>%</th>
             <th>najnowsze</th>
-            <th>trend</th>
+            <th>&alpha;</th>
+            <th>&beta;</th>
           </tr>
         </thead>
         <tbody>
@@ -67,6 +130,20 @@ const PositionMoves = ({ stats, doMove = () => {}, ...props }) => {
               <td>{Math.max(...item.years)}</td>
               <td>
                 <meter max={total} value={values[index] * scaleFactor} />
+              </td>
+              <td>
+                <meter
+                  max={1}
+                  value={
+                    calcPropability({
+                      moveStats: item.stats,
+                      yearsMap,
+                      year: currentYear,
+                      minYear,
+                      eps: 0.1,
+                    }) * scaleFactor2
+                  }
+                />
               </td>
             </tr>
           ))}

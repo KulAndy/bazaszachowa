@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 
 import { NOMENU_URLS } from "../settings";
 const GamesTable = ({ games, base = "all", noEmpty = false }) => {
-  if (noEmpty && (!games || games.length === 0)) {
+  if (!games && (!games || noEmpty || games.length === 0)) {
     return <></>;
   }
+
   const items = games.map((game, index) => ({
     ...game,
     key: index,

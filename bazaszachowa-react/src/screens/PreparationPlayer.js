@@ -211,10 +211,7 @@ const PreparationPlayer = ({ player, color }) => {
               </>
             )}
           </div>
-          <details>
-            <summary>Obliczanie trendu</summary>
-            <TrendFunctionExplation />
-          </details>
+          <TrendFunctionExplation />
         </div>
       </div>
     </div>

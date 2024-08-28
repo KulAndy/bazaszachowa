@@ -254,7 +254,7 @@ const Player = () => {
                 <img
                   id="graph"
                   onError={(e) => {
-                    e.target.closest("td").remove();
+                    e.target.parentElement.remove();
                   }}
                   src={
                     API.BASE_URL + API.graph + "svg/" + encodeURIComponent(name)

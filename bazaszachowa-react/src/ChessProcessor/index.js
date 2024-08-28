@@ -35,6 +35,20 @@ class ChessProcessor {
                 fensObj[fen][move].games += fens[fen][move].games;
                 fensObj[fen][move].points += fens[fen][move].points;
                 fensObj[fen][move].years.push(...fens[fen][move].years);
+
+                for (const year in fens[fen][move].stats) {
+                  fens[fen][year] = (fens[fen][year] || 0) + 1;
+                  if (fensObj[fen][move].stats[year]) {
+                    fensObj[fen][move].stats[year].count +=
+                      fens[fen][move].stats[year].count;
+                    fensObj[fen][move].stats[year].points +=
+                      fens[fen][move].stats[year].points;
+                  } else {
+                    fensObj[fen][move].stats[year] = {
+                      ...fens[fen][move].stats[year],
+                    };
+                  }
+                }
               } else {
                 fensObj[fen][move] = { ...fens[fen][move] };
               }
@@ -60,7 +74,12 @@ class ChessProcessor {
 
     let i = 0;
     for (const move of moves) {
-      const result = await this.processMove(chess, move, points, row.Year);
+      const result = await this.processMove(
+        chess,
+        move,
+        i % 2 === 0 ? points : 1 - points,
+        row.Year
+      );
       if (result.fen) {
         const fen = result.fen;
         if (fen in fens) {
@@ -68,11 +87,26 @@ class ChessProcessor {
             fens[fen][move].games += 1;
             fens[fen][move].points += result.data.points;
             fens[fen][move].years.push(...result.data.years);
+            if (!fens[fen][move].stats[row.Year]) {
+              fens[fen][move].stats[row.Year] = {
+                count: 1,
+                points: result.data.points,
+              };
+            }
           } else {
-            fens[fen][move] = result.data;
+            fens[fen][move] = {
+              ...result.data,
+              stats: { [row.Year]: { count: 1, points: result.data.points } },
+            };
           }
         } else {
-          fens[fen] = { [move]: result.data, indexes: [row.id] };
+          fens[fen] = {
+            [move]: {
+              ...result.data,
+              stats: { [row.Year]: { count: 1, points: result.data.points } },
+            },
+            indexes: [row.id],
+          };
         }
       }
       if (i++ >= 50) {
