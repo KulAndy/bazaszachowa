@@ -260,7 +260,7 @@ const ChessEditor = ({
 [White "${headers?.White || "*"}"]
 [Black "${headers?.Black || "*"}"]
 [Result "${headers?.Result || "*"}"]
-      
+
 ${
   history.current.length === 1 ? "1. " : writeMove(history.current, 1, false)
 } ${headers?.Result || "*"}`;
@@ -350,8 +350,9 @@ ${
         }
         newHistory.push(moveObj);
       }
+      setPlaying(false);
       setHistory(newHistory);
-      setIndex(history.current.length - 1);
+      setIndex(0);
     }
     setDoMove(() => addMove);
     // eslint-disable-next-line

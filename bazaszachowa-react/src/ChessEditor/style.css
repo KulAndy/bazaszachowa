@@ -68,9 +68,15 @@ span.target svg {
   height: 75% !important;
 }
 
-.control:not(.disabled),
-.control:not(.disabled) * {
+.light .control:not(.disabled),
+.light .control:not(.disabled) * {
   color: black;
+  transition: color 0.3s ease;
+}
+
+.dark .control:not(.disabled),
+.dark .control:not(.disabled) * {
+  color: white;
   transition: color 0.3s ease;
 }
 

@@ -9,6 +9,7 @@ import StockfishAnalysis from "../components/StockfishAnalysis";
 
 const Game = () => {
   const { state } = useLocation();
+
   const params = useParams();
 
   const base = state?.base || params.base || "all";

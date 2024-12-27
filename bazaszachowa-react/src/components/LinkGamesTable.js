@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { NOMENU_URLS } from "../settings";
 const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
-  const navigate = useNavigate();
   if (!games && (!games || noEmpty || games.length === 0)) {
     return <></>;
   }
@@ -60,22 +59,22 @@ ${game.moves}
           <th>Rok</th>
         </tr>
         {items.map((item) => (
-          <tr
-            onClick={() => {
-              navigate(`${NOMENU_URLS.game}${base}/${item.id}`, {
-                state: {
-                  base,
-                  gameid: item.id,
-                  list: items.map((elem) => elem.id),
-                },
-              });
+          <Link
+            style={{ display: "contents" }}
+            to={`${NOMENU_URLS.game}${base}/${item.id}`}
+            state={{
+              base,
+              gameid: item.id,
+              list: items.map((elem) => elem.id),
             }}
           >
-            <td>{item.White}</td>
-            <td style={{ textAlign: "center" }}>{item.Result}</td>
-            <td>{item.Black}</td>
-            <td>{item.Year}</td>
-          </tr>
+            <tr>
+              <td>{item.White}</td>
+              <td style={{ textAlign: "center" }}>{item.Result}</td>
+              <td>{item.Black}</td>
+              <td>{item.Year}</td>
+            </tr>
+          </Link>
         ))}
       </table>
     </div>
