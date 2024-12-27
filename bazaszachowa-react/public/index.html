@@ -12,6 +12,40 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Baza szachowa</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Baza Szachowa",
+        "url": "https://bazaszachowa.smallhost.pl/",
+        "potentialAction": [
+          {
+            "@type": "SearchAction",
+            "target": "https://bazaszachowa.smallhost.pl/players/{search_term_string}",
+            "query-input": "required name=search_term_string",
+            "description": "Search for chess players by name."
+          },
+          {
+            "@type": "SearchAction",
+            "target": "https://bazaszachowa.smallhost.pl/player_data/{search_term_string}",
+            "query-input": "required name=search_term_string",
+            "description": "Search for chess player profile."
+          },
+          {
+            "@type": "SearchAction",
+            "target": "https://bazaszachowa.smallhost.pl/preparation/{search_term_string}/white",
+            "query-input": "required name=search_term_string",
+            "description": "Search for chess preparation against player as white."
+          },
+          {
+            "@type": "SearchAction",
+            "target": "https://bazaszachowa.smallhost.pl/preparation/{search_term_string}/black",
+            "query-input": "required name=search_term_string",
+            "description": "Search for chess preparation against player as black."
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

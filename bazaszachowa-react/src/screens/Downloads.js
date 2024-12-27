@@ -1,28 +1,27 @@
-import { API } from "../settings";
 import Content from "../components/Content";
 
 const Downloads = () => {
   return (
     <Content>
+      Baza
       <ul>
-        Baza
         <li>
-          <a
-            href={`${API.BASE_URL}${API.base_download}poland`}
-            download="GigaBaza.pgn.gz"
-          >
+          <a href="https://mckpk-my.sharepoint.com/:u:/g/personal/andrzej_kulesza_student_pk_edu_pl/ETUd2sMhVh5IrfIqdxy0hk4BH8A6lN06133te-xpUcpsiw?e=BYzqvx">
             Polska
           </a>{" "}
-          (ok 150 MB)
+          (ok 90 MB)
         </li>
         <li>
-          <a
-            href={`${API.BASE_URL}${API.base_download}all`}
-            download="TeraBaza.pgn.gz"
-          >
+          <a href="https://mckpk-my.sharepoint.com/:u:/g/personal/andrzej_kulesza_student_pk_edu_pl/ESB6VTKhrvxHqTaLiGlQ4zoBPz_1doR0-3GUFa_9twuKEg?e=Rgf6vs">
             całość
           </a>{" "}
-          (ok 2,5 GB)
+          (ok 1,5 GB)
+        </li>
+      </ul>
+      Narzędzia
+      <ul>
+        <li>
+          <a href="https://github.com/KulAndy/chess-scrappers">Szperacze</a>
         </li>
       </ul>
     </Content>

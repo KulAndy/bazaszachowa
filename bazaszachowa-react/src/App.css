@@ -321,7 +321,7 @@ nav li a {
   display: block;
   text-align: center;
   text-decoration: none;
-  font-weight: lighter;
+  font-weight: bolder;
 }
 
 nav details[open] summary::marker {
