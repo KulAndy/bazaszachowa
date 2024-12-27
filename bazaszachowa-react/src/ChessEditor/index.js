@@ -353,6 +353,9 @@ ${
       setPlaying(false);
       setHistory(newHistory);
       setIndex(0);
+      setTimeout(() => {
+        setIndex(0);
+      }, 250);
     }
     setDoMove(() => addMove);
     // eslint-disable-next-line

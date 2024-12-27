@@ -108,78 +108,78 @@ const Game = () => {
           </button>
         </div>
         <div id="buttonContainer">
-          <button id="first" title="Ctrl + ↑  " disabled={firstGame}>
-            {firstGame ? (
-              <>pierwsza partia</>
-            ) : (
-              <Link
-                to={`${NOMENU_URLS.game}${base}/${list[0]}`}
-                state={{
-                  base,
-                  gameid: list[0],
-                  list,
-                }}
-                id="first_link"
-              >
-                pierwsza partia
-              </Link>
-            )}
-          </button>
-          <button id="previous" title="Ctrl + ←" disabled={firstGame}>
-            {firstGame ? (
-              <>poprzednia partia</>
-            ) : (
-              <Link
-                to={`${NOMENU_URLS.game}${base}/${
-                  list[list.indexOf(gameid) - 1]
-                }`}
-                state={{
-                  base,
-                  gameid: list[list.indexOf(gameid) - 1],
-                  list,
-                }}
-                id="previous_link"
-              >
-                poprzednia partia
-              </Link>
-            )}
-          </button>
-          <button id="next" title="Ctrl + →" disabled={lastGame}>
-            {lastGame ? (
-              <>następna partia</>
-            ) : (
-              <Link
-                to={`${NOMENU_URLS.game}${base}/${
-                  list[list.indexOf(gameid) + 1]
-                }`}
-                state={{
-                  base,
-                  gameid: list[list.indexOf(gameid) + 1],
-                  list,
-                }}
-                id="next_link"
-              >
-                następna partia
-              </Link>
-            )}
-          </button>
-          <button id="last" title="Ctrl + ↓" disabled={lastGame}>
-            {lastGame ? (
-              <>ostatnia partia</>
-            ) : (
-              <Link
-                to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
-                state={{
-                  base,
-                  gameid: list[list.length - 1],
-                  list,
-                }}
-                id="last_link"
-              >
-                ostatnia partia
-              </Link>
-            )}
-          </button>
+          <Link
+            to={`${NOMENU_URLS.game}${base}/${list[0]}`}
+            state={{
+              base,
+              gameid: list[0],
+              list,
+            }}
+            id="first_link"
+            onClick={(e) => {
+              if (firstGame) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <button id="first" title="Ctrl + ↑  " disabled={firstGame}>
+              pierwsza partia
+            </button>
+          </Link>
+          <Link
+            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
+            state={{
+              base,
+              gameid: list[list.indexOf(gameid) - 1],
+              list,
+            }}
+            id="previous_link"
+            onClick={(e) => {
+              if (firstGame) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <button id="previous" title="Ctrl + ←" disabled={firstGame}>
+              poprzednia partia
+            </button>
+          </Link>
+          <Link
+            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
+            state={{
+              base,
+              gameid: list[list.indexOf(gameid) + 1],
+              list,
+            }}
+            id="next_link"
+            onClick={(e) => {
+              if (lastGame) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <button id="next" title="Ctrl + →" disabled={lastGame}>
+              następna partia
+            </button>
+          </Link>
+          <Link
+            to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
+            state={{
+              base,
+              gameid: list[list.length - 1],
+              list,
+            }}
+            id="last_link"
+            onClick={(e) => {
+              if (lastGame) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <button id="last" title="Ctrl + ↓" disabled={lastGame}>
+              ostatnia partia
+            </button>
+          </Link>
         </div>
         <div id="board_analysis">
           <ChessEditor
