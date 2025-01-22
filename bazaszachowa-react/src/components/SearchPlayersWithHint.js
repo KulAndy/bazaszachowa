@@ -50,6 +50,7 @@ const SearchPlayersWithHints = (props) => {
   return (
     <>
       <input
+      placeholder="Nowak, Jan"
         {...props}
         onInput={(e) => {
           f(replaceNationalCharacters(e.target.value));

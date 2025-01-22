@@ -1,7 +1,7 @@
 import "./Game.css";
 import React, { useState, useEffect } from "react";
 import Content from "../components/Content";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 
 import ChessEditor from "../ChessEditor";
 import { NOMENU_URLS } from "../settings";
@@ -9,7 +9,7 @@ import StockfishAnalysis from "../components/StockfishAnalysis";
 
 const Game = () => {
   const { state } = useLocation();
-
+  const navigate = useNavigate();
   const params = useParams();
 
   const base = state?.base || params.base || "all";
@@ -53,6 +53,12 @@ const Game = () => {
   };
 
   useEffect(() => {
+    fetch(NOMENU_URLS.game_raw + base + "/" + gameid)
+      .then((response) => response.text())
+      .then((data) => {
+        setPgn(data);
+      });
+
     const handleResize = () => {
       updateWindowSize();
     };
@@ -60,23 +66,36 @@ const Game = () => {
     window.addEventListener("resize", handleResize);
 
     const handleKeyPress = (e) => {
-      if (e.ctrlKey) {
+      let index = -1;
+      if (e.ctrlKey && list.length > 0) {
         switch (e.code) {
           case "ArrowLeft":
-            document.getElementById("previous_link").click();
+            index = list.indexOf(gameid) - 1;
             break;
           case "ArrowDown":
-            document.getElementById("first_link").click();
+            index = 0;
             break;
           case "ArrowRight":
-            document.getElementById("next_link").click();
+            index = list.indexOf(gameid) + 1;
+            if (index >= list.length) {
+              index = -1;
+            }
             break;
           case "ArrowUp":
-            document.getElementById("last_link").click();
+            index = list.length - 1;
             break;
           default:
             break;
         }
+      }
+      if (index > -1) {
+        navigate(`${NOMENU_URLS.game}${base}/${list[index]}`, {
+          state: {
+            base,
+            gameid: list[index],
+            list,
+          },
+        });
       }
     };
 
@@ -86,14 +105,8 @@ const Game = () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
 
-  useEffect(() => {
-    fetch(NOMENU_URLS.game_raw + base + "/" + gameid)
-      .then((response) => response.text())
-      .then((data) => {
-        setPgn(data);
-      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, base, gameid, list]);
 
   const firstGame = list.indexOf(gameid) <= 0;

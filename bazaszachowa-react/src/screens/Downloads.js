@@ -15,7 +15,7 @@ const Downloads = () => {
           <a href="https://mckpk-my.sharepoint.com/:u:/g/personal/andrzej_kulesza_student_pk_edu_pl/ESB6VTKhrvxHqTaLiGlQ4zoBPz_1doR0-3GUFa_9twuKEg?e=Rgf6vs">
             całość
           </a>{" "}
-          (ok 1,5 GB)
+          (ok 2 GB)
         </li>
       </ul>
       Narzędzia
