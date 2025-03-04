@@ -74,20 +74,20 @@
     gap: 0;
     grid-template-columns: min-content min-content;
   }
-  #game #first {
+  #game #first_link {
     grid-row: 1;
     grid-column: 1;
   }
-  #game #previous {
+  #game #previous_link {
     grid-row: 2;
     grid-column: 1;
   }
-  #game #next {
+  #game #next_link {
     grid-row: 2;
     grid-column: 2;
   }
 
-  #game #last {
+  #game #last_link {
     grid-row: 1;
     grid-column: 2;
   }

@@ -31,8 +31,8 @@
 #notation,
 #notation span,
 #notation p {
-  color: black;
-  background-color: white;
+  color: black !important;
+  background-color: white !important;
 }
 
 .piece:hover {
@@ -149,8 +149,8 @@ span.target svg {
 .dark #notation,
 .dark #notation span,
 .dark #notation p {
-  color: white;
-  background-color: black;
+  color: white !important;
+  background-color: black !important;
 }
 
 .dark .promotion * {
@@ -200,6 +200,12 @@ span.target svg {
 
   #notation p {
     display: inline;
+  }
+
+  #notation p span {
+    display: inline-block;
+    height: 1.5em;
+    margin-right: 5px;
   }
 
   .control.switchNotation {

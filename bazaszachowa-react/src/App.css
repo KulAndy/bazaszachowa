@@ -112,7 +112,8 @@ a {
   padding: 1px;
 }
 
-a:hover {
+a:hover,
+a:hover * {
   color: var(--document_link_hover);
 }
 
@@ -136,8 +137,12 @@ summary {
   color: var(--document_link);
 }
 
-li {
+ul li {
   list-style: disc;
+}
+
+ul li ul li {
+  list-style: circle;
 }
 
 table,
@@ -245,6 +250,11 @@ nav details {
 
   body {
     overflow-x: hidden;
+    padding-bottom: 5em;
+  }
+
+  .App {
+    min-height: calc(100vh - 5em);
   }
 
   nav ul,

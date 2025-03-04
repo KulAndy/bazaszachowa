@@ -67,45 +67,37 @@ ${game.moves}
         <th className="not_mobile" style={{ whiteSpace: "nowrap" }}>
           ECO
         </th>
-        <th>
-          Zobacz
-          <br />
-          partię
-        </th>
-        <th className="not_mobile">PGN</th>
+        <th className="not_mobile" />
       </tr>
       {items.map((item) => (
         <tr>
-          <td class="not_mobile">{item.WhiteElo}</td>
-          <td>{item.White}</td>
-          <td style={{ textAlign: "center" }}>{item.Result}</td>
-          <td>{item.Black}</td>
-          <td class="not_mobile">{item.BlackElo}</td>
-          <td class="not_mobile">{item.Event}</td>
-          <td>
-            {item.Year}.{item.Month || "??"}.{item.Day || "??"}
-          </td>
-          <td class="not_mobile">{item.ECO}</td>
-          <td>
-            <button>
-              <Link
-                to={`${NOMENU_URLS.game}${base}/${item.id}`}
-                state={{
-                  base,
-                  gameid: item.id,
-                  list: items.map((elem) => elem.id),
-                }}
-              >
-                zobacz
-              </Link>
-            </button>
-          </td>
+          <Link
+            to={`${NOMENU_URLS.game}${base}/${item.id}`}
+            state={{
+              base,
+              gameid: item.id,
+              list: items.map((elem) => elem.id),
+            }}
+            style={{ display: "contents" }}
+          >
+            <td class="not_mobile">{item.WhiteElo}</td>
+            <td>{item.White}</td>
+            <td style={{ textAlign: "center" }}>{item.Result}</td>
+            <td>{item.Black}</td>
+            <td class="not_mobile">{item.BlackElo}</td>
+            <td class="not_mobile">{item.Event}</td>
+            <td>
+              {item.Year}.{item.Month || "??"}.{item.Day || "??"}
+            </td>
+            <td class="not_mobile">{item.ECO}</td>
+          </Link>
           <td class="not_mobile">
-            <button>
-              <Link to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}>
-                zobacz
-              </Link>
-            </button>
+            <Link
+              to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+              style={{ whiteSpace: "nowrap" }}
+            >
+              PGN
+            </Link>
           </td>
         </tr>
       ))}

@@ -283,7 +283,7 @@ const Games = () => {
                       baza
                     </li>
                     <li>
-                      Całość - wszystkie partie, ok 11 mln, wolniejsza baza
+                      Całość - wszystkie partie, ok 15 mln, wolniejsza baza
                     </li>
                   </ul>
                 </li>

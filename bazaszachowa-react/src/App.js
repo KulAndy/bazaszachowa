@@ -34,36 +34,41 @@ const App = () => {
       <div className={`App ${theme}`}>
         <Router>
           <Menu links={URLS} />
-          <ErrorBoundary>
-            <Routes>
-              <Route path={URLS.home.url} Component={Home} />
-              <Route path={URLS.contact.url} Component={Contact} />
-              <Route path={URLS.rodo.url} Component={Rodo} />
-              <Route path={URLS.license.url} Component={License} />
-              <Route path={URLS.players.url + ":name?"} Component={Players} />
-              <Route
-                path={NOMENU_URLS.profile + ":name/:color?/:opening?"}
-                Component={Player}
-              />
-              <Route path={URLS.search.url} Component={Games} />
-              <Route
-                path={NOMENU_URLS.game + ":base/:gameid"}
-                Component={Game}
-              />
-              <Route
-                path={URLS.preparation.url + ":player?/:color?"}
-                Component={Preparation}
-              />
-              <Route path={NOMENU_URLS.bug + ":base/:gameid"} Component={Bug} />
-              <Route
-                path={URLS.preparation.url + "/:color?"}
-                Component={Preparation}
-              />
-              <Route path={NOMENU_URLS.docs + ":file?"} Component={Docs} />
-              <Route path={URLS.downloads.url} Component={Downloads} />
-              <Route path="*" Component={NotFound} />
-            </Routes>
-          </ErrorBoundary>
+          <div id="main">
+            <ErrorBoundary>
+              <Routes>
+                <Route path={URLS.home.url} Component={Home} />
+                <Route path={URLS.contact.url} Component={Contact} />
+                <Route path={URLS.rodo.url} Component={Rodo} />
+                <Route path={URLS.license.url} Component={License} />
+                <Route path={URLS.players.url + ":name?"} Component={Players} />
+                <Route
+                  path={NOMENU_URLS.profile + ":name/:color?/:opening?"}
+                  Component={Player}
+                />
+                <Route path={URLS.search.url} Component={Games} />
+                <Route
+                  path={NOMENU_URLS.game + ":base/:gameid"}
+                  Component={Game}
+                />
+                <Route
+                  path={URLS.preparation.url + ":player?/:color?"}
+                  Component={Preparation}
+                />
+                <Route
+                  path={NOMENU_URLS.bug + ":base/:gameid"}
+                  Component={Bug}
+                />
+                <Route
+                  path={URLS.preparation.url + "/:color?"}
+                  Component={Preparation}
+                />
+                <Route path={NOMENU_URLS.docs + ":file?"} Component={Docs} />
+                <Route path={URLS.downloads.url} Component={Downloads} />
+                <Route path="*" Component={NotFound} />
+              </Routes>
+            </ErrorBoundary>
+          </div>
         </Router>
         <Footer />
       </div>
