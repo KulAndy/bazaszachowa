@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "./PreparationForm.css";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { URLS } from "../settings";
 
@@ -19,7 +20,7 @@ const PreparationForm = () => {
       <p style={{ textAlign: "center" }}>
         <label htmlFor="white">kolor</label>
       </p>
-      <p style={{ textAlign: "center" }}>
+      <p id="color-toggle" style={{ textAlign: "center" }}>
         <input
           type="radio"
           name="color"

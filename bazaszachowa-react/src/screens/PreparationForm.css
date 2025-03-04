@@ -1,0 +1,7 @@
+@media only screen and (max-width: 768px) {
+  #color-toggle {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: flex-start;
+  }
+}
