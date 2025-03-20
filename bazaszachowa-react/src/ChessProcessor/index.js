@@ -6,6 +6,7 @@ const cutStringToPenultimateSpace = (inputString) =>
     inputString.lastIndexOf(" ", inputString.lastIndexOf(" ") - 1)
   );
 
+const firstBatchLimit = 40;
 class ChessProcessor {
   constructor() {
     this.currentFEN = "";
@@ -14,9 +15,10 @@ class ChessProcessor {
   }
 
   async getTree(rows) {
+    this.isCompleted = false;
     this.games = rows;
 
-    const fensPromises = rows.map((row) => this.getFENs(row));
+    const fensPromises = rows.map((row) => this.getFENsFirstBatch(row));
 
     const fensArray = await Promise.all(fensPromises);
     const fensObj = this.mergeFensArray(fensArray);
@@ -63,10 +65,8 @@ class ChessProcessor {
     return fensObj;
   }
 
-  async getFENs(row) {
-    const moves = row.moves.match(
-      /\b(?:[NBRQK]?[a-h]?[1-8]?x?[a-h][1-8]|[NBRQK][a-h]?[1-8]?x?[a-h][1-8]|O-O-O|O-O|\+\+|#)\b/g
-    );
+  async getFENsFirstBatch(row) {
+    const moves = row.moves;
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
     const chess = new Chess();
@@ -80,28 +80,28 @@ class ChessProcessor {
         i % 2 === 0 ? points : 1 - points,
         row.Year
       );
-      if (result.fen) {
+      if (result.fen && result.doneMove) {
         const fen = result.fen;
         if (fen in fens) {
-          if (fens[fen][move]) {
-            fens[fen][move].games += 1;
-            fens[fen][move].points += result.data.points;
-            fens[fen][move].years.push(...result.data.years);
-            if (!fens[fen][move].stats[row.Year]) {
-              fens[fen][move].stats[row.Year] = {
+          if (fens[fen][result.doneMove.san]) {
+            fens[fen][result.doneMove.san].games += 1;
+            fens[fen][result.doneMove.san].points += result.data.points;
+            fens[fen][result.doneMove.san].years.push(...result.data.years);
+            if (!fens[fen][result.doneMove.san].stats[row.Year]) {
+              fens[fen][result.doneMove.san].stats[row.Year] = {
                 count: 1,
                 points: result.data.points,
               };
             }
           } else {
-            fens[fen][move] = {
+            fens[fen][result.doneMove.san] = {
               ...result.data,
               stats: { [row.Year]: { count: 1, points: result.data.points } },
             };
           }
         } else {
           fens[fen] = {
-            [move]: {
+            [result.doneMove.san]: {
               ...result.data,
               stats: { [row.Year]: { count: 1, points: result.data.points } },
             },
@@ -109,7 +109,7 @@ class ChessProcessor {
           };
         }
       }
-      if (i++ >= 50) {
+      if (i++ >= firstBatchLimit || !result.doneMove) {
         return fens;
       }
     }
@@ -121,7 +121,7 @@ class ChessProcessor {
     const raw_fen = chess.fen();
     const fen = cutStringToPenultimateSpace(raw_fen);
 
-    chess.move(move);
+    const doneMove = chess.move(move);
 
     return {
       fen,
@@ -131,6 +131,7 @@ class ChessProcessor {
         points,
         years: [year],
       },
+      doneMove,
     };
   }
 
@@ -160,10 +161,8 @@ class ChessProcessor {
     }
   }
 
-  async getFENsIf50Moves(row) {
-    const moves = row.moves.match(
-      /\b(?:[NBRQK]?[a-h]?[1-8]?x?[a-h][1-8]|[NBRQK][a-h]?[1-8]?x?[a-h][1-8]|O-O-O|O-O|\+\+|#)\b/g
-    );
+  async getFENsSecondBatch(row) {
+    const moves = row.moves;
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
     const chess = new Chess();
@@ -172,23 +171,30 @@ class ChessProcessor {
     let i = 0;
     for (const move of moves) {
       const result = await this.processMove(chess, move, points, row.Year);
-      if (i++ < 50) {
+      if (i++ < firstBatchLimit) {
         continue;
       }
-      if (result.fen) {
+      if (result.fen && result.doneMove) {
         const fen = result.fen;
         if (fen in this.fensObj) {
-          this.fensObj[fen].indexes.push(row.id); // Adding the row id directly
-          if (this.fensObj[fen][move]) {
-            this.fensObj[fen][move].games += 1;
-            this.fensObj[fen][move].points += result.data.points;
-            this.fensObj[fen][move].years.push(result.data.year);
+          this.fensObj[fen].indexes.push(row.id);
+          if (this.fensObj[fen][result.doneMove.san]) {
+            this.fensObj[fen][result.doneMove.san].games += 1;
+            this.fensObj[fen][result.doneMove.san].points += result.data.points;
+            this.fensObj[fen][result.doneMove.san].years.push(result.data.year);
           } else {
-            this.fensObj[fen][move] = { ...result.data };
+            this.fensObj[fen][result.doneMove.san] = { ...result.data };
           }
         } else {
-          this.fensObj[fen] = { [move]: { ...result.data }, indexes: [row.id] };
+          this.fensObj[fen] = {
+            [result.doneMove.san]: { ...result.data },
+            indexes: [row.id],
+          };
         }
+      }
+
+      if (!result.doneMove) {
+        return fens;
       }
     }
 
@@ -202,7 +208,7 @@ class ChessProcessor {
     const processBatch = async () => {
       for (let i = 0; i < batchSize && index < this.games.length; i++) {
         const row = this.games[index];
-        await this.getFENsIf50Moves(row);
+        await this.getFENsSecondBatch(row);
         index++;
       }
 

@@ -4,7 +4,7 @@ import Content from "../components/Content";
 import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 
 import ChessEditor from "../ChessEditor";
-import { NOMENU_URLS } from "../settings";
+import { API, NOMENU_URLS } from "../settings";
 import StockfishAnalysis from "../components/StockfishAnalysis";
 
 const Game = () => {
@@ -14,10 +14,9 @@ const Game = () => {
 
   const base = state?.base || params.base || "all";
   const gameid = state?.gameid || params.gameid || 0;
-  // eslint-disable-next-line
   const list = state?.list || [];
 
-  const [pgn, setPgn] = useState(null);
+  const [data, setData] = useState(null);
 
   const [fen, setFen] = useState();
   // eslint-disable-next-line
@@ -53,18 +52,25 @@ const Game = () => {
   };
 
   useEffect(() => {
-    fetch(NOMENU_URLS.game_raw + base + "/" + gameid)
-      .then((response) => response.text())
+    fetch(API.BASE_URL + API.game + base + "/" + gameid)
+      .then((response) => response.json())
       .then((data) => {
-        setPgn(data);
+        if (data.length > 0) {
+          setData(data[0]);
+        }
       });
 
-    const handleResize = () => {
-      updateWindowSize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [base, gameid]);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateWindowSize);
+    return () => {
+      window.removeEventListener("resize", updateWindowSize);
     };
+  }, []);
 
-    window.addEventListener("resize", handleResize);
-
+  useEffect(() => {
     const handleKeyPress = (e) => {
       let index = -1;
       if (e.ctrlKey && list.length > 0) {
@@ -102,12 +108,10 @@ const Game = () => {
     window.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyPress);
     };
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, base, gameid, list]);
+  }, [base, gameid, list]);
 
   const firstGame = list.indexOf(gameid) <= 0;
   const lastGame = list.indexOf(gameid) >= list.length - 1;
@@ -198,7 +202,7 @@ const Game = () => {
           <ChessEditor
             setFen={setFen}
             setDoMove={setDoMove}
-            pgn={pgn}
+            data={data}
             boardSize={boardSize}
             notationLayout={notationLayout}
             setNotationLayout={setNotationLayout}

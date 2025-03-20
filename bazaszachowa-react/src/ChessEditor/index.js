@@ -15,7 +15,7 @@ import Notation from "./Notation";
 import ButtonsBar from "./ButtonsBar";
 
 const ChessEditor = ({
-  pgn = null,
+  data = null,
   boardSize = 400,
   notationLayout = "bottom",
   setNotationLayout = () => {},
@@ -301,11 +301,43 @@ ${
   }, [history.current, index.current]);
 
   useEffect(() => {
-    if (pgn != null) {
-      const chess = new Chess();
-      chess.load_pgn(pgn);
-      const moves = chess.history({ verbose: true });
-      setHeaders(chess.header());
+    if (data !== null) {
+      let date = "";
+      if (data.Year) {
+        date += data.Year;
+      } else {
+        date += "????";
+      }
+      date += ".";
+      if (data.Month) {
+        if (data.Month < 10) {
+          date += "0";
+        }
+        date += data.Month;
+      } else {
+        date += "??";
+      }
+      date += ".";
+      if (data.Day) {
+        if (data.Day < 10) {
+          date += "0";
+        }
+        date += data.Day;
+      } else {
+        date += "??";
+      }
+      setHeaders({
+        Event: data.Event || null,
+        Site: data.Site || null,
+        Date: date,
+        Round: data.Round || null,
+        White: data.White || null,
+        Black: data.Black || null,
+        Result: data.Result || null,
+        WhiteElo: data.WhiteElo || null,
+        BlackElo: data.BlackElo || null,
+        ECO: data.ECO || null,
+      });
       history.current = [
         {
           fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
@@ -319,27 +351,32 @@ ${
       let counter = history.current[currentIndex]?.moveNo || 1;
       const newHistory = [...history.current];
       const newChess = new Chess();
-      for (const move of moves) {
-        newChess.move(move);
+
+      for (const move of data.moves) {
+        const doneMove = newChess.move(move);
+        if (!doneMove) {
+          break;
+        }
         const fen = newChess.fen();
+
         const moveObj = {
           variations: [],
-          from: move.from,
-          to: move.to,
-          turn: move.color,
+          from: doneMove.from,
+          to: doneMove.to,
+          turn: doneMove.color,
           fen,
           index: newHistory.length,
-          san: move.san,
+          san: doneMove.san,
           prev: currentIndex,
-          moveNo: move.color === "w" ? counter : counter++,
-          flags: move.flags,
-          promotion: move.promotion,
+          moveNo: doneMove.color === "w" ? counter : counter++,
+          flags: doneMove.flags,
+          promotion: doneMove.promotion,
         };
         if (newHistory[currentIndex].next) {
           if (
             newHistory[newHistory[currentIndex].next].to ||
-            (move.to &&
-              newHistory[newHistory[currentIndex].next].from !== move.from)
+            (doneMove.to &&
+              newHistory[newHistory[currentIndex].next].from !== doneMove.from)
           ) {
             newHistory[newHistory[currentIndex++].next].variations.push(
               moveObj
@@ -359,7 +396,7 @@ ${
     }
     setDoMove(() => addMove);
     // eslint-disable-next-line
-  }, [pgn]);
+  }, [data]);
 
   return (
     <div id="board">

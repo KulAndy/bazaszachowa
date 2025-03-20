@@ -161,6 +161,10 @@ span.target svg {
   outline: none;
 }
 
+#notation span.active {
+  background-color: goldenrod !important;
+}
+
 @media only screen and (min-width: 769px) {
   #notation p {
     display: table-row;

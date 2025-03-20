@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { NOMENU_URLS } from "../settings";
+import { Chess } from "chess.js";
 const GamesTable = ({ games, base = "all", noEmpty = false }) => {
   if (!games && (!games || noEmpty || games.length === 0)) {
     return <></>;
@@ -12,8 +13,10 @@ const GamesTable = ({ games, base = "all", noEmpty = false }) => {
     key: index,
   }));
 
-  const game2pgn = (game) =>
-    `[Event "${game.Event}"]
+  const game2pgn = (game) => {
+    return new Promise((resolve, reject) => {
+      try {
+        let pgn = `[Event "${game.Event}"]
 [Site "${game.Site}"]
 [Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
 [Round "${game.Round}"]
@@ -24,14 +27,29 @@ const GamesTable = ({ games, base = "all", noEmpty = false }) => {
 [WhiteElo "${game.WhiteElo || 0}"]
 [BlackElo "${game.BlackElo || 0}"]
 
-${game.moves}
-
 `;
-  const download = (games) => {
-    let pgn = "";
-    for (const game of games) {
-      pgn += game2pgn(game);
-    }
+        const chess = new Chess();
+
+        for (let i = 0; i < game.moves.length; i++) {
+          const doneMove = chess.move(game.moves[i]);
+          if (i % 2 === 0) {
+            pgn += `${i / 2 + 1}. ${doneMove.san} `;
+          } else {
+            pgn += `${doneMove.san} `;
+          }
+        }
+        pgn += game.Result;
+        resolve(pgn);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  const download = async (games) => {
+    const pgn = (await Promise.all(games.map((item) => game2pgn(item)))).join(
+      "\n\n"
+    );
 
     const blob = new Blob([pgn], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

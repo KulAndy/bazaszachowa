@@ -79,7 +79,7 @@ const PreparationPlayer = ({ player, color }) => {
   );
 
   useEffect(() => {
-    if (games.length > 0 || !processor.isCompleted) {
+    if (games.length > 0 && !processor.isCompleted) {
       processor.completeTree();
     }
   }, [games, loadGames]);
