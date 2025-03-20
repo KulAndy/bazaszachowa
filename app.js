@@ -3,12 +3,15 @@ import path from "path";
 import settings from "./settings.js";
 import axios from "axios";
 import fs from "fs-extra";
-import { Chess } from "chess.js";
 
 import { fileURLToPath } from "url";
+import initWasm from "./uci2pgn.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const wasmPath = path.join(__dirname, "uci2pgn.wasm");
+
+const wasmBinary = fs.readFileSync(wasmPath);
 
 const directoryPath = path.join(
   __dirname,
@@ -82,42 +85,36 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
   axios
     .get(settings.urls.API_URL + settings.urls.game + base + "/" + gameid)
     .then((response) => {
-      const data = response.data[0];
+      const game = response.data[0];
       res.setHeader("Content-Type", "text/plain");
-      if (data) {
-        const chess = new Chess();
-        chess.header(
-          "Event",
-          data.Event || "?",
-          "Site",
-          data.Site || "?",
-          "Date",
-          `${data.Year}.${data.Month || "??"}.${data.Day || "??"}`,
-          "Round",
-          data.Round || "?",
-          "White",
-          data.White || "?",
-          "Black",
-          data.Black || "?",
-          "Result",
-          data.Result || "?",
-          "ECO",
-          data.ECO || "?",
-          "WhiteElo",
-          data.WhiteElo || "?",
-          "BlackElo",
-          data.BlackElo || "?"
-        );
-        for (const move of data.moves) {
-          const doneMove = chess.move(move);
-          if (!doneMove) {
-            break;
+      if (game) {
+        initWasm({ locateFile: () => wasmBinary }).then((wasm) => {
+          let pgn = `[Event "${game.Event}"]
+[Site "${game.Site}"]
+[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
+[Round "${game.Round}"]
+[White "${game.White}"]
+[Black "${game.Black}"]
+[Result "${game.Result}"]
+[ECO "${game.ECO}"]
+[WhiteElo "${game.WhiteElo || 0}"]
+[BlackElo "${game.BlackElo || 0}"]
+
+`;
+          const moves = new wasm.VectorString();
+          for (const move of game.moves) {
+            let uci = move.from + move.to;
+            if (move.promotion) {
+              uci += move.promotion;
+            }
+            moves.push_back(uci);
           }
-        }
 
-        const pgn = chess.pgn();
+          pgn += wasm.convertUciToPgn(moves);
+          moves.delete();
 
-        res.send(pgn);
+          res.send(pgn);
+        });
       } else {
         res.send(
           `[Event "?"]

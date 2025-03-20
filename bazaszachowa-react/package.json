@@ -115,6 +115,9 @@
       ]
     }
   },
+  "eslintIgnore": [
+    "wasm/"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",

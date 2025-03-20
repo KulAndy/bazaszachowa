@@ -3,6 +3,74 @@ import { Link } from "react-router-dom";
 
 import { NOMENU_URLS } from "../settings";
 import { Chess } from "chess.js";
+
+import initWasm from "../wasm/uci2pgn";
+
+let uci2san = null;
+
+initWasm().then((wasm) => {
+  uci2san = (movesObj) => {
+    const moves = new wasm.VectorString();
+    for (let i = 0; i < movesObj.length; i++) {
+      let uci = movesObj[i].from + movesObj[i].to;
+      if (movesObj[i].promotion) {
+        uci += movesObj[i].promotion;
+      }
+      moves.push_back(uci);
+    }
+    const san = wasm.convertUciToPgn(moves);
+    moves.delete();
+    return san;
+  };
+});
+
+const legacyGame2pgn = (game) => {
+  return new Promise((resolve, reject) => {
+    try {
+      let pgn = "";
+      const chess = new Chess();
+
+      for (let i = 0; i < game.moves.length; i++) {
+        const doneMove = chess.move(game.moves[i]);
+        if (i % 2 === 0) {
+          pgn += `${i / 2 + 1}. ${doneMove.san} `;
+        } else {
+          pgn += `${doneMove.san} `;
+        }
+      }
+      resolve(pgn);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const game2pgn = async (game) => {
+  let pgn = `[Event "${game.Event}"]
+  [Site "${game.Site}"]
+  [Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
+  [Round "${game.Round}"]
+  [White "${game.White}"]
+  [Black "${game.Black}"]
+  [Result "${game.Result}"]
+  [ECO "${game.ECO}"]
+  [WhiteElo "${game.WhiteElo || 0}"]
+  [BlackElo "${game.BlackElo || 0}"]
+
+  `;
+  try {
+    if (uci2san === null) {
+      throw new Error("uci2pgn not loaded");
+    } else {
+      pgn += uci2san(game.moves);
+    }
+  } catch (error) {
+    pgn += legacyGame2pgn(game);
+  }
+  pgn += game.Result;
+  return pgn;
+};
+
 const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
   if (!games && (!games || noEmpty || games.length === 0)) {
     return <></>;
@@ -12,39 +80,6 @@ const LinkGamesTable = ({ games, base = "all", noEmpty = false, ...props }) => {
     ...game,
     key: index,
   }));
-
-  const game2pgn = (game) => {
-    return new Promise((resolve, reject) => {
-      try {
-        let pgn = `[Event "${game.Event}"]
-[Site "${game.Site}"]
-[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
-[Round "${game.Round}"]
-[White "${game.White}"]
-[Black "${game.Black}"]
-[Result "${game.Result}"]
-[ECO "${game.ECO}"]
-[WhiteElo "${game.WhiteElo || 0}"]
-[BlackElo "${game.BlackElo || 0}"]
-
-`;
-        const chess = new Chess();
-
-        for (let i = 0; i < game.moves.length; i++) {
-          const doneMove = chess.move(game.moves[i]);
-          if (i % 2 === 0) {
-            pgn += `${i / 2 + 1}. ${doneMove.san} `;
-          } else {
-            pgn += `${doneMove.san} `;
-          }
-        }
-        pgn += game.Result
-        resolve(pgn);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
 
   const download = async (games) => {
     const pgn = (await Promise.all(games.map((item) => game2pgn(item)))).join(
