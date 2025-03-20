@@ -47,17 +47,17 @@ const legacyGame2pgn = (game) => {
 
 const game2pgn = async (game) => {
   let pgn = `[Event "${game.Event}"]
-  [Site "${game.Site}"]
-  [Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
-  [Round "${game.Round}"]
-  [White "${game.White}"]
-  [Black "${game.Black}"]
-  [Result "${game.Result}"]
-  [ECO "${game.ECO}"]
-  [WhiteElo "${game.WhiteElo || 0}"]
-  [BlackElo "${game.BlackElo || 0}"]
+[Site "${game.Site}"]
+[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
+[Round "${game.Round}"]
+[White "${game.White}"]
+[Black "${game.Black}"]
+[Result "${game.Result}"]
+[ECO "${game.ECO}"]
+[WhiteElo "${game.WhiteElo || 0}"]
+[BlackElo "${game.BlackElo || 0}"]
 
-  `;
+`;
   try {
     if (uci2san === null) {
       throw new Error("uci2pgn not loaded");

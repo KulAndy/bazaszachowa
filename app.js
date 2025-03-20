@@ -118,18 +118,17 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
       } else {
         res.send(
           `[Event "?"]
-  [Site "?"]
-  [Date "????.??.??"]
-  [Round "?"]
-  [White "N, N"]
-  [Black "N, N"]
-  [Result "*"]
-  [ECO "?"]
-  [WhiteElo "0"]
-  [BlackElo "0"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "N, N"]
+[Black "N, N"]
+[Result "*"]
+[ECO "?"]
+[WhiteElo "0"]
+[BlackElo "0"]
 
-  1. *
-  `
+1. *`
         );
       }
     })
