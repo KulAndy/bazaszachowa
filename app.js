@@ -1,17 +1,8 @@
-import express from "express";
-import path from "path";
-import settings from "./settings.js";
-import axios from "axios";
-import fs from "fs-extra";
-
-import { fileURLToPath } from "url";
-import initWasm from "./uci2pgn.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const wasmPath = path.join(__dirname, "uci2pgn.wasm");
-
-const wasmBinary = fs.readFileSync(wasmPath);
+const express = require("express");
+const path = require("path");
+const settings = require("./settings");
+const axios = require("axios");
+const fs = require("fs-extra");
 
 const directoryPath = path.join(
   __dirname,
@@ -78,44 +69,26 @@ app.post(settings.urls.send_mail, (req, res) => {
   res.send("<h1>jeszcze nie zaimplementowano</h1>");
 });
 
+(async () => {
+  const { Chess } = await import("chess.js");
+
+  const chess = new Chess();
+  chess.move("e4");
+  chess.move("e5");
+
+  console.log(chess.ascii());
+})();
+
 app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
   const base = req.params.base;
   const gameid = req.params.gameid;
 
   axios
     .get(settings.urls.API_URL + settings.urls.game + base + "/" + gameid)
-    .then((response) => {
-      const game = response.data[0];
+    .then(async (response) => {
+      const data = response.data[0];
       res.setHeader("Content-Type", "text/plain");
-      if (game) {
-        initWasm({ locateFile: () => wasmBinary }).then((wasm) => {
-          let pgn = `[Event "${game.Event}"]
-[Site "${game.Site}"]
-[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
-[Round "${game.Round}"]
-[White "${game.White}"]
-[Black "${game.Black}"]
-[Result "${game.Result}"]
-[ECO "${game.ECO}"]
-[WhiteElo "${game.WhiteElo || 0}"]
-[BlackElo "${game.BlackElo || 0}"]
-
-`;
-          const moves = new wasm.VectorString();
-          for (const move of game.moves) {
-            let uci = move.from + move.to;
-            if (move.promotion) {
-              uci += move.promotion;
-            }
-            moves.push_back(uci);
-          }
-
-          pgn += wasm.convertUciToPgn(moves);
-          moves.delete();
-
-          res.send(pgn);
-        });
-      } else {
+      if (data == undefined) {
         res.send(
           `[Event "?"]
 [Site "?"]
@@ -128,8 +101,38 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
 [WhiteElo "0"]
 [BlackElo "0"]
 
-1. *`
+1. *
+`
         );
+      } else {
+        const { Chess } = await import("chess.js");
+        const chess = new Chess();
+        chess.header(
+          "Event",
+          data.Event,
+          "Site",
+          data.Site,
+          "Date",
+          `${data.Year}.${data.Month || "??"}.${data.Day || "??"}`,
+          "Round",
+          data.Round,
+          "White",
+          data.White,
+          "Black",
+          data.Black,
+          "Result",
+          data.Result,
+          "ECO",
+          data.ECO,
+          "WhiteElo",
+          data.WhiteElo || 0,
+          "BlackElo",
+          data.BlackElo || 0
+        );
+        for (const move of data.moves) {
+          chess.move(move);
+        }
+        res.send(chess.pgn());
       }
     })
     .catch((error) => {
