@@ -69,16 +69,6 @@ app.post(settings.urls.send_mail, (req, res) => {
   res.send("<h1>jeszcze nie zaimplementowano</h1>");
 });
 
-(async () => {
-  const { Chess } = await import("chess.js");
-
-  const chess = new Chess();
-  chess.move("e4");
-  chess.move("e5");
-
-  console.log(chess.ascii());
-})();
-
 app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
   const base = req.params.base;
   const gameid = req.params.gameid;
