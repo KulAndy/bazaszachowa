@@ -60,7 +60,21 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     [
         {
             id: id1,
-            moves: ruchy,
+            moves: [
+              {
+                from:pole,
+                to:pole,
+                promotion?:p/n/b/r/q/k
+              },
+              {
+                from:pole,
+                to:pole,
+                promotion?:p/n/b/r/q/k
+              },
+              .
+              .
+              .
+            ],
             Event: turniej,
             Site: miejsce,
             Year: rok,
@@ -76,7 +90,21 @@ bez parametrów, a wymagające dane wejściowe metodą POST
         },
         {
             id: id2,
-            moves: ruchy,
+            moves: [
+              {
+                from:pole,
+                to:pole,
+                promotion?:p/n/b/r/q/k
+              },
+              {
+                from:pole,
+                to:pole,
+                promotion?:p/n/b/r/q/k
+              },
+                .
+                .
+                .
+            ],
             Event: turniej,
             Site: miejsce,
             Year: rok,
@@ -167,7 +195,21 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     ```
     {
       id: id,
-      moves: ruchy,
+      moves: [
+        {
+          from:pole,
+          to:pole,
+          promotion?:p/n/b/r/q/k
+        },
+        {
+          from:pole,
+          to:pole,
+          promotion?:p/n/b/r/q/k
+        },
+          .
+          .
+          .
+      ],
       Event: turniej,
       Site: miejsce,
       Year: rok,
@@ -190,12 +232,26 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     color - kolor (white/black)
     [, opening: debiut]
     }
-    ```  
+    ```
   * dane wyjściowe:
   ```
     {
       id: id,
-      moves: ruchy,
+      moves: [
+        {
+          from:pole,
+          to:pole,
+          promotion?:p/n/b/r/q/k
+        },
+        {
+          from:pole,
+          to:pole,
+          promotion?:p/n/b/r/q/k
+        },
+        .
+        .
+        .
+      ],
       Event: turniej,
       Site: miejsce,
       Year: rok,
@@ -211,17 +267,17 @@ bez parametrów, a wymagające dane wejściowe metodą POST
       }
       ```
 
-   
+
 * search_player/:player
     * dane wejściowe
-    ```    
+    ```
     {
         player - Nazwisko, Imię
     }
 
     ```
     * dane wyjściowe
-    ```    
+    ```
     [
             {
                 fullname: player1
@@ -236,17 +292,17 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     ```
 * send-email
     * dane wejściowe
-    ```    
+    ```
     {
-        email - nadawca 
+        email - nadawca
         subject - temat
         content - zawartość
-        file - załącznik (jako plik, a nie w res.file, a nie wartość w res.body)    
+        file - załącznik (jako plik, a nie w res.file, a nie wartość w res.body)
     }
 
     ```
     * dane wyjściowe
-    ```    
+    ```
     [
             {
                 fullname: player1

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TrendFunctionExplation = () => {
+const TrendFunctionExplanation = () => {
   const obecnyRok = new Date().getFullYear();
 
   return (
@@ -759,4 +759,4 @@ const TrendFunctionExplation = () => {
   );
 };
 
-export default TrendFunctionExplation;
+export default TrendFunctionExplanation;

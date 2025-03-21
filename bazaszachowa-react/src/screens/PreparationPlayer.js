@@ -7,7 +7,7 @@ import ChessProcessor from "./../ChessProcessor";
 import { NOMENU_URLS, API } from "../settings";
 import PositionMoves from "../components/PositionsMoves";
 import LinkGamesTable from "../components/LinkGamesTable";
-import TrendFunctionExplation from "../components/TrendFunctionExplation";
+import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
 
 const processor = new ChessProcessor();
 
@@ -211,7 +211,7 @@ const PreparationPlayer = ({ player, color }) => {
               </>
             )}
           </div>
-          <TrendFunctionExplation />
+          <TrendFunctionExplanation />
         </div>
       </div>
     </div>
