@@ -43,21 +43,6 @@ const PreparationPlayer = ({ player, color }) => {
     )
   );
 
-  const updateWindowSize = () => {
-    Math.min(
-      400,
-      window.innerWidth * 0.9,
-      window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-    );
-    setNotationLayout(
-      window.innerHeight > window.innerWidth ||
-        Math.max(window.innerWidth, window.innerHeight) <= 768
-        ? "bottom"
-        : "right"
-    );
-  };
-
   const loadGames = useCallback(
     async (player, color) => {
       const response = await fetch(
@@ -105,7 +90,21 @@ const PreparationPlayer = ({ player, color }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      updateWindowSize();
+      setBoardSize((prevSize) =>
+        Math.min(
+          Math.max(prevSize, 100),
+          window.innerWidth * 0.9,
+          window.innerHeight -
+            10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
+        )
+      );
+
+      setNotationLayout(
+        window.innerHeight > window.innerWidth ||
+          Math.max(window.innerWidth, window.innerHeight) <= 768
+          ? "bottom"
+          : "right"
+      );
     };
 
     const handleKeyPress = (e) => {

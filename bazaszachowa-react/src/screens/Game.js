@@ -105,10 +105,29 @@ const Game = () => {
       }
     };
 
+    const handleResize = () => {
+      setBoardSize((prevSize) =>
+        Math.min(
+          Math.max(prevSize, 100),
+          window.innerWidth * 0.9,
+          window.innerHeight -
+            10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
+        )
+      );
+      setNotationLayout(
+        window.innerHeight > window.innerWidth ||
+          Math.max(window.innerWidth, window.innerHeight) <= 768
+          ? "bottom"
+          : "right"
+      );
+    };
+
     window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base, gameid, list]);
@@ -214,7 +233,12 @@ const Game = () => {
               setBoardSize((prevSize) =>
                 Math.min(
                   prevSize + 25,
-                  Math.min(window.innerWidth, window.innerHeight)
+                  window.innerWidth * 0.9,
+                  window.innerHeight -
+                    10 *
+                      parseFloat(
+                        getComputedStyle(document.documentElement).fontSize
+                      )
                 )
               );
             }}
