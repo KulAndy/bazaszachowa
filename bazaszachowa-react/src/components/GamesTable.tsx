@@ -162,17 +162,14 @@ const GamesTable: React.FC<GamesTableProps> = ({
             <td className="not_mobile">{item.ECO}</td>
           </Link>
           <td className="not_mobile">
-            <a
-              href={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+            <Link
+              to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
               style={{ whiteSpace: "nowrap" }}
-              rel="noreferrer"
               target="_blank"
-              onClick={() => {
-                window.location.href = `${NOMENU_URLS.game_raw}${base}/${item.id}`;
-              }}
+              reloadDocument
             >
               PGN
-            </a>
+            </Link>
           </td>
         </tr>
       ))}
