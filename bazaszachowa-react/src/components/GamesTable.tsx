@@ -167,6 +167,9 @@ const GamesTable: React.FC<GamesTableProps> = ({
               style={{ whiteSpace: "nowrap" }}
               rel="noreferrer"
               target="_blank"
+              onClick={() => {
+                window.location.href = `${NOMENU_URLS.game_raw}${base}/${item.id}`;
+              }}
             >
               PGN
             </a>
