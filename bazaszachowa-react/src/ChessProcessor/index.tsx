@@ -1,20 +1,49 @@
-import { Chess } from "chess.js";
+import { Chess, ChessInstance, ShortMove } from "chess.js";
+import { GameData } from "../ChessEditor";
 
-const cutStringToPenultimateSpace = (inputString) =>
+const cutStringToPenultimateSpace = (inputString: string) =>
   inputString.substring(
     0,
     inputString.lastIndexOf(" ", inputString.lastIndexOf(" ") - 1)
   );
 
 const firstBatchLimit = 40;
+interface MoveData {
+  games: number;
+  points: number;
+  years: number[];
+  stats: { [year: number]: { count: number; points: number } };
+}
+
+interface FenData {
+  [move: string]: MoveData | number[];
+  indexes: number[];
+}
+
+interface FensObj {
+  [fen: string]: FenData;
+}
+
+function isNumberArray(value: any): value is number[] {
+  return (
+    Array.isArray(value) && value.every((item) => typeof item === "number")
+  );
+}
+
 class ChessProcessor {
+  currentFEN: string;
+  fensObj: FensObj;
+  games: GameData[];
+  isCompleted: boolean;
+
   constructor() {
     this.currentFEN = "";
     this.fensObj = {};
     this.games = [];
+    this.isCompleted = false;
   }
 
-  async getTree(rows) {
+  async getTree(rows: GameData[]) {
     this.isCompleted = false;
     this.games = rows;
 
@@ -25,8 +54,8 @@ class ChessProcessor {
     this.fensObj = fensObj;
   }
 
-  mergeFensArray(fensArray) {
-    const fensObj = {};
+  mergeFensArray(fensArray: FensObj[]): FensObj {
+    const fensObj: FensObj = {};
     for (const fens of fensArray) {
       for (const fen in fens) {
         if (fen in fensObj) {
@@ -34,20 +63,30 @@ class ChessProcessor {
           for (const move in fens[fen]) {
             if (move !== "indexes") {
               if (fensObj[fen][move]) {
-                fensObj[fen][move].games += fens[fen][move].games;
-                fensObj[fen][move].points += fens[fen][move].points;
-                fensObj[fen][move].years.push(...fens[fen][move].years);
+                (fensObj[fen][move] as MoveData).games += (
+                  fens[fen][move] as MoveData
+                ).games;
+                (fensObj[fen][move] as MoveData).points += (
+                  fens[fen][move] as MoveData
+                ).points;
+                (fensObj[fen][move] as MoveData).years.push(
+                  ...(fens[fen][move] as MoveData).years
+                );
 
-                for (const year in fens[fen][move].stats) {
-                  fens[fen][year] = (fens[fen][year] || 0) + 1;
-                  if (fensObj[fen][move].stats[year]) {
-                    fensObj[fen][move].stats[year].count +=
-                      fens[fen][move].stats[year].count;
-                    fensObj[fen][move].stats[year].points +=
-                      fens[fen][move].stats[year].points;
+                for (const year in (fens[fen][move] as MoveData).stats) {
+                  const yearNum = Number(year);
+                  if ((fensObj[fen][move] as MoveData).stats[yearNum]) {
+                    (fensObj[fen][move] as MoveData).stats[yearNum].count += (
+                      fens[fen][move] as MoveData
+                    ).stats[yearNum].count;
+                    (fensObj[fen][move] as MoveData).stats[yearNum].points += (
+                      fens[fen][move] as MoveData
+                    ).stats[yearNum].points;
                   } else {
-                    fensObj[fen][move].stats[year] = {
-                      ...fens[fen][move].stats[year],
+                    (fensObj[fen][move] as MoveData).stats[yearNum] = {
+                      count: (fens[fen][move] as MoveData).stats[yearNum].count,
+                      points: (fens[fen][move] as MoveData).stats[yearNum]
+                        .points,
                     };
                   }
                 }
@@ -65,30 +104,42 @@ class ChessProcessor {
     return fensObj;
   }
 
-  async getFENsFirstBatch(row) {
+  async getFENsFirstBatch(row: GameData) {
     const moves = row.moves;
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
     const chess = new Chess();
-    const fens = {};
+    const fens: FensObj = {};
 
     let i = 0;
     for (const move of moves) {
       const result = await this.processMove(
         chess,
-        move,
+        move as ShortMove,
         i % 2 === 0 ? points : 1 - points,
-        row.Year
+        row.Year as number
       );
       if (result.fen && result.doneMove) {
         const fen = result.fen;
         if (fen in fens) {
-          if (fens[fen][result.doneMove.san]) {
-            fens[fen][result.doneMove.san].games += 1;
-            fens[fen][result.doneMove.san].points += result.data.points;
-            fens[fen][result.doneMove.san].years.push(...result.data.years);
-            if (!fens[fen][result.doneMove.san].stats[row.Year]) {
-              fens[fen][result.doneMove.san].stats[row.Year] = {
+          if (
+            fens[fen][result.doneMove.san] &&
+            !isNumberArray(fens[fen][result.doneMove.san])
+          ) {
+            (fens[fen][result.doneMove.san] as MoveData).games += 1;
+            (fens[fen][result.doneMove.san] as MoveData).points +=
+              result.data.points;
+            (fens[fen][result.doneMove.san] as MoveData).years.push(
+              ...result.data.years
+            );
+            if (
+              !(fens[fen][result.doneMove.san] as MoveData).stats[
+                Number(row.Year)
+              ]
+            ) {
+              (fens[fen][result.doneMove.san] as MoveData).stats[
+                Number(row.Year)
+              ] = {
                 count: 1,
                 points: result.data.points,
               };
@@ -96,14 +147,18 @@ class ChessProcessor {
           } else {
             fens[fen][result.doneMove.san] = {
               ...result.data,
-              stats: { [row.Year]: { count: 1, points: result.data.points } },
+              stats: {
+                [String(row.Year)]: { count: 1, points: result.data.points },
+              },
             };
           }
         } else {
           fens[fen] = {
             [result.doneMove.san]: {
               ...result.data,
-              stats: { [row.Year]: { count: 1, points: result.data.points } },
+              stats: {
+                [String(row.Year)]: { count: 1, points: result.data.points },
+              },
             },
             indexes: [row.id],
           };
@@ -117,7 +172,12 @@ class ChessProcessor {
     return fens;
   }
 
-  async processMove(chess, move, points, year) {
+  async processMove(
+    chess: ChessInstance,
+    move: ShortMove,
+    points: number,
+    year: number
+  ) {
     const raw_fen = chess.fen();
     const fen = cutStringToPenultimateSpace(raw_fen);
 
@@ -127,9 +187,9 @@ class ChessProcessor {
       fen,
       data: {
         games: 1,
-        last: year,
         points,
         years: [year],
+        stats: {},
       },
       doneMove,
     };
@@ -148,29 +208,35 @@ class ChessProcessor {
     }
     if (this.fensObj[fen]) {
       const { indexes, ...fens } = this.fensObj[fen];
-      const moves = Object.keys(fens).map((key) => ({
-        move: key,
-        ...fens[key],
-      }));
+      const moves = Object.keys(fens)
+        .filter((key) => !isNumberArray(fens[key]))
+        .map((key) => ({
+          move: key,
+          ...(fens[key] as MoveData),
+        }));
 
       moves.sort((a, b) => b.games - a.games);
-
       return { indexes, moves };
     } else {
       return { indexes: [], moves: [] };
     }
   }
 
-  async getFENsSecondBatch(row) {
+  async getFENsSecondBatch(row: GameData) {
     const moves = row.moves;
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
 
     const chess = new Chess();
-    const fens = {};
+    const fens: FensObj = {};
 
     let i = 0;
     for (const move of moves) {
-      const result = await this.processMove(chess, move, points, row.Year);
+      const result = await this.processMove(
+        chess,
+        move as ShortMove,
+        points,
+        row.Year as number
+      );
       if (i++ < firstBatchLimit) {
         continue;
       }
@@ -178,10 +244,16 @@ class ChessProcessor {
         const fen = result.fen;
         if (fen in this.fensObj) {
           this.fensObj[fen].indexes.push(row.id);
-          if (this.fensObj[fen][result.doneMove.san]) {
-            this.fensObj[fen][result.doneMove.san].games += 1;
-            this.fensObj[fen][result.doneMove.san].points += result.data.points;
-            this.fensObj[fen][result.doneMove.san].years.push(result.data.year);
+          if (
+            this.fensObj[fen][result.doneMove.san] &&
+            !isNumberArray(this.fensObj[fen][result.doneMove.san])
+          ) {
+            (this.fensObj[fen][result.doneMove.san] as MoveData).games += 1;
+            (this.fensObj[fen][result.doneMove.san] as MoveData).points +=
+              result.data.points;
+            (this.fensObj[fen][result.doneMove.san] as MoveData).years.push(
+              result.data.years[0]
+            );
           } else {
             this.fensObj[fen][result.doneMove.san] = { ...result.data };
           }

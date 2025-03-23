@@ -15,3 +15,8 @@ code {
 th {
   text-align: center;
 }
+
+nav > ul > li::first-letter,
+nav > ul > li *::first-letter {
+  text-transform: uppercase;
+}
