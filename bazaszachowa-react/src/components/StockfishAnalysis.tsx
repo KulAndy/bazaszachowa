@@ -214,7 +214,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
             <p key={index}>
               <span style={{ fontWeight: "bolder" }}>
                 {value.san} {value.prefix}
-                {Math.abs(value.value)}
+                {Math.abs(value.value) || 0}
               </span>{" "}
               {uciVariant2San({ fen, moves: value.variant }).join(" ")}
             </p>

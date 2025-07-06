@@ -23,6 +23,7 @@ const API = {
   send_mail: "/send-email",
   BASE_URL: "https://api.bazaszachowa.smallhost.pl",
   base_download: "/download/",
+  dumps: "/base-dumps",
 };
 const NOMENU_URLS = {
   game: "/game/",
