@@ -7,6 +7,7 @@ interface Dump {
   webViewLink: string;
   modifiedTime: string;
   size: string;
+  description: string;
 }
 
 const formatDate = (isoDateString: string) => {
@@ -48,7 +49,8 @@ const Downloads = () => {
         {dumps.map((item) => (
           <li>
             <p>
-              <a href={item.webViewLink}>{item.name}</a>{" "}
+              <a href={item.webViewLink}>{item.name}</a>
+              {` - ${item.description}, `}
               {formatFileSize(parseInt(item.size) || 0)}
             </p>
             <p>Ostatnia modyfikacja: {formatDate(item.modifiedTime)} </p>
