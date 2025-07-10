@@ -15,7 +15,7 @@ const uciVariant2San: (x: uciVariant2SanProps) => string[] = ({
   const chess = new Chess(fen);
   const splittedFen = fen.split(" ");
   const turn = chess.turn();
-  let moveNo = parseInt(splittedFen[splittedFen.length - 1]);
+  let moveNo = Number(splittedFen[splittedFen.length - 1]);
   const variant: string[] = [`${moveNo++}.`];
   if (turn === "b") {
     variant.push("...");
@@ -75,7 +75,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
         const chess = new Chess(fen);
         const turn = chess.turn();
         const type = match[1];
-        const value = parseInt(match[2]);
+        const value = Number(match[2]);
         const infoArr = message.split(" pv ");
         const key = infoArr[1].split(" ")[0];
 
@@ -181,7 +181,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
             Ocena{" "}
             <span style={{ fontWeight: "bolder" }}>
               {variants[best]?.prefix || ""}
-              {Math.abs(variants[best]?.value || NaN)}
+              {Math.abs(variants[best]?.value ?? NaN)}
             </span>
           </p>
         </>
