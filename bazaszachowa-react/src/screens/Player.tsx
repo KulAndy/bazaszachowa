@@ -257,6 +257,7 @@ const Player = () => {
               <td style={{ border: 0 }}>
                 <img
                   id="graph"
+                  crossOrigin="anonymous"
                   onError={(e) => {
                     const target = e.target as HTMLElement;
                     target.parentElement?.remove();
