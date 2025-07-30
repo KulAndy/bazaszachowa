@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Chess, PieceColor, PieceType, ShortMove, Square } from "chess.js";
+import { Chess, PieceSymbol, Square, WHITE, BLACK } from "chess.js";
 import {
   faChessRook,
   faChessKnight,
@@ -14,18 +14,24 @@ import TouchableIcon from "./TouchableIcon";
 import Notation from "./Notation";
 import ButtonsBar from "./ButtonsBar";
 
+export interface ShortMove {
+  from: Square;
+  to: Square;
+  promotion?: Exclude<PieceSymbol, "p" | "k">;
+}
+
 export interface Move {
   variations: Move[];
   from?: Square;
   to?: Square;
-  turn?: PieceColor;
+  turn?: typeof WHITE | typeof BLACK;
   fen: string;
   index?: number;
   san: string;
   prev?: number;
   moveNo: number;
   flags?: string;
-  promotion?: PieceType;
+  promotion?: PieceSymbol;
   next?: number;
 }
 
@@ -49,7 +55,7 @@ export interface GameData extends headersProps {
   moves: {
     from: Square;
     to: Square;
-    promotion?: PieceType;
+    promotion?: PieceSymbol;
   }[];
 }
 
@@ -142,7 +148,7 @@ const ChessEditor: React.FC<ChessEditorProps> = ({
 
   const addMove = (move: ShortMove) => {
     const chess = new Chess(history.current[index.current].fen);
-    if (!chess.game_over()) {
+    if (!chess.isGameOver()) {
       const moveNo = history.current[index.current]?.moveNo || 0;
       let doneMove;
       try {
@@ -266,11 +272,13 @@ const ChessEditor: React.FC<ChessEditorProps> = ({
 
   const captureSquare = (square: string) => {
     const chess = new Chess(history.current[index.current].fen);
-    if (!chess.game_over()) {
+    if (!chess.isGameOver()) {
       if (sourceSquare === null) {
         setSourceSquare(square as Square);
         setTargetSquares(
-          chess.moves({ square, verbose: true }).map((move) => move.to)
+          chess
+            .moves({ square: square as Square, verbose: true })
+            .map((move) => move.to)
         );
       } else {
         setDestSquare(square as Square);

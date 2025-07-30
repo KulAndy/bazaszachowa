@@ -8,10 +8,7 @@ interface uciVariant2SanProps {
   moves: string[];
 }
 
-const uciVariant2San: (x: uciVariant2SanProps) => string[] = ({
-  fen,
-  moves,
-}) => {
+const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
   const chess = new Chess(fen);
   const splittedFen = fen.split(" ");
   const turn = chess.turn();
@@ -22,16 +19,26 @@ const uciVariant2San: (x: uciVariant2SanProps) => string[] = ({
   }
 
   for (const move of moves) {
-    const doneMove = chess.move(move, {
-      sloppy: true,
-    });
-    if (!doneMove) {
+    try {
+      const from = move.slice(0, 2);
+      const to = move.slice(2, 4);
+      let promotion: undefined | string = undefined;
+      if (move.length > 4) {
+        promotion = move.slice(5);
+      }
+
+      const doneMove = chess.move({ from, to, promotion });
+
+      if (!doneMove) {
+        break;
+      }
+      if (variant.length % 3 === 0) {
+        variant.push(`${moveNo++}.`);
+      }
+      variant.push(doneMove.san);
+    } catch {
       break;
     }
-    if (variant.length % 3 === 0) {
-      variant.push(`${moveNo++}.`);
-    }
-    variant.push(doneMove.san);
   }
 
   return variant;
@@ -81,9 +88,15 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
 
         let san: string | null = null;
         try {
-          const doneMove = chess.move(infoArr[1].split(" ")[0], {
-            sloppy: true,
-          });
+          const move = infoArr[1].split(" ")[0];
+          const from = move.slice(0, 2);
+          const to = move.slice(2, 4);
+          let promotion: undefined | string = undefined;
+          if (move.length > 4) {
+            promotion = move.slice(5);
+          }
+
+          const doneMove = chess.move({ from, to, promotion });
           if (!doneMove) {
             return;
           }

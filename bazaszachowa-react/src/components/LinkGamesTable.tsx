@@ -2,7 +2,7 @@ import React, { HTMLProps } from "react";
 import { Link } from "react-router-dom";
 
 import { NOMENU_URLS } from "../settings";
-import { Chess, ShortMove } from "chess.js";
+import { Chess } from "chess.js";
 
 import initWasm from "../wasm/uci2pgn";
 import { GameData } from "../ChessEditor";
@@ -33,7 +33,7 @@ const legacyGame2pgn = (game: GameData) => {
       const chess = new Chess();
 
       for (let i = 0; i < game.moves.length; i++) {
-        const doneMove = chess.move(game.moves[i] as ShortMove);
+        const doneMove = chess.move(game.moves[i]);
         if (!doneMove) {
           break;
         }
