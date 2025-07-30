@@ -1,57 +1,57 @@
-import React, { useEffect } from "react";
 import {
-  faCircleHalfStroke,
   faBackwardFast,
   faBackwardStep,
+  faCircleHalfStroke,
   faCirclePlay,
   faCircleStop,
-  faForwardStep,
-  faForwardFast,
-  faMagnifyingGlassPlus,
-  faMagnifyingGlassMinus,
   faDownload,
-  faFish,
   faFileLines,
+  faFish,
+  faForwardFast,
+  faForwardStep,
+  faMagnifyingGlassMinus,
+  faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
 
 interface ButtonsBarProps {
+  download: () => void;
+  firstMove: () => void;
   flip: () => void;
-  playing: boolean;
-  setPlaying: () => void;
-  width: number;
   isFirst: boolean;
   isLast: boolean;
-  firstMove: () => void;
-  prevMove: () => void;
-  nextMove: () => void;
   lastMove: () => void;
-  download: () => void;
+  nextMove: () => void;
+  notationLayout: string;
+  notationSwitch: boolean;
+  playing: boolean;
+  prevMove: () => void;
+  setNotationLayout: (x: string) => void;
+  setPlaying: () => void;
+  width: number;
   zoomIn: () => void;
   zoomOut: () => void;
-  notationSwitch: boolean;
-  notationLayout: string;
-  setNotationLayout: Function;
 }
 
 const ButtonsBar: React.FC<ButtonsBarProps> = ({
+  download = () => {},
+  firstMove = () => {},
   flip = () => {},
-  playing,
-  setPlaying,
-  width,
   isFirst = true,
   isLast = true,
-  firstMove = () => {},
-  prevMove = () => {},
-  nextMove = () => {},
   lastMove = () => {},
-  download = () => {},
+  nextMove = () => {},
+  notationLayout = "column",
+  notationSwitch = false,
+  playing,
+  prevMove = () => {},
+  setNotationLayout = () => {},
+  setPlaying,
+  width,
   zoomIn = () => {},
   zoomOut = () => {},
-  notationSwitch = false,
-  notationLayout = "column",
-  setNotationLayout = () => {},
 }) => {
   const activeIconColor = "black";
   const inactiveIconColor = "gray";
@@ -60,8 +60,20 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.ctrlKey) {
         switch (e.key) {
+          case "-":
+            zoomOut();
+            e.preventDefault();
+            break;
+          case "+":
+            zoomIn();
+            e.preventDefault();
+            break;
           case "f":
             flip();
+            e.preventDefault();
+            break;
+          case "p":
+            setPlaying();
             e.preventDefault();
             break;
           case "r":
@@ -71,29 +83,17 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
             download();
             e.preventDefault();
             break;
-          case "p":
-            setPlaying();
-            e.preventDefault();
-            break;
-          case "+":
-            zoomIn();
-            e.preventDefault();
-            break;
-          case "-":
-            zoomOut();
-            e.preventDefault();
-            break;
           default:
             break;
         }
       } else {
         switch (e.code) {
-          case "ArrowLeft":
-            prevMove();
-            e.preventDefault();
-            break;
           case "ArrowDown":
             firstMove();
+            e.preventDefault();
+            break;
+          case "ArrowLeft":
+            prevMove();
             e.preventDefault();
             break;
           case "ArrowRight":
@@ -130,85 +130,85 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
 
   return (
     <div
+      className="black"
       style={{
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-evenly",
-        width: width,
         marginBottom: 15,
         marginTop: 15,
+        width: width,
       }}
-      className="black"
     >
       <TouchableIcon
-        onClick={flip}
+        className="control"
         icon={faCircleHalfStroke}
         iconColor={activeIconColor}
-        className="control"
+        onClick={flip}
         title="CTRL + F"
       />
       <TouchableIcon
-        onClick={firstMove}
+        className="control"
+        disable={isFirst}
         icon={faBackwardFast}
         iconColor={isFirst ? inactiveIconColor : activeIconColor}
-        disable={isFirst}
-        className="control"
+        onClick={firstMove}
         title="↓"
       />
       <TouchableIcon
-        onClick={prevMove}
+        className="control"
+        disable={isFirst}
         icon={faBackwardStep}
         iconColor={isFirst ? inactiveIconColor : activeIconColor}
-        disable={isFirst}
-        className="control"
+        onClick={prevMove}
         title="←"
       />
       <TouchableIcon
-        onClick={setPlaying}
+        className="control"
         icon={playing ? faCircleStop : faCirclePlay}
         iconColor={activeIconColor}
-        className="control"
+        onClick={setPlaying}
         title="CTRL + P"
       />
       <TouchableIcon
-        onClick={nextMove}
+        className="control"
+        disable={isLast}
         icon={faForwardStep}
         iconColor={isLast ? inactiveIconColor : activeIconColor}
-        disable={isLast}
-        className="control"
+        onClick={nextMove}
         title="→"
       />
       <TouchableIcon
-        onClick={lastMove}
+        className="control"
+        disable={isLast}
         icon={faForwardFast}
         iconColor={isLast ? inactiveIconColor : activeIconColor}
-        disable={isLast}
-        className="control"
+        onClick={lastMove}
         title="↑"
       />
-      <TouchableIcon icon={faDownload} className="control" onClick={download} />
+      <TouchableIcon className="control" icon={faDownload} onClick={download} />
       <TouchableIcon
-        icon={faMagnifyingGlassMinus}
         className="control"
+        icon={faMagnifyingGlassMinus}
         onClick={zoomOut}
       />
       <TouchableIcon
-        icon={faMagnifyingGlassPlus}
         className="control"
+        icon={faMagnifyingGlassPlus}
         onClick={zoomIn}
       />
       <>
         {notationSwitch && (
           <TouchableIcon
-            icon={notationLayout === "none" ? faFileLines : faFish}
             className="control switchNotation"
+            icon={notationLayout === "none" ? faFileLines : faFish}
             onClick={() => {
               setNotationLayout(
                 notationLayout === "none"
                   ? window.innerHeight > window.innerWidth
                     ? "bottom"
                     : "right"
-                  : "none"
+                  : "none",
               );
             }}
           />

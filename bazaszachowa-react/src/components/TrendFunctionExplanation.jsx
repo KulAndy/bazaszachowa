@@ -1,7 +1,7 @@
 import React from "react";
 
 const TrendFunctionExplanation = () => {
-  const obecnyRok = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
@@ -9,7 +9,7 @@ const TrendFunctionExplanation = () => {
         <summary>funkcja &alpha;</summary>
         <div>
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>b</mi>
                 <mo>=</mo>
@@ -19,7 +19,7 @@ const TrendFunctionExplanation = () => {
               <mrow>
                 <mi>c</mi>
                 <mo>=</mo>
-                <mn>{obecnyRok}</mn>
+                <mn>{currentYear}</mn>
                 <mo>,</mo>
               </mrow>
               <mrow>
@@ -35,7 +35,7 @@ const TrendFunctionExplanation = () => {
           <br />
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>T</mi>
                 <mo>=</mo>
@@ -68,7 +68,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>L</mi>
                 <mo>(</mo>
@@ -119,7 +119,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <msub>
                   <mi>v</mi>
@@ -159,7 +159,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>V</mi>
                 <mo>=</mo>
@@ -174,7 +174,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>Y</mi>
                 <mo>=</mo>
@@ -191,7 +191,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>d</mi>
                 <mo>=</mo>
@@ -235,7 +235,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>&lambda;</mi>
                 <mo>=</mo>
@@ -297,7 +297,7 @@ const TrendFunctionExplanation = () => {
           </p>
 
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mi>f</mi>
                 <mo>(</mo>
@@ -333,7 +333,7 @@ const TrendFunctionExplanation = () => {
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>c</mi>
                 <mo>=</mo>
-                <mn>{obecnyRok}</mn>
+                <mn>{currentYear}</mn>
               </math>
               : Stała reprezentująca aktualny rok.
             </li>
@@ -467,14 +467,14 @@ const TrendFunctionExplanation = () => {
         <summary>funkcja &beta;</summary>
         <div>
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mi>&epsilon;</mi>
               <mo>=</mo>
               <mi>0,1</mi>
             </math>
           </p>
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mn>f</mn>
                 <mo>(</mo>
@@ -591,7 +591,7 @@ const TrendFunctionExplanation = () => {
             </math>
           </p>
           <p>
-            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
               <mrow>
                 <mn>f</mn>
                 <mo>(</mo>
@@ -726,7 +726,7 @@ const TrendFunctionExplanation = () => {
           <strong>Zmienne:</strong>
           <ul>
             <li>
-              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>x</mn>
                   <mi>i</mi>
@@ -735,7 +735,7 @@ const TrendFunctionExplanation = () => {
               </math>
             </li>
             <li>
-              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>y</mn>
                   <mi>i</mi>
@@ -744,7 +744,7 @@ const TrendFunctionExplanation = () => {
               </math>
             </li>
             <li>
-              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>n</mn>
                   <mi>i</mi>

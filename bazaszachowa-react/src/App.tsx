@@ -1,26 +1,26 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./reset.css";
-import "./App.css";
-import { URLS, NOMENU_URLS } from "./settings";
-import Menu from "./components/Menu";
+import Cookies from "js-cookie";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+
+import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
-import Home from "./screens/Home";
-import NotFound from "./screens/NotFound";
+import Menu from "./components/Menu";
+import { useTheme } from "./components/ThemeProvider";
+import Bug from "./screens/Bug";
 import Contact from "./screens/Contact";
-import Rodo from "./screens/Rodo";
-import License from "./screens/License";
-import Players from "./screens/Players";
-import Player from "./screens/Player";
+import Docs from "./screens/Docs";
+import Downloads from "./screens/Downloads";
 import Game from "./screens/Game";
 import Games from "./screens/Games";
+import Home from "./screens/Home";
+import License from "./screens/License";
+import NotFound from "./screens/NotFound";
+import Player from "./screens/Player";
+import Players from "./screens/Players";
 import Preparation from "./screens/Preparation";
-import Bug from "./screens/Bug";
-import Docs from "./screens/Docs";
-import { useTheme } from "./components/ThemeProvider";
-import Cookies from "js-cookie";
-import Downloads from "./screens/Downloads";
-import ErrorBoundary from "./components/ErrorBoundary";
+import Rodo from "./screens/Rodo";
+import { NOMENU_URLS, URLS } from "./settings";
+import "./reset.css";
+import "./App.css";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -37,35 +37,35 @@ const App = () => {
           <div id="main">
             <ErrorBoundary>
               <Routes>
-                <Route path={URLS.home.url} Component={Home} />
-                <Route path={URLS.contact.url} Component={Contact} />
-                <Route path={URLS.rodo.url} Component={Rodo} />
-                <Route path={URLS.license.url} Component={License} />
-                <Route path={URLS.players.url + ":name?"} Component={Players} />
+                <Route Component={Home} path={URLS.home.url} />
+                <Route Component={Contact} path={URLS.contact.url} />
+                <Route Component={Rodo} path={URLS.rodo.url} />
+                <Route Component={License} path={URLS.license.url} />
+                <Route Component={Players} path={`${URLS.players.url}:name?`} />
                 <Route
-                  path={NOMENU_URLS.profile + ":name/:color?/:opening?"}
                   Component={Player}
+                  path={`${NOMENU_URLS.profile}:name/:color?/:opening?`}
                 />
-                <Route path={URLS.search.url} Component={Games} />
+                <Route Component={Games} path={URLS.search.url} />
                 <Route
-                  path={NOMENU_URLS.game + ":base/:gameid"}
                   Component={Game}
+                  path={`${NOMENU_URLS.game}:base/:gameid`}
                 />
                 <Route
-                  path={URLS.preparation.url + ":player?/:color?"}
                   Component={Preparation}
+                  path={`${URLS.preparation.url}:player?/:color?`}
                 />
                 <Route
-                  path={NOMENU_URLS.bug + ":base/:gameid"}
                   Component={Bug}
+                  path={`${NOMENU_URLS.bug}:base/:gameid`}
                 />
                 <Route
-                  path={URLS.preparation.url + "/:color?"}
                   Component={Preparation}
+                  path={`${URLS.preparation.url}/:color?`}
                 />
-                <Route path={NOMENU_URLS.docs + ":file?"} Component={Docs} />
-                <Route path={URLS.downloads.url} Component={Downloads} />
-                <Route path="*" Component={NotFound} />
+                <Route Component={Docs} path={`${NOMENU_URLS.docs}:file?`} />
+                <Route Component={Downloads} path={URLS.downloads.url} />
+                <Route Component={NotFound} path="*" />
               </Routes>
             </ErrorBoundary>
           </div>

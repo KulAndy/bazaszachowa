@@ -1,10 +1,11 @@
 import "./Games.css";
 import React, { useState } from "react";
+
+import { GameData } from "../ChessEditor";
 import Content from "../components/Content";
+import GamesTable from "../components/GamesTable";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { API } from "../settings";
-import GamesTable from "../components/GamesTable";
-import { GameData } from "../ChessEditor";
 
 const Games = () => {
   const currentYear = new Date().getFullYear();
@@ -19,7 +20,7 @@ const Games = () => {
   const [searching, setSearching] = useState("classic");
   const [event, setEvent] = useState("");
   const [games, setGames] = useState<GameData[]>([]);
-  const [seachedBase, setSearchedBase] = useState("all");
+  const [searchedBase, setSearchedBase] = useState("all");
   const [loadingGames, setLoadingGames] = useState(false);
 
   const options1 = [];
@@ -36,7 +37,7 @@ const Games = () => {
             {letter}
             {i}
             {j}
-          </option>
+          </option>,
         );
       }
     }
@@ -52,7 +53,7 @@ const Games = () => {
             {letter}
             {i}
             {j}
-          </option>
+          </option>,
         );
       }
     }
@@ -62,16 +63,16 @@ const Games = () => {
     e.preventDefault();
     if (white.trim().length > 0 || black.trim().length > 0) {
       const body: Record<string, string> = {
-        white,
         black,
+        event,
         ignore: String(ignore),
-        minYear: String(minYear),
+        maxEco: String(maxEco),
         maxYear: String(maxYear),
         minEco: String(minEco),
-        maxEco: String(maxEco),
-        event,
-        table: base,
+        minYear: String(minYear),
         searching,
+        table: base,
+        white,
       };
 
       const url = new URL(API.BASE_URL + API.games.normal);
@@ -103,11 +104,11 @@ const Games = () => {
                 <td>Białe:</td>
                 <td colSpan={3}>
                   <SearchPlayersWithHints
-                    list="whitelist"
-                    type="text"
-                    id="white"
-                    placeholder="Nowak, Jan"
                     f={setWhite}
+                    id="white"
+                    list="whitelist"
+                    placeholder="Nowak, Jan"
+                    type="text"
                   />
                 </td>
               </tr>
@@ -115,11 +116,11 @@ const Games = () => {
                 <td>Czarne: </td>
                 <td colSpan={3}>
                   <SearchPlayersWithHints
-                    list="blacklist"
-                    type="text"
-                    id="black"
-                    placeholder="Nowak, Jan"
                     f={setBlack}
+                    id="black"
+                    list="blacklist"
+                    placeholder="Nowak, Jan"
+                    type="text"
                   />
                 </td>
               </tr>
@@ -127,11 +128,11 @@ const Games = () => {
                 <td style={{ width: "21ch" }}>ignoruj kolory</td>
                 <td colSpan={3}>
                   <input
-                    type="checkbox"
                     checked={ignore}
                     onChange={() => {
                       setIgnore(!ignore);
                     }}
+                    type="checkbox"
                   />
                 </td>
               </tr>
@@ -139,29 +140,29 @@ const Games = () => {
                 <td>lata:</td>
                 <td style={{ display: "flex", justifyContent: "flex-end" }}>
                   <input
-                    type="number"
-                    step="1"
-                    min="1475"
                     max={currentYear}
-                    value={minYear}
-                    style={{ width: "4em" }}
+                    min="1475"
                     onChange={(e) => {
                       setMinYear(parseInt(e.target.value));
                     }}
+                    step="1"
+                    style={{ width: "4em" }}
+                    type="number"
+                    value={minYear}
                   />
                 </td>
                 <td> - </td>
                 <td style={{ display: "flex", justifyContent: "flex-start" }}>
                   <input
-                    type="number"
-                    step="1"
-                    min="1475"
                     max={currentYear}
-                    value={maxYear}
-                    style={{ width: "4em" }}
+                    min="1475"
                     onChange={(e) => {
                       setMaxYear(parseInt(e.target.value));
                     }}
+                    step="1"
+                    style={{ width: "4em" }}
+                    type="number"
+                    value={maxYear}
                   />
                 </td>
               </tr>
@@ -169,11 +170,11 @@ const Games = () => {
                 <td>turniej:</td>
                 <td colSpan={3}>
                   <input
-                    type="text"
-                    value={event}
                     onChange={(e) => {
                       setEvent(e.target.value);
                     }}
+                    type="text"
+                    value={event}
                   />
                 </td>
               </tr>
@@ -208,26 +209,26 @@ const Games = () => {
                 <td>
                   Polska{" "}
                   <input
-                    type="radio"
-                    name="base"
-                    value="poland"
                     checked={base === "poland"}
+                    name="base"
                     onChange={() => {
                       setBase("poland");
                     }}
+                    type="radio"
+                    value="poland"
                   />
                 </td>
                 <td colSpan={2}>
                   {" "}
                   całość{" "}
                   <input
-                    type="radio"
-                    name="base"
-                    value="all"
                     checked={base === "all"}
+                    name="base"
                     onChange={() => {
                       setBase("all");
                     }}
+                    type="radio"
+                    value="all"
                   />
                 </td>
               </tr>
@@ -236,23 +237,23 @@ const Games = () => {
                 <td>
                   zwykłe
                   <input
-                    type="radio"
-                    name="searching"
                     checked={searching === "classic"}
+                    name="searching"
                     onChange={() => {
                       setSearching("classic");
                     }}
+                    type="radio"
                   />
                 </td>
                 <td colSpan={2}>
                   dokładne
                   <input
-                    type="radio"
-                    name="searching"
                     checked={searching === "fulltext"}
+                    name="searching"
                     onChange={() => {
                       setSearching("fulltext");
                     }}
+                    type="radio"
                   />
                 </td>
               </tr>
@@ -292,14 +293,15 @@ const Games = () => {
                   <ul>
                     Wyszukiwanie (wielkość liter nie ma znaczenia)
                     <li>
-                      Zwykłe - zadziała zarówno wpisanie "Nowak, Jan" jak i
-                      "Nowak, J" , można stować jokery ( "_" - jeden dowolny
-                      znak, "%" - dowolny ciąg znaków )
+                      Zwykłe - zadziała zarówno wpisanie &quot;Nowak, Jan&quot;
+                      jak i &quot;Nowak, J&quot; , można stować jokery (
+                      &quot;_&quot; - jeden dowolny znak, &quot;%&quot; -
+                      dowolny ciąg znaków )
                     </li>
                     <li>
-                      Dokładne - wyszuka tylko po wpisaniu "Nowak, Jan",
-                      szybsze, zalecane jeśli zna się pełne imię i nazwisko
-                      gracza/y
+                      Dokładne - wyszuka tylko po wpisaniu &quot;Nowak,
+                      Jan&quot;, szybsze, zalecane jeśli zna się pełne imię i
+                      nazwisko gracza/y
                     </li>
                   </ul>
                 </li>
@@ -315,7 +317,7 @@ const Games = () => {
             </div>
           </div>
         ) : (
-          <GamesTable games={games} base={seachedBase} noEmpty={true} />
+          <GamesTable base={searchedBase} games={games} noEmpty={true} />
         )}
       </Content>
     </div>

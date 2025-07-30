@@ -1,13 +1,14 @@
+import React, { useEffect, useState } from "react";
+
 import Content from "../components/Content";
-import React, { useState, useEffect } from "react";
 import { API } from "../settings";
 
 interface Dump {
-  name: string;
-  webViewLink: string;
-  modifiedTime: string;
-  size: string;
   description: string;
+  modifiedTime: string;
+  name: string;
+  size: string;
+  webViewLink: string;
 }
 
 const formatDate = (isoDateString: string) => {
@@ -31,7 +32,7 @@ const formatFileSize = (bytes: number) => {
   const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 };
 
 const Downloads = () => {
@@ -47,7 +48,7 @@ const Downloads = () => {
       Baza
       <ul>
         {dumps.map((item) => (
-          <li>
+          <li key={item.name}>
             <p>
               <a href={item.webViewLink}>{item.name}</a>
               {` - ${item.description}, `}

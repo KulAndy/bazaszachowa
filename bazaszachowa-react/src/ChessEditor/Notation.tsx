@@ -1,35 +1,37 @@
 import React from "react";
+
 import HalfMove from "./HalfMove";
+
+// eslint-disable-next-line import/no-cycle
 import { Move } from ".";
 
 interface NotationProps {
-  moves: Move[];
-  setIndex: (x: number) => void;
-  result: string | null;
   currentIndex: number;
   height: number;
+  moves: Move[];
+  result: null | string;
+  setIndex: (x: number) => void;
 }
 
 const Notation: React.FC<NotationProps> = ({
-  moves = [],
-  setIndex = () => {},
-  result = null,
   currentIndex = 0,
   height = 400,
+  moves = [],
+  result = null,
+  setIndex = () => {},
 }) => {
   const moveComponents: React.JSX.Element[] = [];
   const processMove = (move: Move, isMain: boolean) => {
     if (move.turn === "w") {
       moveComponents.push(
         <span style={{ fontWeight: isMain ? "bold" : "normal" }}>
-          {move.moveNo + ". "}
-        </span>
+          {`${move.moveNo}. `}
+        </span>,
       );
     }
 
     moveComponents.push(
       <HalfMove
-        move={move.san}
         doMove={() => {
           if (move.index) {
             setIndex(move.index);
@@ -37,27 +39,28 @@ const Notation: React.FC<NotationProps> = ({
         }}
         isCurrent={currentIndex === move.index}
         isMain={isMain}
-      />
+        move={move.san}
+      />,
     );
 
     if (move.variations.length > 0) {
       for (const variation of move.variations) {
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>( </span>
+          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>( </span>,
         );
         if (move.turn === "b") {
-          moveComponents.push(<span>{move.moveNo + "... "}</span>);
+          moveComponents.push(<span>{`${move.moveNo}... `}</span>);
         }
         processMove(variation, false);
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>) </span>
+          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>) </span>,
         );
       }
       if (move.next && move.turn === "w") {
         moveComponents.push(
           <span style={{ fontWeight: isMain ? "bold" : "normal" }}>
-            {move.moveNo + "... "}
-          </span>
+            {`${move.moveNo}... `}
+          </span>,
         );
       } else if (move.turn === "b") {
         moveComponents.push(<span>&nbsp;&nbsp;</span>);
@@ -83,7 +86,7 @@ const Notation: React.FC<NotationProps> = ({
   }
 
   return (
-    <div id="notation" style={{ overflow: "auto", maxHeight: height }}>
+    <div id="notation" style={{ maxHeight: height, overflow: "auto" }}>
       {groupedElements.map((group, index) => (
         <p key={index}>{group}</p>
       ))}

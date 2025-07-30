@@ -12,7 +12,7 @@ const Footer = () => {
         <address>
           <span className="copyleft">©</span>
           <a href={`mailto:${admin_mail}`}>Andrzej Kulesza</a>
-          {" " + new Date().getFullYear()}
+          {` ${new Date().getFullYear()}`}
         </address>
       </p>
     </footer>

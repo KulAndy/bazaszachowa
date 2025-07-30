@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useTheme } from "./ThemeProvider";
 
 interface ColorSchemeToggleProps {
@@ -9,7 +10,7 @@ const ColorSchemeToggle: React.FC<ColorSchemeToggleProps> = ({ text }) => {
   const { toggleTheme } = useTheme();
 
   return (
-    <button onClick={toggleTheme} className="toggle-button">
+    <button className="toggle-button" onClick={toggleTheme}>
       {text}
     </button>
   );

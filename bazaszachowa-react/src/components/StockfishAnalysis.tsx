@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { Chess } from "chess.js";
+import React, { useEffect, useState } from "react";
 
 const stockfish = new Worker("/js/stockfish.js");
 
@@ -22,12 +22,12 @@ const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
     try {
       const from = move.slice(0, 2);
       const to = move.slice(2, 4);
-      let promotion: undefined | string = undefined;
+      let promotion: string | undefined = undefined;
       if (move.length > 4) {
         promotion = move.slice(5);
       }
 
-      const doneMove = chess.move({ from, to, promotion });
+      const doneMove = chess.move({ from, promotion, to });
 
       if (!doneMove) {
         break;
@@ -44,36 +44,36 @@ const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
   return variant;
 };
 
+interface StockfishAnalysisProps {
+  depth?: number;
+  fen: string;
+  hashSize?: number;
+  multiPV?: number;
+  threads?: number;
+  visible: boolean;
+}
+
 interface Variant {
   prefix: string;
+  san: string;
   type: string;
   value: number;
   variant: string[];
-  san: string;
-}
-
-interface StockfishAnalysisProps {
-  fen: string;
-  visible: boolean;
-  depth?: number;
-  threads?: number;
-  multiPV?: number;
-  hashSize?: number;
 }
 
 const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
-  fen,
-  visible = true,
   depth = 20,
-  threads = 3,
-  multiPV = 3,
+  fen,
   hashSize = 1024,
+  multiPV = 3,
+  threads = 3,
+  visible = true,
 }) => {
   const [variants, setVariants] = useState<Record<string, Variant>>({});
   const [currentDepth, setCurrentDepth] = useState(0);
-  const [best, setBest] = useState<string | null>(null);
+  const [best, setBest] = useState<null | string>(null);
 
-  stockfish.onmessage = function (event) {
+  stockfish.onmessage = (event) => {
     let message = event.data as string;
     if (message.includes("info depth")) {
       const match = message.match(/score (cp|mate) ([-\d]+) .*$/);
@@ -86,22 +86,22 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
         const infoArr = message.split(" pv ");
         const key = infoArr[1].split(" ")[0];
 
-        let san: string | null = null;
+        let san: null | string = null;
         try {
           const move = infoArr[1].split(" ")[0];
           const from = move.slice(0, 2);
           const to = move.slice(2, 4);
-          let promotion: undefined | string = undefined;
+          let promotion: string | undefined = undefined;
           if (move.length > 4) {
             promotion = move.slice(5);
           }
 
-          const doneMove = chess.move({ from, to, promotion });
+          const doneMove = chess.move({ from, promotion, to });
           if (!doneMove) {
             return;
           }
           san = doneMove.san;
-        } catch (error) {
+        } catch {
           return;
         }
 
@@ -113,23 +113,23 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
                 ((turn === "b" && value >= 0) || (turn === "w" && value < 0)
                   ? "-"
                   : "+") + (type === "mate" ? "#" : ""),
+              san: san!,
               type,
               value: type === "mate" ? value : value / 100,
               variant: infoArr[1].split(" "),
-              san: san as string,
             },
           }));
         }
       }
     } else if (message.startsWith("bestmove")) {
       message = message.replace(/bestmove |ponder |\(none\) /g, "");
-      const best = message
+      const newBest = message
         .trim()
         .split(" ")
         .filter((item) => item !== "(none)")[0];
 
-      if (best) {
-        setBest(best);
+      if (newBest) {
+        setBest(newBest);
       }
       if (currentDepth < depth) {
         setCurrentDepth(currentDepth + 1);
@@ -139,9 +139,9 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
 
   useEffect(() => {
     stockfish.postMessage("uci");
-    stockfish.postMessage("setoption name Threads value " + threads);
-    stockfish.postMessage("setoption name MultiPV value " + multiPV);
-    stockfish.postMessage("setoption name Hash value " + hashSize);
+    stockfish.postMessage(`setoption name Threads value ${threads}`);
+    stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
+    stockfish.postMessage(`setoption name Hash value ${hashSize}`);
 
     return () => {
       stockfish.postMessage("stop");
@@ -153,17 +153,17 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
     setVariants({});
     setBest(null);
     stockfish.postMessage("uci");
-    stockfish.postMessage("setoption name Threads value " + threads);
-    stockfish.postMessage("setoption name MultiPV value " + multiPV);
-    stockfish.postMessage("setoption name Hash value " + hashSize);
-    stockfish.postMessage("position fen " + fen);
+    stockfish.postMessage(`setoption name Threads value ${threads}`);
+    stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
+    stockfish.postMessage(`setoption name Hash value ${hashSize}`);
+    stockfish.postMessage(`position fen ${fen}`);
     stockfish.postMessage("go depth 1");
     setCurrentDepth(1);
   }, [fen, threads, multiPV, hashSize]);
 
   useEffect(() => {
     // stockfish.postMessage("position fen " + fen);
-    stockfish.postMessage("go depth " + currentDepth);
+    stockfish.postMessage(`go depth ${currentDepth}`);
   }, [currentDepth]);
 
   const valuesArray: Variant[] = Object.values(variants)
@@ -181,20 +181,20 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
     });
 
   return (
-    <div id="engine_container" className={visible ? "" : "inactive"}>
-      {best ? (
+    <div className={visible ? "" : "inactive"} id="engine_container">
+      {best && variants[best] ? (
         <>
           <p>
             Najlepszy ruch{" "}
             <span style={{ fontWeight: "bolder" }}>
-              {variants[best]?.san || ""}
+              {variants[best].san || ""}
             </span>
           </p>
           <p>
             Ocena{" "}
             <span style={{ fontWeight: "bolder" }}>
-              {variants[best]?.prefix || ""}
-              {Math.abs(variants[best]?.value ?? NaN)}
+              {variants[best].prefix || ""}
+              {Math.abs(variants[best].value ?? NaN)}
             </span>
           </p>
         </>

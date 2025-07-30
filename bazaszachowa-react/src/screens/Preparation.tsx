@@ -3,11 +3,12 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import Content from "../components/Content";
+
 import PreparationForm from "./PreparationForm";
 import PreparationPlayer from "./PreparationPlayer";
 
 const Preparation = () => {
-  const { player, color } = useParams();
+  const { color, player } = useParams();
   if (
     player === undefined ||
     color === undefined ||
@@ -16,7 +17,7 @@ const Preparation = () => {
     player.trim().length === 0
   ) {
     return (
-      <Content style={{ width: "fit-content", textAlign: "center" }}>
+      <Content style={{ textAlign: "center", width: "fit-content" }}>
         <PreparationForm />
       </Content>
     );
@@ -24,7 +25,7 @@ const Preparation = () => {
     return (
       <div id="preparation">
         <Content>
-          <PreparationPlayer player={player} color={color} />
+          <PreparationPlayer color={color} player={player} />
         </Content>
       </div>
     );

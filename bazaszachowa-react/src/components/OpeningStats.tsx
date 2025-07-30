@@ -1,38 +1,40 @@
 import React from "react";
-import ColorStats, { Stat } from "./ColorStats";
+
 import { NOMENU_URLS } from "../settings";
 
+import ColorStats, { Stat } from "./ColorStats";
+
 interface OpeningsStatsProps {
-  stats: {
-    whites: Stat[];
-    blacks: Stat[];
-  };
   name: string;
+  stats: {
+    blacks: Stat[];
+    whites: Stat[];
+  };
 }
 
-const OpeningsStats: React.FC<OpeningsStatsProps> = ({ stats, name }) => {
+const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
   const sum =
     stats.whites.reduce(
       (accumulator: number, currentItem: Stat) =>
         accumulator + currentItem.count,
-      0
+      0,
     ) +
     stats.blacks.reduce(
       (accumulator: number, currentItem: Stat) =>
         accumulator + currentItem.count,
-      0
+      0,
     );
 
   return (
     <table id="stats_table" style={{ border: 0 }}>
       <tr>
         <td colSpan={4} style={{ padding: 0 }}>
-          <ColorStats name={name} color={"white"} stats={stats.whites} />
+          <ColorStats color={"white"} name={name} stats={stats.whites} />
         </td>
       </tr>
       <tr>
         <td colSpan={4}>
-          <ColorStats name={name} color={"black"} stats={stats.blacks} />
+          <ColorStats color={"black"} name={name} stats={stats.blacks} />
         </td>
       </tr>
       <tr>

@@ -1,9 +1,10 @@
 import "./Players.css";
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { URLS, NOMENU_URLS, API } from "../settings";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+
 import Content from "../components/Content";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
+import { API, NOMENU_URLS, URLS } from "../settings";
 
 const Players = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Players = () => {
     const fetchData = async () => {
       if (player !== null && player !== undefined) {
         const response = await fetch(
-          API.BASE_URL + API.players + encodeURIComponent(player.trim())
+          API.BASE_URL + API.players + encodeURIComponent(player.trim()),
         );
 
         const jsonData = await response.json();
@@ -39,12 +40,11 @@ const Players = () => {
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">Gracz</label>
           <SearchPlayersWithHints
-            value={player}
             f={setPlayer}
-            name="name"
             id="name"
-            autoFocus
+            name="name"
             required
+            value={player}
           />
           <br />
           <input type="submit" value="szukaj" />
@@ -56,7 +56,7 @@ const Players = () => {
               <th>profil</th>
             </tr>
             {players.map((item) => (
-              <tr>
+              <tr key={item}>
                 <td>{item}</td>
                 <td>
                   <Link to={NOMENU_URLS.profile + encodeURIComponent(item)}>

@@ -1,10 +1,15 @@
 import React from "react";
 
 const HalfMove = ({
-  move = "",
   doMove = () => {},
   isCurrent = false,
   isMain = true,
+  move = "",
+}: {
+  doMove: () => void;
+  isCurrent: boolean;
+  isMain: boolean;
+  move: string;
 }) => {
   return (
     <>
@@ -15,7 +20,7 @@ const HalfMove = ({
           fontWeight: isMain ? "bold" : "normal",
         }}
       >
-        {move + " "}
+        {`${move} `}
       </span>
     </>
   );

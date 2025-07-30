@@ -1,4 +1,5 @@
-import React, { useState, useEffect, HTMLProps } from "react";
+import React, { HTMLProps, useEffect, useState } from "react";
+
 import { API } from "../settings";
 
 const replaceNationalCharacters = (text: string) => {
@@ -25,15 +26,15 @@ const replaceNationalCharacters = (text: string) => {
 };
 
 interface SearchPlayersWithHintsProps extends HTMLProps<HTMLInputElement> {
+  f: (x: string) => void;
   id?: string;
   list?: string;
-  f: Function;
 }
 
 const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
+  f = () => {},
   id = "input",
   list,
-  f = () => {},
   ...props
 }) => {
   const [text, setText] = useState("");
@@ -43,7 +44,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
     const fetchData = async () => {
       if (text.trim().length >= 4) {
         const response = await fetch(
-          API.BASE_URL + API.players + encodeURIComponent(text.trim())
+          API.BASE_URL + API.players + encodeURIComponent(text.trim()),
         );
 
         const jsonData = await response.json();
@@ -58,9 +59,9 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
   return (
     <>
       <input
+        list={list || `${id}_datalist`}
         placeholder="Nowak, Jan"
         value={text}
-        list={list || id + "_datalist"}
         {...props}
         onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
           f(replaceNationalCharacters(e.target.value));
@@ -68,9 +69,9 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
         }}
       />
       {players.length > 0 && (
-        <datalist id={list || id + "_datalist"}>
+        <datalist id={list || `${id}_datalist`}>
           {players.map((item) => (
-            <option value={item} />
+            <option key={item} value={item} />
           ))}
         </datalist>
       )}

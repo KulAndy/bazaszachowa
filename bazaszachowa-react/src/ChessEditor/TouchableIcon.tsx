@@ -1,42 +1,42 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 
 interface TouchableIconProps extends React.HTMLProps<HTMLSpanElement> {
-  icon: IconDefinition;
-  onClick: () => void;
-  iconColor?: string;
   disable?: boolean;
+  icon: IconDefinition;
+  iconColor?: string;
+  onClick: () => void;
 }
 
 const TouchableIcon: React.FC<TouchableIconProps> = ({
+  className = "",
+  disable = false,
   icon,
+  iconColor = "black",
   onClick = () => {},
   style = {},
-  iconColor = "black",
-  disable = false,
-  className = "",
   ...props
 }) => {
   if (disable) {
     return (
       <span
+        className={`${className} ${iconColor} disabled`}
         style={style}
-        className={className + " " + iconColor + " disabled"}
         {...props}
       >
-        <FontAwesomeIcon icon={icon} color={iconColor} />
+        <FontAwesomeIcon color={iconColor} icon={icon} />
       </span>
     );
   } else {
     return (
       <span
+        className={`${className} ${iconColor}`}
         onClick={onClick}
         style={style}
-        className={className + " " + iconColor}
         {...props}
       >
-        <FontAwesomeIcon icon={icon} color={iconColor} />
+        <FontAwesomeIcon color={iconColor} icon={icon} />
       </span>
     );
   }

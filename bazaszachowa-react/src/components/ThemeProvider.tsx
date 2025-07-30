@@ -1,18 +1,18 @@
+import Cookies from "js-cookie";
 import React, {
   createContext,
+  ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
-  ReactNode,
 } from "react";
-import Cookies from "js-cookie";
 
 const ThemeContext = createContext<{
   theme: string;
   toggleTheme: () => void;
 }>({
-  theme: "light", // Default theme value
+  theme: "light",
   toggleTheme: () => {},
 });
 
@@ -20,7 +20,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const getInitialTheme = () => {
     const storedTheme = Cookies.get("theme");
     const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     ).matches;
 
     return storedTheme || (prefersDarkMode ? "dark" : "light");
@@ -59,7 +59,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const contextValue = useMemo(
     () => ({ theme: memoizedTheme, toggleTheme }),
-    [memoizedTheme, toggleTheme]
+    [memoizedTheme, toggleTheme],
   );
 
   return (

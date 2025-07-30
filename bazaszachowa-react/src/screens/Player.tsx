@@ -1,16 +1,17 @@
 import "./Player.css";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+import { GameData } from "../ChessEditor";
 import Content from "../components/Content";
-import { useParams, Link } from "react-router-dom";
 import CrPlayersList from "../components/CrPlayerList";
 import FidePlayersList from "../components/FidePlayerList";
+import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
 import { API, URLS } from "../settings";
-import GamesTable from "../components/GamesTable";
-import { GameData } from "../ChessEditor";
 
 const Player = () => {
-  const { name, color, opening } = useParams();
+  const { color, name, opening } = useParams();
   const [loadingExtremes, setLoadingExtremes] = useState(true);
   const [maxElo, setMaxElo] = useState(null);
   const [minYear, setMinYear] = useState(null);
@@ -20,7 +21,7 @@ const Player = () => {
   const [loadingFide, setLoadingFide] = useState(true);
   const [fidePlayers, setFidePlayers] = useState([]);
   const [loadingStats, setLoadingStats] = useState(true);
-  const [stats, setStats] = useState({ whites: [], blacks: [] });
+  const [stats, setStats] = useState({ blacks: [], whites: [] });
 
   const [loadingGames, setLoadingGames] = useState(true);
   const [games, setGames] = useState<GameData[] | null>(null);
@@ -34,7 +35,7 @@ const Player = () => {
         setMinYear(data[0].minYear || null);
         setMaxYear(data[0].maxYear || null);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoadingExtremes(false);
       });
   };
@@ -46,7 +47,7 @@ const Player = () => {
         setLoadingCr(false);
         setCrPlayers(data);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoadingCr(false);
       });
   };
@@ -58,7 +59,7 @@ const Player = () => {
         setLoadingFide(false);
         setFidePlayers(data);
       })
-      .catch((err) => {
+      .catch(() => {
         setLoadingFide(false);
       });
   };
@@ -79,28 +80,18 @@ const Player = () => {
     setLoadingGames(true);
     let url;
     if (color && opening) {
-      url =
-        API.BASE_URL +
-        API.games.filter +
-        encodeURIComponent(name || "") +
-        "/" +
-        color +
-        "/" +
-        opening;
+      url = `${
+        API.BASE_URL + API.games.filter + encodeURIComponent(name || "")
+      }/${color}/${opening}`;
     } else if (color) {
-      url =
-        API.BASE_URL +
-        API.games.filter +
-        encodeURIComponent(name || "") +
-        "/" +
-        color;
+      url = `${
+        API.BASE_URL + API.games.filter + encodeURIComponent(name || "")
+      }/${color}`;
     } else {
       url =
-        API.BASE_URL +
-        API.games.normal +
-        "?white=" +
-        encodeURIComponent(name || "") +
-        "&black=" +
+        `${API.BASE_URL + API.games.normal}?white=${encodeURIComponent(
+          name || "",
+        )}&black=` +
         "&ignore=true" +
         "&minYear=" +
         "&maxYear=" +
@@ -183,7 +174,7 @@ const Player = () => {
             <FidePlayersList players={fidePlayers} />
           )}
         </div>
-        <div style={{ width: "fit-content", margin: "auto" }}>
+        <div style={{ margin: "auto", width: "fit-content" }}>
           <table>
             <thead>
               <tr>
@@ -194,22 +185,18 @@ const Player = () => {
               <tr>
                 <td>
                   <Link
-                    to={
-                      URLS.preparation.url +
-                      encodeURIComponent(name || "") +
-                      "/white"
-                    }
+                    to={`${
+                      URLS.preparation.url + encodeURIComponent(name || "")
+                    }/white`}
                   >
                     białe
                   </Link>
                 </td>
                 <td>
                   <Link
-                    to={
-                      URLS.preparation.url +
-                      encodeURIComponent(name || "") +
-                      "/black"
-                    }
+                    to={`${
+                      URLS.preparation.url + encodeURIComponent(name || "")
+                    }/black`}
                   >
                     czarne
                   </Link>
@@ -223,20 +210,20 @@ const Player = () => {
             profil na yottabase
             <a
               href={`https://www.yottachess.com/player/${encodeURIComponent(
-                name || ""
+                name || "",
               )}`}
             >
               link
             </a>
           </summary>
           <iframe
-            title="Profile na yottachess"
             loading="lazy"
-            src={`https://www.yottachess.com/player/${encodeURIComponent(
-              name || ""
-            )}`}
             referrerPolicy="origin-when-cross-origin"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            src={`https://www.yottachess.com/player/${encodeURIComponent(
+              name || "",
+            )}`}
+            title="Profile na yottachess"
           ></iframe>
         </details>
         <table style={{ border: 0, margin: "auto" }}>
@@ -251,24 +238,21 @@ const Player = () => {
                     </div>
                   </div>
                 ) : (
-                  <OpeningsStats stats={stats} name={name || ""} />
+                  <OpeningsStats name={name || ""} stats={stats} />
                 )}
               </td>
               <td style={{ border: 0 }}>
                 <img
-                  id="graph"
+                  alt="Wykres rankingu"
                   crossOrigin="anonymous"
+                  id="graph"
                   onError={(e) => {
                     const target = e.target as HTMLElement;
                     target.parentElement?.remove();
                   }}
-                  src={
-                    API.BASE_URL +
-                    API.graph +
-                    "svg/" +
-                    encodeURIComponent(name || "")
-                  }
-                  alt="Wykres rankingu"
+                  src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
+                    name || "",
+                  )}`}
                 />
               </td>
             </tr>

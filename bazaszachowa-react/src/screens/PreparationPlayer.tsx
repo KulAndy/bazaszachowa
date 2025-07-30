@@ -1,13 +1,14 @@
 import "./PreparationPlayer.css";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ChessEditor, { GameData } from "../ChessEditor";
-import ChessProcessor from "./../ChessProcessor";
-import { NOMENU_URLS, API } from "../settings";
-import PositionMoves, { StatsItem } from "../components/PositionsMoves";
 import LinkGamesTable from "../components/LinkGamesTable";
+import PositionMoves, { StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
+import { API, NOMENU_URLS } from "../settings";
+
+import ChessProcessor from "./../ChessProcessor";
 
 const processor = new ChessProcessor();
 
@@ -22,11 +23,11 @@ const debounce = (func: (...args: any[]) => void, delay: number) => {
 };
 
 const PreparationPlayer = ({
-  player,
   color,
+  player,
 }: {
-  player: string;
   color: string;
+  player: string;
 }) => {
   const [games, setGames] = useState<GameData[]>([]);
   const [tree, setTree] = useState<StatsItem[]>([]);
@@ -38,24 +39,24 @@ const PreparationPlayer = ({
     window.innerHeight > window.innerWidth ||
       Math.max(window.innerWidth, window.innerHeight) <= 768
       ? "bottom"
-      : "right"
+      : "right",
   );
 
-  const [boardSize, setBoardSize] = useState(
+  const [boardSize, setBoardSize] = useState(() =>
     Math.min(
       350,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-    )
+        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
+    ),
   );
 
   const loadGames = useCallback(
-    async (player: string, color: string) => {
+    async (currentPlayer: string, currentColor: string) => {
       const response = await fetch(
         `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
-          player
-        )}/${color}`
+          currentPlayer,
+        )}/${currentColor}`,
       );
       const data = await response.json();
 
@@ -67,7 +68,7 @@ const PreparationPlayer = ({
       setTree(fens.moves);
       setGamesFilter(fens.indexes);
     },
-    [fen]
+    [fen],
   );
 
   useEffect(() => {
@@ -102,32 +103,33 @@ const PreparationPlayer = ({
           Math.max(prevSize, 100),
           window.innerWidth * 0.9,
           window.innerHeight -
-            10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-        )
+            10 *
+              parseFloat(getComputedStyle(document.documentElement).fontSize),
+        ),
       );
 
       setNotationLayout(
         window.innerHeight > window.innerWidth ||
           Math.max(window.innerWidth, window.innerHeight) <= 768
           ? "bottom"
-          : "right"
+          : "right",
       );
     };
 
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.ctrlKey) {
         switch (e.code) {
-          case "ArrowLeft":
-            (document.getElementById("previous_link") as HTMLElement).click();
-            break;
           case "ArrowDown":
-            (document.getElementById("first_link") as HTMLElement).click();
+            document.getElementById("first_link")!.click();
+            break;
+          case "ArrowLeft":
+            document.getElementById("previous_link")!.click();
             break;
           case "ArrowRight":
-            (document.getElementById("next_link") as HTMLElement).click();
+            document.getElementById("next_link")!.click();
             break;
           case "ArrowUp":
-            (document.getElementById("last_link") as HTMLElement).click();
+            document.getElementById("last_link")!.click();
             break;
           default:
             break;
@@ -135,12 +137,15 @@ const PreparationPlayer = ({
       }
     };
 
-    window.addEventListener("resize", debounce(handleResize, 200));
-    window.addEventListener("keydown", debounce(handleKeyPress, 200));
+    const resizeListener = debounce(handleResize, 200);
+    const keyListener = debounce(handleKeyPress, 200);
+
+    window.addEventListener("resize", resizeListener);
+    window.addEventListener("keydown", keyListener);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("resize", resizeListener);
+      window.removeEventListener("keydown", keyListener);
     };
   }, []);
 
@@ -159,32 +164,32 @@ const PreparationPlayer = ({
         }}
       >
         <ChessEditor
-          showPlayers={false}
-          setFen={setFen}
-          setDoMove={setDoMove}
           boardSize={boardSize}
           notationLayout={notationLayout}
           profileUrl={NOMENU_URLS.profile}
-          zoomOut={() => {
-            setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
-          }}
+          setDoMove={setDoMove}
+          setFen={setFen}
+          showPlayers={false}
           zoomIn={() => {
             setBoardSize((prevSize) =>
               Math.min(
                 prevSize + 25,
-                Math.min(window.innerWidth, window.innerHeight)
-              )
+                Math.min(window.innerWidth, window.innerHeight),
+              ),
             );
+          }}
+          zoomOut={() => {
+            setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
           }}
         />
         <div>
           <div
             style={{
+              alignItems: notationLayout === "bottom" ? "center" : "flex-start",
               display: "flex",
               flexDirection:
                 notationLayout === "bottom" ? "column-reverse" : "column",
               justifyContent: "flex-start",
-              alignItems: notationLayout === "bottom" ? "center" : "flex-start",
               maxHeight: boardSize,
               overflow: "auto",
             }}
@@ -199,8 +204,8 @@ const PreparationPlayer = ({
             ) : (
               <>
                 <PositionMoves
-                  stats={tree}
                   doMove={doMove}
+                  stats={tree}
                   style={{
                     maxHeight: boardSize / 2,
                     overflow: "auto",

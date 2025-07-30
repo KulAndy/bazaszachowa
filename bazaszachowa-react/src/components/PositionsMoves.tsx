@@ -1,37 +1,38 @@
 import React, { HTMLProps } from "react";
 
-type MoveStats = {
+export interface StatsItem {
+  games: number;
+  move: string;
+  points: number;
+  // eslint-disable-next-line no-use-before-define
+  stats: Record<number, MoveStats>;
+  years: number[];
+}
+
+interface MoveStats {
   count: number;
   points: number;
-};
-
-export interface StatsItem {
-  move: string;
-  games: number;
-  points: number;
-  years: number[];
-  stats: Record<number, MoveStats>;
 }
 
 interface PositionMovesProps extends HTMLProps<HTMLDivElement> {
-  stats: StatsItem[];
   doMove?: ((move: string) => void) | void;
+  stats: StatsItem[];
 }
 
 const systemBase = 1 / 2;
 
 const calcProbability = ({
-  moveStats = {},
-  yearsMap = {},
-  year,
-  minYear = 0,
   eps = 0.1,
+  minYear = 0,
+  moveStats = {},
+  year,
+  yearsMap = {},
 }: {
-  moveStats: Record<number, MoveStats>;
-  yearsMap: Record<number, number>;
-  year: number;
-  minYear?: number;
   eps?: number;
+  minYear?: number;
+  moveStats: Record<number, MoveStats>;
+  year: number;
+  yearsMap: Record<number, number>;
 }): number => {
   let probability = 1;
 
@@ -44,7 +45,7 @@ const calcProbability = ({
         ? Math.max(moveStats[currentYear].count / yearsMap[currentYear], eps) *
           Math.max(
             moveStats[currentYear].points / moveStats[currentYear].count,
-            eps
+            eps,
           )
         : eps ** 2;
 
@@ -55,8 +56,8 @@ const calcProbability = ({
 };
 
 const PositionMoves: React.FC<PositionMovesProps> = ({
-  stats,
   doMove = () => {},
+  stats,
   ...props
 }) => {
   if (!stats || stats.length === 0) {
@@ -79,8 +80,9 @@ const PositionMoves: React.FC<PositionMovesProps> = ({
   const base = Math.pow(yearBound, 1 / yearBound);
 
   const total = stats.reduce(
-    (total, stat) => total + stat.years.length * Math.pow(base, yearBound),
-    0
+    (accumulator, stat) =>
+      accumulator + stat.years.length * Math.pow(base, yearBound),
+    0,
   );
 
   const values = stats.map((item) =>
@@ -91,10 +93,10 @@ const PositionMoves: React.FC<PositionMovesProps> = ({
           base,
           year <= currentYear - yearBound - 1
             ? 1
-            : yearBound - (currentYear - year)
+            : yearBound - (currentYear - year),
         ),
-      0
-    )
+      0,
+    ),
   );
 
   const maxValue = Math.max(...values);
@@ -113,12 +115,12 @@ const PositionMoves: React.FC<PositionMovesProps> = ({
   const minYear = Math.min(...Object.keys(yearsMap).map(Number));
   const values2 = stats.map((item) =>
     calcProbability({
-      moveStats: item.stats,
-      yearsMap,
-      year: currentYear,
-      minYear,
       eps: 0.1,
-    })
+      minYear,
+      moveStats: item.stats,
+      year: currentYear,
+      yearsMap,
+    }),
   );
 
   const maxValue2 = Math.max(...values2);
@@ -161,11 +163,11 @@ const PositionMoves: React.FC<PositionMovesProps> = ({
                   max={1}
                   value={
                     calcProbability({
-                      moveStats: item.stats,
-                      yearsMap,
-                      year: currentYear,
-                      minYear,
                       eps: 0.1,
+                      minYear,
+                      moveStats: item.stats,
+                      year: currentYear,
+                      yearsMap,
                     }) * scaleFactor2
                   }
                 />

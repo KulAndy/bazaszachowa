@@ -1,4 +1,5 @@
 import React from "react";
+
 import FidePlayer, { FidePlayerType } from "./FidePlayer";
 
 interface FidePlayersListProps {
@@ -25,7 +26,7 @@ const FidePlayersList: React.FC<FidePlayersListProps> = ({ players }) => {
         <details id="ambigous">
           <summary>inni znalezieni</summary>
           {items.slice(1).map((item) => (
-            <FidePlayer player={item} />
+            <FidePlayer key={item.fideid} player={item} />
           ))}
         </details>
       )}

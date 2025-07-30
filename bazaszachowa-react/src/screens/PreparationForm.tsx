@@ -16,31 +16,31 @@ const PreparationForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Gracz</label>
-      <SearchPlayersWithHints placeholder="Nowak, Jan" f={setPlayer} required />
+      <SearchPlayersWithHints f={setPlayer} placeholder="Nowak, Jan" required />
       <p style={{ textAlign: "center" }}>
         <label htmlFor="white">kolor</label>
       </p>
       <p id="color-toggle" style={{ textAlign: "center" }}>
         <input
-          type="radio"
-          name="color"
-          id="white"
-          value="white"
           checked={color === "white"}
+          id="white"
+          name="color"
           onChange={() => {
             setColor("white");
           }}
+          type="radio"
+          value="white"
         />
         <label htmlFor="white">białe</label>
         <input
-          type="radio"
-          name="color"
-          id="black"
-          value="black"
           checked={color === "black"}
+          id="black"
+          name="color"
           onChange={() => {
             setColor("black");
           }}
+          type="radio"
+          value="black"
         />
         <label htmlFor="black">czarne</label>
       </p>

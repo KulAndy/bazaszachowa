@@ -1,17 +1,17 @@
+import { Chess } from "chess.js";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { NOMENU_URLS } from "../settings";
-import { Chess } from "chess.js";
-
-import initWasm from "../wasm/uci2pgn";
 import { GameData } from "../ChessEditor";
+import { NOMENU_URLS } from "../settings";
+import initWasm from "../wasm/uci2pgn";
 
-let uci2san: null | Function = null;
+let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
 initWasm().then((wasm) => {
-  uci2san = (movesObj: GameData["moves"]) => {
+  uci2san = (movesObj) => {
     const moves = new wasm.VectorString();
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < movesObj.length; i++) {
       let uci = movesObj[i].from + movesObj[i].to;
       if (movesObj[i].promotion) {
@@ -68,7 +68,7 @@ const game2pgn = async (game: GameData) => {
     } else {
       pgn += uci2san(game.moves);
     }
-  } catch (error) {
+  } catch {
     pgn += legacyGame2pgn(game);
   }
   pgn += game.Result;
@@ -76,14 +76,33 @@ const game2pgn = async (game: GameData) => {
 };
 
 export interface GamesTableProps {
-  games: GameData[] | null;
   base?: string;
+  games: GameData[] | null;
   noEmpty?: boolean;
 }
 
+const download = async (games: GameData[] | null) => {
+  if (!games) {
+    return;
+  }
+  const pgn = (await Promise.all(games.map((item) => game2pgn(item)))).join(
+    "\n\n",
+  );
+
+  const blob = new Blob([pgn], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "games.pgn";
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
 const GamesTable: React.FC<GamesTableProps> = ({
-  games,
   base = "all",
+  games,
   noEmpty = false,
 }) => {
   if (!games || (noEmpty && games.length === 0)) {
@@ -94,25 +113,6 @@ const GamesTable: React.FC<GamesTableProps> = ({
     ...game,
     key: index,
   }));
-
-  const download = async (games: GameData[] | null) => {
-    if (!games) {
-      return;
-    }
-    const pgn = (await Promise.all(games.map((item) => game2pgn(item)))).join(
-      "\n\n"
-    );
-
-    const blob = new Blob([pgn], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "games.pgn";
-    link.click();
-
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <table id="games">
@@ -140,15 +140,15 @@ const GamesTable: React.FC<GamesTableProps> = ({
         <th className="not_mobile" />
       </tr>
       {items.map((item) => (
-        <tr>
+        <tr key={item.id}>
           <Link
-            to={`${NOMENU_URLS.game}${base}/${item.id}`}
             state={{
               base,
               gameid: item.id,
               list: items.map((elem) => elem.id),
             }}
             style={{ display: "contents" }}
+            to={`${NOMENU_URLS.game}${base}/${item.id}`}
           >
             <td className="not_mobile">{item.WhiteElo}</td>
             <td>{item.White}</td>
@@ -163,10 +163,10 @@ const GamesTable: React.FC<GamesTableProps> = ({
           </Link>
           <td className="not_mobile">
             <Link
-              to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+              reloadDocument
               style={{ whiteSpace: "nowrap" }}
               target="_blank"
-              reloadDocument
+              to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
             >
               PGN
             </Link>

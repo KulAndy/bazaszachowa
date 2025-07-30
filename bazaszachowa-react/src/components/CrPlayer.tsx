@@ -1,10 +1,10 @@
 import React from "react";
 
 export interface CrPlayerType {
-  id: string;
-  name: string;
-  kat?: string;
   fide_id: string;
+  id: string;
+  kat?: string;
+  name: string;
 }
 
 interface CrPlayerProps {
@@ -26,12 +26,12 @@ const CrPlayer: React.FC<CrPlayerProps> = ({ player, showSource = false }) => {
           <td rowSpan={4}>
             <img
               alt="zdjęcie z cr-u"
-              src={`http://www.cr-pzszach.pl/ew/ew/images/${player.id}.jpg`}
               className="cr-foto"
               onError={(e) => {
                 const target = e.target as HTMLElement;
                 target.parentElement?.remove();
               }}
+              src={`http://www.cr-pzszach.pl/ew/ew/images/${player.id}.jpg`}
             />
           </td>
         </tr>

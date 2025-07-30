@@ -1,55 +1,54 @@
 import "./style.css";
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChessRook as faChessRookSolid,
-  faChessKnight as faChessKnightSolid,
+  faChessBishop as faChessBishopRegular,
+  faChessKing as faChessKingRegular,
+  faChessKnight as faChessKnightRegular,
+  faChessPawn as faChessPawnRegular,
+  faChessQueen as faChessQueenRegular,
+  faChessRook as faChessRookRegular,
+} from "@fortawesome/free-regular-svg-icons";
+import {
   faChessBishop as faChessBishopSolid,
-  faChessQueen as faChessQueenSolid,
   faChessKing as faChessKingSolid,
+  faChessKnight as faChessKnightSolid,
   faChessPawn as faChessPawnSolid,
+  faChessQueen as faChessQueenSolid,
+  faChessRook as faChessRookSolid,
   faCircle as faCircleSolid,
 } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  faChessRook as faChessRookRegular,
-  faChessKnight as faChessKnightRegular,
-  faChessBishop as faChessBishopRegular,
-  faChessQueen as faChessQueenRegular,
-  faChessKing as faChessKingRegular,
-  faChessPawn as faChessPawnRegular,
-} from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 
 interface ChessboardProps {
-  fen: string;
-  whitePiecesColor?: string;
   blackPiecesColor?: string;
-  whiteSquareColor?: string;
   blackSquareColor?: string;
-  targetColor?: "green";
   boardSize: number;
+  fen: string;
   flip: boolean;
-  sendSquare: (x: string) => void;
-  sourceSquare: string | null;
-  prevMove: () => void;
   nextMove: () => void;
+  prevMove: () => void;
+  sendSquare: (x: string) => void;
+  sourceSquare: null | string;
+  targetColor?: "green";
   targetSquares: string[];
+  whitePiecesColor?: string;
+  whiteSquareColor?: string;
 }
 
 const Chessboard: React.FC<ChessboardProps> = ({
-  fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-  whitePiecesColor = "white",
   blackPiecesColor = "black",
-  whiteSquareColor = "#f0d9b5",
   blackSquareColor = "#b58863",
-  targetColor = "green",
   boardSize = 400,
+  fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   flip = false,
+  nextMove = () => {},
+  prevMove = () => {},
   sendSquare = () => {},
   sourceSquare = null,
-  prevMove = () => {},
-  nextMove = () => {},
+  targetColor = "green",
   targetSquares = [],
+  whitePiecesColor = "white",
+  whiteSquareColor = "#f0d9b5",
 }) => {
   const allowDrop = (ev: React.DragEvent) => {
     ev.preventDefault();
@@ -65,7 +64,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
 
   const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
   const piecesPlacement = fen.includes(" ")
-    ? fen?.split(" ")[0]
+    ? fen.split(" ")[0]
     : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   const piecesPlacementRows = piecesPlacement.split("/");
   const board = [];
@@ -79,53 +78,11 @@ const Chessboard: React.FC<ChessboardProps> = ({
       let contour = null;
       let contourColor = null;
       switch (piecesPlacementRows[i][j]) {
-        case "R":
-          piece = faChessRookSolid;
-          color = whitePiecesColor;
-          contour = faChessRookRegular;
-          contourColor = blackPiecesColor;
-          break;
-        case "N":
-          piece = faChessKnightSolid;
-          color = whitePiecesColor;
-          contour = faChessKnightRegular;
-          contourColor = blackPiecesColor;
-          break;
         case "B":
           piece = faChessBishopSolid;
           color = whitePiecesColor;
           contour = faChessBishopRegular;
           contourColor = blackPiecesColor;
-          break;
-        case "Q":
-          piece = faChessQueenSolid;
-          color = whitePiecesColor;
-          contour = faChessQueenRegular;
-          contourColor = blackPiecesColor;
-          break;
-        case "K":
-          piece = faChessKingSolid;
-          color = whitePiecesColor;
-          contour = faChessKingRegular;
-          contourColor = blackPiecesColor;
-          break;
-        case "P":
-          piece = faChessPawnSolid;
-          color = whitePiecesColor;
-          contour = faChessPawnRegular;
-          contourColor = blackPiecesColor;
-          break;
-        case "r":
-          piece = faChessRookSolid;
-          color = blackPiecesColor;
-          contour = faChessRookRegular;
-          contourColor = whitePiecesColor;
-          break;
-        case "n":
-          piece = faChessKnightSolid;
-          color = blackPiecesColor;
-          contour = faChessKnightRegular;
-          contourColor = whitePiecesColor;
           break;
         case "b":
           piece = faChessBishopSolid;
@@ -133,11 +90,11 @@ const Chessboard: React.FC<ChessboardProps> = ({
           contour = faChessBishopRegular;
           contourColor = whitePiecesColor;
           break;
-        case "q":
-          piece = faChessQueenSolid;
-          color = blackPiecesColor;
-          contour = faChessQueenRegular;
-          contourColor = whitePiecesColor;
+        case "K":
+          piece = faChessKingSolid;
+          color = whitePiecesColor;
+          contour = faChessKingRegular;
+          contourColor = blackPiecesColor;
           break;
         case "k":
           piece = faChessKingSolid;
@@ -145,10 +102,52 @@ const Chessboard: React.FC<ChessboardProps> = ({
           contour = faChessKingRegular;
           contourColor = whitePiecesColor;
           break;
+        case "N":
+          piece = faChessKnightSolid;
+          color = whitePiecesColor;
+          contour = faChessKnightRegular;
+          contourColor = blackPiecesColor;
+          break;
+        case "n":
+          piece = faChessKnightSolid;
+          color = blackPiecesColor;
+          contour = faChessKnightRegular;
+          contourColor = whitePiecesColor;
+          break;
+        case "P":
+          piece = faChessPawnSolid;
+          color = whitePiecesColor;
+          contour = faChessPawnRegular;
+          contourColor = blackPiecesColor;
+          break;
         case "p":
           piece = faChessPawnSolid;
           color = blackPiecesColor;
           contour = faChessPawnRegular;
+          contourColor = whitePiecesColor;
+          break;
+        case "Q":
+          piece = faChessQueenSolid;
+          color = whitePiecesColor;
+          contour = faChessQueenRegular;
+          contourColor = blackPiecesColor;
+          break;
+        case "q":
+          piece = faChessQueenSolid;
+          color = blackPiecesColor;
+          contour = faChessQueenRegular;
+          contourColor = whitePiecesColor;
+          break;
+        case "R":
+          piece = faChessRookSolid;
+          color = whitePiecesColor;
+          contour = faChessRookRegular;
+          contourColor = blackPiecesColor;
+          break;
+        case "r":
+          piece = faChessRookSolid;
+          color = blackPiecesColor;
+          contour = faChessRookRegular;
           contourColor = whitePiecesColor;
           break;
         default:
@@ -158,62 +157,62 @@ const Chessboard: React.FC<ChessboardProps> = ({
             if (targetSquares.includes(square)) {
               row.push(
                 <div
+                  key={key++}
+                  onClick={() => {
+                    sendSquare(square);
+                  }}
                   onDragOver={allowDrop}
                   onDrop={() => {
                     drop(square);
                   }}
-                  key={key++}
                   style={{
-                    display: "flex",
-                    flex: 1,
                     backgroundColor:
                       sourceSquare === square
                         ? "goldenrod"
                         : (i + counter) % 2 === 1
-                        ? blackSquareColor
-                        : whiteSquareColor,
-                    width: boardSize / 8,
+                          ? blackSquareColor
+                          : whiteSquareColor,
+                    display: "flex",
+                    flex: 1,
                     height: boardSize / 8,
-                  }}
-                  onClick={() => {
-                    sendSquare(square);
+                    width: boardSize / 8,
                   }}
                 >
                   <span className="target">
                     <FontAwesomeIcon
-                      icon={faCircleSolid}
-                      color={targetColor}
-                      style={{ color: targetColor }}
                       // size={boardSize / 9}
                       className={targetColor}
+                      color={targetColor}
+                      icon={faCircleSolid}
+                      style={{ color: targetColor }}
                     />
                   </span>
-                </div>
+                </div>,
               );
             } else {
               row.push(
                 <div
+                  key={key++}
+                  onClick={() => {
+                    sendSquare(square);
+                  }}
                   onDragOver={allowDrop}
                   onDrop={() => {
                     drop(square);
                   }}
-                  key={key++}
                   style={{
-                    display: "flex",
-                    flex: 1,
                     backgroundColor:
                       sourceSquare === square
                         ? "goldenrod"
                         : (i + counter) % 2 === 1
-                        ? blackSquareColor
-                        : whiteSquareColor,
-                    width: boardSize / 8,
+                          ? blackSquareColor
+                          : whiteSquareColor,
+                    display: "flex",
+                    flex: 1,
                     height: boardSize / 8,
+                    width: boardSize / 8,
                   }}
-                  onClick={() => {
-                    sendSquare(square);
-                  }}
-                />
+                />,
               );
             }
             counter++;
@@ -223,31 +222,31 @@ const Chessboard: React.FC<ChessboardProps> = ({
       const square = LETTERS[counter] + (8 - i);
       row.push(
         <div
+          key={key++}
+          onClick={() => {
+            sendSquare(square);
+          }}
           onDragOver={allowDrop}
           onDrop={() => {
             drop(square);
           }}
-          key={key++}
           style={{
-            display: "flex",
-            flex: 1,
+            alignItems: "center",
             backgroundColor:
               sourceSquare === square
                 ? "goldenrod"
                 : (i + counter) % 2 === 1
-                ? blackSquareColor
-                : whiteSquareColor,
-            width: boardSize / 8,
+                  ? blackSquareColor
+                  : whiteSquareColor,
+            display: "flex",
+            flex: 1,
             height: boardSize / 8,
             justifyContent: "center",
-            alignItems: "center",
-          }}
-          onClick={() => {
-            sendSquare(square);
+            width: boardSize / 8,
           }}
         >
           <span
-            className={color + " piece fa-stack"}
+            className={`${color} piece fa-stack`}
             draggable
             onDragStart={(e) => {
               e.stopPropagation();
@@ -256,28 +255,28 @@ const Chessboard: React.FC<ChessboardProps> = ({
           >
             {targetSquares.includes(square) && (
               <FontAwesomeIcon
-                icon={faCircleSolid}
+                className={`${targetColor} target fa-stack-1x`}
                 color={targetColor}
+                icon={faCircleSolid}
                 style={{ color: targetColor }}
-                className={targetColor + " target fa-stack-1x"}
               />
             )}
             {contourColor === blackPiecesColor && (
               <FontAwesomeIcon
-                icon={contour}
+                className={`${contourColor}Contour fa fa-stack-2x`}
                 color={contourColor}
+                icon={contour}
                 style={{ color: contourColor }}
-                className={contourColor + "Contour fa fa-stack-2x"}
               />
             )}
             <FontAwesomeIcon
-              icon={piece}
+              className={`${color} fa fa-stack-3x`}
               color={color}
+              icon={piece}
               style={{ color }}
-              className={color + " fa fa-stack-3x"}
             />
           </span>
-        </div>
+        </div>,
       );
       counter++;
     }
@@ -285,7 +284,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
       row.reverse();
     }
     board.push(
-      <div style={{ display: "flex", flexDirection: "row" }}>{row}</div>
+      <div style={{ display: "flex", flexDirection: "row" }}>{row}</div>,
     );
   }
 
@@ -304,11 +303,11 @@ const Chessboard: React.FC<ChessboardProps> = ({
 
   return (
     <div
-      style={{ width: boardSize }}
-      onWheel={handleWheel}
-      onWheelCapture={handleWheel}
       onScroll={handleWheel}
       onScrollCapture={handleWheel}
+      onWheel={handleWheel}
+      onWheelCapture={handleWheel}
+      style={{ width: boardSize }}
     >
       {board}
     </div>

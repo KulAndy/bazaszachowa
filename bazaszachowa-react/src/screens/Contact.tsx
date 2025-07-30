@@ -1,18 +1,24 @@
 import "./Contact.css";
 import React, { useState } from "react";
-import { API, admin_mail } from "../settings";
+
 import Content from "../components/Content";
+import { admin_mail, API } from "../settings";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    attachment: File | null;
+    content: string;
+    email: string;
+    subject: string;
+  }>({
+    attachment: null,
+    content: "",
     email: "",
     subject: "",
-    content: "",
-    attachment: null,
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = event.target;
+    const { files, name, value } = event.target;
 
     setFormData((prevData) => ({
       ...prevData,
@@ -20,7 +26,7 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email.trim() === admin_mail) {
@@ -33,17 +39,17 @@ const Contact = () => {
       form.append("attachment", formData.attachment || "");
 
       try {
-        const response = await fetch(API.BASE_URL + API.send_mail, {
-          method: "POST",
+        void fetch(API.BASE_URL + API.send_mail, {
           body: form,
+          method: "POST",
+        }).then((response) => {
+          if (response.status === 200) {
+            alert("Poprawnie wysłano wiadomość");
+          } else {
+            alert("Nie udało się wysłać wiadomości");
+          }
         });
-
-        if (response.status === 200) {
-          alert("Poprawnie wysłano wiadomość");
-        } else {
-          alert("Nie udało się wysłać wiadomości");
-        }
-      } catch (error) {
+      } catch {
         alert("Nie udało się wysłać wiadomości");
       }
     } else {
@@ -55,79 +61,76 @@ const Contact = () => {
     <Content classNames={["contact"]}>
       <form
         action={API.BASE_URL + API.send_mail}
-        method="post"
-        id="form"
-        target="_self"
         encType="multipart/form-data"
+        id="form"
+        method="post"
         onSubmit={handleSubmit}
+        target="_self"
       >
         <h3>Email: </h3>
         <input
-          type="email"
           name="email"
-          value={formData.email}
           onChange={handleInputChange}
           required
+          type="email"
+          value={formData.email}
         />
         <h3>Temat: </h3>
         <input
-          type="radio"
           id="sub1"
           name="subject"
-          value="Pomysł"
           onChange={handleInputChange}
           required
+          type="radio"
+          value="Pomysł"
         />
         <label htmlFor="sub1">Pomysł</label>
         <br />
         <input
-          type="radio"
           id="sub2"
           name="subject"
-          value="Uwaga"
           onChange={handleInputChange}
           required
+          type="radio"
+          value="Uwaga"
         />
         <label htmlFor="sub2">Uwaga</label>
         <br />
         <input
-          type="radio"
           id="sub3"
           name="subject"
-          value="Błąd w partii"
           onChange={handleInputChange}
           required
+          type="radio"
+          value="Błąd w partii"
         />
         <label htmlFor="sub3">Błąd w partii</label>
         <br />
         <input
-          type="radio"
           id="sub4"
           name="subject"
-          value="Brakująca partia"
           onChange={handleInputChange}
           required
+          type="radio"
+          value="Brakująca partia"
         />
         <label htmlFor="sub4">Brakująca partia</label>
         <br />
         <input
-          type="radio"
           id="sub5"
           name="subject"
-          value="Inne"
           onChange={handleInputChange}
           required
+          type="radio"
+          value="Inne"
         />
         <label htmlFor="sub5">Inne</label>
         <br />
         <h4>Treść: </h4>
         <textarea
-          rows={6}
           cols={50}
-          name="content"
           form="form"
-          placeholder="Wpisz tekst..."
-          value={formData.content}
+          name="content"
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             const { name, value } = event.target;
 
@@ -136,6 +139,9 @@ const Contact = () => {
               [name]: value,
             }));
           }}
+          placeholder="Wpisz tekst..."
+          rows={6}
+          value={formData.content}
         ></textarea>
         <br />
         <label htmlFor="attachment">
@@ -144,14 +150,14 @@ const Contact = () => {
         </label>
         <br />
         <input
-          type="file"
+          accept=".pgn, .txt, .cbv, .zip, .7z, .rar"
           id="attachment"
           name="attachment"
-          accept=".pgn, .txt, .cbv, .zip, .7z, .rar"
           onChange={handleInputChange}
+          type="file"
         />
         <br /> <br />
-        <input type="submit" name="submit" value="wyślij" />
+        <input name="submit" type="submit" value="wyślij" />
       </form>
       <address>
         <p>

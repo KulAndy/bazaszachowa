@@ -1,23 +1,24 @@
 import "./Bug.css";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+
 import Content from "../components/Content";
-import { API, admin_mail } from "../settings";
+import { admin_mail, API } from "../settings";
 const Bug = () => {
   const { base, gameid } = useParams();
   const [formData, setFormData] = useState({
-    lastname: "",
-    firstname: "",
-    email: "",
-    link: "",
-    type: "",
-    notices: "",
     agreement: "",
+    email: "",
+    firstname: "",
     id: gameid,
+    lastname: "",
+    link: "",
+    notices: "",
     table: base,
+    type: "",
   });
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
 
@@ -38,21 +39,21 @@ const Bug = () => {
         ${formData.notices}
         ${
           formData.link.trim().length > 0
-            ? "prawidłowa partia: " + formData.link
+            ? `prawidłowa partia: ${formData.link}`
             : ""
         }`;
       form.append("email", formData.email);
       form.append(
         "subject",
-        "Błąd w partii " + (base + "-" + gameid) + " - " + formData.type
+        `Błąd w partii ${base}-${gameid} - ${formData.type}`,
       );
       form.append("content", content);
       form.append("attachment", "");
 
       try {
         const response = await fetch(API.BASE_URL + API.send_mail, {
-          method: "POST",
           body: form,
+          method: "POST",
         });
 
         if (response.status === 200) {
@@ -60,7 +61,7 @@ const Bug = () => {
         } else {
           alert("Nie udało się wysłać wiadomości");
         }
-      } catch (error) {
+      } catch {
         alert("Nie udało się wysłać wiadomości");
       }
     } else {
@@ -72,11 +73,11 @@ const Bug = () => {
     <Content classNames={["bug"]}>
       <form
         action={API.BASE_URL + API.send_mail}
-        method="post"
-        id="form"
-        target="_self"
         encType="multipart/form-data"
+        id="form"
+        method="post"
         onSubmit={handleSubmit}
+        target="_self"
       >
         <table className="no_border">
           <tr>
@@ -86,10 +87,10 @@ const Bug = () => {
             </td>
             <td>
               <input
-                name="lastname"
                 id="lastname"
-                required
+                name="lastname"
                 onChange={handleInputChange}
+                required
               />
             </td>
           </tr>
@@ -100,10 +101,10 @@ const Bug = () => {
             </td>
             <td>
               <input
-                name="firstname"
                 id="firstname"
-                required
+                name="firstname"
                 onChange={handleInputChange}
+                required
               />
             </td>
           </tr>
@@ -114,11 +115,11 @@ const Bug = () => {
             </td>
             <td>
               <input
-                type="email"
-                name="email"
                 id="email"
-                required
+                name="email"
                 onChange={handleInputChange}
+                required
+                type="email"
               />
             </td>
           </tr>
@@ -132,30 +133,30 @@ const Bug = () => {
             <td>
               <div id="radioContainer">
                 <input
-                  type="radio"
-                  name="type"
-                  value="błędny zapis"
                   id="wrongNotation"
-                  required
+                  name="type"
                   onChange={handleInputChange}
+                  required
+                  type="radio"
+                  value="błędny zapis"
                 />
                 <label htmlFor="wrongNotation">Nieprawidłowy zapis</label>
                 <input
-                  type="radio"
-                  name="type"
-                  value="nie istnieje"
                   id="notExist"
-                  required
+                  name="type"
                   onChange={handleInputChange}
+                  required
+                  type="radio"
+                  value="nie istnieje"
                 />
                 <label htmlFor="notExist">Nieisniejąca partia</label>
                 <input
-                  type="radio"
-                  name="type"
-                  value="błędne dane"
                   id="wrongData"
-                  required
+                  name="type"
                   onChange={handleInputChange}
+                  required
+                  type="radio"
+                  value="błędne dane"
                 />
                 <label htmlFor="wrongData">Błędne dane</label>
               </div>
@@ -167,10 +168,10 @@ const Bug = () => {
             </td>
             <td>
               <input
-                type="url"
-                name="link"
                 id="link"
+                name="link"
                 onChange={handleInputChange}
+                type="url"
               />
             </td>
           </tr>
@@ -182,11 +183,11 @@ const Bug = () => {
           <tr>
             <td colSpan={2}>
               <textarea
-                name="notices"
-                id="notices"
                 cols={75}
-                rows={10}
+                id="notices"
+                name="notices"
                 onChange={handleInputChange}
+                rows={10}
               ></textarea>
             </td>
           </tr>
@@ -194,11 +195,11 @@ const Bug = () => {
             <td colSpan={2}>
               <div>
                 <input
-                  type="checkbox"
-                  name="agreement"
                   id="agreement"
-                  required
+                  name="agreement"
                   onChange={handleInputChange}
+                  required
+                  type="checkbox"
                 />
                 <label htmlFor="agreement">
                   Wyrażam zgodę na przetwarzanie moich danych osobowych dla
@@ -224,16 +225,16 @@ const Bug = () => {
         </table>
 
         <input
-          type="hidden"
           name="id"
-          value={gameid}
           onChange={handleInputChange}
+          type="hidden"
+          value={gameid}
         />
         <input
-          type="hidden"
           name="table"
-          value={base}
           onChange={handleInputChange}
+          type="hidden"
+          value={base}
         />
       </form>
     </Content>

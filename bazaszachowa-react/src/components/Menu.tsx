@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
+
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import { useTheme } from "./ThemeProvider";
-import { Link } from "react-router-dom";
 
 const Menu = ({
   links,
 }: {
-  links: { [x: string]: { name: string; url: string } };
+  links: Record<string, { name: string; url: string }>;
 }) => {
   const { theme } = useTheme();
 

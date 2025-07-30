@@ -1,13 +1,13 @@
 import React from "react";
 
 export interface FidePlayerType {
+  birthday: string;
+  blitz_rating: number;
   fideid: string;
   name: string;
-  title?: string;
-  birthday: string;
-  rating: number;
   rapid_rating: number;
-  blitz_rating: number;
+  rating: number;
+  title?: string;
 }
 
 interface FidePlayerProps {

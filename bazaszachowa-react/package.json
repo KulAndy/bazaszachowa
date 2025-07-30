@@ -24,112 +24,9 @@
     "dev": "npx tsc --project tsconfig.json && react-scripts build",
     "build": "npx tsc --project tsconfig.json && GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
+    "lint": "npx eslint src",
+    "lint:fix": "npx eslint src --fix",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "project": "./tsconfig.json",
-      "sourceType": "module"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "extends": [
-          "plugin:deprecation/recommended"
-        ]
-      }
-    ],
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "plugins": [
-      "deprecation",
-      "jsdoc"
-    ],
-    "rules": {
-      "no-unused-vars": [
-        "warn",
-        {
-          "args": "none",
-          "ignoreRestSiblings": true
-        }
-      ],
-      "prefer-const": "error",
-      "jsdoc/require-description": "warn",
-      "jsdoc/check-values": "warn",
-      "quotes": [
-        "error",
-        "double"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "no-trailing-spaces": "error",
-      "eol-last": [
-        "error",
-        "always"
-      ],
-      "no-console": "warn",
-      "curly": [
-        "error",
-        "all"
-      ],
-      "no-var": "error",
-      "prefer-arrow-callback": "warn",
-      "no-duplicate-imports": "error",
-      "no-use-before-define": [
-        "error",
-        {
-          "functions": false,
-          "classes": true
-        }
-      ],
-      "no-empty": "warn",
-      "no-extra-semi": "error",
-      "no-extra-boolean-cast": "warn",
-      "no-dupe-keys": "error",
-      "no-implied-eval": "error",
-      "no-new-wrappers": "error",
-      "array-callback-return": "error",
-      "for-direction": "error",
-      "no-compare-neg-zero": "error",
-      "no-cond-assign": [
-        "error",
-        "always"
-      ],
-      "no-debugger": "error",
-      "no-dupe-else-if": "error",
-      "no-duplicate-case": "error",
-      "no-irregular-whitespace": "error",
-      "no-self-compare": "error",
-      "no-sparse-arrays": "error",
-      "no-template-curly-in-string": "error",
-      "no-unexpected-multiline": "error",
-      "no-unmodified-loop-condition": "error",
-      "complexity": [
-        "error",
-        50
-      ],
-      "max-nested-callbacks": [
-        "error",
-        10
-      ],
-      "no-lonely-if": "error",
-      "no-negated-condition": "error",
-      "yoda": [
-        "error",
-        "never"
-      ]
-    }
   },
   "eslintIgnore": [
     "wasm/"
@@ -151,7 +48,21 @@
     "@types/chess.js": "^0.13.7",
     "@types/js-cookie": "^3.0.6",
     "@types/react-mathjax": "^1.0.4",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-deprecation": "^3.0.0",
-    "eslint-plugin-jsdoc": "^46.5.0"
+    "eslint-plugin-jsdoc": "^46.5.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-no-unsanitized": "^4.1.2",
+    "eslint-plugin-perfectionist": "^4.12.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react-dom": "^1.48.4",
+    "eslint-plugin-react-hooks-extra": "^1.48.4",
+    "eslint-plugin-react-naming-convention": "^1.48.5",
+    "eslint-plugin-react-perf": "^3.3.3",
+    "eslint-plugin-react-web-api": "^1.48.5",
+    "eslint-plugin-unicorn": "^56.0.1"
   }
 }

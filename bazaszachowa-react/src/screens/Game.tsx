@@ -1,11 +1,11 @@
 import "./Game.css";
-import React, { useState, useEffect } from "react";
-import Content from "../components/Content";
-import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ChessEditor, { GameData } from "../ChessEditor";
-import { API, NOMENU_URLS } from "../settings";
+import Content from "../components/Content";
 import StockfishAnalysis from "../components/StockfishAnalysis";
+import { API, NOMENU_URLS } from "../settings";
 
 const Game = () => {
   const { state } = useLocation();
@@ -21,19 +21,19 @@ const Game = () => {
   const [fen, setFen] = useState<string | undefined>();
   // eslint-disable-next-line
   const [doMove, setDoMove] = useState(null);
-  const [boardSize, setBoardSize] = useState(
+  const [boardSize, setBoardSize] = useState(() =>
     Math.min(
       350,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-    )
+        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
+    ),
   );
   const [notationLayout, setNotationLayout] = useState(
     window.innerHeight > window.innerWidth ||
       Math.max(window.innerWidth, window.innerHeight) <= 768
       ? "bottom"
-      : "right"
+      : "right",
   );
 
   const updateWindowSize = () => {
@@ -41,22 +41,22 @@ const Game = () => {
       400,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
+        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
     );
     setNotationLayout(
       window.innerHeight > window.innerWidth ||
         Math.max(window.innerWidth, window.innerHeight) <= 768
         ? "bottom"
-        : "right"
+        : "right",
     );
   };
 
   useEffect(() => {
-    fetch(API.BASE_URL + API.game + base + "/" + gameid)
+    fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
       .then((response) => response.json())
-      .then((data) => {
-        if (data.length > 0) {
-          setData(data[0]);
+      .then((response) => {
+        if (response.length > 0) {
+          setData(response[0]);
         }
       });
 
@@ -75,11 +75,11 @@ const Game = () => {
       let index = -1;
       if (e.ctrlKey && list.length > 0) {
         switch (e.code) {
-          case "ArrowLeft":
-            index = list.indexOf(gameid) - 1;
-            break;
           case "ArrowDown":
             index = 0;
+            break;
+          case "ArrowLeft":
+            index = list.indexOf(gameid) - 1;
             break;
           case "ArrowRight":
             index = list.indexOf(gameid) + 1;
@@ -111,14 +111,15 @@ const Game = () => {
           Math.max(prevSize, 100),
           window.innerWidth * 0.9,
           window.innerHeight -
-            10 * parseFloat(getComputedStyle(document.documentElement).fontSize)
-        )
+            10 *
+              parseFloat(getComputedStyle(document.documentElement).fontSize),
+        ),
       );
       setNotationLayout(
         window.innerHeight > window.innerWidth ||
           Math.max(window.innerWidth, window.innerHeight) <= 768
           ? "bottom"
-          : "right"
+          : "right",
       );
     };
 
@@ -140,95 +141,93 @@ const Game = () => {
       <Content>
         <div>
           <button className="error">
-            <Link to={NOMENU_URLS.bug + base + "/" + gameid}>Zgłoś błąd</Link>
+            <Link to={`${NOMENU_URLS.bug + base}/${gameid}`}>Zgłoś błąd</Link>
           </button>
         </div>
         <div id="buttonContainer">
           <Link
-            to={`${NOMENU_URLS.game}${base}/${list[0]}`}
-            state={{
-              base,
-              gameid: list[0],
-              list,
-            }}
             id="first_link"
             onClick={(e) => {
               if (firstGame) {
                 e.preventDefault();
               }
             }}
+            state={{
+              base,
+              gameid: list[0],
+              list,
+            }}
+            to={`${NOMENU_URLS.game}${base}/${list[0]}`}
           >
-            <button id="first" title="Ctrl + ↑  " disabled={firstGame}>
+            <button disabled={firstGame} id="first" title="Ctrl + ↑  ">
               pierwsza partia
             </button>
           </Link>
           <Link
-            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
-            state={{
-              base,
-              gameid: list[list.indexOf(gameid) - 1],
-              list,
-            }}
             id="previous_link"
             onClick={(e) => {
               if (firstGame) {
                 e.preventDefault();
               }
             }}
+            state={{
+              base,
+              gameid: list[list.indexOf(gameid) - 1],
+              list,
+            }}
+            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
           >
-            <button id="previous" title="Ctrl + ←" disabled={firstGame}>
+            <button disabled={firstGame} id="previous" title="Ctrl + ←">
               poprzednia partia
             </button>
           </Link>
           <Link
-            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
-            state={{
-              base,
-              gameid: list[list.indexOf(gameid) + 1],
-              list,
-            }}
             id="next_link"
             onClick={(e) => {
               if (lastGame) {
                 e.preventDefault();
               }
             }}
+            state={{
+              base,
+              gameid: list[list.indexOf(gameid) + 1],
+              list,
+            }}
+            to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
           >
-            <button id="next" title="Ctrl + →" disabled={lastGame}>
+            <button disabled={lastGame} id="next" title="Ctrl + →">
               następna partia
             </button>
           </Link>
           <Link
-            to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
-            state={{
-              base,
-              gameid: list[list.length - 1],
-              list,
-            }}
             id="last_link"
             onClick={(e) => {
               if (lastGame) {
                 e.preventDefault();
               }
             }}
+            state={{
+              base,
+              gameid: list[list.length - 1],
+              list,
+            }}
+            to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
           >
-            <button id="last" title="Ctrl + ↓" disabled={lastGame}>
+            <button disabled={lastGame} id="last" title="Ctrl + ↓">
               ostatnia partia
             </button>
           </Link>
         </div>
         <div id="board_analysis">
           <ChessEditor
-            setFen={setFen}
-            setDoMove={setDoMove}
-            data={data}
             boardSize={boardSize}
+            data={data}
             notationLayout={notationLayout}
-            setNotationLayout={setNotationLayout}
+            notationSwitch={true}
             profileUrl={NOMENU_URLS.profile}
-            zoomOut={() => {
-              setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
-            }}
+            setDoMove={setDoMove}
+            setFen={setFen}
+            setNotationLayout={setNotationLayout}
             zoomIn={() => {
               setBoardSize((prevSize) =>
                 Math.min(
@@ -237,12 +236,14 @@ const Game = () => {
                   window.innerHeight -
                     10 *
                       parseFloat(
-                        getComputedStyle(document.documentElement).fontSize
-                      )
-                )
+                        getComputedStyle(document.documentElement).fontSize,
+                      ),
+                ),
               );
             }}
-            notationSwitch={true}
+            zoomOut={() => {
+              setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
+            }}
           />
           {fen && (
             <StockfishAnalysis fen={fen} visible={notationLayout === "none"} />

@@ -1,19 +1,21 @@
 import React from "react";
+
 import { NOMENU_URLS } from "../settings";
 
+export interface ColorStatsProps {
+  color: string;
+  name: string;
+  // eslint-disable-next-line no-use-before-define
+  stats: Stat[];
+}
+
 export interface Stat {
-  opening: string;
   count: number;
+  opening: string;
   percent: number;
 }
 
-export interface ColorStatsProps {
-  stats: Stat[];
-  name: string;
-  color: string;
-}
-
-const ColorStats: React.FC<ColorStatsProps> = ({ stats, name, color }) => {
+const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
   const items = stats.map((stat, index) => ({
     ...stat,
     key: index,
@@ -21,16 +23,16 @@ const ColorStats: React.FC<ColorStatsProps> = ({ stats, name, color }) => {
 
   const sum = items.reduce(
     (accumulator, currentItem) => accumulator + currentItem.count,
-    0
+    0,
   );
 
   return (
     <details>
       <summary>
-        {color + " "}
+        {`${color} `}
         <a
           href={`${NOMENU_URLS.profile}${encodeURIComponent(
-            name
+            name,
           )}/${encodeURIComponent(color)}`}
         >
           filtruj
@@ -52,9 +54,9 @@ const ColorStats: React.FC<ColorStatsProps> = ({ stats, name, color }) => {
             <td>
               <a
                 href={`${NOMENU_URLS.profile}${encodeURIComponent(
-                  name
+                  name,
                 )}/${encodeURIComponent(color)}/${encodeURIComponent(
-                  item.opening
+                  item.opening,
                 )}`}
               >
                 filtruj
@@ -68,7 +70,7 @@ const ColorStats: React.FC<ColorStatsProps> = ({ stats, name, color }) => {
             {(
               items.reduce(
                 (acc, { count, percent }) => acc + count * percent,
-                0
+                0,
               ) / sum
             ).toFixed(2)}
           </td>

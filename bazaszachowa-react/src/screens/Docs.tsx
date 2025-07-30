@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import MarkdownFileReader from "../components/MarkdownFileReader";
+import { Link, useParams } from "react-router-dom";
 
-import { NOMENU_URLS } from "../settings";
 import Content from "../components/Content";
+import MarkdownFileReader from "../components/MarkdownFileReader";
+import { NOMENU_URLS } from "../settings";
 
 const Docs = () => {
   const { file } = useParams();
@@ -22,7 +22,7 @@ const Docs = () => {
   if (file !== undefined && file !== null) {
     return (
       <Content style={{ width: "100%" }}>
-        <MarkdownFileReader filePath={"/docs/" + file} />
+        <MarkdownFileReader filePath={`/docs/${file}`} />
       </Content>
     );
   } else {
@@ -30,7 +30,7 @@ const Docs = () => {
       <Content>
         <ul>
           {fileList.map((element) => (
-            <li>
+            <li key={element}>
               <Link to={NOMENU_URLS.docs + element}>{element}</Link>
             </li>
           ))}

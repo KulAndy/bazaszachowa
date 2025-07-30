@@ -5,7 +5,7 @@ import "./Home.css";
 const Home = () => {
   return (
     <div id="home">
-      <Content contentId="left_content" classNames={["float_left"]}>
+      <Content classNames={["float_left"]} contentId="left_content">
         <p>
           Przydatne linki <br />
         </p>
@@ -46,9 +46,9 @@ const Home = () => {
         </ul>
       </Content>
       <Content classNames={["float_left"]}>
-        <img src={logo} alt="Logo" id="logo" />
+        <img alt="Logo" id="logo" src={logo} />
       </Content>
-      <Content contentId="right_content" classNames={["float_left"]}>
+      <Content classNames={["float_left"]} contentId="right_content">
         <article>
           <p>
             Z uwagi na to, że aktualnie w Polsce nie ma serwisu udostępniającego
