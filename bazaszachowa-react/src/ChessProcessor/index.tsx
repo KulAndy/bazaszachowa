@@ -1,257 +1,156 @@
 import { Chess } from "chess.js";
-import { GameData, ShortMove } from "../ChessEditor";
+import { GameData } from "../ChessEditor";
 
-const cutStringToPenultimateSpace = (inputString: string) =>
-  inputString.substring(
-    0,
-    inputString.lastIndexOf(" ", inputString.lastIndexOf(" ") - 1)
-  );
+const cutStringToPenultimateSpace = (inputString: string): string => {
+  const lastSpace = inputString.lastIndexOf(" ");
+  return inputString.substring(0, inputString.lastIndexOf(" ", lastSpace - 1));
+};
 
 const firstBatchLimit = 40;
+
+interface MoveStats {
+  count: number;
+  points: number;
+}
+
 interface MoveData {
   games: number;
   points: number;
   years: number[];
-  stats: { [year: number]: { count: number; points: number } };
+  stats: Map<number, MoveStats>;
 }
 
 interface FenData {
-  moves: { [move: string]: MoveData };
+  moves: Map<string, MoveData>;
   indexes: number[];
 }
 
-interface FensObj {
-  [fen: string]: FenData;
-}
-
 class ChessProcessor {
-  currentFEN: string;
-  fensObj: FensObj;
-  games: GameData[];
-  isCompleted: boolean;
-
-  constructor() {
-    this.currentFEN = "";
-    this.fensObj = {};
-    this.games = [];
-    this.isCompleted = false;
-  }
+  private fensObj: Map<string, FenData> = new Map();
+  private games: GameData[] = [];
+  public isCompleted = false;
 
   async getTree(rows: GameData[]) {
     this.isCompleted = false;
     this.games = rows;
 
-    const fensPromises = rows.map((row) => this.getFENsFirstBatch(row));
+    const fensPromises = rows.map((row) => this.processGameFirstBatch(row));
 
     const fensArray = await Promise.all(fensPromises);
-    const fensObj = this.mergeFensArray(fensArray);
-    this.fensObj = fensObj;
+    this.mergeResults(fensArray);
   }
 
-  mergeFensArray(fensArray: FensObj[]): FensObj {
-    const fensObj: FensObj = {};
-    for (const fens of fensArray) {
-      for (const fen in fens) {
-        if (fen in fensObj) {
-          fensObj[fen].indexes.push(...fens[fen].indexes);
-          for (const move in fens[fen].moves) {
-            if (fensObj[fen].moves[move]) {
-              fensObj[fen].moves[move].games += fens[fen].moves[move].games;
-              fensObj[fen].moves[move].points += fens[fen].moves[move].points;
-              fensObj[fen].moves[move].years.push(
-                ...fens[fen].moves[move].years
-              );
-
-              for (const year in fens[fen].moves[move].stats) {
-                const yearNum = Number(year);
-                if (fensObj[fen].moves[move].stats[yearNum]) {
-                  fensObj[fen].moves[move].stats[yearNum].count +=
-                    fens[fen].moves[move].stats[yearNum].count;
-                  fensObj[fen].moves[move].stats[yearNum].points +=
-                    fens[fen].moves[move].stats[yearNum].points;
-                } else {
-                  fensObj[fen].moves[move].stats[yearNum] = {
-                    count: fens[fen].moves[move].stats[yearNum].count,
-                    points: fens[fen].moves[move].stats[yearNum].points,
-                  };
-                }
-              }
-            } else {
-              fensObj[fen].moves[move] = { ...fens[fen].moves[move] };
-            }
-          }
-        } else {
-          fensObj[fen] = { ...fens[fen] };
-        }
-      }
-    }
-
-    return fensObj;
-  }
-
-  async getFENsFirstBatch(row: GameData) {
-    const moves = row.moves;
+  private async processGameFirstBatch(
+    row: GameData
+  ): Promise<Map<string, FenData>> {
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
-
     const chess = new Chess();
-    const fens: FensObj = {};
+    const fens: Map<string, FenData> = new Map();
+    const year = row.Year as number;
 
-    let i = 0;
-    for (const move of moves) {
-      const result = await this.processMove(
-        chess,
-        move as ShortMove,
-        i % 2 === 0 ? points : 1 - points,
-        row.Year as number
-      );
-      if (result.fen && result.doneMove) {
-        const fen = result.fen;
-        if (fen in fens) {
-          if (fens[fen].moves[result.doneMove.san]) {
-            fens[fen].moves[result.doneMove.san].games += 1;
-            fens[fen].moves[result.doneMove.san].points += result.data.points;
-            fens[fen].moves[result.doneMove.san].years.push(
-              ...result.data.years
-            );
-            if (!fens[fen].moves[result.doneMove.san].stats[Number(row.Year)]) {
-              fens[fen].moves[result.doneMove.san].stats[Number(row.Year)] = {
-                count: 1,
-                points: result.data.points,
-              };
-            }
-          } else {
-            fens[fen].moves[result.doneMove.san] = {
-              ...result.data,
-              stats: {
-                [String(row.Year)]: { count: 1, points: result.data.points },
-              },
-            };
-          }
-        } else {
-          fens[fen] = {
-            moves: {
-              [result.doneMove.san]: {
-                ...result.data,
-                stats: {
-                  [String(row.Year)]: { count: 1, points: result.data.points },
-                },
-              },
-            },
-            indexes: [row.id],
-          };
-        }
+    for (let i = 0; i < Math.min(firstBatchLimit, row.moves.length); i++) {
+      const move = row.moves[i];
+      const sidePoints = i % 2 === 0 ? points : 1 - points;
+      const fen = cutStringToPenultimateSpace(chess.fen());
+      const doneMove = chess.move(move);
+      if (!doneMove) {
+        continue;
       }
-      if (i++ >= firstBatchLimit || !result.doneMove) {
-        return fens;
-      }
+
+      const fenData = fens.get(fen) ?? {
+        moves: new Map(),
+        indexes: [] as number[],
+      };
+      const moveEntry = fenData.moves.get(doneMove.san) ?? {
+        games: 0,
+        points: 0,
+        years: [],
+        stats: new Map<number, MoveStats>(),
+      };
+
+      moveEntry.games++;
+      moveEntry.points += sidePoints;
+      moveEntry.years.push(year);
+
+      const stat = moveEntry.stats.get(year) ?? { count: 0, points: 0 };
+      stat.count++;
+      stat.points += sidePoints;
+      moveEntry.stats.set(year, stat);
+
+      fenData.moves.set(doneMove.san, moveEntry);
+      fenData.indexes.push(row.id);
+      fens.set(fen, fenData);
     }
 
     return fens;
   }
 
-  async processMove(
-    chess: Chess,
-    move: ShortMove,
-    points: number,
-    year: number
-  ) {
-    const raw_fen = chess.fen();
-    const fen = cutStringToPenultimateSpace(raw_fen);
+  private mergeResults(results: Map<string, FenData>[]) {
+    for (const result of results) {
+      for (const [fen, newFenData] of result) {
+        const fenData = this.fensObj.get(fen) ?? {
+          moves: new Map(),
+          indexes: [] as number[],
+        };
+        fenData.indexes.push(...newFenData.indexes);
 
-    const doneMove = chess.move(move);
+        for (const [move, newMoveData] of newFenData.moves) {
+          const moveData = fenData.moves.get(move) ?? {
+            games: 0,
+            points: 0,
+            years: [],
+            stats: new Map<number, MoveStats>(),
+          };
 
-    return {
-      fen,
-      data: {
-        games: 1,
-        points,
-        years: [year],
-        stats: {},
-      },
-      doneMove,
-    };
+          moveData.games += newMoveData.games;
+          moveData.points += newMoveData.points;
+          moveData.years.push(...newMoveData.years);
+
+          for (const [year, stat] of newMoveData.stats) {
+            const old = moveData.stats.get(year) ?? { count: 0, points: 0 };
+            old.count += stat.count;
+            old.points += stat.points;
+            moveData.stats.set(year, old);
+          }
+
+          fenData.moves.set(move, moveData);
+        }
+
+        this.fensObj.set(fen, fenData);
+      }
+    }
   }
 
   searchFEN(fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
-    if (fen.trim() === "") {
-      fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    }
+    const cleanedFen = cutStringToPenultimateSpace(fen.trim());
+    const fenData = this.fensObj.get(cleanedFen);
 
-    fen = cutStringToPenultimateSpace(fen);
-
-    fen = fen.trim();
-    if (fen === "") {
-      fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    }
-    if (this.fensObj[fen]) {
-      const moves = Object.keys(this.fensObj[fen].moves).map((key) => ({
-        move: key,
-        ...this.fensObj[fen].moves[key],
-      }));
-      moves.sort((a, b) => b.games - a.games);
-      return { indexes: this.fensObj[fen].indexes, moves };
-    } else {
+    if (!fenData) {
       return { indexes: [], moves: [] };
     }
-  }
 
-  async getFENsSecondBatch(row: GameData) {
-    const moves = row.moves;
-    const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
+    const moves = Array.from(fenData.moves.entries())
+      .map(([move, data]) => ({
+        move,
+        ...data,
+        stats: Object.fromEntries(data.stats),
+      }))
+      .sort((a, b) => b.games - a.games);
 
-    const chess = new Chess();
-    const fens: FensObj = {};
-
-    let i = 0;
-    for (const move of moves) {
-      const result = await this.processMove(
-        chess,
-        move as ShortMove,
-        points,
-        row.Year as number
-      );
-      if (i++ < firstBatchLimit) {
-        continue;
-      }
-      if (result.fen && result.doneMove) {
-        const fen = result.fen;
-        if (fen in this.fensObj) {
-          this.fensObj[fen].indexes.push(row.id);
-          if (this.fensObj[fen].moves[result.doneMove.san]) {
-            this.fensObj[fen].moves[result.doneMove.san].games += 1;
-            this.fensObj[fen].moves[result.doneMove.san].points +=
-              result.data.points;
-            this.fensObj[fen].moves[result.doneMove.san].years.push(
-              result.data.years[0]
-            );
-          } else {
-            this.fensObj[fen].moves[result.doneMove.san] = { ...result.data };
-          }
-        } else {
-          this.fensObj[fen] = {
-            moves: { [result.doneMove.san]: { ...result.data } },
-            indexes: [row.id],
-          };
-        }
-      }
-
-      if (!result.doneMove) {
-        return fens;
-      }
-    }
-
-    return fens;
+    return { indexes: fenData.indexes, moves };
   }
 
   async completeTree() {
-    const batchSize = 5;
+    const batchSize = 10;
     let index = 0;
 
     const processBatch = async () => {
-      for (let i = 0; i < batchSize && index < this.games.length; i++) {
-        const row = this.games[index];
-        await this.getFENsSecondBatch(row);
-        index++;
+      for (
+        let end = Math.min(index + batchSize, this.games.length);
+        index < end;
+        index++
+      ) {
+        await this.processGameSecondBatch(this.games[index]);
       }
 
       if (index < this.games.length) {
@@ -262,6 +161,51 @@ class ChessProcessor {
     };
 
     processBatch();
+  }
+
+  private async processGameSecondBatch(row: GameData) {
+    const chess = new Chess();
+    const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
+    const year = row.Year as number;
+
+    for (let i = 0; i < row.moves.length; i++) {
+      const move = row.moves[i];
+      if (i < firstBatchLimit) {
+        chess.move(move);
+        continue;
+      }
+
+      const fen = cutStringToPenultimateSpace(chess.fen());
+      const doneMove = chess.move(move);
+      if (!doneMove) {
+        continue;
+      }
+
+      const fenData = this.fensObj.get(fen) ?? {
+        moves: new Map(),
+        indexes: [] as number[],
+      };
+      const moveEntry = fenData.moves.get(doneMove.san) ?? {
+        games: 0,
+        points: 0,
+        years: [],
+        stats: new Map<number, MoveStats>(),
+      };
+
+      const sidePoints = i % 2 === 0 ? points : 1 - points;
+      moveEntry.games++;
+      moveEntry.points += sidePoints;
+      moveEntry.years.push(year);
+
+      const stat = moveEntry.stats.get(year) ?? { count: 0, points: 0 };
+      stat.count++;
+      stat.points += sidePoints;
+      moveEntry.stats.set(year, stat);
+
+      fenData.moves.set(doneMove.san, moveEntry);
+      fenData.indexes.push(row.id);
+      this.fensObj.set(fen, fenData);
+    }
   }
 }
 

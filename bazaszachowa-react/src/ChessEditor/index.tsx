@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Chess, PieceSymbol, Square, WHITE, BLACK } from "chess.js";
+import { Chess, PieceSymbol, Square, Color } from "chess.js";
 import {
   faChessRook,
   faChessKnight,
@@ -24,7 +24,7 @@ export interface Move {
   variations: Move[];
   from?: Square;
   to?: Square;
-  turn?: typeof WHITE | typeof BLACK;
+  turn?: Color;
   fen: string;
   index?: number;
   san: string;
@@ -176,8 +176,6 @@ const ChessEditor: React.FC<ChessEditorProps> = ({
             doneMove.from &&
           history.current[getNextMoveIndex(index.current)!].to ===
             doneMove.to &&
-          history.current[getNextMoveIndex(index.current)!].flags ===
-            doneMove.flags &&
           history.current[getNextMoveIndex(index.current)!].promotion ===
             doneMove.promotion
         ) {
@@ -197,7 +195,6 @@ const ChessEditor: React.FC<ChessEditorProps> = ({
                 variation !== undefined &&
                 variation.from === doneMove.from &&
                 variation.to === doneMove.to &&
-                variation.flags === doneMove.flags &&
                 variation.promotion === doneMove.promotion
               ) {
                 setIndex(variation.index!);
@@ -217,7 +214,6 @@ const ChessEditor: React.FC<ChessEditorProps> = ({
             san: doneMove.san,
             prev: index.current,
             moveNo: moveNo + (fen.split(" ")[1] === "b" ? 1 : 0),
-            flags: doneMove.flags,
             promotion: doneMove.promotion,
           };
           if (newHistory[index.current].next) {
@@ -431,7 +427,7 @@ ${
       const newChess = new Chess();
 
       for (const move of data.moves) {
-        const doneMove = newChess.move(move as ShortMove);
+        const doneMove = newChess.move(move);
         if (!doneMove) {
           break;
         }
@@ -447,7 +443,6 @@ ${
           san: doneMove.san,
           prev: currentIndex,
           moveNo: doneMove.color === "w" ? counter : counter++,
-          flags: doneMove.flags,
           promotion: doneMove.promotion,
         };
         if (

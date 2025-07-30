@@ -27,11 +27,27 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json",
+      "sourceType": "module"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "extends": [
+          "plugin:deprecation/recommended"
+        ]
+      }
+    ],
     "extends": [
       "react-app",
       "react-app/jest"
     ],
     "plugins": [
+      "deprecation",
       "jsdoc"
     ],
     "rules": {
@@ -135,6 +151,7 @@
     "@types/chess.js": "^0.13.7",
     "@types/js-cookie": "^3.0.6",
     "@types/react-mathjax": "^1.0.4",
+    "eslint-plugin-deprecation": "^3.0.0",
     "eslint-plugin-jsdoc": "^46.5.0"
   }
 }
