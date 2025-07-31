@@ -17,9 +17,9 @@ import "./style.css";
 
 // eslint-disable-next-line no-use-before-define
 export interface GameData extends headersProps {
-  Day?: number;
+  Day: null | number;
   id: number;
-  Month?: number;
+  Month: null | number;
   moves: {
     from: Square;
     promotion?: PieceSymbol;
