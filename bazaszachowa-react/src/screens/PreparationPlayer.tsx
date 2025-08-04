@@ -59,6 +59,7 @@ const PreparationPlayer = ({
         )}/${currentColor}`,
       );
       const data = await response.json();
+      processor.clear();
 
       await processor.getTree(data);
 

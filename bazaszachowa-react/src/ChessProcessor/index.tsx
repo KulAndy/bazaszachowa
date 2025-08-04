@@ -153,6 +153,12 @@ class ChessProcessor {
   private fensObj: Record<string, FenData> = {};
   private games: GameData[] = [];
 
+  public clear() {
+    this.isCompleted = false;
+    this.fensObj = {};
+    this.games = [];
+  }
+
   public async completeTree() {
     const batchSize = 10;
     let index = 0;
