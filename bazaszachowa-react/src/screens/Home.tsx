@@ -1,16 +1,18 @@
 import Content from "../components/Content";
+import { useI18n } from "../i18n/I18nContext";
 import logo from "../logo.svg";
 import "./Home.css";
 
 const Home = () => {
+  const { t } = useI18n();
   return (
     <div id="home">
       <Content classNames={["float_left"]} contentId="left_content">
         <p>
-          Przydatne linki <br />
+          {t("usefull_links")} <br />
         </p>
         <ul>
-          Alternatywa
+          {t("alternatives")}
           <li>
             <a href="https://www.yottachess.com/">yottachess</a>
           </li>
@@ -27,19 +29,19 @@ const Home = () => {
           </li>
         </ul>
         <ul>
-          Darmowy program szachowy
+          {t("free_chess_software")}
           <li>
             <a href="http://scidvspc.sourceforge.net/">scid vs pc</a>
           </li>
         </ul>
         <ul>
-          Najlepszy silnik szachowy
+          {t("best_chess_engine")}
           <li>
             <a href="https://stockfishchess.org/">stockfish</a>
           </li>
         </ul>
         <ul>
-          W pełni wolna strona szachowa
+          {t("fully_free_chess_site")}
           <li>
             <a href="https://lichess.org/">lichess</a>
           </li>
@@ -51,31 +53,18 @@ const Home = () => {
       <Content classNames={["float_left"]} contentId="right_content">
         <article>
           <p>
-            Z uwagi na to, że aktualnie w Polsce nie ma serwisu udostępniającego
-            partie szachowe, bo jedyny istniejący został zawieszony, a jest to
-            idea godna kontynuowania, lecz PZSzach, czy którykolwiek WZSzach nie
-            jest zaintereseowany takim projektem, powstała ta strona. <br />
-            Strona z założenia ma pomagać graczom w przygotowaniu, co pomoże w
-            podwyższeniu poziomu sportowego. Osoby, które w nieuczciwy sposób
-            chcą zyskać przewagę poprzez usunięcie ich z bazy powinny zapoznać
-            się z takimi pojęciami jak
-            <a href="https://pl.wikipedia.org/wiki/Honor_(etyka)">
-              honor
-            </a>,{" "}
-            <a href="https://pl.wikipedia.org/wiki/Godno%C5%9B%C4%87">
-              godność człowieka
-            </a>{" "}
-            i
-            <a href="https://pl.wikipedia.org/wiki/Fair_play">
-              postawa fair play
-            </a>
-            .<br />
+            {t("manifest_part1")}
+            <br />
+            {t("manifest_part2")}
+            <a href={t("honour_link")}>{t("honour")}</a>,{" "}
+            <a href={t("dignity_link")}>{t("dignity")}</a> {t("and")}
+            <a href={t("fair_play_link")}>{t("fair_play")}</a> .
+            <br />
           </p>
           <hr />
           <p>
-            Baza partii będzie aktualizowana mniej więcej raz na miesiąc i można
-            z niej korzystać w zgodzie z zamieszczoną na stronie{" "}
-            <a href="/license"> licencją </a> &#127866;.
+            {t("license_info")} <a href="/license"> {t("license_genitive")} </a>{" "}
+            &#127866;.
           </p>
         </article>
       </Content>
