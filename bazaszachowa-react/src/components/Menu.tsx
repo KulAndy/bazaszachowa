@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { useI18n } from "../i18n/I18nContext";
+
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import LangToggle from "./LangToggle";
 
@@ -8,6 +10,7 @@ const Menu = ({
 }: {
   links: Record<string, { name: string; url: string }>;
 }) => {
+  const { t } = useI18n();
   const menuNavigation = (
     <>
       <li>
@@ -18,7 +21,7 @@ const Menu = ({
       </li>
       {Object.keys(links).map((key) => (
         <li key={key}>
-          <Link to={links[key].url}>{links[key].name}</Link>
+          <Link to={links[key].url}>{t(links[key].name)}</Link>
         </li>
       ))}
     </>
@@ -28,7 +31,7 @@ const Menu = ({
     <nav>
       <ul className="desktop">{menuNavigation}</ul>
       <details className="mobile">
-        <summary>menu</summary>
+        <summary>{t("menu.menu")}</summary>
         <ul>{menuNavigation} </ul>
       </details>
     </nav>

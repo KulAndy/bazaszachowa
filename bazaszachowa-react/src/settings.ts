@@ -1,13 +1,14 @@
 /* eslint-disable perfectionist/sort-objects */
+
 const URLS = {
-  home: { name: "strona główna", url: "/" },
-  players: { name: "wyszukiwarka graczy", url: "/players/" },
-  search: { name: "wyszukiwarka partii", url: "/search/" },
-  preparation: { name: "przygotowanie", url: "/preparation/" },
-  license: { name: "licencja", url: "/license/" },
-  rodo: { name: "dla fanów rodo", url: "/rodo/" },
-  contact: { name: "kontakt", url: "/contact/" },
-  downloads: { name: "pobierz", url: "/downloads/" },
+  home: { name: "menu.home", url: "/" },
+  players: { name: "menu.players", url: "/players/" },
+  search: { name: "menu.games", url: "/search/" },
+  preparation: { name: "menu.preparation", url: "/preparation/" },
+  license: { name: "menu.license", url: "/license/" },
+  rodo: { name: "menu.gdpr", url: "/rodo/" },
+  contact: { name: "menu.contact", url: "/contact/" },
+  downloads: { name: "menu.download", url: "/downloads/" },
 };
 const API = {
   base_download: "/download/",

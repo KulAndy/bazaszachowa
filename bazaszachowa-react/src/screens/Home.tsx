@@ -9,10 +9,10 @@ const Home = () => {
     <div id="home">
       <Content classNames={["float_left"]} contentId="left_content">
         <p>
-          {t("usefull_links")} <br />
+          {t("home.usefull_links")} <br />
         </p>
         <ul>
-          {t("alternatives")}
+          {t("home.alternatives")}
           <li>
             <a href="https://www.yottachess.com/">yottachess</a>
           </li>
@@ -29,19 +29,19 @@ const Home = () => {
           </li>
         </ul>
         <ul>
-          {t("free_chess_software")}
+          {t("home.free_chess_software")}
           <li>
             <a href="http://scidvspc.sourceforge.net/">scid vs pc</a>
           </li>
         </ul>
         <ul>
-          {t("best_chess_engine")}
+          {t("home.best_chess_engine")}
           <li>
             <a href="https://stockfishchess.org/">stockfish</a>
           </li>
         </ul>
         <ul>
-          {t("fully_free_chess_site")}
+          {t("home.fully_free_chess_site")}
           <li>
             <a href="https://lichess.org/">lichess</a>
           </li>
@@ -53,18 +53,19 @@ const Home = () => {
       <Content classNames={["float_left"]} contentId="right_content">
         <article>
           <p>
-            {t("manifest_part1")}
+            {t("home.manifest_part1")}
             <br />
-            {t("manifest_part2")}
-            <a href={t("honour_link")}>{t("honour")}</a>,{" "}
-            <a href={t("dignity_link")}>{t("dignity")}</a> {t("and")}
-            <a href={t("fair_play_link")}>{t("fair_play")}</a> .
+            {t("home.manifest_part2")}
+            <a href={t("home.honour_link")}>{t("home.honour")}</a>,{" "}
+            <a href={t("home.dignity_link")}>{t("home.dignity")}</a>{" "}
+            {t("home.and")}
+            <a href={t("home.fair_play_link")}>{t("home.fair_play")}</a> .
             <br />
           </p>
           <hr />
           <p>
-            {t("license_info")} <a href="/license"> {t("license_genitive")} </a>{" "}
-            &#127866;.
+            {t("home.license_info")}{" "}
+            <a href="/license"> {t("home.license_genitive")} </a> &#127866;.
           </p>
         </article>
       </Content>

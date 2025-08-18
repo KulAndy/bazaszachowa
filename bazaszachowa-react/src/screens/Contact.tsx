@@ -33,7 +33,7 @@ const Contact = () => {
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email.trim() === admin_mail) {
-      alert("Niedozwolony adres");
+      alert("contact.Niedozwolony adres");
     } else if (emailRegex.test(formData.email)) {
       const form = new FormData();
       form.append("email", formData.email);
@@ -47,16 +47,16 @@ const Contact = () => {
           method: "POST",
         }).then((response) => {
           if (response.status === 200) {
-            alert(t("successfully_sent"));
+            alert(t("contact.successfully_sent"));
           } else {
-            alert(t("failled_sent"));
+            alert(t("contact.failled_sent"));
           }
         });
       } catch {
-        alert(t("failled_sent"));
+        alert(t("contact.failled_sent"));
       }
     } else {
-      alert(t("invalid_mail"));
+      alert(t("contact.invalid_mail"));
     }
   };
 
@@ -70,7 +70,7 @@ const Contact = () => {
         onSubmit={handleSubmit}
         target="_self"
       >
-        <h3>{t("email")}: </h3>
+        <h3>{t("contact.email")}: </h3>
         <input
           name="email"
           onChange={handleInputChange}
@@ -78,7 +78,7 @@ const Contact = () => {
           type="email"
           value={formData.email}
         />
-        <h3>{t("subject")}: </h3>
+        <h3>{t("contact.subject")}: </h3>
         <input
           id="sub1"
           name="subject"
@@ -87,7 +87,7 @@ const Contact = () => {
           type="radio"
           value="Pomysł"
         />
-        <label htmlFor="sub1">{t("idea")}</label>
+        <label htmlFor="sub1">{t("contact.idea")}</label>
         <br />
         <input
           id="sub2"
@@ -97,7 +97,7 @@ const Contact = () => {
           type="radio"
           value="Uwaga"
         />
-        <label htmlFor="sub2"> {t("remark")} </label>
+        <label htmlFor="sub2"> {t("contact.remark")} </label>
         <br />
         <input
           id="sub3"
@@ -107,7 +107,7 @@ const Contact = () => {
           type="radio"
           value="Błąd w partii"
         />
-        <label htmlFor="sub3"> {t("bug_in_game")} </label>
+        <label htmlFor="sub3"> {t("contact.bug_in_game")} </label>
         <br />
         <input
           id="sub4"
@@ -117,7 +117,7 @@ const Contact = () => {
           type="radio"
           value="Brakująca partia"
         />
-        <label htmlFor="sub4"> {t("missing_game")} </label>
+        <label htmlFor="sub4"> {t("contact.missing_game")} </label>
         <br />
         <input
           id="sub5"
@@ -127,9 +127,9 @@ const Contact = () => {
           type="radio"
           value="Inne"
         />
-        <label htmlFor="sub5"> {t("other")} </label>
+        <label htmlFor="sub5"> {t("contact.other")} </label>
         <br />
-        <h4> {t("content")} : </h4>
+        <h4> {t("contact.content")} : </h4>
         <textarea
           cols={50}
           form="form"
@@ -148,7 +148,7 @@ const Contact = () => {
         ></textarea>
         <br />
         <label htmlFor="attachment">
-          {t("game")} {t("game_limit")}
+          {t("contact.game")} {t("contact.game_limit")}
         </label>
         <br />
         <input
@@ -159,14 +159,15 @@ const Contact = () => {
           type="file"
         />
         <br /> <br />
-        <input name="submit" type="submit" value={t("send")} />
+        <input name="submit" type="submit" value={t("contact.send")} />
       </form>
       <address>
         <p>
-          {t("phone")} : <a href="tel:+48730758890">+48 730 758 890</a>
+          {t("contact.phone")} : <a href="tel:+48730758890">+48 730 758 890</a>
         </p>
         <p>
-          {t("e_mail")} : <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
+          {t("contact.e_mail")} :{" "}
+          <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
         </p>
       </address>
     </Content>

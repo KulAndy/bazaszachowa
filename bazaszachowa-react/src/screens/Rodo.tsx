@@ -6,18 +6,18 @@ const Rodo = () => {
   return (
     <Content>
       <article>
-        {t("gdpr_info")}
+        {t("gdpr.gdpr_info")}
         <br />
         <br />
-        {t("gdpr_dedication")}
+        {t("gdpr.gdpr_dedication")}
         <br />
         <br />
         <iframe
           allow="autoplay"
-          src={t("kiss_my_ass_link")}
-          title={t("kiss_my_ass_title")}
+          src={t("gdpr.kiss_my_ass_link")}
+          title={t("gdpr.kiss_my_ass_title")}
         ></iframe>
-        <figcaption>{t("kiss_my_ass_caption")} </figcaption>
+        <figcaption>{t("gdpr.kiss_my_ass_caption")} </figcaption>
       </article>
     </Content>
   );

@@ -1,47 +1,39 @@
+import React from "react";
+
 import Content from "../components/Content";
+import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
 const License = () => {
+  const { t } = useI18n();
+
   return (
     <Content>
       <article>
-        Całość strony jest udostępniona na następujących zasadach:
+        {t("license.intro")}
         <ul>
-          użytkownik
-          <li> ma prawo używać strony w dowolnym celu</li>
-          <li> ma prawo do analizowania strony*</li>
-          <li> ma prawo do kopiowania strony*</li>
-          <li>
-            ma prawo do udoskonalania i publicznego rozpowszechniania ulepszeń
-            strony*
-          </li>
-          <li> nie może zmienić licencji</li>
-          <li>
-            nie może pobierać opłat za projekt, w którym został wykorzystany
-            jakikolwiek element z tej strony*
-          </li>
-          <li>
-            jeśli skorzysta z wyszukiwarki, to ma obowiązek sprawdzenia swoich
-            gier na dany moment z minimum ostatnich 3 lat przynajmniej z bazy z
-            której korzystał i zgłoszenia ewentualnych błędów{" "}
-          </li>
-          <li> zobowiązuje się postawić piwo autorowi strony</li>
-          <li>
-            zgłaszać błędy w partiach mogą tylko osoby, których dane są
-            publicznie dostępne (np. zarejestrowani w FIDE, PZSzach lub ich
-            partie znajdują się w bazie)
-          </li>
+          {t("license.user")}
+          <li>{t("license.right_use")}</li>
+          <li>{t("license.right_analyze")}</li>
+          <li>{t("license.right_copy")}</li>
+          <li>{t("license.right_improve")}</li>
+          <li>{t("license.no_change_license")}</li>
+          <li>{t("license.no_commercial")}</li>
+          <li>{t("license.search_obligation")}</li>
+          <li>{t("license.beer_for_author")}</li>
+          <li>{t("license.error_reports")}</li>
         </ul>
         <sub>
-          * kod źródłowy dostępny na githubie -
-          <a href="https://github.com/KulAndy/bazaszachowa">frontend</a> i
+          {t("license.source_code")}{" "}
+          <a href="https://github.com/KulAndy/bazaszachowa">frontend</a>{" "}
+          {t("license.and")}{" "}
           <a href="https://github.com/KulAndy/bazaszachowa-api">backend</a>
         </sub>
         <hr />
-        we wszystkich innych przypadkach obowiązuje licencja{" "}
+        {t("license.other_cases")}{" "}
         <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU AGPLv3</a>
         <hr />
-        <a href={NOMENU_URLS.docs}>dokumentacja</a>
+        <a href={NOMENU_URLS.docs}>{t("license.docs")}</a>
       </article>
     </Content>
   );
