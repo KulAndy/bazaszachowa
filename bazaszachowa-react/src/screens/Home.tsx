@@ -9,7 +9,7 @@ const Home = () => {
     <div id="home">
       <Content classNames={["float_left"]} contentId="left_content">
         <p>
-          {t("home.usefull_links")} <br />
+          {t("home.useful_links")} <br />
         </p>
         <ul>
           {t("home.alternatives")}

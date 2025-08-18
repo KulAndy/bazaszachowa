@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 export interface FidePlayerType {
   birthday: string;
   blitz_rating: number;
@@ -19,6 +21,7 @@ const FidePlayer: React.FC<FidePlayerProps> = ({
   player,
   showSource = false,
 }) => {
+  const { t } = useI18n();
   return (
     <>
       <table className="fide-data">
@@ -39,26 +42,26 @@ const FidePlayer: React.FC<FidePlayerProps> = ({
           </td>
         </tr>
         <tr>
-          <th>Tytuł</th>
-          <td>{player.title ? <>{player.title}</> : "brak"}</td>
+          <th>{t("player.fide_title")}</th>
+          <td>{player.title ? <>{player.title}</> : t("none")}</td>
         </tr>
         <tr>
-          <th>Rocznik</th>
+          <th>{t("player.birth_year")}</th>
           <td>{player.birthday}</td>
         </tr>
         <tr>
           <th colSpan={2}>Elo</th>
         </tr>
         <tr>
-          <th>Klasyczne</th>
+          <th>{t("elo.standard")}</th>
           <td>{player.rating}</td>
         </tr>
         <tr>
-          <th>Szybkie</th>
+          <th>{t("elo.rapid")}</th>
           <td>{player.rapid_rating}</td>
         </tr>
         <tr>
-          <th>Błyskawiczne</th>
+          <th>{t("elo.blitz")}</th>
           <td>{player.blitz_rating}</td>
         </tr>
       </table>

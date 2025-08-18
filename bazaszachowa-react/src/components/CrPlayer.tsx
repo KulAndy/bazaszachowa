@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 export interface CrPlayerType {
   fide_id: string;
   id: string;
@@ -13,6 +15,7 @@ interface CrPlayerProps {
 }
 
 const CrPlayer: React.FC<CrPlayerProps> = ({ player, showSource = false }) => {
+  const { t } = useI18n();
   return (
     <>
       <table className="cr-data">
@@ -36,7 +39,7 @@ const CrPlayer: React.FC<CrPlayerProps> = ({ player, showSource = false }) => {
           </td>
         </tr>
         <tr>
-          <th>Tytuł/Kat.:</th>
+          <th>{t("player.cr_title")}:</th>
           <td>{player.kat && <span>{player.kat}</span>}</td>
         </tr>
         <tr>

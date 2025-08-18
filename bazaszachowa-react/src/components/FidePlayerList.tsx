@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 import FidePlayer, { FidePlayerType } from "./FidePlayer";
 
 interface FidePlayersListProps {
@@ -7,6 +9,7 @@ interface FidePlayersListProps {
 }
 
 const FidePlayersList: React.FC<FidePlayersListProps> = ({ players }) => {
+  const { t } = useI18n();
   if (players.length === 0) {
     return <div id="fide-data-container"></div>;
   }
@@ -24,7 +27,7 @@ const FidePlayersList: React.FC<FidePlayersListProps> = ({ players }) => {
 
       {items.length > 1 && (
         <details id="ambigous">
-          <summary>inni znalezieni</summary>
+          <summary>{t("player.other_found")}</summary>
           {items.slice(1).map((item) => (
             <FidePlayer key={item.fideid} player={item} />
           ))}

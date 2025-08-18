@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { GameData } from "../ChessEditor";
+import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 import initWasm from "../wasm/uci2pgn";
 
@@ -105,6 +106,7 @@ const GamesTable: React.FC<GamesTableProps> = ({
   games,
   noEmpty = false,
 }) => {
+  const { t } = useI18n();
   if (!games || (noEmpty && games.length === 0)) {
     return <></>;
   }
@@ -117,23 +119,23 @@ const GamesTable: React.FC<GamesTableProps> = ({
   return (
     <table id="games">
       <caption>
-        Znalezionych gier: {games.length || 0}{" "}
+        {t("game_table.games")}: {games.length || 0}{" "}
         <button
           onClick={() => {
             download(items);
           }}
         >
-          Pobierz
+          {t("menu.download")}
         </button>
       </caption>
       <tr>
-        <th className="not_mobile">Elo białego</th>
-        <th>Biały</th>
-        <th style={{ whiteSpace: "nowrap" }}>Wynik</th>
-        <th>Czarny</th>
-        <th className="not_mobile">Elo czarnego</th>
-        <th className="not_mobile">Turniej</th>
-        <th>Data</th>
+        <th className="not_mobile">{t("white_elo")}</th>
+        <th>{t("white")}</th>
+        <th style={{ whiteSpace: "nowrap" }}>{t("result")}</th>
+        <th>{t("black")}</th>
+        <th className="not_mobile">{t("black_elo")}</th>
+        <th className="not_mobile">{t("tournament")}</th>
+        <th>{t("date")}</th>
         <th className="not_mobile" style={{ whiteSpace: "nowrap" }}>
           ECO
         </th>

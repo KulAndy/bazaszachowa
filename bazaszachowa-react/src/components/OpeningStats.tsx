@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
 import ColorStats, { Stat } from "./ColorStats";
@@ -13,6 +14,7 @@ interface OpeningsStatsProps {
 }
 
 const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
+  const { t } = useI18n();
   const sum =
     stats.whites.reduce(
       (accumulator: number, currentItem: Stat) =>
@@ -38,7 +40,7 @@ const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
         </td>
       </tr>
       <tr>
-        <td>Suma</td>
+        <td>{t("sum")}</td>
         <td>{sum}</td>
         <td>
           {(
@@ -50,7 +52,7 @@ const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
         </td>
         <td>
           <a href={`${NOMENU_URLS.profile}${encodeURIComponent(name)}`}>
-            resetuj filtruj
+            {t("stats.reset")}
           </a>
         </td>
       </tr>

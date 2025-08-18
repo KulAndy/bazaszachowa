@@ -8,9 +8,11 @@ import CrPlayersList from "../components/CrPlayerList";
 import FidePlayersList from "../components/FidePlayerList";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
+import { useI18n } from "../i18n/I18nContext";
 import { API, URLS } from "../settings";
 
 const Player = () => {
+  const { t } = useI18n();
   const { color, name, opening } = useParams();
   const [loadingExtremes, setLoadingExtremes] = useState(true);
   const [maxElo, setMaxElo] = useState(null);
@@ -135,21 +137,23 @@ const Player = () => {
         <h1>{name}</h1>
         {!loadingExtremes && (
           <div id="info">
-            {maxElo != null && <p>najwyższy osiągnięty ranking {maxElo}</p>}
+            {maxElo != null && (
+              <p>
+                {t("player.highest_rating")} {maxElo}
+              </p>
+            )}
             {minYear != null && maxYear != null && (
               <p>
-                Gry z lat {minYear} - {maxYear}
+                {t("player.year")} {minYear} - {maxYear}
               </p>
             )}
           </div>
         )}
         {(crPlayers.length > 1 || fidePlayers.length > 1) && (
           <h3 id="ambigousAlert">
-            <span className="error">
-              UWAGA: Znaleziono więcej niż jednego zawodnika o tym nazwisku
-            </span>
+            <span className="error">{t("player.warning")}</span>
             <br />
-            najbardziej prawdopodobne:
+            {t("player.most_likely")}
           </h3>
         )}
         <div id="data-container">
@@ -157,7 +161,7 @@ const Player = () => {
             <div>
               <div className="loading">
                 <div className="spin"></div>
-                <p>Przeszukiwanie CR-u ... </p>
+                <p>{t("player.searching_cr")} </p>
               </div>
             </div>
           ) : (
@@ -167,7 +171,7 @@ const Player = () => {
             <div>
               <div className="loading">
                 <div className="spin"></div>
-                <p>Przeszukiwanie Fide ... </p>
+                <p>{t("player.searching_fide")} </p>
               </div>
             </div>
           ) : (
@@ -178,7 +182,7 @@ const Player = () => {
           <table>
             <thead>
               <tr>
-                <th colSpan={2}>przygotowanie</th>
+                <th colSpan={2}>{t("menu.preparation")}</th>
               </tr>
             </thead>
             <tbody>
@@ -189,7 +193,7 @@ const Player = () => {
                       URLS.preparation.url + encodeURIComponent(name || "")
                     }/white`}
                   >
-                    białe
+                    {t("white")}
                   </Link>
                 </td>
                 <td>
@@ -198,7 +202,7 @@ const Player = () => {
                       URLS.preparation.url + encodeURIComponent(name || "")
                     }/black`}
                   >
-                    czarne
+                    {t("black")}
                   </Link>
                 </td>
               </tr>
@@ -207,13 +211,13 @@ const Player = () => {
         </div>
         <details>
           <summary>
-            profil na yottabase
+            {t("players.profile")} yottabase
             <a
               href={`https://www.yottachess.com/player/${encodeURIComponent(
                 name || "",
               )}`}
             >
-              link
+              {t("link")}
             </a>
           </summary>
           <iframe
@@ -234,7 +238,7 @@ const Player = () => {
                   <div>
                     <div className="loading">
                       <div className="spin"></div>
-                      <p>Ładowanie statystyk ... </p>
+                      <p>{t("player.loading_stats")} </p>
                     </div>
                   </div>
                 ) : (
@@ -262,7 +266,7 @@ const Player = () => {
           <div>
             <div className="loading">
               <div className="spin"></div>
-              <p>Ładowanie gier ... </p>
+              <p>{t("player.loading_games")} </p>
             </div>
           </div>
         ) : (

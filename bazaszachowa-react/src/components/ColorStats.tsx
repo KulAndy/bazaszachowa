@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
 export interface ColorStatsProps {
@@ -16,6 +17,7 @@ export interface Stat {
 }
 
 const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
+  const { t } = useI18n();
   const items = stats.map((stat, index) => ({
     ...stat,
     key: index,
@@ -29,21 +31,21 @@ const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
   return (
     <details>
       <summary>
-        {`${color} `}
+        {t(color)}{" "}
         <a
           href={`${NOMENU_URLS.profile}${encodeURIComponent(
             name,
           )}/${encodeURIComponent(color)}`}
         >
-          filtruj
+          {t("stats.filter")}
         </a>
       </summary>
       <table style={{ border: 0 }}>
         <tr>
-          <td>Debiut</td>
-          <td>ilość</td>
+          <td>{t("opening")}</td>
+          <td>{t("quantity")}</td>
           <td>%</td>
-          <td>filtr</td>
+          <td>{t("stats.filter_header")}</td>
         </tr>
 
         {items.map((item) => (
@@ -59,7 +61,7 @@ const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
                   item.opening,
                 )}`}
               >
-                filtruj
+                {t("stats.filter")}
               </a>
             </td>
           </tr>

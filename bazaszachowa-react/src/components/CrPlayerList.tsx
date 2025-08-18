@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 import CrPlayer, { CrPlayerType } from "./CrPlayer";
 
 interface CrPlayersListProps {
@@ -54,6 +56,7 @@ const categoryToRanking = (category: string) => {
 };
 
 const CrPlayersList: React.FC<CrPlayersListProps> = ({ players }) => {
+  const { t } = useI18n();
   if (players.length === 0) {
     return <div id="cr-data-container"></div>;
   }
@@ -79,7 +82,7 @@ const CrPlayersList: React.FC<CrPlayersListProps> = ({ players }) => {
 
       {items.length > 1 && (
         <details id="ambigous">
-          <summary>inni znalezieni</summary>
+          <summary>{t("player.other_found")}</summary>
           {items.slice(1).map((item) => (
             <CrPlayer key={item.id} player={item} />
           ))}
