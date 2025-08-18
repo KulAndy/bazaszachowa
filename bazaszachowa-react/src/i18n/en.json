@@ -59,5 +59,10 @@
     "menu.license": "licence",
     "menu.gdpr": "for gdpr fans",
     "menu.contact": "contact",
-    "menu.download": "download"
+    "menu.download": "download",
+    "players.player": "Player",
+    "players.search": "search",
+    "players.fullname": "Fullname",
+    "players.profile": "profile",
+    "players.see": "see"
 }

@@ -4,9 +4,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Content from "../components/Content";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
+import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS, URLS } from "../settings";
 
 const Players = () => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const { name } = useParams();
   const [player, setPlayer] = useState(name);
@@ -38,7 +40,7 @@ const Players = () => {
     <div id="players">
       <Content>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Gracz</label>
+          <label htmlFor="name">{t("players.player")} </label>
           <SearchPlayersWithHints
             f={setPlayer}
             id="name"
@@ -47,20 +49,20 @@ const Players = () => {
             value={player}
           />
           <br />
-          <input type="submit" value="szukaj" />
+          <input type="submit" value={t("players.search")} />
         </form>
         {players.length > 0 && (
           <table>
             <tr>
-              <th>Nazwisko i Imię</th>
-              <th>profil</th>
+              <th>{t("players.fullname")}</th>
+              <th>{t("players.profile")}</th>
             </tr>
             {players.map((item) => (
               <tr key={item}>
                 <td>{item}</td>
                 <td>
                   <Link to={NOMENU_URLS.profile + encodeURIComponent(item)}>
-                    zobacz
+                    {t("players.see")}
                   </Link>
                 </td>
               </tr>

@@ -59,5 +59,10 @@
     "menu.license": "licencja",
     "menu.gdpr": "dla fanów rodo",
     "menu.contact": "kontakt",
-    "menu.download": "pobierz"
+    "menu.download": "pobierz",
+    "players.player": "Gracz",
+    "players.search": "szukaj",
+    "players.fullname": "Nazwisko i Imię",
+    "players.profile": "profil",
+    "players.see": "zobacz"
 }
