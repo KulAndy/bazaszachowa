@@ -30,5 +30,10 @@
     "game_limit": " (allowed files: *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max 200MB)",
     "phone": "phone",
     "e_mail": "e-mail",
-    "send": "send"
+    "send": "send",
+    "gdpr_info": "Dear GDPR enthusiasts, your games will not be removed, because at the moment a game record is published - just like recordings in any other sport - it enters the public domain (along with names and results). Consequently, everyone has full rights to it.",
+    "gdpr_dedication": "With dedication to you, I am sharing this song.",
+    "kiss_my_ass_link": "/TED_NUGENT_-_Kiss_My_Ass.mp3",
+    "kiss_my_ass_title": "Kiss my ass",
+    "kiss_my_ass_caption": "Ted Nugent - \"Kiss my ass\""
 }
