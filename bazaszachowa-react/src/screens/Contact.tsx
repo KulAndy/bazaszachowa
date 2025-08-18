@@ -2,6 +2,7 @@ import "./Contact.css";
 import React, { useState } from "react";
 
 import Content from "../components/Content";
+import { useI18n } from "../i18n/I18nContext";
 import { admin_mail, API } from "../settings";
 
 const Contact = () => {
@@ -16,6 +17,8 @@ const Contact = () => {
     email: "",
     subject: "",
   });
+
+  const { t } = useI18n();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files, name, value } = event.target;
@@ -44,16 +47,16 @@ const Contact = () => {
           method: "POST",
         }).then((response) => {
           if (response.status === 200) {
-            alert("Poprawnie wysłano wiadomość");
+            alert(t("successfully_sent"));
           } else {
-            alert("Nie udało się wysłać wiadomości");
+            alert(t("failled_sent"));
           }
         });
       } catch {
-        alert("Nie udało się wysłać wiadomości");
+        alert(t("failled_sent"));
       }
     } else {
-      alert("To nie jest poprawny email");
+      alert(t("invalid_mail"));
     }
   };
 
@@ -67,7 +70,7 @@ const Contact = () => {
         onSubmit={handleSubmit}
         target="_self"
       >
-        <h3>Email: </h3>
+        <h3>{t("email")}: </h3>
         <input
           name="email"
           onChange={handleInputChange}
@@ -75,7 +78,7 @@ const Contact = () => {
           type="email"
           value={formData.email}
         />
-        <h3>Temat: </h3>
+        <h3>{t("subject")}: </h3>
         <input
           id="sub1"
           name="subject"
@@ -84,7 +87,7 @@ const Contact = () => {
           type="radio"
           value="Pomysł"
         />
-        <label htmlFor="sub1">Pomysł</label>
+        <label htmlFor="sub1">{t("idea")}</label>
         <br />
         <input
           id="sub2"
@@ -94,7 +97,7 @@ const Contact = () => {
           type="radio"
           value="Uwaga"
         />
-        <label htmlFor="sub2">Uwaga</label>
+        <label htmlFor="sub2"> {t("remark")} </label>
         <br />
         <input
           id="sub3"
@@ -104,7 +107,7 @@ const Contact = () => {
           type="radio"
           value="Błąd w partii"
         />
-        <label htmlFor="sub3">Błąd w partii</label>
+        <label htmlFor="sub3"> {t("bug_in_game")} </label>
         <br />
         <input
           id="sub4"
@@ -114,7 +117,7 @@ const Contact = () => {
           type="radio"
           value="Brakująca partia"
         />
-        <label htmlFor="sub4">Brakująca partia</label>
+        <label htmlFor="sub4"> {t("missing_game")} </label>
         <br />
         <input
           id="sub5"
@@ -124,9 +127,9 @@ const Contact = () => {
           type="radio"
           value="Inne"
         />
-        <label htmlFor="sub5">Inne</label>
+        <label htmlFor="sub5"> {t("other")} </label>
         <br />
-        <h4>Treść: </h4>
+        <h4> {t("content")} : </h4>
         <textarea
           cols={50}
           form="form"
@@ -145,8 +148,7 @@ const Contact = () => {
         ></textarea>
         <br />
         <label htmlFor="attachment">
-          Partia (akceptowane pliki *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max
-          200MB)
+          {t("game")} {t("game_limit")}
         </label>
         <br />
         <input
@@ -157,14 +159,14 @@ const Contact = () => {
           type="file"
         />
         <br /> <br />
-        <input name="submit" type="submit" value="wyślij" />
+        <input name="submit" type="submit" value={t("send")} />
       </form>
       <address>
         <p>
-          telefon: <a href="tel:+48730758890">+48 730 758 890</a>
+          {t("phone")} : <a href="tel:+48730758890">+48 730 758 890</a>
         </p>
         <p>
-          mail: <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
+          {t("e_mail")} : <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
         </p>
       </address>
     </Content>

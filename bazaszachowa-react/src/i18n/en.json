@@ -14,5 +14,21 @@
     "fair_play_link": "https://en.wikipedia.org/wiki/Sportsmanship",
     "and": "and",
     "license_info": "The game database will be updated roughly once a month, and it can be used in accordance with posted on the website.",
-    "license_genitive": "license"
+    "license_genitive": "license",
+    "successfully_sent": "Message was sent successfully",
+    "failled_sent": "Failed to send message",
+    "invalid_mail": "This is not a valid email",
+    "email": "Email",
+    "subject": "Subject",
+    "idea": "Idea",
+    "remark": "Remark",
+    "bug_in_game": "Bug in game",
+    "missing_game": "Missing game",
+    "other": "Other",
+    "content": "Content",
+    "game": "Game",
+    "game_limit": " (allowed files: *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max 200MB)",
+    "phone": "phone",
+    "e_mail": "e-mail",
+    "send": "send"
 }
