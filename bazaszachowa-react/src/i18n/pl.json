@@ -124,6 +124,8 @@
     "math.beta.xi": "Liczba gier z danym ruchem w roku",
     "math.beta.yi": "Liczba punktów w grach z danym ruchem w roku",
     "math.beta.ni": "Liczba gier w roku",
+    "footer.info": "Chętni mogą dorzucić się do hostingu",
+    "footer.collection": "zrzutka",
     "eco_href": "https://pl.wikipedia.org/wiki/Encyklopedia_otwar%C4%87_szachowych",
     "white": "białe",
     "black": "czarne",

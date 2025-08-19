@@ -125,6 +125,8 @@
     "math.beta.xi": "Number of games with a given move in a year",
     "math.beta.yi": "Number of points in games with a given move in a year",
     "math.beta.ni": "Number of games in a year",
+    "footer.info": "Those willing can contribute to the hosting",
+    "footer.collection": "collection",
     "eco_href": "https://en.wikipedia.org/wiki/Encyclopaedia_of_Chess_Openings",
     "white": "white",
     "black": "black",

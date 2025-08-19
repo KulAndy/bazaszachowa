@@ -1,18 +1,20 @@
+import { useI18n } from "../i18n/I18nContext";
 import { admin_mail } from "../settings";
 
 const Footer = () => {
+  const { t } = useI18n();
   return (
     <footer>
       <p>
-        Chętni mogą dorzucić się do hostingu:{" "}
-        <a href="https://zrzutka.pl/z/bazaszachowa">zrzutka</a>
+        {t("footer.info")}:{" "}
+        <a href="https://zrzutka.pl/z/bazaszachowa">{t("footer.collection")}</a>
       </p>
       <hr />
       <p>
         <address>
           <span className="copyleft">©</span>
           <a href={`mailto:${admin_mail}`}>Andrzej Kulesza</a>
-          {` ${new Date().getFullYear()}`}
+          2025
         </address>
       </p>
     </footer>
