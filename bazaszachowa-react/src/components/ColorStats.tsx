@@ -67,8 +67,9 @@ const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
           </tr>
         ))}
         <tr>
-          <td colSpan={2}>{sum}</td>
-          <td colSpan={2}>
+          <td />
+          <td>{sum}</td>
+          <td>
             {(
               items.reduce(
                 (acc, { count, percent }) => acc + count * percent,
@@ -76,6 +77,7 @@ const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
               ) / sum
             ).toFixed(2)}
           </td>
+          <td />
         </tr>
       </table>
     </details>
