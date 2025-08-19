@@ -18,6 +18,7 @@ th {
 
 nav > ul > li::first-letter,
 nav > ul > li *::first-letter,
+summary::first-letter,
 th::first-letter,
 label::first-letter,
 button::first-letter {
