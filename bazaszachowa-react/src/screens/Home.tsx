@@ -11,8 +11,8 @@ const Home = () => {
         <p>
           {t("home.useful_links")} <br />
         </p>
+        {t("home.alternatives")}
         <ul>
-          {t("home.alternatives")}
           <li>
             <a href="https://www.yottachess.com/">yottachess</a>
           </li>
@@ -28,20 +28,20 @@ const Home = () => {
             </a>
           </li>
         </ul>
+        {t("home.free_chess_software")}
         <ul>
-          {t("home.free_chess_software")}
           <li>
             <a href="http://scidvspc.sourceforge.net/">scid vs pc</a>
           </li>
         </ul>
+        {t("home.best_chess_engine")}
         <ul>
-          {t("home.best_chess_engine")}
           <li>
             <a href="https://stockfishchess.org/">stockfish</a>
           </li>
         </ul>
+        {t("home.fully_free_chess_site")}
         <ul>
-          {t("home.fully_free_chess_site")}
           <li>
             <a href="https://lichess.org/">lichess</a>
           </li>
