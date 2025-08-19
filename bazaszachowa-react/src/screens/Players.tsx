@@ -12,7 +12,7 @@ const Players = () => {
   const navigate = useNavigate();
   const { name } = useParams();
   const [player, setPlayer] = useState(name);
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +21,7 @@ const Players = () => {
           API.BASE_URL + API.players + encodeURIComponent(player.trim()),
         );
 
-        const jsonData = await response.json();
+        const jsonData = (await response.json()) as string[];
         setPlayers(jsonData);
       }
     };
@@ -33,7 +33,7 @@ const Players = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    navigate(`${URLS.players.url}${player}`);
+    navigate(`${URLS.players.url}${player || ""}`);
   };
 
   return (

@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { GameData } from "../ChessEditor";
+import { Stat } from "../components/ColorStats";
 import Content from "../components/Content";
+import { CrPlayerType } from "../components/CrPlayer";
 import CrPlayersList from "../components/CrPlayerList";
+import { FidePlayerType } from "../components/FidePlayer";
 import FidePlayersList from "../components/FidePlayerList";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
@@ -15,15 +18,18 @@ const Player = () => {
   const { t } = useI18n();
   const { color, name, opening } = useParams();
   const [loadingExtremes, setLoadingExtremes] = useState(true);
-  const [maxElo, setMaxElo] = useState(null);
-  const [minYear, setMinYear] = useState(null);
-  const [maxYear, setMaxYear] = useState(null);
+  const [maxElo, setMaxElo] = useState<null | number>(null);
+  const [minYear, setMinYear] = useState<null | number>(null);
+  const [maxYear, setMaxYear] = useState<null | number>(null);
   const [loadingCr, setLoadingCr] = useState(true);
-  const [crPlayers, setCrPlayers] = useState([]);
+  const [crPlayers, setCrPlayers] = useState<CrPlayerType[]>([]);
   const [loadingFide, setLoadingFide] = useState(true);
-  const [fidePlayers, setFidePlayers] = useState([]);
+  const [fidePlayers, setFidePlayers] = useState<FidePlayerType[]>([]);
   const [loadingStats, setLoadingStats] = useState(true);
-  const [stats, setStats] = useState({ blacks: [], whites: [] });
+  const [stats, setStats] = useState<{ blacks: Stat[]; whites: Stat[] }>({
+    blacks: [],
+    whites: [],
+  });
 
   const [loadingGames, setLoadingGames] = useState(true);
   const [games, setGames] = useState<GameData[] | null>(null);
@@ -31,12 +37,16 @@ const Player = () => {
   const loadExtremes = () => {
     fetch(API.BASE_URL + API.extremes + encodeURIComponent(name || ""))
       .then((response) => response.json())
-      .then((data) => {
-        setLoadingExtremes(false);
-        setMaxElo(data[0].maxElo || null);
-        setMinYear(data[0].minYear || null);
-        setMaxYear(data[0].maxYear || null);
-      })
+      .then(
+        (
+          data: { maxElo: null | number; maxYear: number; minYear: number }[],
+        ) => {
+          setLoadingExtremes(false);
+          setMaxElo(data[0].maxElo || null);
+          setMinYear(data[0].minYear || null);
+          setMaxYear(data[0].maxYear || null);
+        },
+      )
       .catch(() => {
         setLoadingExtremes(false);
       });
@@ -45,7 +55,7 @@ const Player = () => {
   const loadCr = () => {
     fetch(API.BASE_URL + API.cr + encodeURIComponent(name || ""))
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: CrPlayerType[]) => {
         setLoadingCr(false);
         setCrPlayers(data);
       })
@@ -57,7 +67,7 @@ const Player = () => {
   const loadFide = () => {
     fetch(API.BASE_URL + API.fide + encodeURIComponent(name || ""))
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: FidePlayerType[]) => {
         setLoadingFide(false);
         setFidePlayers(data);
       })
@@ -69,7 +79,7 @@ const Player = () => {
   const loadStats = () => {
     fetch(API.BASE_URL + API.openings + encodeURIComponent(name || ""))
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: typeof stats) => {
         setLoadingStats(false);
         setStats(data);
       })
@@ -105,11 +115,11 @@ const Player = () => {
     }
     fetch(url)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: unknown) => {
         if (color === undefined) {
-          setGames(data.rows);
+          setGames((data as { rows: GameData[] }).rows);
         } else {
-          setGames(data);
+          setGames(data as GameData[]);
         }
       })
       .finally(() => {

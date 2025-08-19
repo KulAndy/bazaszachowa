@@ -13,9 +13,13 @@ import ChessProcessor from "./../ChessProcessor";
 
 const processor = new ChessProcessor();
 
-const debounce = (func: (...args: any[]) => void, delay: number) => {
+const debounce = <T extends unknown[]>(
+  func: (...args: T) => void,
+  delay: number,
+): ((...args: T) => void) => {
   let timeoutId: NodeJS.Timeout | undefined;
-  return (...args: any[]) => {
+
+  return (...args: T): void => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       func(...args);
@@ -35,7 +39,7 @@ const PreparationPlayer = ({
   const [tree, setTree] = useState<StatsItem[]>([]);
   const [fen, setFen] = useState<string | undefined>();
 
-  const [doMove, setDoMove] = useState(() => {});
+  const [doMove, setDoMove] = useState(() => () => {});
   const [gamesFilter, setGamesFilter] = useState<number[]>([]);
   const [notationLayout, setNotationLayout] = useState(
     window.innerHeight > window.innerWidth ||
@@ -60,10 +64,10 @@ const PreparationPlayer = ({
           currentPlayer,
         )}/${currentColor}`,
       );
-      const data = await response.json();
+      const data = (await response.json()) as GameData[];
       processor.clear();
 
-      await processor.getTree(data);
+      processor.getTree(data);
 
       const fens = processor.searchFEN(fen);
 
@@ -86,17 +90,13 @@ const PreparationPlayer = ({
   }, [player, color]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!fen || games.length === 0) {
-        return;
-      }
+    if (!fen || games.length === 0) {
+      return;
+    }
 
-      const fetchedFens = processor.searchFEN(fen);
-      setTree(fetchedFens.moves);
-      setGamesFilter(fetchedFens.indexes);
-    };
-
-    fetchData();
+    const fetchedFens = processor.searchFEN(fen);
+    setTree(fetchedFens.moves);
+    setGamesFilter(fetchedFens.indexes);
   }, [fen, games.length]);
 
   useEffect(() => {

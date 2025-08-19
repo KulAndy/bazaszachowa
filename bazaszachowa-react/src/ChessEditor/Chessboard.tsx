@@ -153,7 +153,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
         default:
           const n = parseInt(piecesPlacementRows[i][j]);
           for (let k = 0; k < n; k++) {
-            const square = LETTERS[counter] + (8 - i);
+            const square = `${LETTERS[counter]}${8 - i}`;
             if (targetSquares.includes(square)) {
               row.push(
                 <div
@@ -219,7 +219,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
           }
           continue;
       }
-      const square = LETTERS[counter] + (8 - i);
+      const square = `${LETTERS[counter]}${8 - i}`;
       row.push(
         <div
           key={key++}

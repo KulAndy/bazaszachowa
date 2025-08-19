@@ -15,7 +15,7 @@ const dictionaries: Record<Locale, Record<string, string>> = {
 interface I18nContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string, options?: Record<string, any>) => string;
+  t: (key: string, options?: number | Polyglot.InterpolationOptions) => string;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
@@ -50,7 +50,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
     Cookies.set("locale", localeState);
   }, [localeState]);
 
-  const t = (key: string, options?: Record<string, any>) =>
+  const t = (key: string, options?: number | Polyglot.InterpolationOptions) =>
     polyglot.t(key, options);
 
   const setLocale = (newLocale: Locale) => {

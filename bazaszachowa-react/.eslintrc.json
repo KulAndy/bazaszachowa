@@ -24,7 +24,7 @@
     "plugin:import/typescript",
     "plugin:perfectionist/recommended-alphabetical-legacy",
     "plugin:@typescript-eslint/recommended",
-    // "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict"
   ],
   "plugins": [
@@ -73,7 +73,7 @@
     "@typescript-eslint/consistent-indexed-object-style": "error",
     "@typescript-eslint/consistent-type-definitions": "error",
     "@typescript-eslint/explicit-member-accessibility": "error",
-    // "@typescript-eslint/no-unnecessary-condition": "error",
+    "@typescript-eslint/no-unnecessary-condition": "off",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/prefer-for-of": "error",
     "react/react-in-jsx-scope": "off",

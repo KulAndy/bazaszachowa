@@ -130,20 +130,30 @@ const mergeResults = (
   return fensObj;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 initWasm().then((wasm: any) => {
   processGameFirstBatchWasm = (row: GameData): Record<string, FenData> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const wasmGame = new wasm.GameData(row.id, row.Result, row.Year);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const wasmMoves = new wasm.VectorMove();
     for (const move of row.moves) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
       const wasmMove = new wasm.Move(move.from, move.to, move.promotion);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       wasmMoves.push_back(wasmMove);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     wasmGame.moves = wasmMoves;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const result = wasm.getFENsFirstBatchJS(wasmGame);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     wasmGame.delete();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     wasmMoves.delete();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return result;
   };
 });
@@ -159,17 +169,17 @@ class ChessProcessor {
     this.games = [];
   }
 
-  public async completeTree() {
+  public completeTree() {
     const batchSize = 10;
     let index = 0;
 
-    const processBatch = async () => {
+    const processBatch = () => {
       for (
         let end = Math.min(index + batchSize, this.games.length);
         index < end;
         index++
       ) {
-        await this.processGameSecondBatch(this.games[index]);
+        this.processGameSecondBatch(this.games[index]);
       }
 
       if (index < this.games.length) {
@@ -182,7 +192,7 @@ class ChessProcessor {
     processBatch();
   }
 
-  public async getTree(rows: GameData[]) {
+  public getTree(rows: GameData[]) {
     this.isCompleted = false;
     this.games = rows;
 
@@ -211,7 +221,7 @@ class ChessProcessor {
     return { indexes: fenData.indexes, moves };
   }
 
-  private async processGameSecondBatch(row: GameData) {
+  private processGameSecondBatch(row: GameData) {
     const chess = new Chess();
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
     const year = row.Year!;

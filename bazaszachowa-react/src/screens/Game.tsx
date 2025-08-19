@@ -8,14 +8,20 @@ import StockfishAnalysis from "../components/StockfishAnalysis";
 import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS } from "../settings";
 
+interface LocationState {
+  base?: string;
+  gameid?: number;
+  list?: number[];
+}
+
 const Game = () => {
   const { t } = useI18n();
-  const { state } = useLocation();
+  const { state } = useLocation() as { state: LocationState };
   const navigate = useNavigate();
   const params = useParams();
 
   const base = state?.base || params.base || "all";
-  const gameid = state?.gameid || params.gameid || 0;
+  const gameid = Number(state?.gameid || params.gameid || 0);
   const list = state?.list || [];
 
   const [data, setData] = useState<GameData | null>(null);
@@ -56,7 +62,7 @@ const Game = () => {
   useEffect(() => {
     fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
       .then((response) => response.json())
-      .then((response) => {
+      .then((response: GameData[]) => {
         if (response.length > 0) {
           setData(response[0]);
         }

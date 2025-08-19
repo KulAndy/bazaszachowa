@@ -17,7 +17,7 @@ interface MoveStats {
 }
 
 interface PositionMovesProps extends HTMLProps<HTMLDivElement> {
-  doMove?: ((move: string) => void) | void;
+  doMove?: (move: string) => void;
   stats: StatsItem[];
 }
 

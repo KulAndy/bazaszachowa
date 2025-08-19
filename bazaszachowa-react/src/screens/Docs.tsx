@@ -7,12 +7,12 @@ import { NOMENU_URLS } from "../settings";
 
 const Docs = () => {
   const { file } = useParams();
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("/fileList.json");
-      const data = await response.json();
+      const data = (await response.json()) as string[];
       setFileList(data);
     };
 

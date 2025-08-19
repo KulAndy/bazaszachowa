@@ -73,7 +73,7 @@ const Games = () => {
       setLoadingGames(true);
       fetch(url)
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: { rows: GameData[]; table: string }) => {
           setSearchedBase(data.table);
           setGames(data.rows);
         })

@@ -38,7 +38,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
   ...props
 }) => {
   const [text, setText] = useState("");
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +47,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
           API.BASE_URL + API.players + encodeURIComponent(text.trim()),
         );
 
-        const jsonData = await response.json();
+        const jsonData = (await response.json()) as string[];
         setPlayers(jsonData);
       } else {
         setPlayers([]);

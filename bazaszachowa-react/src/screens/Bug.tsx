@@ -30,7 +30,7 @@ const Bug = () => {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email.trim() === admin_mail) {
@@ -47,25 +47,25 @@ const Bug = () => {
       form.append("email", formData.email);
       form.append(
         "subject",
-        `Błąd w partii ${base}-${gameid} - ${formData.type}`,
+        `Błąd w partii ${base || "xxxx"}-${gameid || 0} - ${formData.type}`,
       );
       form.append("content", content);
       form.append("attachment", "");
 
-      try {
-        const response = await fetch(API.BASE_URL + API.send_mail, {
-          body: form,
-          method: "POST",
-        });
-
-        if (response.status === 200) {
-          alert("Poprawnie wysłano wiadomość");
-        } else {
+      fetch(API.BASE_URL + API.send_mail, {
+        body: form,
+        method: "POST",
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Poprawnie wysłano wiadomość");
+          } else {
+            throw new Error("Send error");
+          }
+        })
+        .catch(() => {
           alert("Nie udało się wysłać wiadomości");
-        }
-      } catch {
-        alert("Nie udało się wysłać wiadomości");
-      }
+        });
     } else {
       alert("To nie jest poprawny email");
     }

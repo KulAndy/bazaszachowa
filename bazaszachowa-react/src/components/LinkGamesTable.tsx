@@ -13,6 +13,7 @@ let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
 initWasm().then((wasm) => {
   uci2san = (movesObj) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const moves = new wasm.VectorString();
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < movesObj.length; i++) {
@@ -20,11 +21,14 @@ initWasm().then((wasm) => {
       if (movesObj[i].promotion) {
         uci += movesObj[i].promotion;
       }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       moves.push_back(uci);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const san = wasm.convertUciToPgn(moves);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     moves.delete();
-    return san;
+    return san as string;
   };
 });
 
@@ -53,14 +57,14 @@ const legacyGame2pgn = (game: GameData) => {
 };
 
 const game2pgn = async (game: GameData) => {
-  let pgn = `[Event "${game.Event}"]
-[Site "${game.Site}"]
-[Date "${game.Year}.${game.Month || "??"}.${game.Month || "??"}"]
-[Round "${game.Round}"]
+  let pgn = `[Event "${game.Event || "?"}"]
+[Site "${game.Site || "?"}"]
+[Date "${game.Year || "????"}.${game.Month || "??"}.${game.Month || "??"}"]
+[Round "${game.Round || "?"}"]
 [White "${game.White}"]
 [Black "${game.Black}"]
-[Result "${game.Result}"]
-[ECO "${game.ECO}"]
+[Result "${game.Result || "*"}"]
+[ECO "${game.ECO || "?"}"]
 [WhiteElo "${game.WhiteElo || 0}"]
 [BlackElo "${game.BlackElo || 0}"]
 
@@ -72,7 +76,7 @@ const game2pgn = async (game: GameData) => {
       pgn += uci2san(game.moves);
     }
   } catch {
-    pgn += legacyGame2pgn(game);
+    pgn += await legacyGame2pgn(game);
   }
   pgn += game.Result;
   return pgn;
