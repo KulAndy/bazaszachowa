@@ -6,6 +6,7 @@ import ChessEditor, { GameData } from "../ChessEditor";
 import LinkGamesTable from "../components/LinkGamesTable";
 import PositionMoves, { StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
+import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS } from "../settings";
 
 import ChessProcessor from "./../ChessProcessor";
@@ -29,6 +30,7 @@ const PreparationPlayer = ({
   color: string;
   player: string;
 }) => {
+  const { t } = useI18n();
   const [games, setGames] = useState<GameData[]>([]);
   const [tree, setTree] = useState<StatsItem[]>([]);
   const [fen, setFen] = useState<string | undefined>();
@@ -156,7 +158,7 @@ const PreparationPlayer = ({
         <Link to={NOMENU_URLS.profile + encodeURIComponent(player)}>
           {player}
         </Link>{" "}
-        - przygotowanie na {color === "black" ? "czarne" : "białe"}
+        - {t("preparation.against")} {t(color)}
       </h1>
       <div
         style={{
@@ -199,7 +201,7 @@ const PreparationPlayer = ({
               <div>
                 <div className="loading">
                   <div className="spin"></div>
-                  <p>Ładowanie statystyk </p>
+                  <p>{t("player.loading_stats")} </p>
                 </div>
               </div>
             ) : (

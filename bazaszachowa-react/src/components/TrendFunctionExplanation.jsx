@@ -1,12 +1,15 @@
 import React from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 const TrendFunctionExplanation = () => {
+  const { t } = useI18n();
   const currentYear = new Date().getFullYear();
 
   return (
     <>
       <details>
-        <summary>funkcja &alpha;</summary>
+        <summary>{t("math.function")} &alpha;</summary>
         <div>
           <p>
             <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
@@ -318,7 +321,7 @@ const TrendFunctionExplanation = () => {
               </mrow>
             </math>
           </p>
-          <strong>Stałe:</strong>
+          <strong>{t("math.consts")}:</strong>
           <ul>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -326,8 +329,7 @@ const TrendFunctionExplanation = () => {
                 <mo>=</mo>
                 <mn>10</mn>
               </math>
-              : Stała reprezentująca po ilu latach prawdopodobieństwo na ruch
-              się wyrównuje.
+              : {t("math.alpha.b")}
             </li>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -335,16 +337,16 @@ const TrendFunctionExplanation = () => {
                 <mo>=</mo>
                 <mn>{currentYear}</mn>
               </math>
-              : Stała reprezentująca aktualny rok.
+              : {t("math.alpha.c")}
             </li>
           </ul>
-          <strong>Zmienne:</strong>
+          <strong>{t("math.vars")}:</strong>
           <ul>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>T</mi>
               </math>
-              : Suma maksymalnych możliwych wartości.
+              : {t("math.alpha.t")}
             </li>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -353,7 +355,7 @@ const TrendFunctionExplanation = () => {
                   <mi>i</mi>
                 </msub>
               </math>
-              : Statystyka lat dla danego ruchu{" "}
+              : {t("math.alpha.si")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>i</mi>
               </math>
@@ -368,7 +370,7 @@ const TrendFunctionExplanation = () => {
                 </msub>
                 <mo>|</mo>
               </math>
-              : Ilość lat (wystąpień ruchu){" "}
+              : {t("math.alpha.abs_si")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>i</mi>
               </math>
@@ -386,7 +388,7 @@ const TrendFunctionExplanation = () => {
                 <mspace />
                 <mi>j</mi>
               </math>
-              -ty rok .
+              {t("math.alpha.nth_year")} .
             </li>
 
             <li>
@@ -396,7 +398,7 @@ const TrendFunctionExplanation = () => {
                   <mi>i</mi>
                 </msub>
               </math>
-              : Tablica wartości obliczonych dla każdej statystyki{" "}
+              : {t("math.alpha.vi")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>i</mi>
               </math>
@@ -406,7 +408,7 @@ const TrendFunctionExplanation = () => {
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>V</mi>
               </math>
-              : Maksymalna wartość spośród wszystkich wartości{" "}
+              : {t("math.alpha.v")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>v</mi>
               </math>
@@ -416,23 +418,22 @@ const TrendFunctionExplanation = () => {
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>Y</mi>
               </math>
-              : Maksymalny rok wśród wszystkich statystyk.
+              : {t("math.alpha.y")}
             </li>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>d</mi>
               </math>
-              : Mianownik używany do celów skalowania.
+              : {t("math.alpha.d")}
             </li>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>&lambda;</mi>
               </math>
-              : Współczynnik skalowania dostosowany na podstawie maksymalnej
-              wartości.
+              : {t("math.alpha.lambda")}
             </li>
           </ul>
-          <strong>Funkcje:</strong>
+          <strong>{t("math.functions")}:</strong>
           <ul>
             <li>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -441,7 +442,7 @@ const TrendFunctionExplanation = () => {
                 <mi>y</mi>
                 <mo>)</mo>
               </math>
-              : Funkcja określająca wagę roku{" "}
+              : {t("math.alpha.l")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>y</mi>
               </math>
@@ -454,7 +455,7 @@ const TrendFunctionExplanation = () => {
                 <mi>x</mi>
                 <mo>)</mo>
               </math>
-              : Funkcja obliczająca skalowaną wartość trendu dla ruchu{" "}
+              : {t("math.alpha.f")}{" "}
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <mi>x</mi>
               </math>
@@ -464,7 +465,7 @@ const TrendFunctionExplanation = () => {
         </div>
       </details>
       <details>
-        <summary>funkcja &beta;</summary>
+        <summary>{t("math.function")} &beta;</summary>
         <div>
           <p>
             <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
@@ -719,37 +720,37 @@ const TrendFunctionExplanation = () => {
               </mrow>
             </math>
           </p>
-          <strong>Stałe:</strong>
+          <strong>{t("math.consts")}:</strong>
           <ul>
-            <li>&epsilon;:minimalne prawdopodobieństwo </li>
+            <li>&epsilon;:{t("math.beta.epsilon")} </li>
           </ul>
-          <strong>Zmienne:</strong>
+          <strong>{t("math.vars")}:</strong>
           <ul>
             <li>
-              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>x</mn>
                   <mi>i</mi>
                 </msub>
-                <mtext>:liczba gier z danym ruchem w roku i</mtext>
+                <mtext>:{t("math.beta.xi")} i </mtext>
               </math>
             </li>
             <li>
-              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>y</mn>
                   <mi>i</mi>
                 </msub>
-                <mtext>:liczba punktów w grach z danym ruchem w roku i</mtext>
+                <mtext>:{t("math.beta.yi")} i </mtext>
               </math>
             </li>
             <li>
-              <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <msub>
                   <mn>n</mn>
                   <mi>i</mi>
                 </msub>
-                <mtext>:liczba gier w roku i</mtext>
+                <mtext>:{t("math.beta.ni")} i </mtext>
               </math>
             </li>
           </ul>

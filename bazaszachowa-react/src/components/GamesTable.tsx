@@ -125,7 +125,7 @@ const GamesTable: React.FC<GamesTableProps> = ({
             download(items);
           }}
         >
-          {t("menu.download")}
+          {t("download")}
         </button>
       </caption>
       <tr>

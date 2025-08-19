@@ -21,6 +21,7 @@ nav > ul > li *::first-letter,
 summary::first-letter,
 th::first-letter,
 label::first-letter,
-button::first-letter {
+button::first-letter,
+input[type="submit"]::first-letter {
   text-transform: uppercase;
 }

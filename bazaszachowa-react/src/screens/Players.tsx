@@ -49,7 +49,7 @@ const Players = () => {
             value={player}
           />
           <br />
-          <input type="submit" value={t("players.search")} />
+          <input type="submit" value={t("search")} />
         </form>
         {players.length > 0 && (
           <table>

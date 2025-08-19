@@ -8,7 +8,7 @@ const URLS = {
   license: { name: "menu.license", url: "/license/" },
   rodo: { name: "menu.gdpr", url: "/rodo/" },
   contact: { name: "menu.contact", url: "/contact/" },
-  downloads: { name: "menu.download", url: "/downloads/" },
+  downloads: { name: "download", url: "/downloads/" },
 };
 const API = {
   base_download: "/download/",

@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 import "./PreparationForm.css";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
+import { useI18n } from "../i18n/I18nContext";
 import { URLS } from "../settings";
 
 const PreparationForm = () => {
+  const { t } = useI18n();
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
 
@@ -15,10 +17,10 @@ const PreparationForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Gracz</label>
+      <label htmlFor="name">{t("players.player")}</label>
       <SearchPlayersWithHints f={setPlayer} placeholder="Nowak, Jan" required />
       <p style={{ textAlign: "center" }}>
-        <label htmlFor="white">kolor</label>
+        <label htmlFor="white">{t("color")}</label>
       </p>
       <p id="color-toggle" style={{ textAlign: "center" }}>
         <input
@@ -31,7 +33,7 @@ const PreparationForm = () => {
           type="radio"
           value="white"
         />
-        <label htmlFor="white">białe</label>
+        <label htmlFor="white">{t("white")}</label>
         <input
           checked={color === "black"}
           id="black"
@@ -42,13 +44,13 @@ const PreparationForm = () => {
           type="radio"
           value="black"
         />
-        <label htmlFor="black">czarne</label>
+        <label htmlFor="black">{t("black")}</label>
       </p>
       <p style={{ textAlign: "center" }}>
         <Link
           to={`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`}
         >
-          <input type="submit" value="szukaj" />
+          <input type="submit" value={t("search")} />
         </Link>
       </p>
     </form>

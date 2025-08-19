@@ -3,6 +3,7 @@ import React, { HTMLProps } from "react";
 import { Link } from "react-router-dom";
 
 import { GameData } from "../ChessEditor";
+import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 import initWasm from "../wasm/uci2pgn";
 
@@ -102,6 +103,7 @@ const LinkGamesTable: React.FC<GamesTableProps & HTMLProps<HTMLDivElement>> = ({
   noEmpty = false,
   ...props
 }) => {
+  const { t } = useI18n();
   if (!games || (noEmpty && games.length === 0)) {
     return <></>;
   }
@@ -115,20 +117,20 @@ const LinkGamesTable: React.FC<GamesTableProps & HTMLProps<HTMLDivElement>> = ({
     <div {...props}>
       <table id="games">
         <caption>
-          Znalezionych gier: {games.length || 0}{" "}
+          {t("game_table.games")}: {games.length || 0}{" "}
           <button
             onClick={() => {
               download(items);
             }}
           >
-            Pobierz
+            {t("download")}
           </button>
         </caption>
         <tr>
-          <th>Biały</th>
-          <th style={{ whiteSpace: "nowrap" }}>Wynik</th>
-          <th>Czarny</th>
-          <th>Rok</th>
+          <th>{t("white")}</th>
+          <th style={{ whiteSpace: "nowrap" }}>{t("result")}</th>
+          <th>{t("black")}</th>
+          <th>{t("year")}</th>
         </tr>
         {items.map((item) => (
           <Link
