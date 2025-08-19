@@ -60,10 +60,6 @@ const App = () => {
                   Component={Bug}
                   path={`${NOMENU_URLS.bug}:base/:gameid`}
                 />
-                <Route
-                  Component={Preparation}
-                  path={`${URLS.preparation.url}/:color?`}
-                />
                 <Route Component={Docs} path={`${NOMENU_URLS.docs}:file?`} />
                 <Route Component={Downloads} path={URLS.downloads.url} />
                 <Route Component={NotFound} path="*" />
