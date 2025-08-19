@@ -162,5 +162,6 @@
     "e_mail": "e-mail",
     "lastname": "nazwisko",
     "firstname": "imię",
-    "problem": "problem"
+    "problem": "problem",
+    "not_found": "Nie znaleziono strony"
 }
