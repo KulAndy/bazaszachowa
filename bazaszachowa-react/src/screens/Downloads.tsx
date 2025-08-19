@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Content from "../components/Content";
+import { useI18n } from "../i18n/I18nContext";
 import { API } from "../settings";
 
 interface Dump {
@@ -36,6 +37,7 @@ const formatFileSize = (bytes: number) => {
 };
 
 const Downloads = () => {
+  const { t } = useI18n();
   const [dumps, setDumps] = useState<Dump[]>([]);
   useEffect(() => {
     fetch(API.BASE_URL + API.dumps)
@@ -45,7 +47,7 @@ const Downloads = () => {
 
   return (
     <Content>
-      Baza
+      {t("base")}
       <ul>
         {dumps.map((item) => (
           <li key={item.name}>
@@ -54,16 +56,26 @@ const Downloads = () => {
               {` - ${item.description}, `}
               {formatFileSize(parseInt(item.size) || 0)}
             </p>
-            <p>Ostatnia modyfikacja: {formatDate(item.modifiedTime)} </p>
+            <p>
+              {t("download.modified")}: {formatDate(item.modifiedTime)}{" "}
+            </p>
           </li>
         ))}
       </ul>
-      Narzędzia
+      {t("download.tools")}
       <ul>
         <li>
-          <a href="https://github.com/KulAndy/chess-scrappers">Szperacze</a>
+          <a href="https://github.com/KulAndy/chess-scrappers">
+            {t("download.scrappers")}
+          </a>
         </li>
       </ul>
+      <p>
+        <a href="https://github.com/KulAndy/bazaszachowa/tree/react/bazaszachowa-react/src/i18n">
+          {t("download.translation")}
+        </a>
+      </p>
+      <p>{t("download.translation_info")}</p>
     </Content>
   );
 };
