@@ -111,11 +111,18 @@
     "stats.reset": "resetuj filtruj",
     "stats.filter": "filtruj",
     "stats.filter_header": "filtr",
+    "stockfish.best_move": "najlepszy ruch",
+    "stockfish.eval": "ocena",
     "opening": "Debiut",
     "quantity": "Ilość",
     "none": "brak",
     "tournament": "turniej",
     "date": "data",
     "years": "lata",
-    "base": "baza"
+    "base": "baza",
+    "report_bug": "zgłoś błąd",
+    "first_game": "pierwsza partia",
+    "last_game": "ostatnia partia",
+    "prev_game": "poprzednia partia",
+    "next_game": "następna partia"
 }

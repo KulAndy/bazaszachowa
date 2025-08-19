@@ -111,11 +111,18 @@
     "stats.reset": "reset filter",
     "stats.filter": "filter",
     "stats.filter_header": "filter",
+    "stockfish.best_move": "best move",
+    "stockfish.eval": "evaluation",
     "opening": "Opening",
     "quantity": "Quantity",
     "none": "none",
     "tournament": "tournament",
     "date": "date",
     "years": "years",
-    "base": "base"
+    "base": "base",
+    "report_bug": "report bug",
+    "first_game": "first game",
+    "last_game": "last game",
+    "prev_game": "previous game",
+    "next_game": "next game"
 }

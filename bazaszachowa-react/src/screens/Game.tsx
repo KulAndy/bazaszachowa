@@ -5,9 +5,11 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ChessEditor, { GameData } from "../ChessEditor";
 import Content from "../components/Content";
 import StockfishAnalysis from "../components/StockfishAnalysis";
+import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS } from "../settings";
 
 const Game = () => {
+  const { t } = useI18n();
   const { state } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
@@ -141,7 +143,9 @@ const Game = () => {
       <Content>
         <div>
           <button className="error">
-            <Link to={`${NOMENU_URLS.bug + base}/${gameid}`}>Zgłoś błąd</Link>
+            <Link to={`${NOMENU_URLS.bug + base}/${gameid}`}>
+              {t("report_bug")}
+            </Link>
           </button>
         </div>
         <div id="buttonContainer">
@@ -160,7 +164,7 @@ const Game = () => {
             to={`${NOMENU_URLS.game}${base}/${list[0]}`}
           >
             <button disabled={firstGame} id="first" title="Ctrl + ↑  ">
-              pierwsza partia
+              {t("first_game")}
             </button>
           </Link>
           <Link
@@ -178,7 +182,7 @@ const Game = () => {
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
           >
             <button disabled={firstGame} id="previous" title="Ctrl + ←">
-              poprzednia partia
+              {t("prev_game")}
             </button>
           </Link>
           <Link
@@ -196,7 +200,7 @@ const Game = () => {
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
           >
             <button disabled={lastGame} id="next" title="Ctrl + →">
-              następna partia
+              {t("next_game")}
             </button>
           </Link>
           <Link
@@ -214,7 +218,7 @@ const Game = () => {
             to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
           >
             <button disabled={lastGame} id="last" title="Ctrl + ↓">
-              ostatnia partia
+              {t("last_game")}
             </button>
           </Link>
         </div>

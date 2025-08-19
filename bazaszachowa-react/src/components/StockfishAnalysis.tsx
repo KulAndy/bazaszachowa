@@ -1,6 +1,8 @@
 import { Chess } from "chess.js";
 import React, { useEffect, useState } from "react";
 
+import { useI18n } from "../i18n/I18nContext";
+
 const stockfish = new Worker("/js/stockfish.js");
 
 interface uciVariant2SanProps {
@@ -69,6 +71,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
   threads = 3,
   visible = true,
 }) => {
+  const { t } = useI18n();
   const [variants, setVariants] = useState<Record<string, Variant>>({});
   const [currentDepth, setCurrentDepth] = useState(0);
   const [best, setBest] = useState<null | string>(null);
@@ -185,13 +188,13 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
       {best && variants[best] ? (
         <>
           <p>
-            Najlepszy ruch{" "}
+            {t("stockfish.best_move")}{" "}
             <span style={{ fontWeight: "bolder" }}>
               {variants[best].san || ""}
             </span>
           </p>
           <p>
-            Ocena{" "}
+            {t("stockfish.eval")}{" "}
             <span style={{ fontWeight: "bolder" }}>
               {variants[best].prefix || ""}
               {Math.abs(variants[best].value ?? NaN)}
@@ -201,13 +204,13 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
       ) : (
         <>
           <p>
-            Najlepszy ruch{" "}
+            {t("stockfish.best_move")}{" "}
             <span>
               {valuesArray.length === 0 ? <>-</> : <>{valuesArray[0].san}</>}
             </span>
           </p>
           <p>
-            Ocena{" "}
+            {t("stockfish.eval")}{" "}
             <span>
               {valuesArray.length === 0 ? (
                 <>-</>
