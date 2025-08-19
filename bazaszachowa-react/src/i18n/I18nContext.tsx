@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Polyglot from "node-polyglot";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -21,13 +20,24 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
+const detectLocale = (): Locale => {
+  const cookieLocale = Cookies.get("locale");
+  if (cookieLocale === "pl" || cookieLocale === "en") {
+    return cookieLocale;
+  }
+  if (typeof navigator !== "undefined") {
+    const browserLang = navigator.language.slice(0, 2);
+    if (browserLang === "pl") {
+      return "pl";
+    }
+  }
+  return "en";
+};
+
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const cookieLocale = Cookies.get("locale");
-  const [localeState, setLocaleState] = useState<Locale>(
-    cookieLocale === "pl" ? "pl" : "en",
-  );
+  const [localeState, setLocaleState] = useState<Locale>(detectLocale);
 
   const [polyglot, setPolyglot] = useState(
     () =>
@@ -36,8 +46,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const phrases = dictionaries[localeState];
-    const newPolyglot = new Polyglot({ locale: localeState, phrases });
-    setPolyglot(newPolyglot);
+    setPolyglot(new Polyglot({ locale: localeState, phrases }));
     Cookies.set("locale", localeState);
   }, [localeState]);
 
