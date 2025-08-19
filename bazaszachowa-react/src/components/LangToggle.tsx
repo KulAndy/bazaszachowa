@@ -2,6 +2,8 @@ import React from "react";
 
 import { useI18n } from "../i18n/I18nContext";
 
+const flagsDict = { en: "🇬🇧", pl: "🇵🇱" };
+
 const LangToggle = () => {
   const { locale, setLocale } = useI18n();
   const newLang = locale === "pl" ? "en" : "pl";
@@ -13,7 +15,7 @@ const LangToggle = () => {
         setLocale(newLang);
       }}
     >
-      {newLang}
+      {flagsDict[newLang] || "🌐"}
     </button>
   );
 };
