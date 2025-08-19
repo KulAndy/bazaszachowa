@@ -29,7 +29,6 @@
     "contact.game": "Partia",
     "contact.game_limit": " (akceptowane pliki *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max 200MB)",
     "contact.phone": "telefon",
-    "contact.e_mail": "e-mail",
     "contact.send": "wyślij",
     "gdpr.gdpr_info": "Drodzy fani RODO, wasze partie nie zostaną usunięte, bo w momencie opublikowania zapisu partii, tak jak nagrania w każdym inny sporcie, trafia on ( razem z nazwiskami czy wynikami ) do domeny publicznej. Co za tym idzie wszyscy mają do niego pełne prawa.",
     "gdpr.gdpr_dedication": "Z dedykacją dla was zamieszczam tę piosenkę.",
@@ -126,6 +125,12 @@
     "math.beta.ni": "Liczba gier w roku",
     "footer.info": "Chętni mogą dorzucić się do hostingu",
     "footer.collection": "zrzutka",
+    "bug.incorrect_notation": "nieprawidłowy zapis",
+    "bug.nonexistent_game": "nieisniejąca partia",
+    "bug.incorrect_data": "błędne dane",
+    "bug.game_link": "link do turnieju/poprawnej partii",
+    "bug.additional_info": "dodatkowe informacje",
+    "bug.gdpr": "Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu przetwarzania zgłoszenia błędu zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO). Administratorem danych jest autor strony.",
     "eco_href": "https://pl.wikipedia.org/wiki/Encyklopedia_otwar%C4%87_szachowych",
     "white": "białe",
     "black": "czarne",
@@ -153,5 +158,9 @@
     "year": "rok",
     "move": "move",
     "no_games": "liczba partii",
-    "latest": "najnowsze"
+    "latest": "najnowsze",
+    "e_mail": "e-mail",
+    "lastname": "nazwisko",
+    "firstname": "imię",
+    "problem": "problem"
 }

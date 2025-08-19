@@ -166,8 +166,7 @@ const Contact = () => {
           {t("contact.phone")} : <a href="tel:+48730758890">+48 730 758 890</a>
         </p>
         <p>
-          {t("contact.e_mail")} :{" "}
-          <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
+          {t("e_mail")} : <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
         </p>
       </address>
     </Content>

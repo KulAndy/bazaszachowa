@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Content from "../components/Content";
+import { useI18n } from "../i18n/I18nContext";
 import { admin_mail, API } from "../settings";
 const Bug = () => {
+  const { t } = useI18n();
   const { base, gameid } = useParams();
   const [formData, setFormData] = useState({
     agreement: "",
@@ -82,7 +84,7 @@ const Bug = () => {
         <table className="no_border">
           <tr>
             <td>
-              <label htmlFor="lastname">Nazwisko*</label>
+              <label htmlFor="lastname">{t("lastname")}*</label>
               <br />
             </td>
             <td>
@@ -96,7 +98,7 @@ const Bug = () => {
           </tr>
           <tr>
             <td>
-              <label htmlFor="firstname">Imię*</label>
+              <label htmlFor="firstname">{t("firstname")}*</label>
               <br />
             </td>
             <td>
@@ -110,7 +112,7 @@ const Bug = () => {
           </tr>
           <tr>
             <td>
-              <label htmlFor="email">email*</label>
+              <label htmlFor="email">{t("e_mail")}*</label>
               <br />
             </td>
             <td>
@@ -126,7 +128,7 @@ const Bug = () => {
           <tr>
             <td>
               <label htmlFor="type" id="problemLabel">
-                Problem
+                {t("problem")}
               </label>
               <br />
             </td>
@@ -140,7 +142,9 @@ const Bug = () => {
                   type="radio"
                   value="błędny zapis"
                 />
-                <label htmlFor="wrongNotation">Nieprawidłowy zapis</label>
+                <label htmlFor="wrongNotation">
+                  {t("bug.incorrect_notation")}
+                </label>
                 <input
                   id="notExist"
                   name="type"
@@ -149,7 +153,7 @@ const Bug = () => {
                   type="radio"
                   value="nie istnieje"
                 />
-                <label htmlFor="notExist">Nieisniejąca partia</label>
+                <label htmlFor="notExist">{t("bug.nonexistent_game")}</label>
                 <input
                   id="wrongData"
                   name="type"
@@ -158,13 +162,13 @@ const Bug = () => {
                   type="radio"
                   value="błędne dane"
                 />
-                <label htmlFor="wrongData">Błędne dane</label>
+                <label htmlFor="wrongData">{t("bug.incorrect_data")}</label>
               </div>
             </td>
           </tr>
           <tr>
             <td>
-              <label htmlFor="link">link do turnieju/poprawnej partii </label>
+              <label htmlFor="link">{t("bug.game_link")} </label>
             </td>
             <td>
               <input
@@ -177,7 +181,7 @@ const Bug = () => {
           </tr>
           <tr>
             <td colSpan={2}>
-              <label htmlFor="notices">dodatkowe informacje</label>
+              <label htmlFor="notices">{t("bug.additional_info")}</label>
             </td>
           </tr>
           <tr>
@@ -201,25 +205,14 @@ const Bug = () => {
                   required
                   type="checkbox"
                 />
-                <label htmlFor="agreement">
-                  Wyrażam zgodę na przetwarzanie moich danych osobowych dla
-                  potrzeb niezbędnych do realizacji procesu przetwarzania
-                  zgłoszenia błędu zgodnie z ustawą z dnia 10 maja 2018 roku o
-                  ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz
-                  zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE)
-                  2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób
-                  fizycznych w związku z przetwarzaniem danych osobowych i w
-                  sprawie swobodnego przepływu takich danych oraz uchylenia
-                  dyrektywy 95/46/WE (RODO). Administratorem danych jest autor
-                  strony.
-                </label>
+                <label htmlFor="agreement">{t("bug.gdpr")}</label>
               </div>
             </td>
           </tr>
 
           <tr>
             <td colSpan={2}>
-              <input type="submit" value="Wyślij" />
+              <input type="submit" value={t("contact.send")} />
             </td>
           </tr>
         </table>

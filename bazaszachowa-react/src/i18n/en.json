@@ -29,7 +29,6 @@
     "contact.game": "Game",
     "contact.game_limit": " (allowed files: *.pgn, *.txt, *.cbv, *.zip, *.7z, *.rar max 200MB)",
     "contact.phone": "phone",
-    "contact.e_mail": "e-mail",
     "contact.send": "send",
     "gdpr.gdpr_info": "Dear GDPR enthusiasts, your games will not be removed, because at the moment a game record is published - just like recordings in any other sport - it enters the public domain (along with names and results). Consequently, everyone has full rights to it.",
     "gdpr.gdpr_dedication": "With dedication to you, I am sharing this song.",
@@ -127,6 +126,12 @@
     "math.beta.ni": "Number of games in a year",
     "footer.info": "Those willing can contribute to the hosting",
     "footer.collection": "collection",
+    "bug.incorrect_notation": "incorrect notation",
+    "bug.nonexistent_game": "nonexistent game",
+    "bug.incorrect_data": "incorrect data",
+    "bug.game_link": "link to the tournament/correct game",
+    "bug.additional_info": "additional info",
+    "bug.gdpr": "I consent to the processing of my personal data for the purposes necessary to handle the error report, in accordance with the Act of May 10, 2018 on the protection of personal data (Journal of Laws of 2018, item 1000) and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of April 27, 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (GDPR). The data controller is the author of the website.",
     "eco_href": "https://en.wikipedia.org/wiki/Encyclopaedia_of_Chess_Openings",
     "white": "white",
     "black": "black",
@@ -153,5 +158,9 @@
     "year": "year",
     "move": "move",
     "no_games": "No. games",
-    "latest": "latest"
+    "latest": "latest",
+    "e_mail": "e-mail",
+    "lastname": "lastname",
+    "firstname": "firstname",
+    "problem": "problem"
 }
