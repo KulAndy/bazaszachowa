@@ -121,7 +121,7 @@ const Games = () => {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "21ch" }}>
+                <td style={{ width: "21ch" } as const}>
                   <label>{t("games.ignore_colors")}</label>
                 </td>
                 <td colSpan={3}>
@@ -138,7 +138,11 @@ const Games = () => {
                 <td>
                   <label>{t("years")}:</label>
                 </td>
-                <td style={{ display: "flex", justifyContent: "flex-end" }}>
+                <td
+                  style={
+                    { display: "flex", justifyContent: "flex-end" } as const
+                  }
+                >
                   <input
                     max={currentYear}
                     min="1475"
@@ -146,13 +150,17 @@ const Games = () => {
                       setMinYear(Number.parseInt(event_.target.value));
                     }}
                     step="1"
-                    style={{ width: "4em" }}
+                    style={{ width: "4em" } as const}
                     type="number"
                     value={minYear}
                   />
                 </td>
                 <td> - </td>
-                <td style={{ display: "flex", justifyContent: "flex-start" }}>
+                <td
+                  style={
+                    { display: "flex", justifyContent: "flex-start" } as const
+                  }
+                >
                   <input
                     max={currentYear}
                     min="1475"
@@ -160,7 +168,7 @@ const Games = () => {
                       setMaxYear(Number.parseInt(event_.target.value));
                     }}
                     step="1"
-                    style={{ width: "4em" }}
+                    style={{ width: "4em" } as const}
                     type="number"
                     value={maxYear}
                   />
@@ -182,7 +190,11 @@ const Games = () => {
               </tr>
               <tr>
                 <td>ECO:</td>
-                <td style={{ display: "flex", justifyContent: "flex-end" }}>
+                <td
+                  style={
+                    { display: "flex", justifyContent: "flex-end" } as const
+                  }
+                >
                   <select
                     name="ecoMin"
                     onChange={(event_) => {
@@ -194,7 +206,11 @@ const Games = () => {
                   </select>
                 </td>
                 <td> - </td>
-                <td style={{ display: "flex", justifyContent: "flex-start" }}>
+                <td
+                  style={
+                    { display: "flex", justifyContent: "flex-start" } as const
+                  }
+                >
                   <select
                     name="ecoMax"
                     onChange={(event_) => {
@@ -236,7 +252,7 @@ const Games = () => {
                 </td>
               </tr>
               <tr>
-                <td style={{ width: "18ch" }}>
+                <td style={{ width: "18ch" } as const}>
                   <label>{t("games.searching")}</label>
                 </td>
                 <td>
@@ -262,7 +278,7 @@ const Games = () => {
                   />
                 </td>
               </tr>
-              <tr style={{ height: "4em" }}>
+              <tr style={{ height: "4em" } as const}>
                 <th colSpan={4}>
                   <button>{t("games.search")}</button>
                 </th>

@@ -174,10 +174,13 @@ const PreparationPlayer = ({
         - {t("preparation.against")} {t(color)}
       </h1>
       <div
-        style={{
-          display: "flex",
-          flexDirection: notationLayout === "bottom" ? "column-reverse" : "row",
-        }}
+        style={
+          {
+            display: "flex",
+            flexDirection:
+              notationLayout === "bottom" ? "column-reverse" : "row",
+          } as const
+        }
       >
         <ChessEditor
           boardSize={boardSize}
@@ -200,15 +203,18 @@ const PreparationPlayer = ({
         />
         <div>
           <div
-            style={{
-              alignItems: notationLayout === "bottom" ? "center" : "flex-start",
-              display: "flex",
-              flexDirection:
-                notationLayout === "bottom" ? "column-reverse" : "column",
-              justifyContent: "flex-start",
-              maxHeight: boardSize,
-              overflow: "auto",
-            }}
+            style={
+              {
+                alignItems:
+                  notationLayout === "bottom" ? "center" : "flex-start",
+                display: "flex",
+                flexDirection:
+                  notationLayout === "bottom" ? "column-reverse" : "column",
+                justifyContent: "flex-start",
+                maxHeight: boardSize,
+                overflow: "auto",
+              } as const
+            }
           >
             {games.length === 0 ? (
               <div>
@@ -222,18 +228,22 @@ const PreparationPlayer = ({
                 <PositionMoves
                   doMove={doMove}
                   stats={tree}
-                  style={{
-                    maxHeight: boardSize / 2,
-                    overflow: "auto",
-                  }}
+                  style={
+                    {
+                      maxHeight: boardSize / 2,
+                      overflow: "auto",
+                    } as const
+                  }
                 />
                 <LinkGamesTable
                   games={games.filter((game) => gamesFilter.includes(game.id))}
                   noEmpty={true}
-                  style={{
-                    maxHeight: boardSize / 2,
-                    overflow: "auto",
-                  }}
+                  style={
+                    {
+                      maxHeight: boardSize / 2,
+                      overflow: "auto",
+                    } as const
+                  }
                 />
               </>
             )}

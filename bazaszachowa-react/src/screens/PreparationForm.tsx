@@ -19,10 +19,10 @@ const PreparationForm = () => {
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">{t("players.player")}</label>
       <SearchPlayersWithHints f={setPlayer} placeholder="Nowak, Jan" required />
-      <p style={{ textAlign: "center" }}>
+      <p style={{ textAlign: "center" } as const}>
         <label htmlFor="white">{t("color")}</label>
       </p>
-      <p id="color-toggle" style={{ textAlign: "center" }}>
+      <p id="color-toggle" style={{ textAlign: "center" } as const}>
         <input
           checked={color === "white"}
           id="white"
@@ -46,7 +46,7 @@ const PreparationForm = () => {
         />
         <label htmlFor="black">{t("black")}</label>
       </p>
-      <p style={{ textAlign: "center" }}>
+      <p style={{ textAlign: "center" } as const}>
         <Link
           to={`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`}
         >

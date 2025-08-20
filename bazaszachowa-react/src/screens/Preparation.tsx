@@ -14,7 +14,7 @@ const Preparation = () => {
     player === null ||
     color === null ||
     player.trim().length === 0 ? (
-    <Content style={{ textAlign: "center", width: "fit-content" }}>
+    <Content style={{ textAlign: "center", width: "fit-content" } as const}>
       <PreparationForm />
     </Content>
   ) : (

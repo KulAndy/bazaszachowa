@@ -61,7 +61,7 @@ const Contact = () => {
   };
 
   return (
-    <Content classNames={["contact"]}>
+    <Content classNames={["contact"] as const}>
       <form
         action={API.BASE_URL + API.send_mail}
         encType="multipart/form-data"

@@ -134,12 +134,12 @@ const GamesTable: React.FC<GamesTableProperties> = ({
       <tr>
         <th className="not_mobile">{t("white_elo")}</th>
         <th>{t("white")}</th>
-        <th style={{ whiteSpace: "nowrap" }}>{t("result")}</th>
+        <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
         <th>{t("black")}</th>
         <th className="not_mobile">{t("black_elo")}</th>
         <th className="not_mobile">{t("tournament")}</th>
         <th>{t("date")}</th>
-        <th className="not_mobile" style={{ whiteSpace: "nowrap" }}>
+        <th className="not_mobile" style={{ whiteSpace: "nowrap" } as const}>
           ECO
         </th>
         <th className="not_mobile" />
@@ -147,17 +147,19 @@ const GamesTable: React.FC<GamesTableProperties> = ({
       {items.map((item) => (
         <tr key={item.id}>
           <Link
-            state={{
-              base,
-              gameid: item.id,
-              list: items.map((element) => element.id),
-            }}
-            style={{ display: "contents" }}
+            state={
+              {
+                base,
+                gameid: item.id,
+                list: items.map((element) => element.id),
+              } as const
+            }
+            style={{ display: "contents" } as const}
             to={`${NOMENU_URLS.game}${base}/${item.id}`}
           >
             <td className="not_mobile">{item.WhiteElo}</td>
             <td>{item.White}</td>
-            <td style={{ textAlign: "center" }}>{item.Result}</td>
+            <td style={{ textAlign: "center" } as const}>{item.Result}</td>
             <td>{item.Black}</td>
             <td className="not_mobile">{item.BlackElo}</td>
             <td className="not_mobile">{item.Event}</td>
@@ -169,7 +171,7 @@ const GamesTable: React.FC<GamesTableProperties> = ({
           <td className="not_mobile">
             <Link
               reloadDocument
-              style={{ whiteSpace: "nowrap" }}
+              style={{ whiteSpace: "nowrap" } as const}
               target="_blank"
               to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
             >

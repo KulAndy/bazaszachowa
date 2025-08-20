@@ -7,7 +7,7 @@ const Home = () => {
   const { t } = useI18n();
   return (
     <div id="home">
-      <Content classNames={["float_left"]} contentId="left_content">
+      <Content classNames={["float_left"] as const} contentId="left_content">
         <p>
           {t("home.useful_links")} <br />
         </p>
@@ -47,10 +47,10 @@ const Home = () => {
           </li>
         </ul>
       </Content>
-      <Content classNames={["float_left"]}>
+      <Content classNames={["float_left"] as const}>
         <img alt="Logo" id="logo" src={logo} />
       </Content>
-      <Content classNames={["float_left"]} contentId="right_content">
+      <Content classNames={["float_left"] as const} contentId="right_content">
         <article>
           <p>
             {t("home.manifest_part1")}

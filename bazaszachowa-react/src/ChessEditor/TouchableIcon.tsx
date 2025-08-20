@@ -17,7 +17,7 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
   icon,
   iconColor = "black",
   onClick = () => {},
-  style = {},
+  style = {} as const,
   ...properties
 }) => {
   return disable ? (

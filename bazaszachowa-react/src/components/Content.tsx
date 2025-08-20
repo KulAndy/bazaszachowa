@@ -2,7 +2,7 @@ import React from "react";
 
 interface ContentProperties extends React.HTMLProps<HTMLDivElement> {
   children: React.ReactNode;
-  classNames?: string[];
+  classNames?: readonly string[];
   contentId?: string;
 }
 

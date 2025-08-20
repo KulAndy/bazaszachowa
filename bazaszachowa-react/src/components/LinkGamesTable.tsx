@@ -128,24 +128,26 @@ const LinkGamesTable: React.FC<
         </caption>
         <tr>
           <th>{t("white")}</th>
-          <th style={{ whiteSpace: "nowrap" }}>{t("result")}</th>
+          <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
           <th>{t("black")}</th>
           <th>{t("year")}</th>
         </tr>
         {items.map((item) => (
           <Link
             key={item.id}
-            state={{
-              base,
-              gameid: item.id,
-              list: items.map((element) => element.id),
-            }}
-            style={{ display: "contents" }}
+            state={
+              {
+                base,
+                gameid: item.id,
+                list: items.map((element) => element.id),
+              } as const
+            }
+            style={{ display: "contents" } as const}
             to={`${NOMENU_URLS.game}${base}/${item.id}`}
           >
             <tr>
               <td>{item.White}</td>
-              <td style={{ textAlign: "center" }}>{item.Result}</td>
+              <td style={{ textAlign: "center" } as const}>{item.Result}</td>
               <td>{item.Black}</td>
               <td>{item.Year}</td>
             </tr>

@@ -175,11 +175,13 @@ const Game = () => {
                 event.preventDefault();
               }
             }}
-            state={{
-              base,
-              gameid: list[0],
-              list,
-            }}
+            state={
+              {
+                base,
+                gameid: list[0],
+                list,
+              } as const
+            }
             to={`${NOMENU_URLS.game}${base}/${list[0]}`}
           >
             <button disabled={firstGame} id="first" title="Ctrl + ↑  ">
@@ -193,11 +195,13 @@ const Game = () => {
                 event.preventDefault();
               }
             }}
-            state={{
-              base,
-              gameid: list[list.indexOf(gameid) - 1],
-              list,
-            }}
+            state={
+              {
+                base,
+                gameid: list[list.indexOf(gameid) - 1],
+                list,
+              } as const
+            }
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
           >
             <button disabled={firstGame} id="previous" title="Ctrl + ←">
@@ -211,11 +215,13 @@ const Game = () => {
                 event.preventDefault();
               }
             }}
-            state={{
-              base,
-              gameid: list[list.indexOf(gameid) + 1],
-              list,
-            }}
+            state={
+              {
+                base,
+                gameid: list[list.indexOf(gameid) + 1],
+                list,
+              } as const
+            }
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
           >
             <button disabled={lastGame} id="next" title="Ctrl + →">
@@ -229,11 +235,13 @@ const Game = () => {
                 event.preventDefault();
               }
             }}
-            state={{
-              base,
-              gameid: list.at(-1),
-              list,
-            }}
+            state={
+              {
+                base,
+                gameid: list.at(-1),
+                list,
+              } as const
+            }
             to={`${NOMENU_URLS.game}${base}/${list.at(-1) || 0}`}
           >
             <button disabled={lastGame} id="last" title="Ctrl + ↓">

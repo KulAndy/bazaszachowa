@@ -18,9 +18,11 @@ const HalfMove = ({
       <span
         className={`move ${isCurrent ? "active" : ""}`}
         onClick={doMove}
-        style={{
-          fontWeight: isMain ? "bold" : "normal",
-        }}
+        style={
+          {
+            fontWeight: isMain ? "bold" : "normal",
+          } as const
+        }
       >
         {`${move} `}
       </span>

@@ -187,18 +187,20 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                   onDrop={() => {
                     drop(square);
                   }}
-                  style={{
-                    backgroundColor:
-                      sourceSquare === square
-                        ? "goldenrod"
-                        : (index + counter) % 2 === 1
-                          ? blackSquareColor
-                          : whiteSquareColor,
-                    display: "flex",
-                    flex: 1,
-                    height: boardSize / 8,
-                    width: boardSize / 8,
-                  }}
+                  style={
+                    {
+                      backgroundColor:
+                        sourceSquare === square
+                          ? "goldenrod"
+                          : (index + counter) % 2 === 1
+                            ? blackSquareColor
+                            : whiteSquareColor,
+                      display: "flex",
+                      flex: 1,
+                      height: boardSize / 8,
+                      width: boardSize / 8,
+                    } as const
+                  }
                 >
                   <span className="target">
                     <FontAwesomeIcon
@@ -206,7 +208,7 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                       className={targetColor}
                       color={targetColor}
                       icon={faCircleSolid}
-                      style={{ color: targetColor }}
+                      style={{ color: targetColor } as const}
                     />
                   </span>
                 </div>,
@@ -222,18 +224,20 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                   onDrop={() => {
                     drop(square);
                   }}
-                  style={{
-                    backgroundColor:
-                      sourceSquare === square
-                        ? "goldenrod"
-                        : (index + counter) % 2 === 1
-                          ? blackSquareColor
-                          : whiteSquareColor,
-                    display: "flex",
-                    flex: 1,
-                    height: boardSize / 8,
-                    width: boardSize / 8,
-                  }}
+                  style={
+                    {
+                      backgroundColor:
+                        sourceSquare === square
+                          ? "goldenrod"
+                          : (index + counter) % 2 === 1
+                            ? blackSquareColor
+                            : whiteSquareColor,
+                      display: "flex",
+                      flex: 1,
+                      height: boardSize / 8,
+                      width: boardSize / 8,
+                    } as const
+                  }
                 />,
               );
             }
@@ -253,20 +257,22 @@ const Chessboard: React.FC<ChessboardProperties> = ({
           onDrop={() => {
             drop(square);
           }}
-          style={{
-            alignItems: "center",
-            backgroundColor:
-              sourceSquare === square
-                ? "goldenrod"
-                : (index + counter) % 2 === 1
-                  ? blackSquareColor
-                  : whiteSquareColor,
-            display: "flex",
-            flex: 1,
-            height: boardSize / 8,
-            justifyContent: "center",
-            width: boardSize / 8,
-          }}
+          style={
+            {
+              alignItems: "center",
+              backgroundColor:
+                sourceSquare === square
+                  ? "goldenrod"
+                  : (index + counter) % 2 === 1
+                    ? blackSquareColor
+                    : whiteSquareColor,
+              display: "flex",
+              flex: 1,
+              height: boardSize / 8,
+              justifyContent: "center",
+              width: boardSize / 8,
+            } as const
+          }
         >
           <span
             className={`${color} piece fa-stack`}
@@ -281,7 +287,7 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                 className={`${targetColor} target fa-stack-1x`}
                 color={targetColor}
                 icon={faCircleSolid}
-                style={{ color: targetColor }}
+                style={{ color: targetColor } as const}
               />
             )}
             {contourColor === blackPiecesColor && (
@@ -289,14 +295,14 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                 className={`${contourColor}Contour fa fa-stack-2x`}
                 color={contourColor}
                 icon={contour}
-                style={{ color: contourColor }}
+                style={{ color: contourColor } as const}
               />
             )}
             <FontAwesomeIcon
               className={`${color} fa fa-stack-3x`}
               color={color}
               icon={piece}
-              style={{ color }}
+              style={{ color } as const}
             />
           </span>
         </div>,
@@ -307,7 +313,9 @@ const Chessboard: React.FC<ChessboardProperties> = ({
       row.reverse();
     }
     board.push(
-      <div style={{ display: "flex", flexDirection: "row" }}>{row}</div>,
+      <div style={{ display: "flex", flexDirection: "row" } as const}>
+        {row}
+      </div>,
     );
   }
 
@@ -330,7 +338,7 @@ const Chessboard: React.FC<ChessboardProperties> = ({
       onScrollCapture={handleWheel}
       onWheel={handleWheel}
       onWheelCapture={handleWheel}
-      style={{ width: boardSize }}
+      style={{ width: boardSize } as const}
     >
       {board}
     </div>

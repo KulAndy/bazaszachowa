@@ -511,24 +511,32 @@ ${
         </div>
       )}
       <div
-        style={{
-          display: "flex",
-          flexDirection:
-            notationPlacement as React.CSSProperties["flexDirection"],
-          margin: "auto",
-          width: boardSize + (notationPlacement.includes("row") ? 150 : 0),
-        }}
+        style={
+          {
+            display: "flex",
+            flexDirection:
+              notationPlacement as React.CSSProperties["flexDirection"],
+            margin: "auto",
+            width: boardSize + (notationPlacement.includes("row") ? 150 : 0),
+          } as const
+        }
       >
         <div>
-          <div style={{ display: promotionMenuVisible ? "block" : "none" }}>
+          <div
+            style={
+              { display: promotionMenuVisible ? "block" : "none" } as const
+            }
+          >
             <div
-              style={{
-                alignItems: "center",
-                display: "flex",
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-              }}
+              style={
+                {
+                  alignItems: "center",
+                  display: "flex",
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                } as const
+              }
             >
               <TouchableIcon
                 className="promotion"

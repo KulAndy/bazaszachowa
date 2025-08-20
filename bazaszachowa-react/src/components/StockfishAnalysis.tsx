@@ -189,13 +189,13 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
         <>
           <p>
             {t("stockfish.best_move")}{" "}
-            <span style={{ fontWeight: "bolder" }}>
+            <span style={{ fontWeight: "bolder" } as const}>
               {variants[best].san || ""}
             </span>
           </p>
           <p>
             {t("stockfish.eval")}{" "}
-            <span style={{ fontWeight: "bolder" }}>
+            <span style={{ fontWeight: "bolder" } as const}>
               {variants[best].prefix || ""}
               {Math.abs(variants[best].value ?? Number.NaN)}
             </span>
@@ -228,7 +228,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
         <>
           {index < 3 && (
             <p key={index}>
-              <span style={{ fontWeight: "bolder" }}>
+              <span style={{ fontWeight: "bolder" } as const}>
                 {value.san} {value.prefix}
                 {Math.abs(value.value) || 0}
               </span>{" "}

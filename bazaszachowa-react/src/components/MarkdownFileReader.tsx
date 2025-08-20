@@ -17,7 +17,10 @@ const MarkdownFileReader = ({ filePath }: { filePath: string }) => {
 
   return (
     <div>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      <ReactMarkdown
+        // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+        remarkPlugins={[remarkGfm]}
+      >
         {markdownContent}
       </ReactMarkdown>
     </div>

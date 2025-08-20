@@ -72,7 +72,7 @@ const Bug = () => {
   };
 
   return (
-    <Content classNames={["bug"]}>
+    <Content classNames={["bug"] as const}>
       <form
         action={API.BASE_URL + API.send_mail}
         encType="multipart/form-data"

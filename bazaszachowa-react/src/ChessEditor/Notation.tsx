@@ -24,7 +24,7 @@ const Notation: React.FC<NotationProperties> = ({
   const processMove = (move: Move, isMain: boolean) => {
     if (move.turn === "w") {
       moveComponents.push(
-        <span style={{ fontWeight: isMain ? "bold" : "normal" }}>
+        <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
           {`${move.moveNo}. `}
         </span>,
       );
@@ -46,19 +46,23 @@ const Notation: React.FC<NotationProperties> = ({
     if (move.variations.length > 0) {
       for (const variation of move.variations) {
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>( </span>,
+          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+            ({" "}
+          </span>,
         );
         if (move.turn === "b") {
           moveComponents.push(<span>{`${move.moveNo}... `}</span>);
         }
         processMove(variation, false);
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>) </span>,
+          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+            ){" "}
+          </span>,
         );
       }
       if (move.next && move.turn === "w") {
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" }}>
+          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
             {`${move.moveNo}... `}
           </span>,
         );
@@ -88,12 +92,12 @@ const Notation: React.FC<NotationProperties> = ({
   }
 
   return (
-    <div id="notation" style={{ maxHeight: height, overflow: "auto" }}>
+    <div id="notation" style={{ maxHeight: height, overflow: "auto" } as const}>
       {groupedElements.map((group, index) => (
         <p key={index}>{group}</p>
       ))}
       {result && (
-        <p style={{ display: "inline-block" }}>
+        <p style={{ display: "inline-block" } as const}>
           <span> {result}</span>
         </p>
       )}

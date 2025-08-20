@@ -188,7 +188,7 @@ const Player = () => {
             <FidePlayersList players={fidePlayers} />
           )}
         </div>
-        <div style={{ margin: "auto", width: "fit-content" }}>
+        <div style={{ margin: "auto", width: "fit-content" } as const}>
           <table>
             <thead>
               <tr>
@@ -240,10 +240,10 @@ const Player = () => {
             title="Profile na yottachess"
           ></iframe>
         </details>
-        <table style={{ border: 0, margin: "auto" }}>
+        <table style={{ border: 0, margin: "auto" } as const}>
           <tbody>
             <tr id="container">
-              <td id="stats" style={{ border: 0 }}>
+              <td id="stats" style={{ border: 0 } as const}>
                 {loadingStats ? (
                   <div>
                     <div className="loading">
@@ -255,7 +255,7 @@ const Player = () => {
                   <OpeningsStats name={name || ""} stats={stats} />
                 )}
               </td>
-              <td style={{ border: 0 }}>
+              <td style={{ border: 0 } as const}>
                 <img
                   alt="Wykres rankingu"
                   crossOrigin="anonymous"

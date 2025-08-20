@@ -5,10 +5,6 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:deprecation/recommended"]
-    },
-    {
       "files": ["src/react-app-env.d.ts"],
       "rules": {
         "unicorn/prevent-abbreviations": "off"
@@ -39,7 +35,7 @@
     "plugin:react/jsx-runtime",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    // "plugin:react-perf/recommended",
+    "plugin:react-perf/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
@@ -51,6 +47,7 @@
     "plugin:perfectionist/recommended-alphabetical-legacy"
   ],
   "rules": {
+    "react-perf/jsx-no-new-function-as-prop": "off",
     "unicorn/string-content": "error",
     "unicorn/no-unused-properties": "error",
     "unicorn/custom-error-definition": "error",

@@ -40,7 +40,7 @@ const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
           {t("stats.filter")}
         </a>
       </summary>
-      <table style={{ border: 0 }}>
+      <table style={{ border: 0 } as const}>
         <tr>
           <td>{t("opening")}</td>
           <td>{t("quantity")}</td>

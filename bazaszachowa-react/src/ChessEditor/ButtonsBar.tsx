@@ -143,14 +143,16 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
   return (
     <div
       className="black"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        marginBottom: 15,
-        marginTop: 15,
-        width: width,
-      }}
+      style={
+        {
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginBottom: 15,
+          marginTop: 15,
+          width: width,
+        } as const
+      }
     >
       <TouchableIcon
         className="control"
