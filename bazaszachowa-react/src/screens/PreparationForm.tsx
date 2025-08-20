@@ -6,14 +6,14 @@ import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { useI18n } from "../i18n/I18nContext";
 import { URLS } from "../settings";
 
+const handleSubmit = (event: React.FormEvent) => {
+  event.preventDefault();
+};
+
 const PreparationForm = () => {
   const { t } = useI18n();
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
 
   return (
     <form onSubmit={handleSubmit}>

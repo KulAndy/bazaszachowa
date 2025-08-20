@@ -18,23 +18,26 @@ const Game = () => {
   const { t } = useI18n();
   const { state } = useLocation() as { state: LocationState };
   const navigate = useNavigate();
-  const params = useParams();
+  const parameters = useParams();
 
-  const base = state?.base || params.base || "all";
-  const gameid = Number(state?.gameid || params.gameid || 0);
+  const base = state?.base || parameters.base || "all";
+  const gameid = Number(state?.gameid || parameters.gameid || 0);
   const list = state?.list || [];
 
   const [data, setData] = useState<GameData | null>(null);
 
   const [fen, setFen] = useState<string | undefined>();
-  // eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [doMove, setDoMove] = useState(null);
   const [boardSize, setBoardSize] = useState(() =>
     Math.min(
       350,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
+        10 *
+          Number.parseFloat(
+            getComputedStyle(document.documentElement).fontSize,
+          ),
     ),
   );
   const [notationLayout, setNotationLayout] = useState(
@@ -49,7 +52,10 @@ const Game = () => {
       400,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
+        10 *
+          Number.parseFloat(
+            getComputedStyle(document.documentElement).fontSize,
+          ),
     );
     setNotationLayout(
       window.innerHeight > window.innerWidth ||
@@ -79,27 +85,32 @@ const Game = () => {
   }, []);
 
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       let index = -1;
-      if (e.ctrlKey && list.length > 0) {
-        switch (e.code) {
-          case "ArrowDown":
+      if (event.ctrlKey && list.length > 0) {
+        switch (event.code) {
+          case "ArrowDown": {
             index = 0;
             break;
-          case "ArrowLeft":
+          }
+          case "ArrowLeft": {
             index = list.indexOf(gameid) - 1;
             break;
-          case "ArrowRight":
+          }
+          case "ArrowRight": {
             index = list.indexOf(gameid) + 1;
             if (index >= list.length) {
               index = -1;
             }
             break;
-          case "ArrowUp":
+          }
+          case "ArrowUp": {
             index = list.length - 1;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
       }
       if (index > -1) {
@@ -114,13 +125,15 @@ const Game = () => {
     };
 
     const handleResize = () => {
-      setBoardSize((prevSize) =>
+      setBoardSize((previousSize) =>
         Math.min(
-          Math.max(prevSize, 100),
+          Math.max(previousSize, 100),
           window.innerWidth * 0.9,
           window.innerHeight -
             10 *
-              parseFloat(getComputedStyle(document.documentElement).fontSize),
+              Number.parseFloat(
+                getComputedStyle(document.documentElement).fontSize,
+              ),
         ),
       );
       setNotationLayout(
@@ -131,11 +144,11 @@ const Game = () => {
       );
     };
 
-    window.addEventListener("keydown", handleKeyPress);
+    globalThis.addEventListener("keydown", handleKeyPress);
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      globalThis.removeEventListener("keydown", handleKeyPress);
       window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,9 +170,9 @@ const Game = () => {
         <div id="buttonContainer">
           <Link
             id="first_link"
-            onClick={(e) => {
+            onClick={(event) => {
               if (firstGame) {
-                e.preventDefault();
+                event.preventDefault();
               }
             }}
             state={{
@@ -175,9 +188,9 @@ const Game = () => {
           </Link>
           <Link
             id="previous_link"
-            onClick={(e) => {
+            onClick={(event) => {
               if (firstGame) {
-                e.preventDefault();
+                event.preventDefault();
               }
             }}
             state={{
@@ -193,9 +206,9 @@ const Game = () => {
           </Link>
           <Link
             id="next_link"
-            onClick={(e) => {
+            onClick={(event) => {
               if (lastGame) {
-                e.preventDefault();
+                event.preventDefault();
               }
             }}
             state={{
@@ -211,17 +224,17 @@ const Game = () => {
           </Link>
           <Link
             id="last_link"
-            onClick={(e) => {
+            onClick={(event) => {
               if (lastGame) {
-                e.preventDefault();
+                event.preventDefault();
               }
             }}
             state={{
               base,
-              gameid: list[list.length - 1],
+              gameid: list.at(-1),
               list,
             }}
-            to={`${NOMENU_URLS.game}${base}/${list[list.length - 1]}`}
+            to={`${NOMENU_URLS.game}${base}/${list.at(-1) || 0}`}
           >
             <button disabled={lastGame} id="last" title="Ctrl + ↓">
               {t("last_game")}
@@ -239,20 +252,20 @@ const Game = () => {
             setFen={setFen}
             setNotationLayout={setNotationLayout}
             zoomIn={() => {
-              setBoardSize((prevSize) =>
+              setBoardSize((previousSize) =>
                 Math.min(
-                  prevSize + 25,
+                  previousSize + 25,
                   window.innerWidth * 0.9,
                   window.innerHeight -
                     10 *
-                      parseFloat(
+                      Number.parseFloat(
                         getComputedStyle(document.documentElement).fontSize,
                       ),
                 ),
               );
             }}
             zoomOut={() => {
-              setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
+              setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
             }}
           />
           {fen && (

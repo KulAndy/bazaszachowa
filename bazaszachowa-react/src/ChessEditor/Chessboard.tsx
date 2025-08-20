@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import "./style.css";
 import {
   faChessBishop as faChessBishopRegular,
@@ -19,7 +21,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-interface ChessboardProps {
+interface ChessboardProperties {
   blackPiecesColor?: string;
   blackSquareColor?: string;
   boardSize: number;
@@ -35,14 +37,14 @@ interface ChessboardProps {
   whiteSquareColor?: string;
 }
 
-const Chessboard: React.FC<ChessboardProps> = ({
+const Chessboard: React.FC<ChessboardProperties> = ({
   blackPiecesColor = "black",
   blackSquareColor = "#b58863",
   boardSize = 400,
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   flip = false,
   nextMove = () => {},
-  prevMove = () => {},
+  prevMove: previousMove = () => {},
   sendSquare = () => {},
   sourceSquare = null,
   targetColor = "green",
@@ -50,8 +52,8 @@ const Chessboard: React.FC<ChessboardProps> = ({
   whitePiecesColor = "white",
   whiteSquareColor = "#f0d9b5",
 }) => {
-  const allowDrop = (ev: React.DragEvent) => {
-    ev.preventDefault();
+  const allowDrop = (event_: React.DragEvent) => {
+    event_.preventDefault();
   };
 
   const drag = (square: string) => {
@@ -62,98 +64,118 @@ const Chessboard: React.FC<ChessboardProps> = ({
     sendSquare(square);
   };
 
-  const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+  const LETTERS = ["a", "b", "c", "d", "event", "f", "g", "h"];
   const piecesPlacement = fen.includes(" ")
     ? fen.split(" ")[0]
     : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   const piecesPlacementRows = piecesPlacement.split("/");
   const board = [];
   let key = 0;
-  for (let i = 0; i < piecesPlacementRows.length && i < 8; i++) {
+  for (
+    let index = 0;
+    index < piecesPlacementRows.length && index < 8;
+    index++
+  ) {
     const row = [];
     let counter = 0;
-    for (let j = 0; j < piecesPlacementRows[i].length && j < 8; j++) {
+    for (
+      let index_ = 0;
+      index_ < piecesPlacementRows[index].length && index_ < 8;
+      index_++
+    ) {
       let piece = null;
       let color = null;
       let contour = null;
       let contourColor = null;
-      switch (piecesPlacementRows[i][j]) {
-        case "B":
+      switch (piecesPlacementRows[index][index_]) {
+        case "B": {
           piece = faChessBishopSolid;
           color = whitePiecesColor;
           contour = faChessBishopRegular;
           contourColor = blackPiecesColor;
           break;
-        case "b":
+        }
+        case "b": {
           piece = faChessBishopSolid;
           color = blackPiecesColor;
           contour = faChessBishopRegular;
           contourColor = whitePiecesColor;
           break;
-        case "K":
+        }
+        case "K": {
           piece = faChessKingSolid;
           color = whitePiecesColor;
           contour = faChessKingRegular;
           contourColor = blackPiecesColor;
           break;
-        case "k":
+        }
+        case "k": {
           piece = faChessKingSolid;
           color = blackPiecesColor;
           contour = faChessKingRegular;
           contourColor = whitePiecesColor;
           break;
-        case "N":
+        }
+        case "N": {
           piece = faChessKnightSolid;
           color = whitePiecesColor;
           contour = faChessKnightRegular;
           contourColor = blackPiecesColor;
           break;
-        case "n":
+        }
+        case "n": {
           piece = faChessKnightSolid;
           color = blackPiecesColor;
           contour = faChessKnightRegular;
           contourColor = whitePiecesColor;
           break;
-        case "P":
+        }
+        case "P": {
           piece = faChessPawnSolid;
           color = whitePiecesColor;
           contour = faChessPawnRegular;
           contourColor = blackPiecesColor;
           break;
-        case "p":
+        }
+        case "p": {
           piece = faChessPawnSolid;
           color = blackPiecesColor;
           contour = faChessPawnRegular;
           contourColor = whitePiecesColor;
           break;
-        case "Q":
+        }
+        case "Q": {
           piece = faChessQueenSolid;
           color = whitePiecesColor;
           contour = faChessQueenRegular;
           contourColor = blackPiecesColor;
           break;
-        case "q":
+        }
+        case "q": {
           piece = faChessQueenSolid;
           color = blackPiecesColor;
           contour = faChessQueenRegular;
           contourColor = whitePiecesColor;
           break;
-        case "R":
+        }
+        case "R": {
           piece = faChessRookSolid;
           color = whitePiecesColor;
           contour = faChessRookRegular;
           contourColor = blackPiecesColor;
           break;
-        case "r":
+        }
+        case "r": {
           piece = faChessRookSolid;
           color = blackPiecesColor;
           contour = faChessRookRegular;
           contourColor = whitePiecesColor;
           break;
-        default:
-          const n = parseInt(piecesPlacementRows[i][j]);
+        }
+        default: {
+          const n = Number.parseInt(piecesPlacementRows[index][index_]);
           for (let k = 0; k < n; k++) {
-            const square = `${LETTERS[counter]}${8 - i}`;
+            const square = `${LETTERS[counter]}${8 - index}`;
             if (targetSquares.includes(square)) {
               row.push(
                 <div
@@ -169,7 +191,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
                     backgroundColor:
                       sourceSquare === square
                         ? "goldenrod"
-                        : (i + counter) % 2 === 1
+                        : (index + counter) % 2 === 1
                           ? blackSquareColor
                           : whiteSquareColor,
                     display: "flex",
@@ -204,7 +226,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
                     backgroundColor:
                       sourceSquare === square
                         ? "goldenrod"
-                        : (i + counter) % 2 === 1
+                        : (index + counter) % 2 === 1
                           ? blackSquareColor
                           : whiteSquareColor,
                     display: "flex",
@@ -218,8 +240,9 @@ const Chessboard: React.FC<ChessboardProps> = ({
             counter++;
           }
           continue;
+        }
       }
-      const square = `${LETTERS[counter]}${8 - i}`;
+      const square = `${LETTERS[counter]}${8 - index}`;
       row.push(
         <div
           key={key++}
@@ -235,7 +258,7 @@ const Chessboard: React.FC<ChessboardProps> = ({
             backgroundColor:
               sourceSquare === square
                 ? "goldenrod"
-                : (i + counter) % 2 === 1
+                : (index + counter) % 2 === 1
                   ? blackSquareColor
                   : whiteSquareColor,
             display: "flex",
@@ -248,8 +271,8 @@ const Chessboard: React.FC<ChessboardProps> = ({
           <span
             className={`${color} piece fa-stack`}
             draggable
-            onDragStart={(e) => {
-              e.stopPropagation();
+            onDragStart={(event) => {
+              event.stopPropagation();
               drag(square);
             }}
           >
@@ -292,13 +315,13 @@ const Chessboard: React.FC<ChessboardProps> = ({
     board.reverse();
   }
 
-  const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
-    if (e.deltaY > 0) {
+  const handleWheel: React.WheelEventHandler<HTMLDivElement> = (event) => {
+    if (event.deltaY > 0) {
       nextMove();
     } else {
-      prevMove();
+      previousMove();
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
   return (

@@ -4,11 +4,11 @@ import { useI18n } from "../i18n/I18nContext";
 
 import FidePlayer, { FidePlayerType } from "./FidePlayer";
 
-interface FidePlayersListProps {
+interface FidePlayersListProperties {
   players: FidePlayerType[];
 }
 
-const FidePlayersList: React.FC<FidePlayersListProps> = ({ players }) => {
+const FidePlayersList: React.FC<FidePlayersListProperties> = ({ players }) => {
   const { t } = useI18n();
   if (players.length === 0) {
     return <div id="fide-data-container"></div>;

@@ -5,7 +5,7 @@ import HalfMove from "./HalfMove";
 // eslint-disable-next-line import/no-cycle
 import { Move } from ".";
 
-interface NotationProps {
+interface NotationProperties {
   currentIndex: number;
   height: number;
   moves: Move[];
@@ -13,7 +13,7 @@ interface NotationProps {
   setIndex: (x: number) => void;
 }
 
-const Notation: React.FC<NotationProps> = ({
+const Notation: React.FC<NotationProperties> = ({
   currentIndex = 0,
   height = 400,
   moves = [],
@@ -63,8 +63,10 @@ const Notation: React.FC<NotationProps> = ({
           </span>,
         );
       } else if (move.turn === "b") {
-        moveComponents.push(<span>&nbsp;&nbsp;</span>);
-        moveComponents.push(<span>&nbsp;&nbsp;</span>);
+        moveComponents.push(
+          <span>&nbsp;&nbsp;</span>,
+          <span>&nbsp;&nbsp;</span>,
+        );
       }
     }
 
@@ -81,8 +83,8 @@ const Notation: React.FC<NotationProps> = ({
 
   const groupedElements = [];
 
-  for (let i = 0; i < moveComponents.length; i += 3) {
-    groupedElements.push(moveComponents.slice(i, i + 3));
+  for (let index = 0; index < moveComponents.length; index += 3) {
+    groupedElements.push(moveComponents.slice(index, index + 3));
   }
 
   return (
@@ -90,7 +92,7 @@ const Notation: React.FC<NotationProps> = ({
       {groupedElements.map((group, index) => (
         <p key={index}>{group}</p>
       ))}
-      {result != null && (
+      {result && (
         <p style={{ display: "inline-block" }}>
           <span> {result}</span>
         </p>

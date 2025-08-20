@@ -16,28 +16,30 @@ const ThemeContext = createContext<{
   toggleTheme: () => {},
 });
 
+const getInitialTheme = () => {
+  const storedTheme = Cookies.get("theme");
+  const prefersDarkMode = globalThis.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
+
+  return storedTheme || (prefersDarkMode ? "dark" : "light");
+};
+
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const getInitialTheme = () => {
-    const storedTheme = Cookies.get("theme");
-    const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-
-    return storedTheme || (prefersDarkMode ? "dark" : "light");
-  };
-
   const [theme, setTheme] = useState<string>(getInitialTheme);
 
   useEffect(() => {
     const storedTheme = Cookies.get("theme");
-    const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQueryList = globalThis.matchMedia(
+      "(prefers-color-scheme: dark)",
+    );
 
     if (storedTheme === undefined) {
       setTheme(mediaQueryList.matches ? "dark" : "light");
     }
 
-    const handleChange = (e: MediaQueryListEvent) =>
-      setTheme(e.matches ? "dark" : "light");
+    const handleChange = (event: MediaQueryListEvent) =>
+      setTheme(event.matches ? "dark" : "light");
 
     mediaQueryList.addEventListener("change", handleChange);
 
@@ -48,10 +50,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const memoizedTheme = useMemo(() => theme, [theme]);
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const toggleTheme = () => {
-    setTheme((prevTheme) => {
-      const newTheme = prevTheme === "light" ? "dark" : "light";
+    setTheme((previousTheme) => {
+      const newTheme = previousTheme === "light" ? "dark" : "light";
       Cookies.set("theme", newTheme, { expires: 365 });
       return newTheme;
     });

@@ -4,58 +4,79 @@ import { useI18n } from "../i18n/I18nContext";
 
 import CrPlayer, { CrPlayerType } from "./CrPlayer";
 
-interface CrPlayersListProps {
+interface CrPlayersListProperties {
   players: CrPlayerType[];
 }
 
 const categoryToRanking = (category: string) => {
   switch (category.toUpperCase()) {
-    case "CM":
+    case "CM": {
       return 2200;
-    case "FM":
+    }
+    case "FM": {
       return 2300;
-    case "GM":
+    }
+    case "GM": {
       return 2600;
-    case "I":
+    }
+    case "I": {
       return 2000;
-    case "I+":
+    }
+    case "I+": {
       return 2075;
-    case "I++":
+    }
+    case "I++": {
       return 2100;
-    case "II":
+    }
+    case "II": {
       return 1800;
-    case "II+":
+    }
+    case "II+": {
       return 1900;
-    case "III":
+    }
+    case "III": {
       return 1600;
-    case "IM":
+    }
+    case "IM": {
       return 2450;
-    case "IV":
+    }
+    case "IV": {
       return 1250;
-    case "K":
+    }
+    case "K": {
       return 2200;
-    case "K+":
+    }
+    case "K+": {
       return 2275;
-    case "K++":
+    }
+    case "K++": {
       return 2300;
-    case "M":
+    }
+    case "M": {
       return 2400;
-    case "V":
+    }
+    case "V": {
       return 1200;
-    case "WCM":
+    }
+    case "WCM": {
       return 2050;
-    case "WFM":
+    }
+    case "WFM": {
       return 2100;
-    case "WGM":
+    }
+    case "WGM": {
       return 2400;
-    case "WIM":
+    }
+    case "WIM": {
       return 2250;
-    default:
+    }
+    default: {
       return 1000;
+    }
   }
 };
 
-const CrPlayersList: React.FC<CrPlayersListProps> = ({ players }) => {
+const CrPlayersList: React.FC<CrPlayersListProperties> = ({ players }) => {
   const { t } = useI18n();
   if (players.length === 0) {
     return <div id="cr-data-container"></div>;

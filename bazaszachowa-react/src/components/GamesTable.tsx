@@ -9,15 +9,16 @@ import initWasm from "../wasm/uci2pgn";
 
 let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 initWasm().then((wasm) => {
-  uci2san = (movesObj) => {
+  uci2san = (movesObject) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const moves = new wasm.VectorString();
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < movesObj.length; i++) {
-      let uci = movesObj[i].from + movesObj[i].to;
-      if (movesObj[i].promotion) {
-        uci += movesObj[i].promotion;
+    for (const element of movesObject) {
+      let uci = element.from + element.to;
+      if (element.promotion) {
+        uci += element.promotion;
       }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       moves.push_back(uci);
@@ -36,16 +37,15 @@ const legacyGame2pgn = (game: GameData) => {
       let pgn = "";
       const chess = new Chess();
 
-      for (let i = 0; i < game.moves.length; i++) {
-        const doneMove = chess.move(game.moves[i]);
+      for (let index = 0; index < game.moves.length; index++) {
+        const doneMove = chess.move(game.moves[index]);
         if (!doneMove) {
           break;
         }
-        if (i % 2 === 0) {
-          pgn += `${i / 2 + 1}. ${doneMove.san} `;
-        } else {
-          pgn += `${doneMove.san} `;
-        }
+        pgn +=
+          index % 2 === 0
+            ? `${index / 2 + 1}. ${doneMove.san} `
+            : `${doneMove.san} `;
       }
       resolve(pgn);
     } catch (error) {
@@ -80,7 +80,7 @@ const game2pgn = async (game: GameData) => {
   return pgn;
 };
 
-export interface GamesTableProps {
+export interface GamesTableProperties {
   base?: string;
   games: GameData[] | null;
   noEmpty?: boolean;
@@ -90,9 +90,8 @@ const download = async (games: GameData[] | null) => {
   if (!games) {
     return;
   }
-  const pgn = (await Promise.all(games.map((item) => game2pgn(item)))).join(
-    "\n\n",
-  );
+  const pgnStrings = await Promise.all(games.map((item) => game2pgn(item)));
+  const pgn = pgnStrings.join("\n\n");
 
   const blob = new Blob([pgn], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
@@ -105,7 +104,7 @@ const download = async (games: GameData[] | null) => {
   URL.revokeObjectURL(url);
 };
 
-const GamesTable: React.FC<GamesTableProps> = ({
+const GamesTable: React.FC<GamesTableProperties> = ({
   base = "all",
   games,
   noEmpty = false,
@@ -151,7 +150,7 @@ const GamesTable: React.FC<GamesTableProps> = ({
             state={{
               base,
               gameid: item.id,
-              list: items.map((elem) => elem.id),
+              list: items.map((element) => element.id),
             }}
             style={{ display: "contents" }}
             to={`${NOMENU_URLS.game}${base}/${item.id}`}

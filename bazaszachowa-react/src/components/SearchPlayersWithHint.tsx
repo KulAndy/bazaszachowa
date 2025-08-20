@@ -4,38 +4,38 @@ import { API } from "../settings";
 
 const replaceNationalCharacters = (text: string) => {
   let toReplace = text;
-  toReplace = toReplace.replace(/ą/g, "a");
-  toReplace = toReplace.replace(/Ą/g, "A");
-  toReplace = toReplace.replace(/ć/g, "c");
-  toReplace = toReplace.replace(/Ć/g, "C");
-  toReplace = toReplace.replace(/ę/g, "e");
-  toReplace = toReplace.replace(/Ę/g, "E");
-  toReplace = toReplace.replace(/ł/g, "l");
-  toReplace = toReplace.replace(/Ł/g, "L");
-  toReplace = toReplace.replace(/ń/g, "n");
-  toReplace = toReplace.replace(/Ń/g, "n");
-  toReplace = toReplace.replace(/ó/g, "o");
-  toReplace = toReplace.replace(/Ó/g, "o");
-  toReplace = toReplace.replace(/ś/g, "s");
-  toReplace = toReplace.replace(/Ś/g, "s");
-  toReplace = toReplace.replace(/ź/g, "z");
-  toReplace = toReplace.replace(/Ź/g, "Z");
-  toReplace = toReplace.replace(/ż/g, "z");
-  toReplace = toReplace.replace(/Ż/g, "Z");
+  toReplace = toReplace.replaceAll("ą", "a");
+  toReplace = toReplace.replaceAll("Ą", "A");
+  toReplace = toReplace.replaceAll("ć", "c");
+  toReplace = toReplace.replaceAll("Ć", "C");
+  toReplace = toReplace.replaceAll("ę", "event");
+  toReplace = toReplace.replaceAll("Ę", "E");
+  toReplace = toReplace.replaceAll("ł", "l");
+  toReplace = toReplace.replaceAll("Ł", "L");
+  toReplace = toReplace.replaceAll("ń", "n");
+  toReplace = toReplace.replaceAll("Ń", "n");
+  toReplace = toReplace.replaceAll("ó", "o");
+  toReplace = toReplace.replaceAll("Ó", "o");
+  toReplace = toReplace.replaceAll("ś", "s");
+  toReplace = toReplace.replaceAll("Ś", "s");
+  toReplace = toReplace.replaceAll("ź", "z");
+  toReplace = toReplace.replaceAll("Ź", "Z");
+  toReplace = toReplace.replaceAll("ż", "z");
+  toReplace = toReplace.replaceAll("Ż", "Z");
   return toReplace;
 };
 
-interface SearchPlayersWithHintsProps extends HTMLProps<HTMLInputElement> {
+interface SearchPlayersWithHintsProperties extends HTMLProps<HTMLInputElement> {
   f: (x: string) => void;
   id?: string;
   list?: string;
 }
 
-const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
+const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
   f = () => {},
   id = "input",
   list,
-  ...props
+  ...properties
 }) => {
   const [text, setText] = useState("");
   const [players, setPlayers] = useState<string[]>([]);
@@ -62,10 +62,10 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProps> = ({
         list={list || `${id}_datalist`}
         placeholder="Nowak, Jan"
         value={text}
-        {...props}
-        onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-          f(replaceNationalCharacters(e.target.value));
-          setText(replaceNationalCharacters(e.target.value));
+        {...properties}
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
+          f(replaceNationalCharacters(event.target.value));
+          setText(replaceNationalCharacters(event.target.value));
         }}
       />
       {players.length > 0 && (

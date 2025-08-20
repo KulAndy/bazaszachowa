@@ -7,7 +7,7 @@ import Menu from "./components/Menu";
 import { useTheme } from "./components/ThemeProvider";
 import Bug from "./screens/Bug";
 import Contact from "./screens/Contact";
-import Docs from "./screens/Docs";
+import Documentation from "./screens/Documentation";
 import Downloads from "./screens/Downloads";
 import Game from "./screens/Game";
 import Games from "./screens/Games";
@@ -60,7 +60,10 @@ const App = () => {
                   Component={Bug}
                   path={`${NOMENU_URLS.bug}:base/:gameid`}
                 />
-                <Route Component={Docs} path={`${NOMENU_URLS.docs}:file?`} />
+                <Route
+                  Component={Documentation}
+                  path={`${NOMENU_URLS.docs}:file?`}
+                />
                 <Route Component={Downloads} path={URLS.downloads.url} />
                 <Route Component={NotFound} path="*" />
               </Routes>

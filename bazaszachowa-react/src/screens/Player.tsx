@@ -133,12 +133,12 @@ const Player = () => {
     loadFide();
     loadStats();
     loadGames();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   useEffect(() => {
     loadGames();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color, opening]);
 
   return (
@@ -147,12 +147,12 @@ const Player = () => {
         <h1>{name}</h1>
         {!loadingExtremes && (
           <div id="info">
-            {maxElo != null && (
+            {maxElo && (
               <p>
                 {t("player.highest_rating")} {maxElo}
               </p>
             )}
-            {minYear != null && maxYear != null && (
+            {minYear && maxYear && (
               <p>
                 {t("player.year")} {minYear} - {maxYear}
               </p>
@@ -260,8 +260,8 @@ const Player = () => {
                   alt="Wykres rankingu"
                   crossOrigin="anonymous"
                   id="graph"
-                  onError={(e) => {
-                    const target = e.target as HTMLElement;
+                  onError={(event) => {
+                    const target = event.target as HTMLElement;
                     target.parentElement?.remove();
                   }}
                   src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(

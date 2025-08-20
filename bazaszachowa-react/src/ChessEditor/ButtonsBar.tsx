@@ -16,7 +16,7 @@ import React, { useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
 
-interface ButtonsBarProps {
+interface ButtonsBarProperties {
   download: () => void;
   firstMove: () => void;
   flip: () => void;
@@ -35,7 +35,7 @@ interface ButtonsBarProps {
   zoomOut: () => void;
 }
 
-const ButtonsBar: React.FC<ButtonsBarProps> = ({
+const ButtonsBar: React.FC<ButtonsBarProperties> = ({
   download = () => {},
   firstMove = () => {},
   flip = () => {},
@@ -46,7 +46,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
   notationLayout = "column",
   notationSwitch = false,
   playing,
-  prevMove = () => {},
+  prevMove: previousMove = () => {},
   setNotationLayout = () => {},
   setPlaying,
   width,
@@ -57,63 +57,75 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
   const inactiveIconColor = "gray";
 
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.ctrlKey) {
-        switch (e.key) {
-          case "-":
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.ctrlKey) {
+        switch (event.key) {
+          case "-": {
             zoomOut();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "+":
+          }
+          case "+": {
             zoomIn();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "f":
+          }
+          case "f": {
             flip();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "p":
+          }
+          case "p": {
             setPlaying();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "r":
-            window.location.reload();
+          }
+          case "r": {
+            globalThis.location.reload();
             break;
-          case "s":
+          }
+          case "s": {
             download();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
       } else {
-        switch (e.code) {
-          case "ArrowDown":
+        switch (event.code) {
+          case "ArrowDown": {
             firstMove();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "ArrowLeft":
-            prevMove();
-            e.preventDefault();
+          }
+          case "ArrowLeft": {
+            previousMove();
+            event.preventDefault();
             break;
-          case "ArrowRight":
+          }
+          case "ArrowRight": {
             nextMove();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          case "ArrowUp":
+          }
+          case "ArrowUp": {
             lastMove();
-            e.preventDefault();
+            event.preventDefault();
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
       }
     };
 
-    window.addEventListener("keydown", handleKeyPress);
+    globalThis.addEventListener("keydown", handleKeyPress);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      globalThis.removeEventListener("keydown", handleKeyPress);
     };
   }, [
     download,
@@ -122,7 +134,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
     lastMove,
     nextMove,
     playing,
-    prevMove,
+    previousMove,
     setPlaying,
     zoomIn,
     zoomOut,
@@ -160,7 +172,7 @@ const ButtonsBar: React.FC<ButtonsBarProps> = ({
         disable={isFirst}
         icon={faBackwardStep}
         iconColor={isFirst ? inactiveIconColor : activeIconColor}
-        onClick={prevMove}
+        onClick={previousMove}
         title="←"
       />
       <TouchableIcon

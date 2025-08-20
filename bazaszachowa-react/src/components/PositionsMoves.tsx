@@ -16,7 +16,7 @@ interface MoveStats {
   points: number;
 }
 
-interface PositionMovesProps extends HTMLProps<HTMLDivElement> {
+interface PositionMovesProperties extends HTMLProps<HTMLDivElement> {
   doMove?: (move: string) => void;
   stats: StatsItem[];
 }
@@ -57,10 +57,10 @@ const calcProbability = ({
   return probability;
 };
 
-const PositionMoves: React.FC<PositionMovesProps> = ({
+const PositionMoves: React.FC<PositionMovesProperties> = ({
   doMove = () => {},
   stats,
-  ...props
+  ...properties
 }) => {
   const { t } = useI18n();
   if (!stats || stats.length === 0) {
@@ -139,7 +139,7 @@ const PositionMoves: React.FC<PositionMovesProps> = ({
   }
 
   return (
-    <div {...props}>
+    <div {...properties}>
       <table id="stats">
         <tr>
           <th>{t("move")}</th>

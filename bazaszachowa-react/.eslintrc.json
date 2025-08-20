@@ -7,25 +7,13 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:deprecation/recommended"]
+    },
+    {
+      "files": ["src/react-app-env.d.ts"],
+      "rules": {
+        "unicorn/prevent-abbreviations": "off"
+      }
     }
-  ],
-  "extends": [
-    "react-app",
-    "react-app/jest",
-    "plugin:deprecation/recommended",
-    "plugin:no-unsanitized/recommended-legacy",
-    "plugin:prettier/recommended",
-    "plugin:promise/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:perfectionist/recommended-alphabetical-legacy",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:@typescript-eslint/strict"
   ],
   "plugins": [
     "jsx-a11y",
@@ -40,11 +28,48 @@
     "perfectionist",
     "promise"
   ],
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:deprecation/recommended",
+    "plugin:jsx-a11y/strict",
+    "plugin:no-unsanitized/recommended-legacy",
+    "plugin:prettier/recommended",
+    "plugin:promise/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    // "plugin:react-perf/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:perfectionist/recommended-alphabetical-legacy",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict",
+    "plugin:unicorn/recommended",
+    "plugin:perfectionist/recommended-alphabetical-legacy"
+  ],
   "rules": {
+    "unicorn/string-content": "error",
+    "unicorn/no-unused-properties": "error",
+    "unicorn/custom-error-definition": "error",
+    "unicorn/consistent-destructuring": "error",
+    "unicorn/better-regex": "error",
+    "unicorn/prefer-ternary": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/prefer-code-point": "off",
+    "unicorn/no-nested-ternary": "off",
+    "unicorn/filename-case": "off",
+    "unicorn/no-null": "off",
+
     "no-unsanitized/method": "error",
     "no-unsanitized/property": "error",
     "promise/always-return": "off",
+
     "promise/catch-or-return": "off",
+
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/prefer-optional-chain": "error",
@@ -76,11 +101,14 @@
     "@typescript-eslint/no-unnecessary-condition": "off",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/prefer-for-of": "error",
+
     "react/react-in-jsx-scope": "off",
+
     "react-web-api/no-leaked-event-listener": "error",
     "react-web-api/no-leaked-interval": "error",
     "react-web-api/no-leaked-resize-observer": "error",
     "react-web-api/no-leaked-timeout": "error",
+
     "react-naming-convention/component-name": "error",
     "react-naming-convention/filename-extension": [
       "error",
@@ -90,6 +118,7 @@
     ],
     "react-naming-convention/use-state": "error",
     "react-naming-convention/context-name": "error",
+
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react-hooks-extra/no-direct-set-state-in-use-layout-effect": "error",
@@ -97,17 +126,17 @@
     "react-hooks-extra/no-unnecessary-use-memo": "error",
     "react-hooks-extra/no-unnecessary-use-prefix": "error",
     "react-hooks-extra/prefer-use-state-lazy-initialization": "error",
+
     "react-dom/no-dangerously-set-innerhtml": "error",
     "react-dom/no-find-dom-node": "error",
     "react-dom/no-flush-sync": "error",
     "react-dom/no-hydrate": "error",
-    // "react-dom/no-missing-button-type": "error",
-    // "react-dom/no-missing-iframe-sandbox": "error",
     "react-dom/no-dangerously-set-innerhtml-with-children": "error",
     "react-dom/no-render": "error",
     "react-dom/no-render-return-value": "error",
     "react-dom/no-script-url": "error",
     "react-dom/no-unknown-property": "error",
+
     "react/jsx-filename-extension": [
       "error",
       {
@@ -116,6 +145,7 @@
     ],
     "react/no-unused-prop-types": "error",
     "react/jsx-no-duplicate-props": "error",
+
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": [
       "error",
@@ -142,7 +172,9 @@
         }
       }
     ],
+
     "perfectionist/sort-imports": 0,
+
     "func-names": ["error", "always"],
     "no-eval": "error",
     "consistent-return": "error",

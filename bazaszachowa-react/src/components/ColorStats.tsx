@@ -3,7 +3,7 @@ import React from "react";
 import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
-export interface ColorStatsProps {
+export interface ColorStatsProperties {
   color: string;
   name: string;
   // eslint-disable-next-line no-use-before-define
@@ -16,7 +16,7 @@ export interface Stat {
   percent: number;
 }
 
-const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
+const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
   const { t } = useI18n();
   const items = stats.map((stat, index) => ({
     ...stat,
@@ -72,7 +72,8 @@ const ColorStats: React.FC<ColorStatsProps> = ({ color, name, stats }) => {
           <td>
             {(
               items.reduce(
-                (acc, { count, percent }) => acc + count * percent,
+                (accumulator, { count, percent }) =>
+                  accumulator + count * percent,
                 0,
               ) / sum
             ).toFixed(2)}

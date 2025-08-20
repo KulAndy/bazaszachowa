@@ -5,7 +5,7 @@ import { NOMENU_URLS } from "../settings";
 
 import ColorStats, { Stat } from "./ColorStats";
 
-interface OpeningsStatsProps {
+interface OpeningsStatsProperties {
   name: string;
   stats: {
     blacks: Stat[];
@@ -13,7 +13,7 @@ interface OpeningsStatsProps {
   };
 }
 
-const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
+const OpeningsStats: React.FC<OpeningsStatsProperties> = ({ name, stats }) => {
   const { t } = useI18n();
   const sum =
     stats.whites.reduce(
@@ -44,10 +44,11 @@ const OpeningsStats: React.FC<OpeningsStatsProps> = ({ name, stats }) => {
         <td>{sum}</td>
         <td>
           {(
-            stats.whites
-              .concat(stats.blacks)
-              .reduce((acc, { count, percent }) => acc + count * percent, 0) /
-            sum
+            [...stats.whites, ...stats.blacks].reduce(
+              (accumulator, { count, percent }) =>
+                accumulator + count * percent,
+              0,
+            ) / sum
           ).toFixed(2)}
         </td>
         <td>

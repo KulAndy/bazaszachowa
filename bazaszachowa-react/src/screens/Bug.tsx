@@ -24,8 +24,8 @@ const Bug = () => {
   ) => {
     const { name, value } = event.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((previousData) => ({
+      ...previousData,
       [name]: value,
     }));
   };

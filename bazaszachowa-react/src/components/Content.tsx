@@ -1,19 +1,19 @@
 import React from "react";
 
-interface ContentProps extends React.HTMLProps<HTMLDivElement> {
+interface ContentProperties extends React.HTMLProps<HTMLDivElement> {
   children: React.ReactNode;
   classNames?: string[];
   contentId?: string;
 }
 
-const Content: React.FC<ContentProps> = ({
+const Content: React.FC<ContentProperties> = ({
   children,
   classNames = [],
   contentId = "content",
-  ...props
+  ...properties
 }) => {
   return (
-    <div className={classNames.join(" ")} id={contentId} {...props}>
+    <div className={classNames.join(" ")} id={contentId} {...properties}>
       {children}
     </div>
   );

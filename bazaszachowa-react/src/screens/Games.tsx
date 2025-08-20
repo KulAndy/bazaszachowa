@@ -31,28 +31,28 @@ const Games = () => {
   let counter = 1;
 
   for (const letter of ["A", "B", "C", "D", "E"] as const) {
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
+    for (let index = 0; index < 10; index++) {
+      for (let index_ = 0; index_ < 10; index_++) {
         options1.push(
           <option value={counter}>
             {letter}
-            {i}
-            {j}
+            {index}
+            {index_}
           </option>,
         );
         options2.push(
           <option value={counter++}>
             {letter}
-            {i}
-            {j}
+            {index}
+            {index_}
           </option>,
         );
       }
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event_: React.FormEvent) => {
+    event_.preventDefault();
     if (white.trim().length > 0 || black.trim().length > 0) {
       const body: Record<string, string> = {
         black,
@@ -142,8 +142,8 @@ const Games = () => {
                   <input
                     max={currentYear}
                     min="1475"
-                    onChange={(e) => {
-                      setMinYear(parseInt(e.target.value));
+                    onChange={(event_) => {
+                      setMinYear(Number.parseInt(event_.target.value));
                     }}
                     step="1"
                     style={{ width: "4em" }}
@@ -156,8 +156,8 @@ const Games = () => {
                   <input
                     max={currentYear}
                     min="1475"
-                    onChange={(e) => {
-                      setMaxYear(parseInt(e.target.value));
+                    onChange={(event_) => {
+                      setMaxYear(Number.parseInt(event_.target.value));
                     }}
                     step="1"
                     style={{ width: "4em" }}
@@ -172,8 +172,8 @@ const Games = () => {
                 </td>
                 <td colSpan={3}>
                   <input
-                    onChange={(e) => {
-                      setEvent(e.target.value);
+                    onChange={(event_) => {
+                      setEvent(event_.target.value);
                     }}
                     type="text"
                     value={event}
@@ -185,8 +185,8 @@ const Games = () => {
                 <td style={{ display: "flex", justifyContent: "flex-end" }}>
                   <select
                     name="ecoMin"
-                    onChange={(e) => {
-                      setMinEco(parseInt(e.target.value));
+                    onChange={(event_) => {
+                      setMinEco(Number.parseInt(event_.target.value));
                     }}
                     value={minEco}
                   >
@@ -197,8 +197,8 @@ const Games = () => {
                 <td style={{ display: "flex", justifyContent: "flex-start" }}>
                   <select
                     name="ecoMax"
-                    onChange={(e) => {
-                      setMaxEco(parseInt(e.target.value));
+                    onChange={(event_) => {
+                      setMaxEco(Number.parseInt(event_.target.value));
                     }}
                     value={maxEco}
                   >

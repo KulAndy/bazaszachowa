@@ -5,7 +5,10 @@ import initWasm from "../wasm/chess_processor";
 
 const cutStringToPenultimateSpace = (inputString: string): string => {
   const lastSpace = inputString.lastIndexOf(" ");
-  return inputString.substring(0, inputString.lastIndexOf(" ", lastSpace - 1));
+  return inputString.slice(
+    0,
+    Math.max(0, inputString.lastIndexOf(" ", lastSpace - 1)),
+  );
 };
 
 const firstBatchLimit = 40;
@@ -38,9 +41,9 @@ const processGameFirstBatchLegacy = (
   const year = row.Year!;
 
   const length = Math.min(firstBatchLimit, row.moves.length);
-  for (let i = 0; i < length; i++) {
-    const move = row.moves[i];
-    const sidePoints = i % 2 === 0 ? points : 1 - points;
+  for (let index = 0; index < length; index++) {
+    const move = row.moves[index];
+    const sidePoints = index % 2 === 0 ? points : 1 - points;
     const fen = cutStringToPenultimateSpace(chess.fen());
     const doneMove = chess.move(move);
     if (!doneMove) {
@@ -90,12 +93,12 @@ const processGameFirstBatch = (row: GameData): Record<string, FenData> => {
 };
 
 const mergeResults = (
-  fensObj: Record<string, FenData>,
+  fensObject: Record<string, FenData>,
   results: Record<string, FenData>[],
 ) => {
   for (const result of results) {
     for (const [fen, newFenData] of Object.entries(result)) {
-      const fenData = fensObj[fen] ?? {
+      const fenData = fensObject[fen] ?? {
         indexes: [] as number[],
         moves: {},
       };
@@ -114,23 +117,23 @@ const mergeResults = (
         moveData.years.push(...newMoveData.years);
 
         for (const [year, stat] of Object.entries(newMoveData.stats)) {
-          const yearNum = Number(year);
-          const old = moveData.stats[yearNum] ?? { count: 0, points: 0 };
+          const yearNumber = Number(year);
+          const old = moveData.stats[yearNumber] ?? { count: 0, points: 0 };
           old.count += stat.count;
           old.points += stat.points;
-          moveData.stats[yearNum] = old;
+          moveData.stats[yearNumber] = old;
         }
 
         fenData.moves[move] = moveData;
       }
 
-      fensObj[fen] = fenData;
+      fensObject[fen] = fenData;
     }
   }
-  return fensObj;
+  return fensObject;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
 initWasm().then((wasm: any) => {
   processGameFirstBatchWasm = (row: GameData): Record<string, FenData> => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
@@ -226,9 +229,9 @@ class ChessProcessor {
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
     const year = row.Year!;
 
-    for (let i = 0; i < row.moves.length; i++) {
-      const move = row.moves[i];
-      if (i < firstBatchLimit) {
+    for (let index = 0; index < row.moves.length; index++) {
+      const move = row.moves[index];
+      if (index < firstBatchLimit) {
         chess.move(move);
         continue;
       }
@@ -250,7 +253,7 @@ class ChessProcessor {
         years: [],
       };
 
-      const sidePoints = i % 2 === 0 ? points : 1 - points;
+      const sidePoints = index % 2 === 0 ? points : 1 - points;
       moveEntry.games++;
       moveEntry.points += sidePoints;
       moveEntry.years.push(year);

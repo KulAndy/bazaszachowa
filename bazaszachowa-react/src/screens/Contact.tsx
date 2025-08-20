@@ -23,8 +23,8 @@ const Contact = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files, name, value } = event.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((previousData) => ({
+      ...previousData,
       [name]: files ? files[0] : value,
     }));
   };
@@ -137,8 +137,8 @@ const Contact = () => {
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             const { name, value } = event.target;
 
-            setFormData((prevData) => ({
-              ...prevData,
+            setFormData((previousData) => ({
+              ...previousData,
               [name]: value,
             }));
           }}

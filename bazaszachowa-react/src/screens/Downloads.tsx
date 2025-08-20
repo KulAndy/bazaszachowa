@@ -31,9 +31,9 @@ const formatFileSize = (bytes: number) => {
 
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB", "TB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const index = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+  return `${Number.parseFloat((bytes / Math.pow(k, index)).toFixed(2))} ${sizes[index]}`;
 };
 
 const Downloads = () => {
@@ -54,7 +54,7 @@ const Downloads = () => {
             <p>
               <a href={item.webViewLink}>{item.name}</a>
               {` - ${item.description}, `}
-              {formatFileSize(parseInt(item.size) || 0)}
+              {formatFileSize(Number.parseInt(item.size) || 0)}
             </p>
             <p>
               {t("download.modified")}: {formatDate(item.modifiedTime)}{" "}

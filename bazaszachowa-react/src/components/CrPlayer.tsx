@@ -9,12 +9,15 @@ export interface CrPlayerType {
   name: string;
 }
 
-interface CrPlayerProps {
+interface CrPlayerProperties {
   player: CrPlayerType;
   showSource?: boolean;
 }
 
-const CrPlayer: React.FC<CrPlayerProps> = ({ player, showSource = false }) => {
+const CrPlayer: React.FC<CrPlayerProperties> = ({
+  player,
+  showSource = false,
+}) => {
   const { t } = useI18n();
   return (
     <>
@@ -30,8 +33,8 @@ const CrPlayer: React.FC<CrPlayerProps> = ({ player, showSource = false }) => {
             <img
               alt="zdjęcie z cr-u"
               className="cr-foto"
-              onError={(e) => {
-                const target = e.target as HTMLElement;
+              onError={(event) => {
+                const target = event.target as HTMLElement;
                 target.parentElement?.remove();
               }}
               src={`http://www.cr-pzszach.pl/ew/ew/images/${player.id}.jpg`}

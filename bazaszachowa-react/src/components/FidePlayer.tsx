@@ -12,12 +12,12 @@ export interface FidePlayerType {
   title?: string;
 }
 
-interface FidePlayerProps {
+interface FidePlayerProperties {
   player: FidePlayerType;
   showSource?: boolean;
 }
 
-const FidePlayer: React.FC<FidePlayerProps> = ({
+const FidePlayer: React.FC<FidePlayerProperties> = ({
   player,
   showSource = false,
 }) => {

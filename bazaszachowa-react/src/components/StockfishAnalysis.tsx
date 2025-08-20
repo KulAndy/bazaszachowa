@@ -5,16 +5,16 @@ import { useI18n } from "../i18n/I18nContext";
 
 const stockfish = new Worker("/js/stockfish.js");
 
-interface uciVariant2SanProps {
+interface uciVariant2SanProperties {
   fen: string;
   moves: string[];
 }
 
-const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
+const uciVariant2San = ({ fen, moves }: uciVariant2SanProperties) => {
   const chess = new Chess(fen);
   const splittedFen = fen.split(" ");
   const turn = chess.turn();
-  let moveNo = Number(splittedFen[splittedFen.length - 1]);
+  let moveNo = Number(splittedFen.at(-1));
   const variant: string[] = [`${moveNo++}.`];
   if (turn === "b") {
     variant.push("...");
@@ -24,7 +24,7 @@ const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
     try {
       const from = move.slice(0, 2);
       const to = move.slice(2, 4);
-      let promotion: string | undefined = undefined;
+      let promotion: string | undefined;
       if (move.length > 4) {
         promotion = move.slice(5);
       }
@@ -46,7 +46,7 @@ const uciVariant2San = ({ fen, moves }: uciVariant2SanProps) => {
   return variant;
 };
 
-interface StockfishAnalysisProps {
+interface StockfishAnalysisProperties {
   depth?: number;
   fen: string;
   hashSize?: number;
@@ -63,7 +63,7 @@ interface Variant {
   variant: string[];
 }
 
-const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
+const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   depth = 20,
   fen,
   hashSize = 1024,
@@ -76,25 +76,25 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
   const [currentDepth, setCurrentDepth] = useState(0);
   const [best, setBest] = useState<null | string>(null);
 
-  stockfish.onmessage = (event) => {
+  stockfish.addEventListener("message", (event) => {
     let message = event.data as string;
     if (message.includes("info depth")) {
-      const match = message.match(/score (cp|mate) ([-\d]+) .*$/);
+      const match = message.match(/score (cp|mate) ([\d-]+) .*$/);
 
       if (match) {
         const chess = new Chess(fen);
         const turn = chess.turn();
         const type = match[1];
         const value = Number(match[2]);
-        const infoArr = message.split(" pv ");
-        const key = infoArr[1].split(" ")[0];
+        const infoArray = message.split(" pv ");
+        const key = infoArray[1].split(" ")[0];
 
         let san: null | string = null;
         try {
-          const move = infoArr[1].split(" ")[0];
+          const move = infoArray[1].split(" ")[0];
           const from = move.slice(0, 2);
           const to = move.slice(2, 4);
-          let promotion: string | undefined = undefined;
+          let promotion: string | undefined;
           if (move.length > 4) {
             promotion = move.slice(5);
           }
@@ -109,8 +109,8 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
         }
 
         if (san !== null) {
-          setVariants((prevVariants) => ({
-            ...prevVariants,
+          setVariants((previousVariants) => ({
+            ...previousVariants,
             [key]: {
               prefix:
                 ((turn === "b" && value >= 0) || (turn === "w" && value < 0)
@@ -119,17 +119,17 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
               san: san!,
               type,
               value: type === "mate" ? value : value / 100,
-              variant: infoArr[1].split(" "),
+              variant: infoArray[1].split(" "),
             },
           }));
         }
       }
     } else if (message.startsWith("bestmove")) {
-      message = message.replace(/bestmove |ponder |\(none\) /g, "");
+      message = message.replaceAll(/bestmove |ponder |\(none\) /g, "");
       const newBest = message
         .trim()
         .split(" ")
-        .filter((item) => item !== "(none)")[0];
+        .find((item) => item !== "(none)");
 
       if (newBest) {
         setBest(newBest);
@@ -138,7 +138,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
         setCurrentDepth(currentDepth + 1);
       }
     }
-  };
+  });
 
   useEffect(() => {
     stockfish.postMessage("uci");
@@ -197,7 +197,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProps> = ({
             {t("stockfish.eval")}{" "}
             <span style={{ fontWeight: "bolder" }}>
               {variants[best].prefix || ""}
-              {Math.abs(variants[best].value ?? NaN)}
+              {Math.abs(variants[best].value ?? Number.NaN)}
             </span>
           </p>
         </>

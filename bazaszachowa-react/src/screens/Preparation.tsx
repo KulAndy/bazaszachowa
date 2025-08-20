@@ -9,27 +9,21 @@ import PreparationPlayer from "./PreparationPlayer";
 
 const Preparation = () => {
   const { color, player } = useParams();
-  if (
-    player === undefined ||
+  return player === undefined ||
     color === undefined ||
     player === null ||
     color === null ||
-    player.trim().length === 0
-  ) {
-    return (
-      <Content style={{ textAlign: "center", width: "fit-content" }}>
-        <PreparationForm />
+    player.trim().length === 0 ? (
+    <Content style={{ textAlign: "center", width: "fit-content" }}>
+      <PreparationForm />
+    </Content>
+  ) : (
+    <div id="preparation">
+      <Content>
+        <PreparationPlayer color={color} player={player} />
       </Content>
-    );
-  } else {
-    return (
-      <div id="preparation">
-        <Content>
-          <PreparationPlayer color={color} player={player} />
-        </Content>
-      </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default Preparation;

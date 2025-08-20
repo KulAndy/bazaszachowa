@@ -5,7 +5,7 @@ import Content from "../components/Content";
 import MarkdownFileReader from "../components/MarkdownFileReader";
 import { NOMENU_URLS } from "../settings";
 
-const Docs = () => {
+const Documentation = () => {
   const { file } = useParams();
   const [fileList, setFileList] = useState<string[]>([]);
 
@@ -19,25 +19,21 @@ const Docs = () => {
     fetchData();
   }, []);
 
-  if (file !== undefined && file !== null) {
-    return (
-      <Content style={{ width: "100%" }}>
-        <MarkdownFileReader filePath={`/docs/${file}`} />
-      </Content>
-    );
-  } else {
-    return (
-      <Content>
-        <ul>
-          {fileList.map((element) => (
-            <li key={element}>
-              <Link to={NOMENU_URLS.docs + element}>{element}</Link>
-            </li>
-          ))}
-        </ul>
-      </Content>
-    );
-  }
+  return file !== undefined && file !== null ? (
+    <Content style={{ width: "100%" }}>
+      <MarkdownFileReader filePath={`/docs/${file}`} />
+    </Content>
+  ) : (
+    <Content>
+      <ul>
+        {fileList.map((element) => (
+          <li key={element}>
+            <Link to={NOMENU_URLS.docs + element}>{element}</Link>
+          </li>
+        ))}
+      </ul>
+    </Content>
+  );
 };
 
-export default Docs;
+export default Documentation;

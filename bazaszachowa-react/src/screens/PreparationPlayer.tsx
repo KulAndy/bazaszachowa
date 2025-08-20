@@ -14,15 +14,15 @@ import ChessProcessor from "./../ChessProcessor";
 const processor = new ChessProcessor();
 
 const debounce = <T extends unknown[]>(
-  func: (...args: T) => void,
+  callback: (...arguments_: T) => void,
   delay: number,
-): ((...args: T) => void) => {
+): ((...arguments_: T) => void) => {
   let timeoutId: NodeJS.Timeout | undefined;
 
-  return (...args: T): void => {
+  return (...arguments_: T): void => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      func(...args);
+      callback(...arguments_);
     }, delay);
   };
 };
@@ -53,7 +53,10 @@ const PreparationPlayer = ({
       350,
       window.innerWidth * 0.9,
       window.innerHeight -
-        10 * parseFloat(getComputedStyle(document.documentElement).fontSize),
+        10 *
+          Number.parseFloat(
+            getComputedStyle(document.documentElement).fontSize,
+          ),
     ),
   );
 
@@ -86,7 +89,7 @@ const PreparationPlayer = ({
 
   useEffect(() => {
     loadGames(player, color);
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player, color]);
 
   useEffect(() => {
@@ -101,13 +104,15 @@ const PreparationPlayer = ({
 
   useEffect(() => {
     const handleResize = () => {
-      setBoardSize((prevSize) =>
+      setBoardSize((previousSize) =>
         Math.min(
-          Math.max(prevSize, 100),
+          Math.max(previousSize, 100),
           window.innerWidth * 0.9,
           window.innerHeight -
             10 *
-              parseFloat(getComputedStyle(document.documentElement).fontSize),
+              Number.parseFloat(
+                getComputedStyle(document.documentElement).fontSize,
+              ),
         ),
       );
 
@@ -119,36 +124,44 @@ const PreparationPlayer = ({
       );
     };
 
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.ctrlKey) {
-        switch (e.code) {
-          case "ArrowDown":
-            document.getElementById("first_link")!.click();
+    const handleKeyPress = (event: KeyboardEvent) => {
+      let id = "";
+      if (event.ctrlKey) {
+        switch (event.code) {
+          case "ArrowDown": {
+            id = "#first_link";
             break;
-          case "ArrowLeft":
-            document.getElementById("previous_link")!.click();
+          }
+          case "ArrowLeft": {
+            id = "#previous_link";
             break;
-          case "ArrowRight":
-            document.getElementById("next_link")!.click();
+          }
+          case "ArrowRight": {
+            id = "#next_link";
             break;
-          case "ArrowUp":
-            document.getElementById("last_link")!.click();
+          }
+          case "ArrowUp": {
+            id = "#last_link";
             break;
-          default:
-            break;
+          }
+          default: {
+            return;
+          }
         }
       }
+      const element: HTMLButtonElement | null = document.querySelector(id);
+      element?.click();
     };
 
     const resizeListener = debounce(handleResize, 200);
     const keyListener = debounce(handleKeyPress, 200);
 
     window.addEventListener("resize", resizeListener);
-    window.addEventListener("keydown", keyListener);
+    globalThis.addEventListener("keydown", keyListener);
 
     return () => {
       window.removeEventListener("resize", resizeListener);
-      window.removeEventListener("keydown", keyListener);
+      globalThis.removeEventListener("keydown", keyListener);
     };
   }, []);
 
@@ -174,15 +187,15 @@ const PreparationPlayer = ({
           setFen={setFen}
           showPlayers={false}
           zoomIn={() => {
-            setBoardSize((prevSize) =>
+            setBoardSize((previousSize) =>
               Math.min(
-                prevSize + 25,
+                previousSize + 25,
                 Math.min(window.innerWidth, window.innerHeight),
               ),
             );
           }}
           zoomOut={() => {
-            setBoardSize((prevSize) => Math.max(prevSize - 25, 100));
+            setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
           }}
         />
         <div>
