@@ -44,11 +44,11 @@ const CrPlayer: React.FC<CrPlayerProperties> = ({
           </td>
         </tr>
         <tr>
-          <th>{t("player.cr_title")}:</th>
+          <th>{t("player.cr_title")}</th>
           <td>{player.kat && <span>{player.kat}</span>}</td>
         </tr>
         <tr>
-          <th>CR ID:</th>
+          <th>CR ID</th>
           <td>
             <a
               href={`http://www.cr-pzszach.pl/ew/viewpage.php?page_id=1&zwiazek=&typ_czlonka=&pers_id=${player.id}`}
@@ -58,7 +58,7 @@ const CrPlayer: React.FC<CrPlayerProperties> = ({
           </td>
         </tr>
         <tr>
-          <th>FIDE ID:</th>
+          <th>FIDE ID</th>
           <td>
             <a href={`https://ratings.fide.com/profile/${player.fide_id}`}>
               {player.fide_id}

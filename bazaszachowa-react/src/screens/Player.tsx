@@ -168,7 +168,7 @@ const Player = () => {
           <h3 id="ambigousAlert">
             <span className="error">{t("player.warning")}</span>
             <br />
-            {t("player.most_likely")}
+            {t("player.most_likely")}:
           </h3>
         )}
         <div id="data-container">

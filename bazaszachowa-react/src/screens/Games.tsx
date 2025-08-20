@@ -336,8 +336,7 @@ const Games = () => {
             <details id="help">
               <summary>{t("games.help")}</summary>
               <ul>
-                {t("games.params")}
-                <li>{t("games.param.player")}</li>
+                {t("games.params")}:<li>{t("games.param.player")}</li>
                 <li>
                   {t("games.param.eco")}{" "}
                   <a href={t("eco_href")}>{t("games.param.ecoLink")}</a>

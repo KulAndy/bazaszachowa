@@ -10,7 +10,7 @@ const License = () => {
   return (
     <Content>
       <article>
-        {t("license.intro")}
+        {t("license.intro")}:
         <ul>
           {t("license.user")}
           <li>{t("license.right_use")}</li>
