@@ -1,4 +1,4 @@
-import React, { HTMLProps, useEffect, useState } from "react";
+import React, { HTMLProps, useCallback, useEffect, useState } from "react";
 
 import { API } from "../settings";
 
@@ -26,13 +26,13 @@ const replaceNationalCharacters = (text: string) => {
 };
 
 interface SearchPlayersWithHintsProperties extends HTMLProps<HTMLInputElement> {
-  f: (x: string) => void;
+  callback: (x: string) => void;
   id?: string;
   list?: string;
 }
 
 const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
-  f = () => {},
+  callback = () => {},
   id = "input",
   list,
   ...properties
@@ -56,6 +56,15 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
 
     fetchData();
   }, [text]);
+
+  const handleInput = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      callback(replaceNationalCharacters(event.target.value));
+      setText(replaceNationalCharacters(event.target.value));
+    },
+    [callback],
+  );
+
   return (
     <>
       <input
@@ -63,10 +72,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
         placeholder="Nowak, Jan"
         value={text}
         {...properties}
-        onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
-          f(replaceNationalCharacters(event.target.value));
-          setText(replaceNationalCharacters(event.target.value));
-        }}
+        onInput={handleInput}
       />
       {players.length > 0 && (
         <datalist id={list || `${id}_datalist`}>

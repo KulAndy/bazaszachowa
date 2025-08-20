@@ -150,6 +150,7 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
           <th>F&beta;</th>
         </tr>
         {stats.map((item, index) => (
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           <tr key={item.move} onClick={() => doMove(item.move)}>
             <td>{item.move}</td>
             <td>{item.games}</td>

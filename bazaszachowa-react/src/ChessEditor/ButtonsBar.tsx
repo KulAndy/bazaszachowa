@@ -12,7 +12,7 @@ import {
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
 
@@ -27,7 +27,7 @@ interface ButtonsBarProperties {
   notationLayout: string;
   notationSwitch: boolean;
   playing: boolean;
-  prevMove: () => void;
+  previousMove: () => void;
   setNotationLayout: (x: string) => void;
   setPlaying: () => void;
   width: number;
@@ -36,21 +36,30 @@ interface ButtonsBarProperties {
 }
 
 const ButtonsBar: React.FC<ButtonsBarProperties> = ({
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   download = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   firstMove = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   flip = () => {},
   isFirst = true,
   isLast = true,
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   lastMove = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   nextMove = () => {},
   notationLayout = "column",
   notationSwitch = false,
   playing,
-  prevMove: previousMove = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+  previousMove = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   setNotationLayout = () => {},
   setPlaying,
   width,
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   zoomIn = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   zoomOut = () => {},
 }) => {
   const activeIconColor = "black";
@@ -140,6 +149,16 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
     zoomOut,
   ]);
 
+  const toggleNotation = useCallback(() => {
+    setNotationLayout(
+      notationLayout === "none"
+        ? window.innerHeight > window.innerWidth
+          ? "bottom"
+          : "right"
+        : "none",
+    );
+  }, [notationLayout, setNotationLayout]);
+
   return (
     <div
       className="black"
@@ -216,15 +235,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
           <TouchableIcon
             className="control switchNotation"
             icon={notationLayout === "none" ? faFileLines : faFish}
-            onClick={() => {
-              setNotationLayout(
-                notationLayout === "none"
-                  ? window.innerHeight > window.innerWidth
-                    ? "bottom"
-                    : "right"
-                  : "none",
-              );
-            }}
+            onClick={toggleNotation}
           />
         )}
       </>

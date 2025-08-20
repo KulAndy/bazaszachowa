@@ -14,6 +14,11 @@ import OpeningsStats from "../components/OpeningStats";
 import { useI18n } from "../i18n/I18nContext";
 import { API, URLS } from "../settings";
 
+const handleErrorImage = (event: React.SyntheticEvent) => {
+  const target = event.target as HTMLElement;
+  target.parentElement?.remove();
+};
+
 const Player = () => {
   const { t } = useI18n();
   const { color, name, opening } = useParams();
@@ -260,10 +265,7 @@ const Player = () => {
                   alt="Wykres rankingu"
                   crossOrigin="anonymous"
                   id="graph"
-                  onError={(event) => {
-                    const target = event.target as HTMLElement;
-                    target.parentElement?.remove();
-                  }}
+                  onError={handleErrorImage}
                   src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
                     name || "",
                   )}`}

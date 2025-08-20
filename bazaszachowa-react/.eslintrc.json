@@ -47,7 +47,6 @@
     "plugin:perfectionist/recommended-alphabetical-legacy"
   ],
   "rules": {
-    "react-perf/jsx-no-new-function-as-prop": "off",
     "unicorn/string-content": "error",
     "unicorn/no-unused-properties": "error",
     "unicorn/custom-error-definition": "error",

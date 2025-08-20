@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./PreparationForm.css";
@@ -15,21 +15,31 @@ const PreparationForm = () => {
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
 
+  const handleSetWhite = useCallback(() => {
+    setColor("white");
+  }, []);
+
+  const handleSetBlack = useCallback(() => {
+    setColor("black");
+  }, []);
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">{t("players.player")}</label>
-      <SearchPlayersWithHints f={setPlayer} placeholder="Nowak, Jan" required />
+      <SearchPlayersWithHints
+        callback={setPlayer}
+        placeholder="Nowak, Jan"
+        required
+      />
       <p style={{ textAlign: "center" } as const}>
-        <label htmlFor="white">{t("color")}</label>
+        <label htmlFor="color">{t("color")}</label>
       </p>
       <p id="color-toggle" style={{ textAlign: "center" } as const}>
         <input
           checked={color === "white"}
           id="white"
           name="color"
-          onChange={() => {
-            setColor("white");
-          }}
+          onChange={handleSetWhite}
           type="radio"
           value="white"
         />
@@ -38,9 +48,7 @@ const PreparationForm = () => {
           checked={color === "black"}
           id="black"
           name="color"
-          onChange={() => {
-            setColor("black");
-          }}
+          onChange={handleSetBlack}
           type="radio"
           value="black"
         />

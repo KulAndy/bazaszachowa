@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import { GameData } from "../ChessEditor";
@@ -110,6 +110,9 @@ const GamesTable: React.FC<GamesTableProperties> = ({
   noEmpty = false,
 }) => {
   const { t } = useI18n();
+  const handleDownload = useCallback(() => {
+    download(games);
+  }, [games]);
   if (!games || (noEmpty && games.length === 0)) {
     return <></>;
   }
@@ -123,13 +126,7 @@ const GamesTable: React.FC<GamesTableProperties> = ({
     <table id="games">
       <caption>
         {t("game_table.games")}: {games.length || 0}{" "}
-        <button
-          onClick={() => {
-            download(items);
-          }}
-        >
-          {t("download")}
-        </button>
+        <button onClick={handleDownload}>{t("download")}</button>
       </caption>
       <tr>
         <th className="not_mobile">{t("white_elo")}</th>

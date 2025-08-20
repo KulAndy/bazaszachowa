@@ -19,7 +19,7 @@ import {
   faCircle as faCircleSolid,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useCallback } from "react";
 
 interface ChessboardProperties {
   blackPiecesColor?: string;
@@ -180,10 +180,12 @@ const Chessboard: React.FC<ChessboardProperties> = ({
               row.push(
                 <div
                   key={key++}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => {
                     sendSquare(square);
                   }}
                   onDragOver={allowDrop}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onDrop={() => {
                     drop(square);
                   }}
@@ -217,10 +219,12 @@ const Chessboard: React.FC<ChessboardProperties> = ({
               row.push(
                 <div
                   key={key++}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => {
                     sendSquare(square);
                   }}
                   onDragOver={allowDrop}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onDrop={() => {
                     drop(square);
                   }}
@@ -250,10 +254,12 @@ const Chessboard: React.FC<ChessboardProperties> = ({
       row.push(
         <div
           key={key++}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onClick={() => {
             sendSquare(square);
           }}
           onDragOver={allowDrop}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onDrop={() => {
             drop(square);
           }}
@@ -277,6 +283,7 @@ const Chessboard: React.FC<ChessboardProperties> = ({
           <span
             className={`${color} piece fa-stack`}
             draggable
+            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
             onDragStart={(event) => {
               event.stopPropagation();
               drag(square);
@@ -323,14 +330,17 @@ const Chessboard: React.FC<ChessboardProperties> = ({
     board.reverse();
   }
 
-  const handleWheel: React.WheelEventHandler<HTMLDivElement> = (event) => {
-    if (event.deltaY > 0) {
-      nextMove();
-    } else {
-      previousMove();
-    }
-    event.stopPropagation();
-  };
+  const handleWheel: React.WheelEventHandler<HTMLDivElement> = useCallback(
+    (event) => {
+      if (event.deltaY > 0) {
+        nextMove();
+      } else {
+        previousMove();
+      }
+      event.stopPropagation();
+    },
+    [nextMove, previousMove],
+  );
 
   return (
     <div

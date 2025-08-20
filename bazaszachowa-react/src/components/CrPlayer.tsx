@@ -9,6 +9,11 @@ export interface CrPlayerType {
   name: string;
 }
 
+const handleErrorImage = (event: React.SyntheticEvent) => {
+  const target = event.target as HTMLElement;
+  target.parentElement?.remove();
+};
+
 interface CrPlayerProperties {
   player: CrPlayerType;
   showSource?: boolean;
@@ -33,10 +38,7 @@ const CrPlayer: React.FC<CrPlayerProperties> = ({
             <img
               alt="zdjęcie z cr-u"
               className="cr-foto"
-              onError={(event) => {
-                const target = event.target as HTMLElement;
-                target.parentElement?.remove();
-              }}
+              onError={handleErrorImage}
               src={`http://www.cr-pzszach.pl/ew/ew/images/${player.id}.jpg`}
             />
           </td>

@@ -32,6 +32,7 @@ const Notation: React.FC<NotationProperties> = ({
 
     moveComponents.push(
       <HalfMove
+        // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
         doMove={() => {
           if (move.index) {
             setIndex(move.index);

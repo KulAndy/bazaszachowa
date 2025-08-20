@@ -1,5 +1,5 @@
 import "./Players.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Content from "../components/Content";
@@ -30,11 +30,14 @@ const Players = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
 
-    navigate(`${URLS.players.url}${player || ""}`);
-  };
+      navigate(`${URLS.players.url}${player || ""}`);
+    },
+    [navigate, player],
+  );
 
   return (
     <div id="players">
@@ -42,7 +45,7 @@ const Players = () => {
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">{t("players.player")} </label>
           <SearchPlayersWithHints
-            f={setPlayer}
+            callback={setPlayer}
             id="name"
             name="name"
             required

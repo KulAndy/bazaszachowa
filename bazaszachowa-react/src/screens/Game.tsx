@@ -1,5 +1,5 @@
 import "./Game.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ChessEditor, { GameData } from "../ChessEditor";
@@ -157,6 +157,60 @@ const Game = () => {
   const firstGame = list.indexOf(gameid) <= 0;
   const lastGame = list.indexOf(gameid) >= list.length - 1;
 
+  const goFirst = useCallback(
+    (event: React.MouseEvent) => {
+      if (firstGame) {
+        event.preventDefault();
+      }
+    },
+    [firstGame],
+  );
+
+  const goPrevious = useCallback(
+    (event: React.MouseEvent) => {
+      if (firstGame) {
+        event.preventDefault();
+      }
+    },
+    [firstGame],
+  );
+
+  const goNext = useCallback(
+    (event: React.MouseEvent) => {
+      if (lastGame) {
+        event.preventDefault();
+      }
+    },
+    [lastGame],
+  );
+
+  const goLast = useCallback(
+    (event: React.MouseEvent) => {
+      if (lastGame) {
+        event.preventDefault();
+      }
+    },
+    [lastGame],
+  );
+
+  const handleZoomIn = useCallback(() => {
+    setBoardSize((previousSize) =>
+      Math.min(
+        previousSize + 25,
+        window.innerWidth * 0.9,
+        window.innerHeight -
+          10 *
+            Number.parseFloat(
+              getComputedStyle(document.documentElement).fontSize,
+            ),
+      ),
+    );
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
+  }, []);
+
   return (
     <div id="game">
       <Content>
@@ -170,11 +224,7 @@ const Game = () => {
         <div id="buttonContainer">
           <Link
             id="first_link"
-            onClick={(event) => {
-              if (firstGame) {
-                event.preventDefault();
-              }
-            }}
+            onClick={goFirst}
             state={
               {
                 base,
@@ -190,11 +240,7 @@ const Game = () => {
           </Link>
           <Link
             id="previous_link"
-            onClick={(event) => {
-              if (firstGame) {
-                event.preventDefault();
-              }
-            }}
+            onClick={goPrevious}
             state={
               {
                 base,
@@ -210,11 +256,7 @@ const Game = () => {
           </Link>
           <Link
             id="next_link"
-            onClick={(event) => {
-              if (lastGame) {
-                event.preventDefault();
-              }
-            }}
+            onClick={goNext}
             state={
               {
                 base,
@@ -230,11 +272,7 @@ const Game = () => {
           </Link>
           <Link
             id="last_link"
-            onClick={(event) => {
-              if (lastGame) {
-                event.preventDefault();
-              }
-            }}
+            onClick={goLast}
             state={
               {
                 base,
@@ -259,22 +297,8 @@ const Game = () => {
             setDoMove={setDoMove}
             setFen={setFen}
             setNotationLayout={setNotationLayout}
-            zoomIn={() => {
-              setBoardSize((previousSize) =>
-                Math.min(
-                  previousSize + 25,
-                  window.innerWidth * 0.9,
-                  window.innerHeight -
-                    10 *
-                      Number.parseFloat(
-                        getComputedStyle(document.documentElement).fontSize,
-                      ),
-                ),
-              );
-            }}
-            zoomOut={() => {
-              setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
-            }}
+            zoomIn={handleZoomIn}
+            zoomOut={handleZoomOut}
           />
           {fen && (
             <StockfishAnalysis fen={fen} visible={notationLayout === "none"} />

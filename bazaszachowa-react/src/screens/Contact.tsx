@@ -1,5 +1,5 @@
 import "./Contact.css";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import Content from "../components/Content";
 import { useI18n } from "../i18n/I18nContext";
@@ -20,45 +20,69 @@ const Contact = () => {
 
   const { t } = useI18n();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files, name, value } = event.target;
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { files, name, value } = event.target;
 
-    setFormData((previousData) => ({
-      ...previousData,
-      [name]: files ? files[0] : value,
-    }));
-  };
+      setFormData((previousData) => ({
+        ...previousData,
+        [name]: files ? files[0] : value,
+      }));
+    },
+    [],
+  );
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formData.email.trim() === admin_mail) {
-      alert("contact.Niedozwolony adres");
-    } else if (emailRegex.test(formData.email)) {
-      const form = new FormData();
-      form.append("email", formData.email);
-      form.append("subject", formData.subject);
-      form.append("content", formData.content);
-      form.append("attachment", formData.attachment || "");
+  const handleSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (formData.email.trim() === admin_mail) {
+        alert("contact.Niedozwolony adres");
+      } else if (emailRegex.test(formData.email)) {
+        const form = new FormData();
+        form.append("email", formData.email);
+        form.append("subject", formData.subject);
+        form.append("content", formData.content);
+        form.append("attachment", formData.attachment || "");
 
-      try {
-        void fetch(API.BASE_URL + API.send_mail, {
-          body: form,
-          method: "POST",
-        }).then((response) => {
-          if (response.status === 200) {
-            alert(t("contact.successfully_sent"));
-          } else {
-            alert(t("contact.failled_sent"));
-          }
-        });
-      } catch {
-        alert(t("contact.failled_sent"));
+        try {
+          void fetch(API.BASE_URL + API.send_mail, {
+            body: form,
+            method: "POST",
+          }).then((response) => {
+            if (response.status === 200) {
+              alert(t("contact.successfully_sent"));
+            } else {
+              alert(t("contact.failled_sent"));
+            }
+          });
+        } catch {
+          alert(t("contact.failled_sent"));
+        }
+      } else {
+        alert(t("contact.invalid_mail"));
       }
-    } else {
-      alert(t("contact.invalid_mail"));
-    }
-  };
+    },
+    [
+      formData.attachment,
+      formData.content,
+      formData.email,
+      formData.subject,
+      t,
+    ],
+  );
+
+  const handleContent = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
+
+      setFormData((previousData) => ({
+        ...previousData,
+        [name]: value,
+      }));
+    },
+    [],
+  );
 
   return (
     <Content classNames={["contact"] as const}>
@@ -134,14 +158,7 @@ const Contact = () => {
           cols={50}
           form="form"
           name="content"
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
-            const { name, value } = event.target;
-
-            setFormData((previousData) => ({
-              ...previousData,
-              [name]: value,
-            }));
-          }}
+          onChange={handleContent}
           placeholder="Wpisz tekst..."
           rows={6}
           value={formData.content}

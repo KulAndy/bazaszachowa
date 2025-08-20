@@ -1,5 +1,5 @@
 import "./Bug.css";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Content from "../components/Content";
@@ -19,57 +19,68 @@ const Bug = () => {
     table: base,
     type: "",
   });
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = event.target;
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
 
-    setFormData((previousData) => ({
-      ...previousData,
-      [name]: value,
-    }));
-  };
+      setFormData((previousData) => ({
+        ...previousData,
+        [name]: value,
+      }));
+    },
+    [],
+  );
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formData.email.trim() === admin_mail) {
-      alert("Niedozwolony adres");
-    } else if (emailRegex.test(formData.email)) {
-      const form = new FormData();
-      const content = `${formData.type}:
+  const handleSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (formData.email.trim() === admin_mail) {
+        alert("Niedozwolony adres");
+      } else if (emailRegex.test(formData.email)) {
+        const form = new FormData();
+        const content = `${formData.type}:
         ${formData.notices}
         ${
           formData.link.trim().length > 0
             ? `prawidłowa partia: ${formData.link}`
             : ""
         }`;
-      form.append("email", formData.email);
-      form.append(
-        "subject",
-        `Błąd w partii ${base || "xxxx"}-${gameid || 0} - ${formData.type}`,
-      );
-      form.append("content", content);
-      form.append("attachment", "");
+        form.append("email", formData.email);
+        form.append(
+          "subject",
+          `Błąd w partii ${base || "xxxx"}-${gameid || 0} - ${formData.type}`,
+        );
+        form.append("content", content);
+        form.append("attachment", "");
 
-      fetch(API.BASE_URL + API.send_mail, {
-        body: form,
-        method: "POST",
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Poprawnie wysłano wiadomość");
-          } else {
-            throw new Error("Send error");
-          }
+        fetch(API.BASE_URL + API.send_mail, {
+          body: form,
+          method: "POST",
         })
-        .catch(() => {
-          alert("Nie udało się wysłać wiadomości");
-        });
-    } else {
-      alert("To nie jest poprawny email");
-    }
-  };
+          .then((response) => {
+            if (response.status === 200) {
+              alert("Poprawnie wysłano wiadomość");
+            } else {
+              throw new Error("Send error");
+            }
+          })
+          .catch(() => {
+            alert("Nie udało się wysłać wiadomości");
+          });
+      } else {
+        alert("To nie jest poprawny email");
+      }
+    },
+    [
+      base,
+      formData.email,
+      formData.link,
+      formData.notices,
+      formData.type,
+      gameid,
+    ],
+  );
 
   return (
     <Content classNames={["bug"] as const}>

@@ -5,7 +5,7 @@ import {
   faChessRook,
 } from "@fortawesome/free-solid-svg-icons";
 import { Chess, Color, PieceSymbol, Square } from "chess.js";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ButtonsBar from "./ButtonsBar";
@@ -84,9 +84,12 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   profileUrl = null,
   setDoMove = () => {},
   setFen = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   setNotationLayout = () => {},
   showPlayers = true,
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   zoomIn = () => {},
+  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   zoomOut = () => {},
 }) => {
   const [playing, setPlaying] = useState(false);
@@ -116,18 +119,25 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   const [promotionMenuVisible, setPromotionMenuVisible] = useState(false);
   const [index_, setIndex_] = useState(0);
 
-  const setHistory = (newHistory: Move[]) => {
-    history.current = newHistory;
-    setFen(newHistory[index.current].fen);
-  };
+  const setHistory = useCallback(
+    (newHistory: Move[]) => {
+      history.current = newHistory;
+      setFen(newHistory[index.current].fen);
+    },
+    [setFen],
+  );
 
-  const setIndex = (newIndex: number) => {
-    if (history.current[newIndex] !== undefined) {
-      index.current = newIndex;
-      setFen(history.current[newIndex].fen);
-      setIndex_(index_ + 1);
-    }
-  };
+  const setIndex = useCallback(
+    (newIndex: number) => {
+      if (history.current[newIndex] !== undefined) {
+        index.current = newIndex;
+        setFen(history.current[newIndex].fen);
+        setIndex_(index_ + 1);
+      }
+    },
+    [index_, setFen],
+  );
+
   const getPreviousIndex = (currentIndex: number) => {
     return currentIndex === 0 ? 0 : history.current[currentIndex].prev;
   };
@@ -144,23 +154,104 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
     return;
   };
 
-  const getLastMoveIndex = (currentIndex: number) => {
+  const getLastMoveIndex = useCallback((currentIndex: number) => {
     let nextMoveIndex = getNextMoveIndex(currentIndex);
     while (nextMoveIndex && getNextMoveIndex(nextMoveIndex)) {
       nextMoveIndex = getNextMoveIndex(nextMoveIndex);
     }
     return nextMoveIndex;
-  };
+  }, []);
 
-  const addMove = (move: ShortMove) => {
-    const chess = new Chess(history.current[index.current].fen);
-    if (!chess.isGameOver()) {
-      const moveNo = history.current[index.current]?.moveNo || 0;
-      let doneMove;
-      try {
-        doneMove = chess.move(move);
-      } catch {
-        if (
+  const addMove = useCallback(
+    (move: ShortMove) => {
+      const chess = new Chess(history.current[index.current].fen);
+      if (!chess.isGameOver()) {
+        const moveNo = history.current[index.current]?.moveNo || 0;
+        let doneMove;
+        try {
+          doneMove = chess.move(move);
+        } catch {
+          if (
+            move.from &&
+            chess
+              .moves({ square: move.from, verbose: true })
+              .map((object) => object.to)
+              .includes(move.to)
+          ) {
+            setPromotionMenuVisible(true);
+            return false;
+          }
+          return true;
+        }
+        if (doneMove) {
+          if (
+            index.current !== undefined &&
+            getNextMoveIndex(index.current) !== undefined &&
+            history.current[getNextMoveIndex(index.current)!] !== null &&
+            history.current[getNextMoveIndex(index.current)!] !== undefined &&
+            history.current[getNextMoveIndex(index.current)!].from ===
+              doneMove.from &&
+            history.current[getNextMoveIndex(index.current)!].to ===
+              doneMove.to &&
+            history.current[getNextMoveIndex(index.current)!].promotion ===
+              doneMove.promotion
+          ) {
+            setIndex(getNextMoveIndex(index.current)!);
+          } else {
+            if (
+              index.current !== undefined &&
+              getNextMoveIndex(index.current) !== undefined &&
+              history.current[getNextMoveIndex(index.current)!] !== null &&
+              history.current[getNextMoveIndex(index.current)!] !== undefined
+            ) {
+              for (const variation of history.current[
+                getNextMoveIndex(index.current)!
+              ].variations) {
+                if (
+                  variation !== null &&
+                  variation !== undefined &&
+                  variation.from === doneMove.from &&
+                  variation.to === doneMove.to &&
+                  variation.promotion === doneMove.promotion
+                ) {
+                  setIndex(variation.index!);
+                  return true;
+                }
+              }
+            }
+            const newHistory = [...history.current];
+            const fen = chess.fen();
+            const moveObject = {
+              fen,
+              from: doneMove.from,
+              index: newHistory.length,
+              moveNo: moveNo + (fen.split(" ")[1] === "b" ? 1 : 0),
+              prev: index.current,
+              promotion: doneMove.promotion,
+              san: doneMove.san,
+              to: doneMove.to,
+              turn: doneMove.color,
+              variations: [],
+            };
+            if (newHistory[index.current].next) {
+              if (
+                newHistory[newHistory[index.current].next!].to ||
+                (doneMove.to &&
+                  newHistory[newHistory[index.current].next!].from !==
+                    doneMove.from)
+              ) {
+                newHistory[newHistory[index.current].next!].variations.push(
+                  moveObject,
+                );
+              }
+            } else {
+              newHistory[index.current].next = newHistory.length;
+            }
+            newHistory.push(moveObject);
+            setHistory(newHistory);
+            setIndex(newHistory.length - 1);
+          }
+        } else if (
           move.from &&
           chess
             .moves({ square: move.from, verbose: true })
@@ -172,88 +263,10 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         }
         return true;
       }
-      if (doneMove) {
-        if (
-          index.current !== undefined &&
-          getNextMoveIndex(index.current) !== undefined &&
-          history.current[getNextMoveIndex(index.current)!] !== null &&
-          history.current[getNextMoveIndex(index.current)!] !== undefined &&
-          history.current[getNextMoveIndex(index.current)!].from ===
-            doneMove.from &&
-          history.current[getNextMoveIndex(index.current)!].to ===
-            doneMove.to &&
-          history.current[getNextMoveIndex(index.current)!].promotion ===
-            doneMove.promotion
-        ) {
-          setIndex(getNextMoveIndex(index.current)!);
-        } else {
-          if (
-            index.current !== undefined &&
-            getNextMoveIndex(index.current) !== undefined &&
-            history.current[getNextMoveIndex(index.current)!] !== null &&
-            history.current[getNextMoveIndex(index.current)!] !== undefined
-          ) {
-            for (const variation of history.current[
-              getNextMoveIndex(index.current)!
-            ].variations) {
-              if (
-                variation !== null &&
-                variation !== undefined &&
-                variation.from === doneMove.from &&
-                variation.to === doneMove.to &&
-                variation.promotion === doneMove.promotion
-              ) {
-                setIndex(variation.index!);
-                return true;
-              }
-            }
-          }
-          const newHistory = [...history.current];
-          const fen = chess.fen();
-          const moveObject = {
-            fen,
-            from: doneMove.from,
-            index: newHistory.length,
-            moveNo: moveNo + (fen.split(" ")[1] === "b" ? 1 : 0),
-            prev: index.current,
-            promotion: doneMove.promotion,
-            san: doneMove.san,
-            to: doneMove.to,
-            turn: doneMove.color,
-            variations: [],
-          };
-          if (newHistory[index.current].next) {
-            if (
-              newHistory[newHistory[index.current].next!].to ||
-              (doneMove.to &&
-                newHistory[newHistory[index.current].next!].from !==
-                  doneMove.from)
-            ) {
-              newHistory[newHistory[index.current].next!].variations.push(
-                moveObject,
-              );
-            }
-          } else {
-            newHistory[index.current].next = newHistory.length;
-          }
-          newHistory.push(moveObject);
-          setHistory(newHistory);
-          setIndex(newHistory.length - 1);
-        }
-      } else if (
-        move.from &&
-        chess
-          .moves({ square: move.from, verbose: true })
-          .map((object) => object.to)
-          .includes(move.to)
-      ) {
-        setPromotionMenuVisible(true);
-        return false;
-      }
       return true;
-    }
-    return true;
-  };
+    },
+    [setHistory, setIndex],
+  );
 
   let notationPlacement = "column";
   switch (notationLayout) {
@@ -276,65 +289,66 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
     }
   }
 
-  const captureSquare = (square: string) => {
-    const chess = new Chess(history.current[index.current].fen);
-    if (!chess.isGameOver()) {
-      if (sourceSquare === null) {
-        setSourceSquare(square as Square);
-        setTargetSquares(
-          chess
-            .moves({ square: square as Square, verbose: true })
-            .map((move) => move.to),
-        );
-      } else {
-        setDestinationSquare(square as Square);
-        if (addMove({ from: sourceSquare, to: square as Square })) {
-          setSourceSquare(null);
-          setDestinationSquare(null);
-          setTargetSquares([]);
+  const captureSquare = useCallback(
+    (square: string) => {
+      const chess = new Chess(history.current[index.current].fen);
+      if (!chess.isGameOver()) {
+        if (sourceSquare === null) {
+          setSourceSquare(square as Square);
+          setTargetSquares(
+            chess
+              .moves({ square: square as Square, verbose: true })
+              .map((move) => move.to),
+          );
+        } else {
+          setDestinationSquare(square as Square);
+          if (addMove({ from: sourceSquare, to: square as Square })) {
+            setSourceSquare(null);
+            setDestinationSquare(null);
+            setTargetSquares([]);
+          }
         }
       }
-    }
-  };
+    },
+    [addMove, sourceSquare],
+  );
 
-  const writeMove = (
-    moves: Move[],
-    moveIndex: number,
-    variant: boolean,
-    forked: boolean,
-  ) => {
-    let notation = "";
-    const move = moves[moveIndex];
-    const moveNumber = move.moveNo;
-    if (variant) {
-      notation += "(";
-    }
-    if (move.turn === "w") {
-      notation += `${moveNumber}. `;
-    } else if (variant || forked) {
-      notation += `${moveNumber}... `;
-    }
-    notation += `${move.san} `;
-    let hasVariant = false;
-    for (const moveVariant of move.variations) {
-      if (moveVariant.index) {
-        notation += writeMove(moves, moveVariant.index, true, true);
-        hasVariant = true;
+  const writeMove = useCallback(
+    (moves: Move[], moveIndex: number, variant: boolean, forked: boolean) => {
+      let notation = "";
+      const move = moves[moveIndex];
+      const moveNumber = move.moveNo;
+      if (variant) {
+        notation += "(";
       }
-    }
+      if (move.turn === "w") {
+        notation += `${moveNumber}. `;
+      } else if (variant || forked) {
+        notation += `${moveNumber}... `;
+      }
+      notation += `${move.san} `;
+      let hasVariant = false;
+      for (const moveVariant of move.variations) {
+        if (moveVariant.index) {
+          notation += writeMove(moves, moveVariant.index, true, true);
+          hasVariant = true;
+        }
+      }
 
-    if (move.next) {
-      notation += writeMove(moves, move.next, false, hasVariant);
-    }
+      if (move.next) {
+        notation += writeMove(moves, move.next, false, hasVariant);
+      }
 
-    if (variant) {
-      notation += ") ";
-    }
+      if (variant) {
+        notation += ") ";
+      }
 
-    return notation;
-  };
+      return notation;
+    },
+    [],
+  );
 
-  const download = () => {
+  const download = useCallback(() => {
     const pgn = `[Event "${headers.Event || "*"}"]
 [Site "${headers.Site || "*"}"]
 [Date "${headers.Date || "*"}"]
@@ -358,7 +372,16 @@ ${
     link.click();
 
     URL.revokeObjectURL(url);
-  };
+  }, [
+    headers.Black,
+    headers.Date,
+    headers.Event,
+    headers.Result,
+    headers.Round,
+    headers.Site,
+    headers.White,
+    writeMove,
+  ]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -481,6 +504,52 @@ ${
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
+  const handlePromotion = (piece: Exclude<PieceSymbol, "k" | "p">) => () => {
+    if (sourceSquare && destinationSquare) {
+      addMove({
+        from: sourceSquare,
+        promotion: piece,
+        to: destinationSquare,
+      });
+    }
+    setPromotionMenuVisible(false);
+    setSourceSquare(null);
+    setDestinationSquare(null);
+    setTargetSquares([]);
+  };
+
+  const handleNextIndex = useCallback(() => {
+    setIndex(getNextMoveIndex(index.current)!);
+  }, [setIndex]);
+
+  const handlePreviousIndex = useCallback(() => {
+    setIndex(getPreviousIndex(index.current)!);
+  }, [setIndex]);
+
+  const goFirst = useCallback(() => {
+    setIndex(0);
+  }, [setIndex]);
+
+  const toggleFlip = useCallback(() => {
+    setFlip((flipped) => !flipped);
+  }, []);
+
+  const goLast = useCallback(() => {
+    setIndex(getLastMoveIndex(index.current)!);
+  }, [getLastMoveIndex, setIndex]);
+
+  const goNext = useCallback(() => {
+    setIndex(getNextMoveIndex(index.current)!);
+  }, [setIndex]);
+
+  const goPrevious = useCallback(() => {
+    setIndex(getPreviousIndex(index.current)!);
+  }, [setIndex]);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((previousPlaying) => !previousPlaying);
+  }, []);
+
   return (
     <div id="board">
       {showPlayers && (
@@ -541,70 +610,22 @@ ${
               <TouchableIcon
                 className="promotion"
                 icon={faChessQueen}
-                onClick={() => {
-                  if (sourceSquare && destinationSquare) {
-                    addMove({
-                      from: sourceSquare,
-                      promotion: "q",
-                      to: destinationSquare,
-                    });
-                  }
-                  setPromotionMenuVisible(false);
-                  setSourceSquare(null);
-                  setDestinationSquare(null);
-                  setTargetSquares([]);
-                }}
+                onClick={handlePromotion("q")}
               />
               <TouchableIcon
                 className="promotion"
                 icon={faChessRook}
-                onClick={() => {
-                  if (sourceSquare && destinationSquare) {
-                    addMove({
-                      from: sourceSquare,
-                      promotion: "r",
-                      to: destinationSquare,
-                    });
-                  }
-                  setPromotionMenuVisible(false);
-                  setSourceSquare(null);
-                  setDestinationSquare(null);
-                  setTargetSquares([]);
-                }}
+                onClick={handlePromotion("r")}
               />
               <TouchableIcon
                 className="promotion"
                 icon={faChessBishop}
-                onClick={() => {
-                  if (sourceSquare && destinationSquare) {
-                    addMove({
-                      from: sourceSquare,
-                      promotion: "b",
-                      to: destinationSquare,
-                    });
-                  }
-                  setPromotionMenuVisible(false);
-                  setSourceSquare(null);
-                  setDestinationSquare(null);
-                  setTargetSquares([]);
-                }}
+                onClick={handlePromotion("b")}
               />
               <TouchableIcon
                 className="promotion"
                 icon={faChessKnight}
-                onClick={() => {
-                  if (sourceSquare && destinationSquare) {
-                    addMove({
-                      from: sourceSquare,
-                      promotion: "n",
-                      to: destinationSquare,
-                    });
-                  }
-                  setPromotionMenuVisible(false);
-                  setSourceSquare(null);
-                  setDestinationSquare(null);
-                  setTargetSquares([]);
-                }}
+                onClick={handlePromotion("n")}
               />
             </div>
           </div>
@@ -613,42 +634,26 @@ ${
             boardSize={boardSize}
             fen={history.current[index.current].fen}
             flip={flip}
-            nextMove={() => {
-              setIndex(getNextMoveIndex(index.current)!);
-            }}
-            prevMove={() => {
-              setIndex(getPreviousIndex(index.current)!);
-            }}
+            nextMove={handleNextIndex}
+            prevMove={handlePreviousIndex}
             sendSquare={captureSquare}
             sourceSquare={sourceSquare}
             targetSquares={targetSquares}
           />
           <ButtonsBar
             download={download}
-            firstMove={() => {
-              setIndex(0);
-            }}
-            flip={() => {
-              setFlip((flipped) => !flipped);
-            }}
+            firstMove={goFirst}
+            flip={toggleFlip}
             isFirst={index.current === 0}
             isLast={getNextMoveIndex(index.current) === null}
-            lastMove={() => {
-              setIndex(getLastMoveIndex(index.current)!);
-            }}
-            nextMove={() => {
-              setIndex(getNextMoveIndex(index.current)!);
-            }}
+            lastMove={goLast}
+            nextMove={goNext}
             notationLayout={notationLayout}
             notationSwitch={notationSwitch}
             playing={playing}
-            prevMove={() => {
-              setIndex(getPreviousIndex(index.current)!);
-            }}
+            previousMove={goPrevious}
             setNotationLayout={setNotationLayout}
-            setPlaying={() => {
-              setPlaying((previousPlaying) => !previousPlaying);
-            }}
+            setPlaying={togglePlaying}
             width={boardSize}
             zoomIn={zoomIn}
             zoomOut={zoomOut}

@@ -1,5 +1,5 @@
 import "./Games.css";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { GameData } from "../ChessEditor";
 import Content from "../components/Content";
@@ -27,21 +27,19 @@ const Games = () => {
 
   const options1 = [];
   const options2 = [];
-
   let counter = 1;
-
   for (const letter of ["A", "B", "C", "D", "E"] as const) {
     for (let index = 0; index < 10; index++) {
       for (let index_ = 0; index_ < 10; index_++) {
         options1.push(
-          <option value={counter}>
+          <option key={`min-${counter}`} value={counter}>
             {letter}
             {index}
             {index_}
           </option>,
         );
         options2.push(
-          <option value={counter++}>
+          <option key={`max-${counter}`} value={counter++}>
             {letter}
             {index}
             {index_}
@@ -51,238 +49,287 @@ const Games = () => {
     }
   }
 
-  const handleSubmit = (event_: React.FormEvent) => {
-    event_.preventDefault();
-    if (white.trim().length > 0 || black.trim().length > 0) {
-      const body: Record<string, string> = {
-        black,
-        event,
-        ignore: String(ignore),
-        maxEco: String(maxEco),
-        maxYear: String(maxYear),
-        minEco: String(minEco),
-        minYear: String(minYear),
-        searching,
-        table: base,
-        white,
-      };
+  const handleSubmit = useCallback(
+    (event_: React.FormEvent) => {
+      event_.preventDefault();
+      if (white.trim().length > 0 || black.trim().length > 0) {
+        const body: Record<string, string> = {
+          black,
+          event,
+          ignore: String(ignore),
+          maxEco: String(maxEco),
+          maxYear: String(maxYear),
+          minEco: String(minEco),
+          minYear: String(minYear),
+          searching,
+          table: base,
+          white,
+        };
+        const url = new URL(API.BASE_URL + API.games.normal);
+        url.search = new URLSearchParams(body).toString();
+        setLoadingGames(true);
+        fetch(url)
+          .then((response) => response.json())
+          .then((data: { rows: GameData[]; table: string }) => {
+            setSearchedBase(data.table);
+            setGames(data.rows);
+          })
+          .finally(() => {
+            setLoadingGames(false);
+          });
+      } else {
+        alert("Wymagane nazwisko przynajmniej jednego z graczy");
+      }
+    },
+    [
+      base,
+      black,
+      event,
+      ignore,
+      maxEco,
+      maxYear,
+      minEco,
+      minYear,
+      searching,
+      white,
+    ],
+  );
 
-      const url = new URL(API.BASE_URL + API.games.normal);
-      url.search = new URLSearchParams(body).toString();
+  const handleToggleIgnore = useCallback(() => {
+    setIgnore(!ignore);
+  }, [ignore]);
 
-      setLoadingGames(true);
-      fetch(url)
-        .then((response) => response.json())
-        .then((data: { rows: GameData[]; table: string }) => {
-          setSearchedBase(data.table);
-          setGames(data.rows);
-        })
-        .finally(() => {
-          setLoadingGames(false);
-        });
-    } else {
-      alert("Wymagane nazwisko przynajmniej jednego z graczy");
-    }
-  };
+  const handleMinYearChange = useCallback(
+    (event_: React.ChangeEvent<HTMLInputElement>) => {
+      setMinYear(Number.parseInt(event_.target.value));
+    },
+    [],
+  );
+
+  const handleMaxYearChange = useCallback(
+    (event_: React.ChangeEvent<HTMLInputElement>) => {
+      setMaxYear(Number.parseInt(event_.target.value));
+    },
+    [],
+  );
+
+  const handleEventChange = useCallback(
+    (event_: React.ChangeEvent<HTMLInputElement>) => {
+      setEvent(event_.target.value);
+    },
+    [],
+  );
+
+  const handleMinEcoChange = useCallback(
+    (event_: React.ChangeEvent<HTMLSelectElement>) => {
+      setMinEco(Number.parseInt(event_.target.value));
+    },
+    [],
+  );
+
+  const handleMaxEcoChange = useCallback(
+    (event_: React.ChangeEvent<HTMLSelectElement>) => {
+      setMaxEco(Number.parseInt(event_.target.value));
+    },
+    [],
+  );
+
+  const handleBaseChangePoland = useCallback(() => {
+    setBase("poland");
+  }, []);
+
+  const handleBaseChangeAll = useCallback(() => {
+    setBase("all");
+  }, []);
+
+  const handleSearchingClassic = useCallback(() => {
+    setSearching("classic");
+  }, []);
+
+  const handleSearchingFulltext = useCallback(() => {
+    setSearching("fulltext");
+  }, []);
 
   return (
     <div id="games">
       <Content>
         <div id="searchContainer">
-          <div className="not_mobile"></div>{" "}
+          <div className="not_mobile"></div>
           <form onSubmit={handleSubmit}>
             <table className="no_border">
-              <tr>
-                <td>
-                  <label>{t("white")}:</label>
-                </td>
-                <td colSpan={3}>
-                  <SearchPlayersWithHints
-                    f={setWhite}
-                    id="white"
-                    list="whitelist"
-                    placeholder="Nowak, Jan"
-                    type="text"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("black")}:</label>
-                </td>
-                <td colSpan={3}>
-                  <SearchPlayersWithHints
-                    f={setBlack}
-                    id="black"
-                    list="blacklist"
-                    placeholder="Nowak, Jan"
-                    type="text"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "21ch" } as const}>
-                  <label>{t("games.ignore_colors")}</label>
-                </td>
-                <td colSpan={3}>
-                  <input
-                    checked={ignore}
-                    onChange={() => {
-                      setIgnore(!ignore);
-                    }}
-                    type="checkbox"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("years")}:</label>
-                </td>
-                <td
-                  style={
-                    { display: "flex", justifyContent: "flex-end" } as const
-                  }
-                >
-                  <input
-                    max={currentYear}
-                    min="1475"
-                    onChange={(event_) => {
-                      setMinYear(Number.parseInt(event_.target.value));
-                    }}
-                    step="1"
-                    style={{ width: "4em" } as const}
-                    type="number"
-                    value={minYear}
-                  />
-                </td>
-                <td> - </td>
-                <td
-                  style={
-                    { display: "flex", justifyContent: "flex-start" } as const
-                  }
-                >
-                  <input
-                    max={currentYear}
-                    min="1475"
-                    onChange={(event_) => {
-                      setMaxYear(Number.parseInt(event_.target.value));
-                    }}
-                    step="1"
-                    style={{ width: "4em" } as const}
-                    type="number"
-                    value={maxYear}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("tournament")}:</label>
-                </td>
-                <td colSpan={3}>
-                  <input
-                    onChange={(event_) => {
-                      setEvent(event_.target.value);
-                    }}
-                    type="text"
-                    value={event}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>ECO:</td>
-                <td
-                  style={
-                    { display: "flex", justifyContent: "flex-end" } as const
-                  }
-                >
-                  <select
-                    name="ecoMin"
-                    onChange={(event_) => {
-                      setMinEco(Number.parseInt(event_.target.value));
-                    }}
-                    value={minEco}
+              <tbody>
+                <tr>
+                  <td>
+                    <label>{t("white")}:</label>
+                  </td>
+                  <td colSpan={3}>
+                    <SearchPlayersWithHints
+                      callback={setWhite}
+                      id="white"
+                      list="whitelist"
+                      placeholder="Nowak, Jan"
+                      type="text"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>{t("black")}:</label>
+                  </td>
+                  <td colSpan={3}>
+                    <SearchPlayersWithHints
+                      callback={setBlack}
+                      id="black"
+                      list="blacklist"
+                      placeholder="Nowak, Jan"
+                      type="text"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ width: "21ch" } as const}>
+                    <label>{t("games.ignore_colors")}</label>
+                  </td>
+                  <td colSpan={3}>
+                    <input
+                      checked={ignore}
+                      onChange={handleToggleIgnore}
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>{t("years")}:</label>
+                  </td>
+                  <td
+                    style={
+                      { display: "flex", justifyContent: "flex-end" } as const
+                    }
                   >
-                    {options1}
-                  </select>
-                </td>
-                <td> - </td>
-                <td
-                  style={
-                    { display: "flex", justifyContent: "flex-start" } as const
-                  }
-                >
-                  <select
-                    name="ecoMax"
-                    onChange={(event_) => {
-                      setMaxEco(Number.parseInt(event_.target.value));
-                    }}
-                    value={maxEco}
+                    <input
+                      max={currentYear}
+                      min="1475"
+                      onChange={handleMinYearChange}
+                      step="1"
+                      style={{ width: "4em" } as const}
+                      type="number"
+                      value={minYear}
+                    />
+                  </td>
+                  <td> - </td>
+                  <td
+                    style={
+                      { display: "flex", justifyContent: "flex-start" } as const
+                    }
                   >
-                    {options2}
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("base")}:</label>
-                </td>
-                <td>
-                  <label>{t("games.poland")} </label>
-                  <input
-                    checked={base === "poland"}
-                    name="base"
-                    onChange={() => {
-                      setBase("poland");
-                    }}
-                    type="radio"
-                    value="poland"
-                  />
-                </td>
-                <td colSpan={2}>
-                  <label>{t("games.all")} </label>
-                  <input
-                    checked={base === "all"}
-                    name="base"
-                    onChange={() => {
-                      setBase("all");
-                    }}
-                    type="radio"
-                    value="all"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ width: "18ch" } as const}>
-                  <label>{t("games.searching")}</label>
-                </td>
-                <td>
-                  <label>{t("games.searching_classic")}</label>
-                  <input
-                    checked={searching === "classic"}
-                    name="searching"
-                    onChange={() => {
-                      setSearching("classic");
-                    }}
-                    type="radio"
-                  />
-                </td>
-                <td colSpan={2}>
-                  <label>{t("games.searching_exact")}</label>
-                  <input
-                    checked={searching === "fulltext"}
-                    name="searching"
-                    onChange={() => {
-                      setSearching("fulltext");
-                    }}
-                    type="radio"
-                  />
-                </td>
-              </tr>
-              <tr style={{ height: "4em" } as const}>
-                <th colSpan={4}>
-                  <button>{t("games.search")}</button>
-                </th>
-              </tr>
+                    <input
+                      max={currentYear}
+                      min="1475"
+                      onChange={handleMaxYearChange}
+                      step="1"
+                      style={{ width: "4em" } as const}
+                      type="number"
+                      value={maxYear}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>{t("tournament")}:</label>
+                  </td>
+                  <td colSpan={3}>
+                    <input
+                      onChange={handleEventChange}
+                      type="text"
+                      value={event}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>ECO:</td>
+                  <td
+                    style={
+                      { display: "flex", justifyContent: "flex-end" } as const
+                    }
+                  >
+                    <select
+                      name="ecoMin"
+                      onChange={handleMinEcoChange}
+                      value={minEco}
+                    >
+                      {options1}
+                    </select>
+                  </td>
+                  <td> - </td>
+                  <td
+                    style={
+                      { display: "flex", justifyContent: "flex-start" } as const
+                    }
+                  >
+                    <select
+                      name="ecoMax"
+                      onChange={handleMaxEcoChange}
+                      value={maxEco}
+                    >
+                      {options2}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>{t("base")}:</label>
+                  </td>
+                  <td>
+                    <label>{t("games.poland")} </label>
+                    <input
+                      checked={base === "poland"}
+                      name="base"
+                      onChange={handleBaseChangePoland}
+                      type="radio"
+                      value="poland"
+                    />
+                  </td>
+                  <td colSpan={2}>
+                    <label>{t("games.all")} </label>
+                    <input
+                      checked={base === "all"}
+                      name="base"
+                      onChange={handleBaseChangeAll}
+                      type="radio"
+                      value="all"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ width: "18ch" } as const}>
+                    <label>{t("games.searching")}</label>
+                  </td>
+                  <td>
+                    <label>{t("games.searching_classic")}</label>
+                    <input
+                      checked={searching === "classic"}
+                      name="searching"
+                      onChange={handleSearchingClassic}
+                      type="radio"
+                    />
+                  </td>
+                  <td colSpan={2}>
+                    <label>{t("games.searching_exact")}</label>
+                    <input
+                      checked={searching === "fulltext"}
+                      name="searching"
+                      onChange={handleSearchingFulltext}
+                      type="radio"
+                    />
+                  </td>
+                </tr>
+                <tr style={{ height: "4em" } as const}>
+                  <th colSpan={4}>
+                    <button>{t("games.search")}</button>
+                  </th>
+                </tr>
+              </tbody>
             </table>
           </form>
           <div id="right_content">
