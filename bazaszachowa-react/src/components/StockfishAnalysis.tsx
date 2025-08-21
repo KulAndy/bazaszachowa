@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import { useI18n } from "../i18n/I18nContext";
 
-const stockfish = new Worker("/js/stockfish.js");
-
 interface UciVariant2SanProperties {
   fen: string;
   moves: string[];
@@ -22,14 +20,7 @@ const uciVariant2San = ({ fen, moves }: UciVariant2SanProperties) => {
 
   for (const move of moves) {
     try {
-      const from = move.slice(0, 2);
-      const to = move.slice(2, 4);
-      let promotion: string | undefined;
-      if (move.length > 4) {
-        promotion = move.slice(5);
-      }
-
-      const doneMove = chess.move({ from, promotion, to });
+      const doneMove = chess.move(move);
 
       if (!doneMove) {
         break;
@@ -63,6 +54,8 @@ interface Variant {
   variant: string[];
 }
 
+const evalRegex = new RegExp(/score (cp|mate) ([\d-]+) .*$/);
+
 const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   depth = 20,
   fen,
@@ -75,112 +68,108 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   const [variants, setVariants] = useState<Record<string, Variant>>({});
   const [currentDepth, setCurrentDepth] = useState(0);
   const [best, setBest] = useState<null | string>(null);
-
-  stockfish.addEventListener("message", (event) => {
-    let message = event.data as string;
-    if (message.includes("info depth")) {
-      const match = new RegExp(/score (cp|mate) ([\d-]+) .*$/).exec(message);
-
-      if (match) {
-        const chess = new Chess(fen);
-        const turn = chess.turn();
-        const type = match[1];
-        const value = Number(match[2]);
-        const infoArray = message.split(" pv ");
-        const key = infoArray[1].split(" ")[0];
-
-        let san: null | string = null;
-        try {
-          const move = infoArray[1].split(" ")[0];
-          const from = move.slice(0, 2);
-          const to = move.slice(2, 4);
-          let promotion: string | undefined;
-          if (move.length > 4) {
-            promotion = move.slice(5);
-          }
-
-          const doneMove = chess.move({ from, promotion, to });
-          if (!doneMove) {
-            return;
-          }
-          san = doneMove.san;
-        } catch {
-          return;
-        }
-
-        if (san !== null) {
-          setVariants((previousVariants) => ({
-            ...previousVariants,
-            [key]: {
-              prefix:
-                ((turn === "b" && value >= 0) || (turn === "w" && value < 0)
-                  ? "-"
-                  : "+") + (type === "mate" ? "#" : ""),
-              san: san!,
-              type,
-              value: type === "mate" ? value : value / 100,
-              variant: infoArray[1].split(" "),
-            },
-          }));
-        }
-      }
-    } else if (message.startsWith("bestmove")) {
-      message = message.replaceAll(/bestmove |ponder |\(none\) /g, "");
-      const newBest = message
-        .trim()
-        .split(" ")
-        .find((item) => item !== "(none)");
-
-      if (newBest) {
-        setBest(newBest);
-      }
-      if (currentDepth < depth) {
-        setCurrentDepth(currentDepth + 1);
-      }
-    }
-  });
+  const [stockfish, setStockfish] = useState(
+    () => new Worker("/js/stockfish.js"),
+  );
 
   useEffect(() => {
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
+    stockfish.onmessage = (event) => {
+      let message = event.data as string;
+      if (message.includes("info depth")) {
+        const match = evalRegex.exec(message);
+
+        if (match) {
+          const chess = new Chess(fen);
+          const turn = chess.turn();
+          const type = match[1];
+          const value = Number(match[2]);
+          const infoArray = message.split(" pv ");
+          const move = infoArray[1].split(" ")[0];
+
+          let san: null | string = null;
+          try {
+            const doneMove = chess.move(move);
+            if (!doneMove) {
+              return;
+            }
+            san = doneMove.san;
+          } catch {
+            return;
+          }
+
+          if (san !== null) {
+            setVariants((previousVariants) => ({
+              ...previousVariants,
+              [move]: {
+                prefix:
+                  ((turn === "b" && value >= 0) || (turn === "w" && value < 0)
+                    ? "-"
+                    : "+") + (type === "mate" ? "#" : ""),
+                san: san!,
+                type,
+                value: type === "mate" ? value : value / 100,
+                variant: infoArray[1].split(" "),
+              },
+            }));
+          }
+        }
+      } else if (message.startsWith("bestmove")) {
+        message = message.replaceAll(/bestmove |ponder |\(none\) /g, "");
+        const newBest = message
+          .trim()
+          .split(" ")
+          .find((item) => item !== "(none)");
+
+        if (newBest) {
+          setBest(newBest);
+        }
+        if (currentDepth < depth) {
+          setCurrentDepth(currentDepth + 1);
+        }
+      }
+    };
     stockfish.postMessage("uci");
     stockfish.postMessage(`setoption name Threads value ${threads}`);
     stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
     stockfish.postMessage(`setoption name Hash value ${hashSize}`);
+  }, [currentDepth, depth, fen, hashSize, multiPV, stockfish, threads]);
 
-    return () => {
-      stockfish.postMessage("stop");
-    };
-  }, [threads, multiPV, hashSize]);
+  useEffect(() => {
+    stockfish.terminate();
+    setStockfish(new Worker("/js/stockfish.js"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fen]);
 
   useEffect(() => {
     stockfish.postMessage("stop");
-    setVariants({});
-    setBest(null);
     stockfish.postMessage("uci");
     stockfish.postMessage(`setoption name Threads value ${threads}`);
     stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
     stockfish.postMessage(`setoption name Hash value ${hashSize}`);
     stockfish.postMessage(`position fen ${fen}`);
-    stockfish.postMessage("go depth 1");
+
     setCurrentDepth(1);
-  }, [fen, threads, multiPV, hashSize]);
+  }, [fen, threads, multiPV, hashSize, stockfish]);
 
   useEffect(() => {
-    // stockfish.postMessage("position fen " + fen);
+    setVariants({});
+    setBest(null);
     stockfish.postMessage(`go depth ${currentDepth}`);
-  }, [currentDepth]);
+  }, [currentDepth, stockfish]);
 
   const valuesArray: Variant[] = Object.values(variants)
     .filter((item) => item.san !== null)
     .sort((a, b) => {
-      if (a.type === "mate" && b.type !== "mate") {
-        return -1;
-      } else if (a.type !== "mate" && b.type === "mate") {
-        return 1;
-      } else if (a.type === "mate" && b.type === "mate") {
-        return a.value - b.value;
-      } else {
-        return b.value - a.value;
+      let aValue = a.value;
+      if (a.type === "mate") {
+        aValue = (10_000 - Math.abs(a.value)) * Math.sign(a.value);
       }
+      let bValue = b.value;
+      if (b.type === "mate") {
+        bValue = (10_000 - Math.abs(b.value)) * Math.sign(b.value);
+      }
+      return bValue - aValue;
     });
 
   return (
