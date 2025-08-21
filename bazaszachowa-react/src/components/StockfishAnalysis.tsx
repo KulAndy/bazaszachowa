@@ -136,7 +136,9 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
                 variant: infoArray[1].split(" "),
               },
             }));
-          } catch {}
+          } catch {
+            /* empty */
+          }
         }
       } else if (message.startsWith("bestmove")) {
         const newBest = message

@@ -294,18 +294,6 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
       if (!chess.isGameOver()) {
         if (sourceSquare === null) {
           setSourceSquare(square as Square);
-          console.log(
-            chess
-              .moves({ square: square as Square, verbose: true })
-              .map((move) => move.to),
-          );
-          console.log(
-            chess
-              .moves({ verbose: true })
-              .filter((item) => item.from === square)
-              .map((move) => move.to),
-          );
-
           setTargetSquares(
             chess
               .moves({ square: square as Square, verbose: true })
