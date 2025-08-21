@@ -21,15 +21,18 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
   style = {} as const,
   ...properties
 }) => {
-  return disable ? (
-    <span
-      className={`${className} ${iconColor} disabled`}
-      style={style}
-      {...properties}
-    >
-      <FontAwesomeIcon color={iconColor} icon={icon} />
-    </span>
-  ) : (
+  if (disable) {
+    return (
+      <span
+        className={`${className} ${iconColor} disabled`}
+        style={style}
+        {...properties}
+      >
+        <FontAwesomeIcon color={iconColor} icon={icon} />
+      </span>
+    );
+  }
+  return (
     <span
       className={`${className} ${iconColor}`}
       onClick={onClick}

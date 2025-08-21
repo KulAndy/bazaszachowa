@@ -22,7 +22,8 @@
     "react-web-api",
     "react-perf",
     "perfectionist",
-    "promise"
+    "promise",
+    "sonarjs"
   ],
   "extends": [
     "react-app",
@@ -44,26 +45,27 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict",
     "plugin:unicorn/recommended",
-    "plugin:perfectionist/recommended-alphabetical-legacy"
+    "plugin:perfectionist/recommended-alphabetical-legacy",
+    "plugin:sonarjs/recommended-legacy"
   ],
   "rules": {
+    "sonarjs/cognitive-complexity": "off",
+    "sonarjs/different-types-comparison": "off",
+    "sonarjs/table-header": "off",
+
     "unicorn/string-content": "error",
     "unicorn/no-unused-properties": "error",
     "unicorn/custom-error-definition": "error",
     "unicorn/consistent-destructuring": "error",
     "unicorn/better-regex": "error",
-    "unicorn/prefer-ternary": "off",
-    "unicorn/no-array-callback-reference": "off",
-    "unicorn/no-array-reduce": "off",
-    "unicorn/prefer-code-point": "off",
     "unicorn/no-nested-ternary": "off",
     "unicorn/filename-case": "off",
     "unicorn/no-null": "off",
 
     "no-unsanitized/method": "error",
     "no-unsanitized/property": "error",
-    "promise/always-return": "off",
 
+    "promise/always-return": "off",
     "promise/catch-or-return": "off",
 
     "@typescript-eslint/no-unsafe-member-access": "off",
@@ -97,8 +99,6 @@
     "@typescript-eslint/no-unnecessary-condition": "off",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/prefer-for-of": "error",
-
-    "react/react-in-jsx-scope": "off",
 
     "react-web-api/no-leaked-event-listener": "error",
     "react-web-api/no-leaked-interval": "error",
@@ -197,7 +197,6 @@
     "no-mixed-spaces-and-tabs": "error",
     "no-useless-rename": "error",
     "deprecation/deprecation": "error",
-    "jsx-a11y/no-onchange": "off",
     "prefer-const": "error",
     "quotes": ["error", "double"],
     "semi": ["error", "always"],

@@ -246,33 +246,31 @@ const Player = () => {
           ></iframe>
         </details>
         <table style={{ border: 0, margin: "auto" } as const}>
-          <tbody>
-            <tr id="container">
-              <td id="stats" style={{ border: 0 } as const}>
-                {loadingStats ? (
-                  <div>
-                    <div className="loading">
-                      <div className="spin"></div>
-                      <p>{t("player.loading_stats")} </p>
-                    </div>
+          <tr id="container">
+            <td id="stats" style={{ border: 0 } as const}>
+              {loadingStats ? (
+                <div>
+                  <div className="loading">
+                    <div className="spin"></div>
+                    <p>{t("player.loading_stats")} </p>
                   </div>
-                ) : (
-                  <OpeningsStats name={name || ""} stats={stats} />
-                )}
-              </td>
-              <td style={{ border: 0 } as const}>
-                <img
-                  alt="Wykres rankingu"
-                  crossOrigin="anonymous"
-                  id="graph"
-                  onError={handleErrorImage}
-                  src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
-                    name || "",
-                  )}`}
-                />
-              </td>
-            </tr>
-          </tbody>
+                </div>
+              ) : (
+                <OpeningsStats name={name || ""} stats={stats} />
+              )}
+            </td>
+            <td style={{ border: 0 } as const}>
+              <img
+                alt="Wykres rankingu"
+                crossOrigin="anonymous"
+                id="graph"
+                onError={handleErrorImage}
+                src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
+                  name || "",
+                )}`}
+              />
+            </td>
+          </tr>
         </table>
         {loadingGames ? (
           <div>

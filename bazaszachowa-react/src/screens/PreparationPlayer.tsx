@@ -61,22 +61,24 @@ const PreparationPlayer = ({
   );
 
   const loadGames = useCallback(
-    async (currentPlayer: string, currentColor: string) => {
-      const response = await fetch(
+    (currentPlayer: string, currentColor: string) => {
+      void fetch(
         `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
           currentPlayer,
         )}/${currentColor}`,
-      );
-      const data = (await response.json()) as GameData[];
-      processor.clear();
+      )
+        .then((response) => response.json())
+        .then((data: GameData[]) => {
+          processor.clear();
 
-      processor.getTree(data);
+          processor.getTree(data);
 
-      const fens = processor.searchFEN(fen);
+          const fens = processor.searchFEN(fen);
 
-      setGames(data);
-      setTree(fens.moves);
-      setGamesFilter(fens.indexes);
+          setGames(data);
+          setTree(fens.moves);
+          setGamesFilter(fens.indexes);
+        });
     },
     [fen],
   );

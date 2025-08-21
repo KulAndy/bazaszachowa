@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useI18n } from "../i18n/I18nContext";
 import { admin_mail } from "../settings";
 

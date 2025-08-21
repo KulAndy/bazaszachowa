@@ -88,12 +88,8 @@ const CrPlayersList: React.FC<CrPlayersListProperties> = ({ players }) => {
   }));
 
   if (items.length > 1) {
-    items.sort((a, b) =>
-      categoryToRanking(a.kat || "") < categoryToRanking(b.kat || "")
-        ? 1
-        : categoryToRanking(b.kat || "") < categoryToRanking(a.kat || "")
-          ? -1
-          : 0,
+    items.sort(
+      (a, b) => categoryToRanking(b.kat || "") - categoryToRanking(a.kat || ""),
     );
   }
 

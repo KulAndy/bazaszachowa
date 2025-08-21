@@ -16,7 +16,7 @@ import TouchableIcon from "./TouchableIcon";
 import "./style.css";
 
 // eslint-disable-next-line no-use-before-define
-export interface GameData extends headersProperties {
+export interface GameData extends HeadersProperties {
   Day: null | number;
   id: number;
   Month: null | number;
@@ -64,7 +64,7 @@ interface ChessEditorProperties {
   zoomOut: () => void;
 }
 
-interface headersProperties {
+interface HeadersProperties {
   Black: string;
   BlackElo?: null | number;
   ECO?: null | string;
@@ -94,7 +94,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
 }) => {
   const [playing, setPlaying] = useState(false);
   const [flip, setFlip] = useState(false);
-  const [headers, setHeaders] = useState<{ Date?: string } & headersProperties>(
+  const [headers, setHeaders] = useState<{ Date?: string } & HeadersProperties>(
     {
       Black: "",
       White: "",
@@ -150,8 +150,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
     ) {
       return history.current[currentIndex].next;
     }
-    // eslint-disable-next-line consistent-return
-    return;
+    return null;
   };
 
   const getLastMoveIndex = useCallback((currentIndex: number) => {
@@ -186,7 +185,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         if (doneMove) {
           if (
             index.current !== undefined &&
-            getNextMoveIndex(index.current) !== undefined &&
+            getNextMoveIndex(index.current) &&
             history.current[getNextMoveIndex(index.current)!] !== null &&
             history.current[getNextMoveIndex(index.current)!] !== undefined &&
             history.current[getNextMoveIndex(index.current)!].from ===
@@ -268,7 +267,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
     [setHistory, setIndex],
   );
 
-  let notationPlacement = "column";
+  let notationPlacement;
   switch (notationLayout) {
     case "left": {
       notationPlacement = "row-reverse";

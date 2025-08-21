@@ -194,7 +194,8 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                       backgroundColor:
                         sourceSquare === square
                           ? "goldenrod"
-                          : (index + counter) % 2 === 1
+                          : // eslint-disable-next-line sonarjs/no-nested-conditional
+                            (index + counter) % 2 === 1
                             ? blackSquareColor
                             : whiteSquareColor,
                       display: "flex",
@@ -233,7 +234,8 @@ const Chessboard: React.FC<ChessboardProperties> = ({
                       backgroundColor:
                         sourceSquare === square
                           ? "goldenrod"
-                          : (index + counter) % 2 === 1
+                          : // eslint-disable-next-line sonarjs/no-nested-conditional
+                            (index + counter) % 2 === 1
                             ? blackSquareColor
                             : whiteSquareColor,
                       display: "flex",
@@ -269,7 +271,8 @@ const Chessboard: React.FC<ChessboardProperties> = ({
               backgroundColor:
                 sourceSquare === square
                   ? "goldenrod"
-                  : (index + counter) % 2 === 1
+                  : // eslint-disable-next-line sonarjs/no-nested-conditional
+                    (index + counter) % 2 === 1
                     ? blackSquareColor
                     : whiteSquareColor,
               display: "flex",

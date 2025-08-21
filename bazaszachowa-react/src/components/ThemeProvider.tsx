@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 
+// eslint-disable-next-line sonarjs/call-argument-line
 const ThemeContext = createContext<{
   theme: string;
   toggleTheme: () => void;

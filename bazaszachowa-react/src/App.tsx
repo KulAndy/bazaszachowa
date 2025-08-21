@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import ErrorBoundary from "./components/ErrorBoundary";

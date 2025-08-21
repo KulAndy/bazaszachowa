@@ -5,12 +5,12 @@ import { useI18n } from "../i18n/I18nContext";
 
 const stockfish = new Worker("/js/stockfish.js");
 
-interface uciVariant2SanProperties {
+interface UciVariant2SanProperties {
   fen: string;
   moves: string[];
 }
 
-const uciVariant2San = ({ fen, moves }: uciVariant2SanProperties) => {
+const uciVariant2San = ({ fen, moves }: UciVariant2SanProperties) => {
   const chess = new Chess(fen);
   const splittedFen = fen.split(" ");
   const turn = chess.turn();
@@ -79,7 +79,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   stockfish.addEventListener("message", (event) => {
     let message = event.data as string;
     if (message.includes("info depth")) {
-      const match = message.match(/score (cp|mate) ([\d-]+) .*$/);
+      const match = new RegExp(/score (cp|mate) ([\d-]+) .*$/).exec(message);
 
       if (match) {
         const chess = new Chess(fen);

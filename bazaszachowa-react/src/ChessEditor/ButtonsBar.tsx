@@ -152,7 +152,8 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
   const toggleNotation = useCallback(() => {
     setNotationLayout(
       notationLayout === "none"
-        ? window.innerHeight > window.innerWidth
+        ? // eslint-disable-next-line sonarjs/no-nested-conditional
+          window.innerHeight > window.innerWidth
           ? "bottom"
           : "right"
         : "none",

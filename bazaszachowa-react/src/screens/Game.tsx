@@ -27,7 +27,7 @@ const Game = () => {
   const [data, setData] = useState<GameData | null>(null);
 
   const [fen, setFen] = useState<string | undefined>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
   const [doMove, setDoMove] = useState(null);
   const [boardSize, setBoardSize] = useState(() =>
     Math.min(
@@ -48,15 +48,6 @@ const Game = () => {
   );
 
   const updateWindowSize = () => {
-    Math.min(
-      400,
-      window.innerWidth * 0.9,
-      window.innerHeight -
-        10 *
-          Number.parseFloat(
-            getComputedStyle(document.documentElement).fontSize,
-          ),
-    );
     setNotationLayout(
       window.innerHeight > window.innerWidth ||
         Math.max(window.innerWidth, window.innerHeight) <= 768

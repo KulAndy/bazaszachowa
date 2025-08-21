@@ -23,6 +23,7 @@ class ErrorBoundary extends Component<
 
   public componentDidCatch(_: Error, _2: ErrorInfo): void {}
 
+  // eslint-disable-next-line sonarjs/function-return-type
   public render() {
     if (this.state.hasError) {
       return <h1 className="error">Coś poszło nie tak.</h1>;

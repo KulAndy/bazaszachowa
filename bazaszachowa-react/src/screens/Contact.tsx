@@ -35,6 +35,7 @@ const Contact = () => {
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
+      // eslint-disable-next-line sonarjs/slow-regex
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
         alert("contact.Niedozwolony adres");
@@ -45,20 +46,20 @@ const Contact = () => {
         form.append("content", formData.content);
         form.append("attachment", formData.attachment || "");
 
-        try {
-          void fetch(API.BASE_URL + API.send_mail, {
-            body: form,
-            method: "POST",
-          }).then((response) => {
+        fetch(API.BASE_URL + API.send_mail, {
+          body: form,
+          method: "POST",
+        })
+          .then((response) => {
             if (response.status === 200) {
               alert(t("contact.successfully_sent"));
             } else {
-              alert(t("contact.failled_sent"));
+              throw new Error("Sent failed");
             }
+          })
+          .catch(() => {
+            t("contact.failled_sent");
           });
-        } catch {
-          alert(t("contact.failled_sent"));
-        }
       } else {
         alert(t("contact.invalid_mail"));
       }

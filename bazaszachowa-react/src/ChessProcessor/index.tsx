@@ -35,6 +35,7 @@ interface MoveStats {
 const processGameFirstBatchLegacy = (
   row: GameData,
 ): Record<string, FenData> => {
+  // eslint-disable-next-line sonarjs/no-nested-conditional
   const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
   const chess = new Chess();
   const fens: Record<string, FenData> = {};
@@ -134,9 +135,9 @@ const mergeResults = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
-initWasm().then((wasm: any) => {
+void initWasm().then((wasm: any) => {
   processGameFirstBatchWasm = (row: GameData): Record<string, FenData> => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const wasmGame = new wasm.GameData(row.id, row.Result, row.Year);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const wasmMoves = new wasm.VectorMove();
@@ -226,6 +227,7 @@ class ChessProcessor {
 
   private processGameSecondBatch(row: GameData) {
     const chess = new Chess();
+    // eslint-disable-next-line sonarjs/no-nested-conditional
     const points = row.Result === "1-0" ? 1 : row.Result === "0-1" ? 0 : 0.5;
     const year = row.Year!;
 

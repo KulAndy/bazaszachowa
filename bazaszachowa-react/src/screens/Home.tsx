@@ -1,3 +1,5 @@
+import React from "react";
+
 import Content from "../components/Content";
 import { useI18n } from "../i18n/I18nContext";
 import logo from "../logo.svg";
@@ -31,7 +33,7 @@ const Home = () => {
         {t("home.free_chess_software")}
         <ul>
           <li>
-            <a href="http://scidvspc.sourceforge.net/">scid vs pc</a>
+            <a href="https://scidvspc.sourceforge.net/">scid vs pc</a>
           </li>
         </ul>
         {t("home.best_chess_engine")}
