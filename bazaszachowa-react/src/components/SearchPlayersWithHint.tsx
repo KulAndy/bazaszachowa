@@ -8,7 +8,7 @@ const replaceNationalCharacters = (text: string) => {
   toReplace = toReplace.replaceAll("Ą", "A");
   toReplace = toReplace.replaceAll("ć", "c");
   toReplace = toReplace.replaceAll("Ć", "C");
-  toReplace = toReplace.replaceAll("ę", "event");
+  toReplace = toReplace.replaceAll("ę", "e");
   toReplace = toReplace.replaceAll("Ę", "E");
   toReplace = toReplace.replaceAll("ł", "l");
   toReplace = toReplace.replaceAll("Ł", "L");
