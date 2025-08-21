@@ -1,7 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface ErrorBoundaryProperties {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 interface ErrorBoundaryState {

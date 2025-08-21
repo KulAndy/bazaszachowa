@@ -26,7 +26,11 @@ const getInitialTheme = () => {
   return storedTheme || (prefersDarkMode ? "dark" : "light");
 };
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+export const ThemeProvider = ({
+  children,
+}: {
+  readonly children: ReactNode;
+}) => {
   const [theme, setTheme] = useState<string>(getInitialTheme);
 
   useEffect(() => {

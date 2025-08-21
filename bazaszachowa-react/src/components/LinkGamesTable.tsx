@@ -109,7 +109,7 @@ const LinkGamesTable: React.FC<
   }, [games]);
 
   if (!games || (noEmpty && games.length === 0)) {
-    return <></>;
+    return null;
   }
 
   const items = games.map((game, index) => ({

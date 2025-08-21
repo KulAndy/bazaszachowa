@@ -47,12 +47,12 @@ const uciVariant2San = ({ fen, moves }: UciVariant2SanProperties) => {
 };
 
 interface StockfishAnalysisProperties {
-  depth?: number;
-  fen: string;
-  hashSize?: number;
-  multiPV?: number;
-  threads?: number;
-  visible: boolean;
+  readonly depth?: number;
+  readonly fen: string;
+  readonly hashSize?: number;
+  readonly multiPV?: number;
+  readonly threads?: number;
+  readonly visible: boolean;
 }
 
 interface Variant {
@@ -206,7 +206,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
           <p>
             {t("stockfish.best_move")}{" "}
             <span>
-              {valuesArray.length === 0 ? <>-</> : <>{valuesArray[0].san}</>}
+              {valuesArray.length === 0 ? <>-</> : valuesArray[0].san}
             </span>
           </p>
           <p>
@@ -224,9 +224,9 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
           </p>
         </>
       )}
-      {valuesArray.map((value, index) => (
-        <>
-          {index < 3 && (
+      {valuesArray.map(
+        (value, index) =>
+          index < 3 && (
             <p key={index}>
               <span style={{ fontWeight: "bolder" } as const}>
                 {value.san} {value.prefix}
@@ -234,9 +234,8 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
               </span>{" "}
               {uciVariant2San({ fen, moves: value.variant }).join(" ")}
             </p>
-          )}
-        </>
-      ))}
+          ),
+      )}
     </div>
   );
 };

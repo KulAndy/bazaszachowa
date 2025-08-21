@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from "react";
 
 import { useI18n } from "../i18n/I18nContext";

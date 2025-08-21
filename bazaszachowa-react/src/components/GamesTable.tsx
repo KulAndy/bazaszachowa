@@ -81,9 +81,9 @@ const game2pgn = async (game: GameData) => {
 };
 
 export interface GamesTableProperties {
-  base?: string;
-  games: GameData[] | null;
-  noEmpty?: boolean;
+  readonly base?: string;
+  readonly games: GameData[] | null;
+  readonly noEmpty?: boolean;
 }
 
 const download = async (games: GameData[] | null) => {
@@ -114,7 +114,7 @@ const GamesTable: React.FC<GamesTableProperties> = ({
     download(games);
   }, [games]);
   if (!games || (noEmpty && games.length === 0)) {
-    return <></>;
+    return null;
   }
 
   const items = games.map((game, index) => ({

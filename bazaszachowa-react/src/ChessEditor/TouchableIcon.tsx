@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 interface TouchableIconProperties extends React.HTMLProps<HTMLSpanElement> {
-  disable?: boolean;
-  icon: IconDefinition;
-  iconColor?: string;
-  onClick: () => void;
+  readonly disable?: boolean;
+  readonly icon: IconDefinition;
+  readonly iconColor?: string;
+  readonly onClick: () => void;
 }
 
 const TouchableIcon: React.FC<TouchableIconProperties> = ({

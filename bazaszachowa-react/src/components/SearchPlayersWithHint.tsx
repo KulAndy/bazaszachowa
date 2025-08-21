@@ -26,9 +26,9 @@ const replaceNationalCharacters = (text: string) => {
 };
 
 interface SearchPlayersWithHintsProperties extends HTMLProps<HTMLInputElement> {
-  callback: (x: string) => void;
-  id?: string;
-  list?: string;
+  readonly callback: (x: string) => void;
+  readonly id?: string;
+  readonly list?: string;
 }
 
 const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({

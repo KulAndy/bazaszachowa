@@ -50,18 +50,18 @@ export interface ShortMove {
 }
 
 interface ChessEditorProperties {
-  boardSize: number;
-  data?: GameData | null;
-  notationLayout?: string;
-  notationSwitch?: boolean;
-  profileUrl: null | string;
+  readonly boardSize: number;
+  readonly data?: GameData | null;
+  readonly notationLayout?: string;
+  readonly notationSwitch?: boolean;
+  readonly profileUrl: null | string;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  setDoMove: Function;
-  setFen: (x: string) => void;
-  setNotationLayout?: (x: string) => void;
-  showPlayers?: boolean;
-  zoomIn: () => void;
-  zoomOut: () => void;
+  readonly setDoMove: Function;
+  readonly setFen: (x: string) => void;
+  readonly setNotationLayout?: (x: string) => void;
+  readonly showPlayers?: boolean;
+  readonly zoomIn: () => void;
+  readonly zoomOut: () => void;
 }
 
 interface HeadersProperties {
@@ -551,12 +551,12 @@ ${
 
   return (
     <div id="board">
-      {showPlayers && (
+      {showPlayers ? (
         <div id="info">
           <p>
             {headers.WhiteElo && headers.WhiteElo > 0 ? headers.WhiteElo : ""}
             {profileUrl === null ? (
-              <>{headers.White}</>
+              headers.White
             ) : (
               <Link to={profileUrl + encodeURIComponent(headers.White)}>
                 {headers.White}
@@ -564,7 +564,7 @@ ${
             )}{" "}
             {headers.Result}
             {profileUrl === null ? (
-              <>{headers.Black}</>
+              headers.Black
             ) : (
               <Link to={profileUrl + encodeURIComponent(headers.Black)}>
                 {headers.Black}
@@ -577,7 +577,7 @@ ${
             {headers.Date || "????"}, {headers.Site || "?"}
           </p>
         </div>
-      )}
+      ) : null}
       <div
         style={
           {

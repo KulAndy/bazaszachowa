@@ -17,22 +17,22 @@ import React, { useCallback, useEffect } from "react";
 import TouchableIcon from "./TouchableIcon";
 
 interface ButtonsBarProperties {
-  download: () => void;
-  firstMove: () => void;
-  flip: () => void;
-  isFirst: boolean;
-  isLast: boolean;
-  lastMove: () => void;
-  nextMove: () => void;
-  notationLayout: string;
-  notationSwitch: boolean;
-  playing: boolean;
-  previousMove: () => void;
-  setNotationLayout: (x: string) => void;
-  setPlaying: () => void;
-  width: number;
-  zoomIn: () => void;
-  zoomOut: () => void;
+  readonly download: () => void;
+  readonly firstMove: () => void;
+  readonly flip: () => void;
+  readonly isFirst: boolean;
+  readonly isLast: boolean;
+  readonly lastMove: () => void;
+  readonly nextMove: () => void;
+  readonly notationLayout: string;
+  readonly notationSwitch: boolean;
+  readonly playing: boolean;
+  readonly previousMove: () => void;
+  readonly setNotationLayout: (x: string) => void;
+  readonly setPlaying: () => void;
+  readonly width: number;
+  readonly zoomIn: () => void;
+  readonly zoomOut: () => void;
 }
 
 const ButtonsBar: React.FC<ButtonsBarProperties> = ({
@@ -231,15 +231,13 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
         icon={faMagnifyingGlassPlus}
         onClick={zoomIn}
       />
-      <>
-        {notationSwitch && (
-          <TouchableIcon
-            className="control switchNotation"
-            icon={notationLayout === "none" ? faFileLines : faFish}
-            onClick={toggleNotation}
-          />
-        )}
-      </>
+      {notationSwitch ? (
+        <TouchableIcon
+          className="control switchNotation"
+          icon={notationLayout === "none" ? faFileLines : faFish}
+          onClick={toggleNotation}
+        />
+      ) : null}
     </div>
   );
 };

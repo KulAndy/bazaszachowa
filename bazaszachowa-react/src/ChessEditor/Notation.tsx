@@ -6,11 +6,11 @@ import HalfMove from "./HalfMove";
 import { Move } from ".";
 
 interface NotationProperties {
-  currentIndex: number;
-  height: number;
-  moves: Move[];
-  result: null | string;
-  setIndex: (x: number) => void;
+  readonly currentIndex: number;
+  readonly height: number;
+  readonly moves: Move[];
+  readonly result: null | string;
+  readonly setIndex: (x: number) => void;
 }
 
 const Notation: React.FC<NotationProperties> = ({
@@ -97,11 +97,11 @@ const Notation: React.FC<NotationProperties> = ({
       {groupedElements.map((group, index) => (
         <p key={index}>{group}</p>
       ))}
-      {result && (
+      {result ? (
         <p style={{ display: "inline-block" } as const}>
           <span> {result}</span>
         </p>
-      )}
+      ) : null}
     </div>
   );
 };

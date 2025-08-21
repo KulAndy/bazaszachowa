@@ -5,7 +5,7 @@ import { useI18n } from "../i18n/I18nContext";
 import CrPlayer, { CrPlayerType } from "./CrPlayer";
 
 interface CrPlayersListProperties {
-  players: CrPlayerType[];
+  readonly players: CrPlayerType[];
 }
 
 const categoryToRanking = (category: string) => {

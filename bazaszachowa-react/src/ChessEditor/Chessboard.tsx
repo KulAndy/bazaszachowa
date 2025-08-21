@@ -22,19 +22,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback } from "react";
 
 interface ChessboardProperties {
-  blackPiecesColor?: string;
-  blackSquareColor?: string;
-  boardSize: number;
-  fen: string;
-  flip: boolean;
-  nextMove: () => void;
-  prevMove: () => void;
-  sendSquare: (x: string) => void;
-  sourceSquare: null | string;
-  targetColor?: "green";
-  targetSquares: string[];
-  whitePiecesColor?: string;
-  whiteSquareColor?: string;
+  readonly blackPiecesColor?: string;
+  readonly blackSquareColor?: string;
+  readonly boardSize: number;
+  readonly fen: string;
+  readonly flip: boolean;
+  readonly nextMove: () => void;
+  readonly prevMove: () => void;
+  readonly sendSquare: (x: string) => void;
+  readonly sourceSquare: null | string;
+  readonly targetColor?: "green";
+  readonly targetSquares: string[];
+  readonly whitePiecesColor?: string;
+  readonly whiteSquareColor?: string;
 }
 
 const Chessboard: React.FC<ChessboardProperties> = ({

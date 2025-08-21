@@ -152,16 +152,16 @@ const Player = () => {
         <h1>{name}</h1>
         {!loadingExtremes && (
           <div id="info">
-            {maxElo && (
+            {maxElo ? (
               <p>
                 {t("player.highest_rating")} {maxElo}
               </p>
-            )}
-            {minYear && maxYear && (
+            ) : null}
+            {minYear && maxYear ? (
               <p>
                 {t("player.year")} {minYear} - {maxYear}
               </p>
-            )}
+            ) : null}
           </div>
         )}
         {(crPlayers.length > 1 || fidePlayers.length > 1) && (

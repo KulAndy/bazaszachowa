@@ -291,9 +291,9 @@ const Game = () => {
             zoomIn={handleZoomIn}
             zoomOut={handleZoomOut}
           />
-          {fen && (
+          {fen ? (
             <StockfishAnalysis fen={fen} visible={notationLayout === "none"} />
-          )}
+          ) : null}
         </div>
       </Content>
     </div>

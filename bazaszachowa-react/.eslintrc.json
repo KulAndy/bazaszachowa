@@ -29,6 +29,7 @@
     "react-app",
     "react-app/jest",
     "plugin:deprecation/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:jsx-a11y/strict",
     "plugin:no-unsanitized/recommended-legacy",
     "plugin:prettier/recommended",
@@ -49,6 +50,9 @@
     "plugin:sonarjs/recommended-legacy"
   ],
   "rules": {
+    "jsx-a11y/no-aria-hidden-on-focusable": "error",
+    "jsx-a11y/prefer-tag-over-role": "error",
+
     "sonarjs/cognitive-complexity": "off",
     "sonarjs/different-types-comparison": "off",
     "sonarjs/table-header": "off",
@@ -61,12 +65,14 @@
     "unicorn/no-nested-ternary": "off",
     "unicorn/filename-case": "off",
     "unicorn/no-null": "off",
+    "unicorn/prefer-json-parse-buffer": "error",
 
     "no-unsanitized/method": "error",
     "no-unsanitized/property": "error",
 
     "promise/always-return": "off",
     "promise/catch-or-return": "off",
+    "promise/prefer-catch": "error",
 
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-floating-promises": "off",
@@ -141,6 +147,34 @@
     ],
     "react/no-unused-prop-types": "error",
     "react/jsx-no-duplicate-props": "error",
+    "react/checked-requires-onchange-or-readonly": "error",
+    "react/default-props-match-prop-types": "error",
+    "react/forward-ref-uses-ref": "error",
+    "react/hook-use-state": "error",
+    "react/jsx-closing-bracket-location": "error",
+    "react/jsx-curly-newline": "error",
+    "react/jsx-curly-spacing": "error",
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-curly-brace-presence": "error",
+    "react/jsx-no-leaked-render": "error",
+    "react/jsx-no-script-url": "error",
+    "react/jsx-no-useless-fragment": "error",
+    "react/jsx-uses-vars": "error",
+    "react/no-adjacent-inline-elements": "error",
+    "react/no-arrow-function-lifecycle": "error",
+    "react/no-danger": "error",
+    "react/no-invalid-html-attribute": "error",
+    "react/no-multi-comp": "error",
+    "react/jsx-wrap-multilines": "error",
+    "react/no-this-in-sfc": "error",
+    "react/no-typos": "error",
+    "react/no-unstable-nested-components": "error",
+    "react/no-unused-class-component-methods": "error",
+    "react/no-unused-state": "error",
+    "react/prefer-exact-props": "error",
+    "react/prefer-read-only-props": "error",
+    "react/prefer-stateless-function": "error",
+    "react/void-dom-elements-no-children": "error",
 
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": [
@@ -168,6 +202,15 @@
         }
       }
     ],
+    "import/no-deprecated": "error",
+    "import/no-empty-named-blocks": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-unused-modules": "error",
+    "import/no-absolute-path": "error",
+    "import/no-dynamic-require": "error",
+    "import/no-self-import": "error",
+    "import/no-useless-path-segments": "error",
+    "import/first": "error",
 
     "perfectionist/sort-imports": 0,
 

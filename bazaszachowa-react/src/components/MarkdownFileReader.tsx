@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const MarkdownFileReader = ({ filePath }: { filePath: string }) => {
+const MarkdownFileReader = ({ filePath }: { readonly filePath: string }) => {
   const [markdownContent, setMarkdownContent] = useState("");
 
   useEffect(() => {

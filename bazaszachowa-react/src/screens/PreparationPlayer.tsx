@@ -3,13 +3,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ChessEditor, { GameData } from "../ChessEditor";
+import ChessProcessor from "../ChessProcessor";
 import LinkGamesTable from "../components/LinkGamesTable";
 import PositionMoves, { StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
 import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS } from "../settings";
-
-import ChessProcessor from "./../ChessProcessor";
 
 const processor = new ChessProcessor();
 
@@ -31,8 +30,8 @@ const PreparationPlayer = ({
   color,
   player,
 }: {
-  color: string;
-  player: string;
+  readonly color: string;
+  readonly player: string;
 }) => {
   const { t } = useI18n();
   const [games, setGames] = useState<GameData[]>([]);

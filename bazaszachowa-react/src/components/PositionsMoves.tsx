@@ -17,8 +17,8 @@ interface MoveStats {
 }
 
 interface PositionMovesProperties extends HTMLProps<HTMLDivElement> {
-  doMove?: (move: string) => void;
-  stats: StatsItem[];
+  readonly doMove?: (move: string) => void;
+  readonly stats: StatsItem[];
 }
 
 const systemBase = 1 / 2;
@@ -64,7 +64,7 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
 }) => {
   const { t } = useI18n();
   if (!stats || stats.length === 0) {
-    return <></>;
+    return null;
   }
 
   const currentYear = new Date().getFullYear();

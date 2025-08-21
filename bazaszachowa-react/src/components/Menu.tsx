@@ -9,7 +9,7 @@ import LangToggle from "./LangToggle";
 const Menu = ({
   links,
 }: {
-  links: Record<string, { name: string; url: string }>;
+  readonly links: Record<string, { name: string; url: string }>;
 }) => {
   const { t } = useI18n();
   const menuNavigation = (

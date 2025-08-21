@@ -34,7 +34,7 @@ const detectLocale = (): Locale => {
   return "en";
 };
 
-export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
+export const I18nProvider: React.FC<{ readonly children: React.ReactNode }> = ({
   children,
 }) => {
   const [localeState, setLocaleState] = useState<Locale>(detectLocale);

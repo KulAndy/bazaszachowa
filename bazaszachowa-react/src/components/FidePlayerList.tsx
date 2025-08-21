@@ -5,7 +5,7 @@ import { useI18n } from "../i18n/I18nContext";
 import FidePlayer, { FidePlayerType } from "./FidePlayer";
 
 interface FidePlayersListProperties {
-  players: FidePlayerType[];
+  readonly players: FidePlayerType[];
 }
 
 const FidePlayersList: React.FC<FidePlayersListProperties> = ({ players }) => {
