@@ -5,7 +5,6 @@ import "./index.css";
 import App from "./App";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { I18nProvider } from "./i18n/I18nContext";
-import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.querySelector("#root")!);
 root.render(
@@ -17,5 +16,3 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>,
 );
-
-reportWebVitals();
