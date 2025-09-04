@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import ChessEditor, { GameData } from "../ChessEditor";
 import ChessProcessor from "../ChessProcessor";
-import LinkGamesTable from "../components/LinkGamesTable";
+import GamesTable from "../components/GamesTable";
 import PositionMoves, { StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
 import { useI18n } from "../i18n/I18nContext";
@@ -240,9 +240,10 @@ const PreparationPlayer = ({
                     } as const
                   }
                 />
-                <LinkGamesTable
+                <GamesTable
                   games={games.filter((game) => gamesFilter.includes(game.id))}
                   noEmpty={true}
+                  simple={true}
                   style={
                     {
                       maxHeight: boardSize / 2,

@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import React, { useCallback } from "react";
+import React, { HTMLProps, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import { GameData } from "../ChessEditor";
@@ -84,6 +84,7 @@ export interface GamesTableProperties {
   readonly base?: string;
   readonly games: GameData[] | null;
   readonly noEmpty?: boolean;
+  readonly simple?: boolean;
 }
 
 const download = async (games: GameData[] | null) => {
@@ -104,10 +105,14 @@ const download = async (games: GameData[] | null) => {
   URL.revokeObjectURL(url);
 };
 
-const GamesTable: React.FC<GamesTableProperties> = ({
+const GamesTable: React.FC<
+  GamesTableProperties & HTMLProps<HTMLDivElement>
+> = ({
   base = "all",
   games,
   noEmpty = false,
+  simple = false,
+  ...properties
 }) => {
   const { t } = useI18n();
   const handleDownload = useCallback(() => {
@@ -123,61 +128,80 @@ const GamesTable: React.FC<GamesTableProperties> = ({
   }));
 
   return (
-    <table id="games">
-      <caption>
-        {t("game_table.games")}: {games.length || 0}{" "}
-        <button onClick={handleDownload}>{t("download")}</button>
-      </caption>
-      <tr>
-        <th className="not_mobile">{t("white_elo")}</th>
-        <th>{t("white")}</th>
-        <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
-        <th>{t("black")}</th>
-        <th className="not_mobile">{t("black_elo")}</th>
-        <th className="not_mobile">{t("tournament")}</th>
-        <th>{t("date")}</th>
-        <th className="not_mobile" style={{ whiteSpace: "nowrap" } as const}>
-          ECO
-        </th>
-        <th className="not_mobile" />
-      </tr>
-      {items.map((item) => (
-        <tr key={item.id}>
-          <Link
-            state={
-              {
-                base,
-                gameid: item.id,
-                list: items.map((element) => element.id),
-              } as const
-            }
-            style={{ display: "contents" } as const}
-            to={`${NOMENU_URLS.game}${base}/${item.id}`}
-          >
-            <td className="not_mobile">{item.WhiteElo}</td>
-            <td>{item.White}</td>
-            <td style={{ textAlign: "center" } as const}>{item.Result}</td>
-            <td>{item.Black}</td>
-            <td className="not_mobile">{item.BlackElo}</td>
-            <td className="not_mobile">{item.Event}</td>
-            <td>
-              {item.Year}.{item.Month || "??"}.{item.Day || "??"}
-            </td>
-            <td className="not_mobile">{item.ECO}</td>
-          </Link>
-          <td className="not_mobile">
-            <Link
-              reloadDocument
-              style={{ whiteSpace: "nowrap" } as const}
-              target="_blank"
-              to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
-            >
-              PGN
-            </Link>
-          </td>
+    <div {...properties}>
+      <table id="games">
+        <caption>
+          {t("game_table.games")}: {games.length || 0}{" "}
+          <button onClick={handleDownload}>{t("download")}</button>
+        </caption>
+        <tr>
+          {!simple && <th className="not_mobile">{t("white_elo")}</th>}
+          <th>{t("white")}</th>
+          <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
+          <th>{t("black")}</th>
+          {!simple && (
+            <>
+              <th className="not_mobile">{t("black_elo")}</th>
+              <th className="not_mobile">{t("tournament")}</th>
+            </>
+          )}
+          <th>{t("date")}</th>
+          {!simple && (
+            <>
+              <th
+                className="not_mobile"
+                style={{ whiteSpace: "nowrap" } as const}
+              >
+                ECO
+              </th>
+              <th className="not_mobile" />
+            </>
+          )}
         </tr>
-      ))}
-    </table>
+        {items.map((item) => (
+          <tr key={item.id}>
+            <Link
+              state={
+                {
+                  base,
+                  gameid: item.id,
+                  list: items.map((element) => element.id),
+                } as const
+              }
+              style={{ display: "contents" } as const}
+              to={`${NOMENU_URLS.game}${base}/${item.id}`}
+            >
+              {!simple && <td className="not_mobile">{item.WhiteElo}</td>}
+              <td>{item.White}</td>
+              <td style={{ textAlign: "center" } as const}>{item.Result}</td>
+              <td>{item.Black}</td>
+              {!simple && (
+                <>
+                  <td className="not_mobile">{item.BlackElo}</td>
+                  <td className="not_mobile">{item.Event}</td>
+                </>
+              )}
+              <td>
+                {item.Year}.{item.Month || "??"}.{item.Day || "??"}
+              </td>
+              {!simple && <td className="not_mobile">{item.ECO}</td>}
+            </Link>
+            {!simple && (
+              <td className="not_mobile">
+                <Link
+                  reloadDocument
+                  style={{ whiteSpace: "nowrap" } as const}
+                  target="_blank"
+                  to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+                >
+                  PGN
+                </Link>
+              </td>
+            )}
+          </tr>
+        ))}
+      </table>
+    </div>
   );
 };
 

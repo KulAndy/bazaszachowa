@@ -246,7 +246,6 @@ w `all_games` i `poland_games` to sekwencja 2-bajtowych uci
   * **FidePlayerList.js** - lista zawodników FIDE
   * **Footer.js** - stopka
   * **GamesTable.js** - tabela gier
-  * **LinkGamesTable.js** - tabela gier, kliknięcie w wiersz przenosi do partii
   * **MarkdownFileReader.js** - czytnik plików .md
   * **Menu.js** - menu
   * **OpeningStats.js** - statystyki dla obu kolorów
