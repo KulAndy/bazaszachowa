@@ -3,6 +3,15 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useI18n } from "../i18n/I18nContext";
 
+const wasmSupported =
+  typeof WebAssembly === "object" &&
+  WebAssembly.validate(
+    Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00),
+  );
+const stockfishFile = wasmSupported
+  ? "/js/stockfish.wasm.js"
+  : "/js/stockfish.js";
+
 interface StockfishAnalysisProperties {
   readonly depth?: number;
   readonly fen: string;
@@ -72,20 +81,20 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   const [stockfish, setStockfish] = useState<null | Worker>(null);
 
   useEffect(() => {
-    const worker = new Worker("/js/stockfish.js");
+    const worker = new Worker(stockfishFile);
     setStockfish(worker);
 
     return () => {
       worker.terminate();
     };
-  }, []);
+  }, [fen]);
 
   useEffect(() => {
     if (!stockfish) {
       return;
     }
 
-    stockfish.postMessage("uci");
+    stockfish.postMessage("ucinewgame");
     stockfish.postMessage(`setoption name Threads value ${threads}`);
     stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
     stockfish.postMessage(`setoption name Hash value ${hashSize}`);
@@ -93,7 +102,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
     setCurrentDepth(1);
     setVariants({});
     setBest(null);
-  }, [fen, threads, multiPV, hashSize, stockfish]);
+  }, [threads, multiPV, hashSize, stockfish, fen]);
 
   useEffect(() => {
     if (!stockfish) {
