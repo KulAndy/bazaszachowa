@@ -1,4 +1,4 @@
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
 
 import ColorStats, { type Stat } from "./ColorStats";

@@ -7,7 +7,7 @@ import ChessProcessor from "../ChessProcessor";
 import GamesTable from "../components/GamesTable";
 import PositionMoves, { type StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { API, NOMENU_URLS } from "../settings";
 
 const processor = new ChessProcessor();

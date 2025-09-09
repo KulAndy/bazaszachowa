@@ -1,20 +1,7 @@
 import Cookies from "js-cookie";
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 
-const ThemeContext = createContext<{
-  theme: string;
-  toggleTheme: () => void;
-}>({
-  theme: "light",
-  toggleTheme: () => {},
-});
+import { ThemeContext } from "./ThemeContext";
 
 const getInitialTheme = () => {
   const storedTheme = Cookies.get("theme");
@@ -73,8 +60,4 @@ export const ThemeProvider = ({
       {children}
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = () => {
-  return useContext(ThemeContext);
 };

@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ChessEditor, { type GameData } from "../ChessEditor";
 import Content from "../components/Content";
 import StockfishAnalysis from "../components/StockfishAnalysis";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { API, NOMENU_URLS } from "../settings";
 
 interface LocationState {

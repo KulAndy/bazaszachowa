@@ -20,6 +20,7 @@ import globals from "globals";
 import i18next from "eslint-plugin-i18next";
 import * as regexpPlugin from "eslint-plugin-regexp";
 import pluginLingui from "eslint-plugin-lingui";
+import reactRefresh from "eslint-plugin-react-refresh";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -368,4 +369,5 @@ export default defineConfig([
   i18next.configs["flat/recommended"],
   regexpPlugin.configs["flat/recommended"],
   pluginLingui.configs["flat/recommended"],
+  reactRefresh.configs.recommended,
 ]);

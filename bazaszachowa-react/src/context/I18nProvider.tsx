@@ -1,9 +1,11 @@
 import Cookies from "js-cookie";
 import Polyglot from "node-polyglot";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import en from "./en.json";
-import pl from "./pl.json";
+import en from "../i18n/en.json";
+import pl from "../i18n/pl.json";
+
+import { I18nContext } from "./I18nContext";
 
 type Locale = "en" | "pl";
 
@@ -11,20 +13,6 @@ const dictionaries: Record<Locale, Record<string, string>> = {
   en,
   pl,
 };
-
-interface I18nContextType {
-  locale: Locale;
-  setLocale: (locale: Locale) => void;
-  t: (key: string, options?: number | Polyglot.InterpolationOptions) => string;
-}
-
-const defaultI18nContext: I18nContextType = {
-  locale: "pl",
-  setLocale: () => {},
-  t: (key: string) => key,
-};
-
-export const I18nContext = createContext<I18nContextType>(defaultI18nContext);
 
 const detectLocale = (): Locale => {
   const cookieLocale = Cookies.get("locale");
@@ -70,12 +58,4 @@ export const I18nProvider: React.FC<{ readonly children: React.ReactNode }> = ({
       {children}
     </I18nContext.Provider>
   );
-};
-
-export const useI18n = (): I18nContextType => {
-  const context = useContext(I18nContext);
-  if (!context) {
-    throw new Error("useI18n must be used within I18nProvider");
-  }
-  return context;
 };

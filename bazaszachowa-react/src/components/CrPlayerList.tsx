@@ -1,4 +1,4 @@
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 
 import CrPlayer, { type CrPlayerType } from "./CrPlayer";
 

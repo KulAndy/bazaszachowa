@@ -3,7 +3,7 @@ import { type HTMLProps, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import type { GameData } from "../ChessEditor";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
 import initWasm from "../wasm/uci2pgn";
 

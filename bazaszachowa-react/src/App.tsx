@@ -4,7 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
-import { useTheme } from "./components/ThemeProvider";
+import { useTheme } from "./context/useTheme";
 import Bug from "./screens/Bug";
 import Contact from "./screens/Contact";
 import Documentation from "./screens/Documentation";

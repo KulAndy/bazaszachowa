@@ -11,7 +11,7 @@ import type { FidePlayerType } from "../components/FidePlayer";
 import FidePlayersList from "../components/FidePlayerList";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { API, URLS } from "../settings";
 
 const handleErrorImage = (event: React.SyntheticEvent) => {

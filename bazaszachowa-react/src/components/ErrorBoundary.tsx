@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 
-import { I18nContext } from "../i18n/I18nContext";
+import { I18nContext } from "../context/I18nContext";
 
 interface ErrorBoundaryProperties {
   readonly children: ReactNode;

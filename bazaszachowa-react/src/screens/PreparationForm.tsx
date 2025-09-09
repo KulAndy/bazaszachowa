@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../styles/PreparationForm.css";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { URLS } from "../settings";
 
 const handleSubmit = (event: React.FormEvent) => {

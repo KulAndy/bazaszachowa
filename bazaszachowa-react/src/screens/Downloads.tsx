@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Content from "../components/Content";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { API } from "../settings";
 
 interface Dump {

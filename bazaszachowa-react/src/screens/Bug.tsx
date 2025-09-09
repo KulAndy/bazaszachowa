@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Content from "../components/Content";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { admin_mail, API } from "../settings";
 const Bug = () => {
   const { t } = useI18n();

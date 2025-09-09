@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Content from "../components/Content";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 import { API, NOMENU_URLS, URLS } from "../settings";
 
 const Players = () => {

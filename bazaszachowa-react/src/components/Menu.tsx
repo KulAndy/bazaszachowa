@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { useI18n } from "../i18n/I18nContext";
+import { useI18n } from "../context/useI18n";
 
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import LangToggle from "./LangToggle";
