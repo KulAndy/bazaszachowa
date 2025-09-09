@@ -3,7 +3,7 @@ import React from "react";
 import Content from "../components/Content";
 import { useI18n } from "../i18n/I18nContext";
 import logo from "../logo.svg";
-import "../styles/Home.css";
+import "../styles/Home.scss";
 
 const Home = () => {
   const { t } = useI18n();

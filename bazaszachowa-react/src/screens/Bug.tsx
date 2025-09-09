@@ -1,4 +1,4 @@
-import "../styles/Bug.css";
+import "../styles/Bug.scss";
 import React, { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 

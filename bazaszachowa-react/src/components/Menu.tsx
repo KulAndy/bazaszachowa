@@ -33,7 +33,7 @@ const Menu = ({
       <ul className="desktop">{menuNavigation}</ul>
       <details className="mobile">
         <summary>{t("menu.menu")}</summary>
-        <ul>{menuNavigation} </ul>
+        <ul style={{ padding: 0 } as const}>{menuNavigation} </ul>
       </details>
     </nav>
   );

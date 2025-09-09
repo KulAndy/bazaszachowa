@@ -1,4 +1,4 @@
-import "../styles/Players.css";
+import "../styles/Players.scss";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 

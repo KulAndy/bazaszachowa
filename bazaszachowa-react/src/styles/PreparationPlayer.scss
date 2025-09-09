@@ -1,0 +1,76 @@
+tr a {
+  display: contents;
+}
+
+#preparation {
+  h1 {
+    text-align: center;
+  }
+  table {
+    tr {
+      &:nth-child(2n) {
+        background-color: var(--even-row);
+      }
+      &:nth-child(2n) td {
+        background-color: var(--even-row);
+      }
+      &:nth-child(2n) th {
+        background-color: var(--even-row);
+      }
+      &:nth-child(2n) input {
+        background-color: var(--even-row);
+      }
+      &:nth-child(2n + 1) {
+        background-color: var(--odd-row);
+      }
+      &r:nth-child(2n + 1) td {
+        background-color: var(--odd-row);
+      }
+      &:nth-child(2n + 1) th {
+        background-color: var(--odd-row);
+      }
+      &:nth-child(2n + 1) input {
+        background-color: var(--odd-row);
+      }
+    }
+    &#stats tr:not(:has(td:hover)) td:first-child {
+      font-weight: bold;
+      color: var(--document_link);
+      cursor: pointer;
+    }
+  }
+  table,
+  tr,
+  th,
+  td {
+    border: 2px solid black;
+    height: fit-content;
+    width: fit-content;
+    user-select: none;
+  }
+  #games {
+    td {
+      color: var(--document_link);
+    }
+    tr:has(td):hover * {
+      cursor: pointer;
+      color: var(--document_link_hover);
+    }
+  }
+  #stats tr:has(td):hover * {
+    cursor: pointer;
+    color: var(--document_link_hover);
+  }
+}
+
+math {
+  width: fit-content;
+}
+
+:has(math) {
+  text-align: left;
+}
+
+mspace {
+  width: 1ch;
+}

@@ -1,4 +1,4 @@
-import "../styles/Games.css";
+import "../styles/Games.scss";
 import React, { useCallback, useState } from "react";
 
 import { GameData } from "../ChessEditor";

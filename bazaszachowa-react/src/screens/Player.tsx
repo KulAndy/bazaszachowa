@@ -1,4 +1,4 @@
-import "../styles/Player.css";
+import "../styles/Player.scss";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 

@@ -1,0 +1,113 @@
+:root {
+  &:has(.light) {
+    --document_background: AntiqueWhite;
+    --document_font_color: black;
+    --document_footer: Tan;
+    --document_link: black;
+    --document_link_hover: Gray;
+    --document_content_background: Seashell;
+    --document_active: Peru;
+
+    --even-row: AliceBlue;
+    --odd-row: BurlyWood;
+  }
+  &:has(.dark) {
+    --document_background: #05445e;
+    --document_font_color: #f2f2f2;
+    --document_footer: #2f3645;
+    --document_link: #189ab4;
+    --document_link_hover: #e6754b;
+    --document_content_background: #033c47;
+    --document_active: #d4f1f4;
+
+    --even-row: #444444;
+    --odd-row: #333333;
+  }
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--document_background);
+  touch-action: manipulation;
+  padding-bottom: 4em;
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+th {
+  text-align: center;
+}
+
+nav > ul > li::first-letter,
+nav > ul > li *::first-letter,
+summary::first-letter,
+th::first-letter,
+label::first-letter,
+button::first-letter,
+input[type="submit"]::first-letter {
+  text-transform: uppercase;
+}
+
+.dark {
+  input,
+  option,
+  select,
+  textarea {
+    background-color: black;
+    color: white;
+  }
+
+  input[type="checkbox"] + label::before,
+  input[type="radio"] + label::before {
+    background-color: black;
+  }
+
+  #boardButton span {
+    background-color: black !important;
+  }
+
+  img#graph {
+    filter: invert(100%) hue-rotate(100deg);
+  }
+
+  button,
+  input[type="submit"] {
+    background-color: var(--document_link);
+  }
+}
+
+* {
+  max-width: 100vw;
+  color: var(--document_font_color);
+}
+
+.error {
+  color: red !important;
+  text-align: center;
+}
+
+.float_left {
+  float: left;
+}
+
+.copyleft {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+.no_border {
+  border: none;
+  td,
+  tr,
+  th {
+    border: none !important;
+  }
+}

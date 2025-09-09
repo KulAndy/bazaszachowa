@@ -22,7 +22,7 @@ import Rodo from "./screens/Rodo";
 import { NOMENU_URLS, URLS } from "./settings";
 
 import "./styles/reset.css";
-import "./styles/App.css";
+import "./styles/App.scss";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
