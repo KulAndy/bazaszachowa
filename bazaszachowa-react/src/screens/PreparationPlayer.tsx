@@ -1,4 +1,4 @@
-import "./PreparationPlayer.css";
+import "../styles/PreparationPlayer.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import "./Contact.css";
+import "../styles/Contact.css";
 import React, { useCallback, useState } from "react";
 
 import Content from "../components/Content";

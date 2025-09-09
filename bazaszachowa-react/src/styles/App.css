@@ -1,13 +1,3 @@
-:root {
-  --color1: #d4f1f4;
-  --color2: #75e6da;
-  --color3: #189ab4;
-  --color4: #05445e;
-  --color5: #033c47;
-
-  --complementary: #e6754b;
-}
-
 :root:has(.light) {
   --document_background: AntiqueWhite;
   --document_font_color: black;
@@ -22,13 +12,13 @@
 }
 
 :root:has(.dark) {
-  --document_background: var(--color4);
+  --document_background: #05445e;
   --document_font_color: #f2f2f2;
   --document_footer: #2f3645;
-  --document_link: var(--color3);
-  --document_link_hover: var(--complementary);
-  --document_content_background: var(--color5);
-  --document_active: var(--color1);
+  --document_link: #189ab4;
+  --document_link_hover: #e6754b;
+  --document_content_background: #033c47;
+  --document_active: #d4f1f4;
 
   --even-row: #444444;
   --odd-row: #333333;
@@ -282,14 +272,11 @@ nav details {
     margin: auto !important;
   }
 
-  .not_mobile {
-    display: none !important;
-  }
   #searchContainer {
     display: block;
   }
   .desktop {
-    display: none;
+    display: none !important;
   }
 
   input[type="radio"] {
@@ -323,7 +310,7 @@ nav details {
   }
 
   .mobile {
-    display: none;
+    display: none !important;
   }
 }
 

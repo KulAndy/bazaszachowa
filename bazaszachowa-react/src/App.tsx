@@ -21,8 +21,8 @@ import Preparation from "./screens/Preparation";
 import Rodo from "./screens/Rodo";
 import { NOMENU_URLS, URLS } from "./settings";
 
-import "./reset.css";
-import "./App.css";
+import "./styles/reset.css";
+import "./styles/App.css";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();

@@ -135,26 +135,23 @@ const GamesTable: React.FC<
           <button onClick={handleDownload}>{t("download")}</button>
         </caption>
         <tr>
-          {!simple && <th className="not_mobile">{t("white_elo")}</th>}
+          {!simple && <th className="desktop">{t("white_elo")}</th>}
           <th>{t("white")}</th>
           <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
           <th>{t("black")}</th>
           {!simple && (
             <>
-              <th className="not_mobile">{t("black_elo")}</th>
-              <th className="not_mobile">{t("tournament")}</th>
+              <th className="desktop">{t("black_elo")}</th>
+              <th className="desktop">{t("tournament")}</th>
             </>
           )}
           <th>{t("date")}</th>
           {!simple && (
             <>
-              <th
-                className="not_mobile"
-                style={{ whiteSpace: "nowrap" } as const}
-              >
+              <th className="desktop" style={{ whiteSpace: "nowrap" } as const}>
                 ECO
               </th>
-              <th className="not_mobile" />
+              <th className="desktop" />
             </>
           )}
         </tr>
@@ -171,23 +168,23 @@ const GamesTable: React.FC<
               style={{ display: "contents" } as const}
               to={`${NOMENU_URLS.game}${base}/${item.id}`}
             >
-              {!simple && <td className="not_mobile">{item.WhiteElo}</td>}
+              {!simple && <td className="desktop">{item.WhiteElo}</td>}
               <td>{item.White}</td>
               <td style={{ textAlign: "center" } as const}>{item.Result}</td>
               <td>{item.Black}</td>
               {!simple && (
                 <>
-                  <td className="not_mobile">{item.BlackElo}</td>
-                  <td className="not_mobile">{item.Event}</td>
+                  <td className="desktop">{item.BlackElo}</td>
+                  <td className="desktop">{item.Event}</td>
                 </>
               )}
               <td>
                 {item.Year}.{item.Month || "??"}.{item.Day || "??"}
               </td>
-              {!simple && <td className="not_mobile">{item.ECO}</td>}
+              {!simple && <td className="desktop">{item.ECO}</td>}
             </Link>
             {!simple && (
-              <td className="not_mobile">
+              <td className="desktop">
                 <Link
                   reloadDocument
                   style={{ whiteSpace: "nowrap" } as const}

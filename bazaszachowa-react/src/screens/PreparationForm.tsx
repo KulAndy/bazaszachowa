@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
-import "./PreparationForm.css";
+import "../styles/PreparationForm.css";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { useI18n } from "../i18n/I18nContext";
 import { URLS } from "../settings";

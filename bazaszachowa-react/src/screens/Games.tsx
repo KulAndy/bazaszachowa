@@ -1,4 +1,4 @@
-import "./Games.css";
+import "../styles/Games.css";
 import React, { useCallback, useState } from "react";
 
 import { GameData } from "../ChessEditor";
@@ -154,7 +154,7 @@ const Games = () => {
     <div id="games">
       <Content>
         <div id="searchContainer">
-          <div className="not_mobile"></div>
+          <div className="desktop"></div>
           <form onSubmit={handleSubmit}>
             <table className="no_border">
               <tbody>
