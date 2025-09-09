@@ -1,27 +1,29 @@
 import Cookies from "js-cookie";
+import { lazy } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import { useTheme } from "./context/useTheme";
-import Bug from "./screens/Bug";
-import Contact from "./screens/Contact";
-import Documentation from "./screens/Documentation";
-import Downloads from "./screens/Downloads";
-import Game from "./screens/Game";
-import Games from "./screens/Games";
-import Home from "./screens/Home";
-import License from "./screens/License";
-import NotFound from "./screens/NotFound";
-import Player from "./screens/Player";
-import Players from "./screens/Players";
-import Preparation from "./screens/Preparation";
-import Rodo from "./screens/Rodo";
 import { NOMENU_URLS, URLS } from "./settings";
 
 import "./styles/reset.css";
 import "./styles/App.scss";
+
+const Bug = lazy(() => import("./screens/Bug"));
+const Contact = lazy(() => import("./screens/Contact"));
+const Documentation = lazy(() => import("./screens/Documentation"));
+const Downloads = lazy(() => import("./screens/Downloads"));
+const Game = lazy(() => import("./screens/Game"));
+const Games = lazy(() => import("./screens/Games"));
+const Home = lazy(() => import("./screens/Home"));
+const License = lazy(() => import("./screens/License"));
+const NotFound = lazy(() => import("./screens/NotFound"));
+const Player = lazy(() => import("./screens/Player"));
+const Players = lazy(() => import("./screens/Players"));
+const Preparation = lazy(() => import("./screens/Preparation"));
+const Rodo = lazy(() => import("./screens/Rodo"));
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
