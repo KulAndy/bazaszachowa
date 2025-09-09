@@ -66,7 +66,7 @@ const plugins = {
 
 const languageOptions = {
   globals: globals.builtin,
-  ecmaVersion: 2022,
+  ecmaVersion: 2023,
   sourceType: "module",
 
   parserOptions: {

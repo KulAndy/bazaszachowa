@@ -8,7 +8,7 @@ const directoryPath = path.join(
   __dirname,
   "bazaszachowa-react",
   "public",
-  "docs"
+  "docs",
 );
 
 fs.readdir(directoryPath, (err, files) => {
@@ -23,7 +23,7 @@ fs.readdir(directoryPath, (err, files) => {
     __dirname,
     "bazaszachowa-react",
     "build",
-    "fileList.json"
+    "fileList.json",
   );
 
   fs.ensureDir(path.dirname(outputPath))
@@ -44,7 +44,7 @@ fs.readdir(directoryPath, (err, files) => {
     __dirname,
     "bazaszachowa-react",
     "public",
-    "fileList.json"
+    "fileList.json",
   );
 
   fs.ensureDir(path.dirname(outputPath2))
@@ -63,7 +63,7 @@ fs.readdir(directoryPath, (err, files) => {
 });
 const app = express();
 
-app.use(express.static(path.join(__dirname, "bazaszachowa-react", "build")));
+app.use(express.static(path.join(__dirname, "bazaszachowa-react", "dist")));
 
 app.post(settings.urls.send_mail, (req, res) => {
   res.send("<h1>jeszcze nie zaimplementowano</h1>");
@@ -92,7 +92,7 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
 [BlackElo "0"]
 
 1. *
-`
+`,
         );
       } else {
         const { Chess } = await import("chess.js");
@@ -117,7 +117,7 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
           "WhiteElo",
           data.WhiteElo || 0,
           "BlackElo",
-          data.BlackElo || 0
+          data.BlackElo || 0,
         );
         for (const move of data.moves) {
           chess.move(move);
@@ -135,14 +135,14 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
             "/" +
             gameid +
             "\n" +
-            error.message
+            error.message,
         );
     });
 });
 
 app.all("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "bazaszachowa-react", "build", "index.html")
+    path.join(__dirname, "bazaszachowa-react", "dist", "index.html"),
   );
 });
 
