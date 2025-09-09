@@ -1,9 +1,7 @@
-import React from "react";
-
 import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
-import ColorStats, { Stat } from "./ColorStats";
+import ColorStats, { type Stat } from "./ColorStats";
 
 interface OpeningsStatsProperties {
   readonly name: string;

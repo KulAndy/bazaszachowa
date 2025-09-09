@@ -1,9 +1,6 @@
-import React from "react";
-
 import HalfMove from "./HalfMove";
 
-// eslint-disable-next-line import/no-cycle
-import { Move } from ".";
+import type { Move } from ".";
 
 interface NotationProperties {
   readonly currentIndex: number;

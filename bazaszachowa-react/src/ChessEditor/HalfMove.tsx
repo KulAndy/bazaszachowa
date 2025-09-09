@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from "react";
-
 const HalfMove = ({
   // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   doMove = () => {},
@@ -15,6 +11,7 @@ const HalfMove = ({
   readonly move: string;
 }) => {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <span
       className={`move ${isCurrent ? "active" : ""}`}
       onClick={doMove}

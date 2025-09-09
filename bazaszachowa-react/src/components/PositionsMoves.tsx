@@ -1,4 +1,4 @@
-import React, { HTMLProps } from "react";
+import { type HTMLProps } from "react";
 
 import { useI18n } from "../i18n/I18nContext";
 
@@ -6,7 +6,6 @@ export interface StatsItem {
   games: number;
   move: string;
   points: number;
-  // eslint-disable-next-line no-use-before-define
   stats: Record<number, MoveStats>;
   years: number[];
 }
@@ -42,6 +41,7 @@ const calcProbability = ({
     probability *= systemBase;
     const yearPercentage =
       yearsMap[currentYear] &&
+      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
       moveStats[currentYear] &&
       moveStats[currentYear].count
         ? Math.max(moveStats[currentYear].count / yearsMap[currentYear], eps) *

@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import Polyglot from "node-polyglot";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import en from "./en.json";
 import pl from "./pl.json";

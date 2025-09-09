@@ -1,7 +1,7 @@
 import "../styles/Games.scss";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
-import { GameData } from "../ChessEditor";
+import type { GameData } from "../ChessEditor";
 import Content from "../components/Content";
 import GamesTable from "../components/GamesTable";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";

@@ -1,4 +1,4 @@
-import React, { HTMLProps, useCallback, useEffect, useState } from "react";
+import { type HTMLProps, useCallback, useEffect, useState } from "react";
 
 import { API } from "../settings";
 

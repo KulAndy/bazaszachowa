@@ -1,8 +1,8 @@
 import { Chess } from "chess.js";
-import React, { HTMLProps, useCallback } from "react";
+import { type HTMLProps, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-import { GameData } from "../ChessEditor";
+import type { GameData } from "../ChessEditor";
 import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 import initWasm from "../wasm/uci2pgn";
@@ -14,7 +14,7 @@ initWasm().then((wasm) => {
   uci2san = (movesObject) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const moves = new wasm.VectorString();
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
     for (const element of movesObject) {
       let uci = element.from + element.to;
       if (element.promotion) {
@@ -31,7 +31,7 @@ initWasm().then((wasm) => {
   };
 });
 
-const legacyGame2pgn = (game: GameData) => {
+const legacyGame2pgn: (x: GameData) => Promise<string> = (game: GameData) => {
   return new Promise((resolve, reject) => {
     try {
       let pgn = "";
@@ -48,8 +48,8 @@ const legacyGame2pgn = (game: GameData) => {
             : `${doneMove.san} `;
       }
       resolve(pgn);
-    } catch (error) {
-      reject(error);
+    } catch {
+      reject(new Error("unkown error"));
     }
   });
 };

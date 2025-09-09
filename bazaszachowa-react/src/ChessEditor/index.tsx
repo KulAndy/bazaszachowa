@@ -4,13 +4,12 @@ import {
   faChessQueen,
   faChessRook,
 } from "@fortawesome/free-solid-svg-icons";
-import { Chess, Color, PieceSymbol, Square } from "chess.js";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ButtonsBar from "./ButtonsBar";
 import Chessboard from "./Chessboard";
-// eslint-disable-next-line import/no-cycle
 import Notation from "./Notation";
 import TouchableIcon from "./TouchableIcon";
 import "./style.scss";
@@ -55,7 +54,7 @@ interface ChessEditorProperties {
   readonly notationLayout?: string;
   readonly notationSwitch?: boolean;
   readonly profileUrl: null | string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   readonly setDoMove: Function;
   readonly setFen: (x: string) => void;
   readonly setNotationLayout?: (x: string) => void;
@@ -143,11 +142,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   };
 
   const getNextMoveIndex = (currentIndex: number) => {
-    if (
-      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-      history.current[currentIndex] !== undefined &&
-      history.current[currentIndex].next !== undefined
-    ) {
+    if (history.current[currentIndex]?.next !== undefined) {
       return history.current[currentIndex].next;
     }
     return null;
@@ -500,6 +495,7 @@ ${
         setIndex(0);
       }, 250);
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     setDoMove(() => addMove);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

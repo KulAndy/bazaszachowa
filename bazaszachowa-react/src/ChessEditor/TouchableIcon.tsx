@@ -1,8 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 
 interface TouchableIconProperties extends React.HTMLProps<HTMLSpanElement> {
   readonly disable?: boolean;
@@ -33,6 +30,7 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
     );
   }
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <span
       className={`${className} ${iconColor}`}
       onClick={onClick}

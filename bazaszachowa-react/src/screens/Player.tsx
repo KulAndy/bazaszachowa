@@ -1,13 +1,13 @@
 import "../styles/Player.scss";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { GameData } from "../ChessEditor";
-import { Stat } from "../components/ColorStats";
+import type { GameData } from "../ChessEditor";
+import type { Stat } from "../components/ColorStats";
 import Content from "../components/Content";
-import { CrPlayerType } from "../components/CrPlayer";
+import type { CrPlayerType } from "../components/CrPlayer";
 import CrPlayersList from "../components/CrPlayerList";
-import { FidePlayerType } from "../components/FidePlayer";
+import type { FidePlayerType } from "../components/FidePlayer";
 import FidePlayersList from "../components/FidePlayerList";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";

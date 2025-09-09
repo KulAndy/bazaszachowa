@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useI18n } from "../i18n/I18nContext";
 
@@ -185,7 +185,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   const valuesArray = useMemo(() => {
     return Object.values(variants)
       .filter((item) => item.san !== null)
-      .sort((a, b) => {
+      .toSorted((a, b) => {
         const aValue =
           a.type === "mate"
             ? (10_000 - Math.abs(a.value)) * Math.sign(a.value)

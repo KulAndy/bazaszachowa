@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Content from "../components/Content";
 import { useI18n } from "../i18n/I18nContext";

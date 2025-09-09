@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ContentProperties extends React.HTMLProps<HTMLDivElement> {
   readonly children: React.ReactNode;
   readonly classNames?: readonly string[];

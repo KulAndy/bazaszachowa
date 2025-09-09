@@ -1,11 +1,11 @@
 import "../styles/PreparationPlayer.scss";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import ChessEditor, { GameData } from "../ChessEditor";
+import ChessEditor, { type GameData } from "../ChessEditor";
 import ChessProcessor from "../ChessProcessor";
 import GamesTable from "../components/GamesTable";
-import PositionMoves, { StatsItem } from "../components/PositionsMoves";
+import PositionMoves, { type StatsItem } from "../components/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
 import { useI18n } from "../i18n/I18nContext";
 import { API, NOMENU_URLS } from "../settings";

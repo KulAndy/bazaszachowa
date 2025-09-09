@@ -1,8 +1,6 @@
-import React from "react";
-
 import { useI18n } from "../i18n/I18nContext";
 
-import FidePlayer, { FidePlayerType } from "./FidePlayer";
+import FidePlayer, { type FidePlayerType } from "./FidePlayer";
 
 interface FidePlayersListProperties {
   readonly players: FidePlayerType[];

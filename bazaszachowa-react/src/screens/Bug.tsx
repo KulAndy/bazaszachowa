@@ -1,5 +1,5 @@
 import "../styles/Bug.scss";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Content from "../components/Content";

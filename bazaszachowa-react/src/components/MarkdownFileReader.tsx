@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -17,10 +17,7 @@ const MarkdownFileReader = ({ filePath }: { readonly filePath: string }) => {
 
   return (
     <div>
-      <ReactMarkdown
-        // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-        remarkPlugins={[remarkGfm]}
-      >
+      <ReactMarkdown remarkPlugins={[remarkGfm] as const}>
         {markdownContent}
       </ReactMarkdown>
     </div>

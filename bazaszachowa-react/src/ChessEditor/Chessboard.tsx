@@ -1,3 +1,4 @@
+/* eslint-disable react-perf/jsx-no-new-function-as-prop */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import "./style.scss";
@@ -19,7 +20,11 @@ import {
   faCircle as faCircleSolid,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
+
+const allowDrop = (event_: React.DragEvent) => {
+  event_.preventDefault();
+};
 
 interface ChessboardProperties {
   readonly blackPiecesColor?: string;
@@ -52,10 +57,6 @@ const Chessboard: React.FC<ChessboardProperties> = ({
   whitePiecesColor = "white",
   whiteSquareColor = "#f0d9b5",
 }) => {
-  const allowDrop = (event_: React.DragEvent) => {
-    event_.preventDefault();
-  };
-
   const drag = (square: string) => {
     sendSquare(square);
   };
@@ -180,12 +181,10 @@ const Chessboard: React.FC<ChessboardProperties> = ({
               row.push(
                 <div
                   key={key++}
-                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => {
                     sendSquare(square);
                   }}
                   onDragOver={allowDrop}
-                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onDrop={() => {
                     drop(square);
                   }}
@@ -220,12 +219,10 @@ const Chessboard: React.FC<ChessboardProperties> = ({
               row.push(
                 <div
                   key={key++}
-                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => {
                     sendSquare(square);
                   }}
                   onDragOver={allowDrop}
-                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onDrop={() => {
                     drop(square);
                   }}
@@ -256,12 +253,10 @@ const Chessboard: React.FC<ChessboardProperties> = ({
       row.push(
         <div
           key={key++}
-          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onClick={() => {
             sendSquare(square);
           }}
           onDragOver={allowDrop}
-          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onDrop={() => {
             drop(square);
           }}
@@ -286,7 +281,6 @@ const Chessboard: React.FC<ChessboardProperties> = ({
           <span
             className={`${color} piece fa-stack`}
             draggable
-            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
             onDragStart={(event) => {
               event.stopPropagation();
               drag(square);

@@ -1,14 +1,13 @@
 import Cookies from "js-cookie";
-import React, {
+import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 
-// eslint-disable-next-line sonarjs/call-argument-line
 const ThemeContext = createContext<{
   theme: string;
   toggleTheme: () => void;

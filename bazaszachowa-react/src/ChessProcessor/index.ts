@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import { GameData } from "../ChessEditor";
+import type { GameData } from "../ChessEditor";
 import initWasm from "../wasm/chess_processor";
 
 const cutStringToPenultimateSpace = (inputString: string): string => {
@@ -15,14 +15,14 @@ const firstBatchLimit = 40;
 
 interface FenData {
   indexes: number[];
-  // eslint-disable-next-line no-use-before-define
+
   moves: Record<string, MoveData>;
 }
 
 interface MoveData {
   games: number;
   points: number;
-  // eslint-disable-next-line no-use-before-define
+
   stats: Record<number, MoveStats>;
   years: number[];
 }
@@ -134,26 +134,31 @@ const mergeResults = (
   return fensObject;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
+// eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
 void initWasm().then((wasm: any) => {
   processGameFirstBatchWasm = (row: GameData): Record<string, FenData> => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const wasmGame = new wasm.GameData(row.id, row.Result, row.Year);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const wasmMoves = new wasm.VectorMove();
     for (const move of row.moves) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
       const wasmMove = new wasm.Move(move.from, move.to, move.promotion);
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       wasmMoves.push_back(wasmMove);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     wasmGame.moves = wasmMoves;
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const result = wasm.getFENsFirstBatchJS(wasmGame);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     wasmGame.delete();
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     wasmMoves.delete();
 
@@ -220,7 +225,7 @@ class ChessProcessor {
         ...data,
         stats: data.stats,
       }))
-      .sort((a, b) => b.games - a.games);
+      .toSorted((a, b) => b.games - a.games);
 
     return { indexes: fenData.indexes, moves };
   }

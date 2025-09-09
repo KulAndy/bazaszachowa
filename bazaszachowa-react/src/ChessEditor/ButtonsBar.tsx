@@ -12,7 +12,7 @@ import {
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
 
@@ -53,7 +53,6 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
   playing,
   // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   previousMove = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   setNotationLayout = () => {},
   setPlaying,
   width,

@@ -1,8 +1,6 @@
-import React from "react";
-
 import { useI18n } from "../i18n/I18nContext";
 
-import CrPlayer, { CrPlayerType } from "./CrPlayer";
+import CrPlayer, { type CrPlayerType } from "./CrPlayer";
 
 interface CrPlayersListProperties {
   readonly players: CrPlayerType[];

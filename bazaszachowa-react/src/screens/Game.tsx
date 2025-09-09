@@ -1,8 +1,8 @@
 import "../styles/Game.scss";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import ChessEditor, { GameData } from "../ChessEditor";
+import ChessEditor, { type GameData } from "../ChessEditor";
 import Content from "../components/Content";
 import StockfishAnalysis from "../components/StockfishAnalysis";
 import { useI18n } from "../i18n/I18nContext";
@@ -27,8 +27,6 @@ const Game = () => {
   const [data, setData] = useState<GameData | null>(null);
 
   const [fen, setFen] = useState<string | undefined>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars, sonarjs/no-unused-vars, sonarjs/no-dead-store
-  const [doMove, setDoMove] = useState(null);
   const [boardSize, setBoardSize] = useState(() =>
     Math.min(
       350,
@@ -64,8 +62,6 @@ const Game = () => {
           setData(response[0]);
         }
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base, gameid]);
 
   useEffect(() => {
@@ -285,7 +281,8 @@ const Game = () => {
             notationLayout={notationLayout}
             notationSwitch={true}
             profileUrl={NOMENU_URLS.profile}
-            setDoMove={setDoMove}
+            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+            setDoMove={() => {}}
             setFen={setFen}
             setNotationLayout={setNotationLayout}
             zoomIn={handleZoomIn}

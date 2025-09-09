@@ -1,12 +1,10 @@
-import React from "react";
-
 import { useI18n } from "../i18n/I18nContext";
 import { NOMENU_URLS } from "../settings";
 
 export interface ColorStatsProperties {
   readonly color: string;
   readonly name: string;
-  // eslint-disable-next-line no-use-before-define
+
   readonly stats: Stat[];
 }
 
