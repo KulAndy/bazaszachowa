@@ -233,7 +233,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
       />
       {notationSwitch ? (
         <TouchableIcon
-          className="control switchNotation"
+          className="control switch-notation"
           icon={notationLayout === "none" ? faFileLines : faFish}
           onClick={toggleNotation}
         />

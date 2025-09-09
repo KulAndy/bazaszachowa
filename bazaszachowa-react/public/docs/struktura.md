@@ -230,7 +230,7 @@ w `all_games` i `poland_games` to sekwencja 2-bajtowych uci
   - **HalfMove.js** - półruchy do notacji
   - **index.js** - główny plik modułu
   - **Notation.js** - notacja
-  - **style.css** - style
+  - **style.scss** - style
   - **TouchableIcon.js** - klikalna ikona
 - **ChessProcessor** - generator drzewa wariantów
   - **index.js** - główny plik modułu

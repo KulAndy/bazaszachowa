@@ -1,16 +1,18 @@
 #player {
   text-align: center;
+
   #content {
-    text-align: center;
     width: 90vw;
-  }
-  th {
-    border: 2px solid black !important;
-    word-wrap: break-word;
+    text-align: center;
   }
 
-  p[style="text-align: center;"] {
-    border: 1px solid black;
+  th {
+    border: 2px solid #000 !important;
+    overflow-wrap: break-word;
+  }
+
+  p[style='text-align: center;'] {
+    border: 1px solid #000;
   }
 
   iframe {
@@ -22,44 +24,51 @@
     width: fit-content;
     margin: auto;
   }
-  details {
-    width: fit-content;
-    margin: auto;
-    &[open] summary {
-      list-style: "▼";
-    }
 
-    &:not([open]) summary {
-      list-style: "▶";
-    }
-  }
   .details {
     text-align: left;
+
     summary {
       display: flex;
       justify-content: space-between;
     }
+
     &[open] summary::before {
-      content: "▼";
+      content: '▼';
     }
 
     &:not([open]) summary::before {
-      content: "▶";
+      content: '▶';
     }
+
     table {
       width: 100% !important;
       border-collapse: collapse;
     }
+
     td {
       padding: 0;
+    }
+  }
+
+  details {
+    width: fit-content;
+    margin: auto;
+
+    &[open] summary {
+      list-style: '▼';
+    }
+
+    &:not([open]) summary {
+      list-style: '▶';
     }
   }
 }
 
 #player .cr-data,
 #player .fide-data {
-  text-align: left;
   margin: auto;
+  text-align: left;
 }
 
 #player .cr-foto {
@@ -68,10 +77,10 @@
 
 #player #container {
   display: flex;
-  border: none;
+  border: 0;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (width <= 768px) {
   #player {
     #container {
       flex-direction: column !important;
@@ -90,10 +99,10 @@
   }
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (width >= 769px) {
   #player #data-container {
     display: flex;
-    justify-content: center;
     align-items: flex-start;
+    justify-content: center;
   }
 }

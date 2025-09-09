@@ -255,7 +255,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   }, [valuesArray, fen]);
 
   return (
-    <div className={visible ? "" : "inactive"} id="engine_container">
+    <div className={visible ? "" : "inactive"} id="engine-container">
       {renderBestMove()}
       {renderVariants()}
     </div>

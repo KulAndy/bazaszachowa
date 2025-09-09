@@ -1,9 +1,10 @@
-@media only screen and (min-width: 769px) {
+@media only screen and (width >= 769px) {
   #content {
     &.contact {
       display: flex;
       width: max-content;
     }
+
     &.contact address {
       height: fit-content;
       background-color: var(--odd-row);

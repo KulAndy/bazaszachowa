@@ -130,19 +130,19 @@ const PreparationPlayer = ({
       if (event.ctrlKey) {
         switch (event.code) {
           case "ArrowDown": {
-            id = "#first_link";
+            id = "#first-link";
             break;
           }
           case "ArrowLeft": {
-            id = "#previous_link";
+            id = "#previous-link";
             break;
           }
           case "ArrowRight": {
-            id = "#next_link";
+            id = "#next-link";
             break;
           }
           case "ArrowUp": {
-            id = "#last_link";
+            id = "#last-link";
             break;
           }
           default: {

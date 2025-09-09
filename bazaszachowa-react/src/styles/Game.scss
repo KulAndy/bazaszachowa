@@ -1,20 +1,19 @@
-// Game-specific styles
 #game {
   .error {
-    background-color: red;
+    background-color: #f00;
 
     * {
-      color: var(--document_font_color);
+      color: var(--document-font-color);
       text-decoration: none;
     }
   }
 
   #content {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: unset;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   #first,
@@ -25,27 +24,27 @@
   #previous a,
   #next a,
   #last a {
-    color: var(--document_font_color);
+    color: var(--document-font-color);
   }
 
-  #board_analysis {
+  #board-analysis {
     display: grid;
   }
 
-  #buttonContainer {
-    text-align: center;
+  #button-container {
     margin-top: 5px;
+    text-align: center;
   }
 
-  #engine_container {
-    background-color: var(--document_content_background);
+  #engine-container {
     width: 150px;
     padding-top: 15px;
+    background-color: var(--document-content-background);
 
     p {
-      text-wrap: wrap;
       max-height: 3em !important;
       overflow-y: auto;
+      text-wrap: wrap;
     }
   }
 
@@ -59,10 +58,10 @@
 
   #notation,
   #board {
-    background-color: var(--document_content_background);
+    background-color: var(--document-content-background);
   }
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     #board {
       grid-column: 1/4;
     }
@@ -72,35 +71,35 @@
       justify-content: center;
     }
 
-    #buttonContainer {
+    #button-container {
       display: grid;
       gap: 0;
       grid-template-columns: min-content min-content;
     }
 
-    #first_link {
-      grid-row: 1;
+    #first-link {
       grid-column: 1;
-    }
-
-    #previous_link {
-      grid-row: 2;
-      grid-column: 1;
-    }
-
-    #next_link {
-      grid-row: 2;
-      grid-column: 2;
-    }
-
-    #last_link {
       grid-row: 1;
-      grid-column: 2;
     }
 
-    #engine_container {
+    #previous-link {
+      grid-column: 1;
       grid-row: 2;
+    }
+
+    #next-link {
       grid-column: 2;
+      grid-row: 2;
+    }
+
+    #last-link {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    #engine-container {
+      grid-column: 2;
+      grid-row: 2;
     }
 
     .inactive {
@@ -108,15 +107,15 @@
     }
   }
 
-  @media only screen and (min-width: 769px) {
-    #buttonContainer {
+  @media only screen and (width >= 769px) {
+    #button-container {
       display: flex;
       flex-wrap: nowrap;
     }
 
-    #engine_container {
-      grid-row: 1;
+    #engine-container {
       grid-column: 3;
+      grid-row: 1;
     }
 
     #board {

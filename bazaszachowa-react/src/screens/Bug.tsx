@@ -93,7 +93,7 @@ const Bug = () => {
         onSubmit={handleSubmit}
         target="_self"
       >
-        <table className="no_border">
+        <table className="no-border">
           <tr>
             <td>
               <label htmlFor="lastname">{t("lastname")}*</label>

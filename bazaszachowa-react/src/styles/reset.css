@@ -60,10 +60,10 @@ time,
 mark,
 audio,
 video {
-  margin: 0;
   border: 0;
-  font-size: 100%;
+  margin: 0;
   font: inherit;
+  font-size: 100%;
   vertical-align: baseline;
 }
 
@@ -157,11 +157,11 @@ q {
   quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: '';
   content: none;
 }
 

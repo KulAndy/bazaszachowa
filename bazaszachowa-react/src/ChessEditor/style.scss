@@ -1,0 +1,248 @@
+/* stylelint-disable no-descending-specificity */
+.white,
+.white * {
+  color: #fff;
+}
+
+.black,
+.black * {
+  color: #000;
+}
+
+.white-contour {
+  &,
+  * {
+    color: #fff;
+  }
+}
+
+.black-contour {
+  &,
+  * {
+    color: #000;
+  }
+}
+
+.gray,
+.gray * {
+  color: #808080;
+}
+
+.green,
+.green * {
+  color: 008000;
+}
+
+#notation {
+  &,
+  span,
+  p {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+}
+
+.piece {
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.move:hover {
+  cursor: crosshair;
+}
+
+.promotion {
+  cursor: pointer;
+
+  * {
+    color: #000;
+  }
+}
+
+span {
+  &.piece,
+  &.target {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.piece svg,
+  &.target svg {
+    width: 75% !important;
+    height: 75% !important;
+  }
+}
+
+.dark {
+  .promotion * {
+    color: #fff;
+  }
+
+  .control:not(.disabled) {
+    &,
+    * {
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #008b8b !important;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000 !important;
+  }
+
+  #notation {
+    &,
+    span,
+    p {
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+  }
+}
+
+.light .control:not(.disabled) {
+  &,
+  * {
+    color: #000;
+    transition: color 0.3s ease;
+  }
+}
+
+.control {
+  &:hover:not(.disabled) {
+    &,
+    * {
+      color: #808080;
+      cursor: pointer;
+    }
+  }
+
+  &:active {
+    &,
+    * {
+      cursor: grabbing;
+    }
+  }
+
+  &.disabled {
+    &,
+    * {
+      color: #808080;
+    }
+  }
+
+  &:hover.disabled {
+    &,
+    * {
+      cursor: not-allowed;
+    }
+  }
+}
+
+#info {
+  width: fit-content;
+  margin: auto;
+  background-color: var(--document-content-background);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #808080;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #dcdcdc;
+
+  &:hover {
+    background: #000;
+  }
+}
+
+#notation:empty {
+  width: 100px;
+}
+
+*:focus {
+  outline: none;
+}
+
+#notation span.active {
+  background-color: #daa520 !important;
+}
+
+@media only screen and (width >= 769px) {
+  #notation {
+    p {
+      display: table-row;
+    }
+
+    span {
+      display: table-cell;
+    }
+  }
+
+  .control.switch-notation {
+    display: none;
+  }
+}
+
+@media only screen and (width <= 768px) {
+  #content3 {
+    display: flex;
+    justify-content: center;
+  }
+
+  #first {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #previous {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #next {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #last {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  #notation {
+    p {
+      display: inline;
+
+      span {
+        display: inline-block;
+        height: 1.5em;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .control.switch-notation {
+    display: inline;
+  }
+}

@@ -13,7 +13,7 @@ import Chessboard from "./Chessboard";
 // eslint-disable-next-line import/no-cycle
 import Notation from "./Notation";
 import TouchableIcon from "./TouchableIcon";
-import "./style.css";
+import "./style.scss";
 
 // eslint-disable-next-line no-use-before-define
 export interface GameData extends HeadersProperties {

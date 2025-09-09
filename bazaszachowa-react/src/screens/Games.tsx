@@ -153,10 +153,10 @@ const Games = () => {
   return (
     <div id="games">
       <Content>
-        <div id="searchContainer">
+        <div id="search-container">
           <div className="desktop"></div>
           <form onSubmit={handleSubmit}>
-            <table className="no_border">
+            <table className="no-border">
               <tbody>
                 <tr>
                   <td>
@@ -332,7 +332,7 @@ const Games = () => {
               </tbody>
             </table>
           </form>
-          <div id="right_content">
+          <div id="right-content">
             <details id="help">
               <summary>{t("games.help")}</summary>
               <ul>

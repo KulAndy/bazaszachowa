@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <div className={`App ${theme}`}>
+      <div className={`app ${theme}`}>
         <Router>
           <Menu links={URLS} />
           <div id="main">

@@ -212,9 +212,9 @@ const Game = () => {
             </Link>
           </button>
         </div>
-        <div id="buttonContainer">
+        <div id="button-container">
           <Link
-            id="first_link"
+            id="first-link"
             onClick={goFirst}
             state={
               {
@@ -230,7 +230,7 @@ const Game = () => {
             </button>
           </Link>
           <Link
-            id="previous_link"
+            id="previous-link"
             onClick={goPrevious}
             state={
               {
@@ -246,7 +246,7 @@ const Game = () => {
             </button>
           </Link>
           <Link
-            id="next_link"
+            id="next-link"
             onClick={goNext}
             state={
               {
@@ -262,7 +262,7 @@ const Game = () => {
             </button>
           </Link>
           <Link
-            id="last_link"
+            id="last-link"
             onClick={goLast}
             state={
               {
@@ -278,7 +278,7 @@ const Game = () => {
             </button>
           </Link>
         </div>
-        <div id="board_analysis">
+        <div id="board-analysis">
           <ChessEditor
             boardSize={boardSize}
             data={data}

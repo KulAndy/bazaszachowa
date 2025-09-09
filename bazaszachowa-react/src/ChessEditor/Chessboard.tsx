@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import "./style.css";
+import "./style.scss";
 import {
   faChessBishop as faChessBishopRegular,
   faChessKing as faChessKingRegular,
@@ -302,7 +302,7 @@ const Chessboard: React.FC<ChessboardProperties> = ({
             )}
             {contourColor === blackPiecesColor && (
               <FontAwesomeIcon
-                className={`${contourColor}Contour fa fa-stack-2x`}
+                className={`${contourColor}-contour fa fa-stack-2x`}
                 color={contourColor}
                 icon={contour}
                 style={{ color: contourColor } as const}

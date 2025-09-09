@@ -1,26 +1,26 @@
 .bug {
-  td:has(input[type="submit"]) {
+  td:has(input[type='submit']) {
     text-align: center;
   }
 
-  label[for="agreement"] {
+  label[for='agreement'] {
     font-size: 0.6em;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (width >= 769px) {
     &#content {
       width: fit-content;
       margin: auto;
     }
 
-    label[for="agreement"] {
+    label[for='agreement'] {
       display: inline-flex;
-      font-size: 0.6em;
       max-width: 65vw;
+      font-size: 0.6em;
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (width <= 768px) {
     table {
       display: block;
     }
@@ -31,11 +31,11 @@
     }
 
     label {
-      float: left;
       margin-right: 5px;
+      float: left;
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       float: left;
     }
 

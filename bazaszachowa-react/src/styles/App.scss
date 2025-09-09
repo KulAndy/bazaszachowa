@@ -1,70 +1,76 @@
-button {
-  overflow-wrap: break-word;
-  &:disabled {
-    filter: grayscale(1);
-    cursor: not-allowed;
-  }
-}
-
 button,
 input[type="submit"] {
-  color: var(--document_font_color);
   padding: 10px 20px;
   border-radius: 4px;
+  color: var(--document-font-color);
   cursor: pointer;
   font-size: 16px;
 }
 
+button {
+  overflow-wrap: break-word;
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: grayscale(1);
+  }
+}
+
 footer {
-  display: flex;
-  align-items: center;
   position: fixed;
-  left: 0;
+  z-index: 3;
   bottom: 0;
+  left: 0;
+  display: flex;
   width: 100%;
   height: 4em;
-  background-color: var(--document_footer);
-  color: white;
+  align-items: center;
   justify-content: center;
-  z-index: 3;
+  background-color: var(--document-footer);
+  color: #fff;
+
   * {
-    color: var(--document_font_color);
-    margin: 2px;
     padding: 1px;
+    margin: 2px;
+    color: var(--document-font-color);
   }
 }
 
 a {
+  padding: 1px;
+  margin: 2px;
+  color: var(--document-link);
   font-weight: bolder;
   text-decoration: none;
-  color: var(--document_link);
-  margin: 2px;
-  padding: 1px;
+
   &:hover,
   &:hover * {
-    color: var(--document_link_hover);
+    color: var(--document-link-hover);
   }
 }
 
 nav {
-  display: flex;
-  justify-content: space-evenly;
   position: sticky;
-  left: 0;
-  top: 0;
-  width: 100%;
-  background-color: var(--document_footer);
-  color: var(--document_font_color);
-  text-align: center;
   z-index: 3;
-  align-items: center;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  line-height: 4em;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--document-footer);
+  color: var(--document-font-color);
+  line-height: 2.5em;
+  text-align: center;
+
   details {
     width: 100%;
+
     &[open] summary::marker {
       content: "X";
     }
+
     &:not([open]) summary::marker {
       content: "\2630";
     }
@@ -72,11 +78,12 @@ nav {
 }
 
 summary {
-  color: var(--document_link);
+  color: var(--document-link);
 }
 
 ul li {
   list-style: disc;
+
   ul li {
     list-style: circle;
   }
@@ -86,20 +93,22 @@ table,
 tr,
 th,
 td {
-  border: solid black 2px;
+  border: solid #000 2px;
   border-collapse: collapse;
-  word-wrap: anywhere;
+  overflow-wrap: anywhere;
 }
 
 caption ~ tr th {
-  border: solid black 2px !important;
+  border: solid #000 2px !important;
 }
 
 article {
   margin: 10px;
+
   > h1 {
     font-size: 4em;
   }
+
   &:first-of-type(p) {
     font-size: 1.5em;
   }
@@ -107,17 +116,17 @@ article {
 
 #content,
 #content2,
-#left_content,
-#right_content {
-  background-color: var(--document_content_background);
+#left-content,
+#right-content {
+  background-color: var(--document-content-background);
 }
 
 #content {
-  margin-top: 0px !important;
-  margin: auto;
-  padding-top: 25px;
-  padding: 15px;
   width: 60vw;
+  padding: 15px;
+  padding-top: 25px;
+  margin: auto;
+  margin-top: 0 !important;
 }
 
 #content2 {
@@ -126,9 +135,10 @@ article {
 
 #pre {
   margin-top: 10px;
+
   table {
-    margin: auto;
     width: fit-content;
+    margin: auto;
   }
 }
 
@@ -137,32 +147,27 @@ article {
   height: min(850px, 50vw, 70vh);
 }
 
-#searchContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-@media only screen and (max-width: 768px) {
+@media only screen and (width <= 768px) {
   * {
-    word-break: keep-all;
-    overflow-wrap: normal;
     max-width: 100%;
+    overflow-wrap: normal;
+    word-break: keep-all;
   }
 
   body {
-    overflow-x: hidden;
     padding-bottom: 5em;
+    overflow-x: hidden;
   }
 
-  .App {
+  .app {
     min-height: calc(100vh - 5em);
   }
 
   nav {
     ul,
     li {
-      list-style-type: none;
       width: 100%;
+      list-style-type: none;
     }
   }
 
@@ -170,13 +175,15 @@ article {
     display: flex;
     flex-wrap: wrap;
   }
-  .float_left {
+
+  .float-left {
     float: none;
   }
 
-  .no_border {
+  .no-border {
     margin: auto;
   }
+
   article {
     margin: 0;
   }
@@ -186,14 +193,8 @@ article {
     margin: auto !important;
   }
 
-  .not_mobile {
-    display: none !important;
-  }
-  #searchContainer {
-    display: block;
-  }
   .desktop {
-    display: none;
+    display: none !important;
   }
 
   input[type="radio"] {
@@ -201,34 +202,36 @@ article {
   }
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (width >= 769px) {
   nav,
   nav * {
+    padding: 0;
     margin-top: 0;
     margin-bottom: 0;
-    padding: 0;
   }
 
   nav {
     ul {
-      list-style-type: none;
+      display: flex;
       overflow: hidden;
-      background-color: var(--document_footer);
       width: 100%;
       height: fit-content;
-      display: flex;
       justify-content: space-evenly;
-    }
-    li {
-      float: left;
+      background-color: var(--document-footer);
       list-style-type: none;
+    }
+
+    li {
       display: inline-flex;
       align-items: center;
+      float: left;
+      list-style-type: none;
+
       a {
         display: block;
+        font-weight: bolder;
         text-align: center;
         text-decoration: none;
-        font-weight: bolder;
       }
     }
   }
@@ -242,6 +245,7 @@ article {
   &:nth-child(2n) {
     background-color: var(--even-row);
   }
+
   &:nth-child(2n + 1) {
     background-color: var(--odd-row);
   }
@@ -249,24 +253,27 @@ article {
 
 .loading {
   width: 240px;
-  margin: auto;
   padding: 20px 0 10px;
+  margin: auto;
   color: #fff;
   text-align: center;
 }
+
 .spin {
   display: inline-block;
   width: 30px;
   height: 30px;
-  border: 10px solid var(--document_font_color);
-  border-right: 10px solid transparent;
+  border: 10px solid var(--document-font-color);
   border-radius: 30px;
+  border-right: 10px solid transparent;
   animation: spin 2s linear 0s infinite normal;
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -274,6 +281,7 @@ article {
 
 table#games {
   margin: auto;
+
   tr {
     &:nth-child(2n),
     &:nth-child(2n) td,
@@ -281,22 +289,26 @@ table#games {
     &:nth-child(2n) input {
       background-color: var(--even-row);
     }
+
     &:nth-child(2n + 1),
     &:nth-child(2n + 1) td,
     &:nth-child(2n + 1) th,
     &:nth-child(2n + 1) input {
       background-color: var(--odd-row);
     }
+
     td button:hover {
-      color: var(--document_link_hover);
+      color: var(--document-link-hover);
     }
   }
+
   button {
     a {
-      color: var(--document_font_color);
+      color: var(--document-font-color);
     }
+
     button:hover a {
-      color: var(--document_link_hover);
+      color: var(--document-link-hover);
     }
   }
 }

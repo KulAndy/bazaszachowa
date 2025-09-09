@@ -1,45 +1,44 @@
 :root {
   &:has(.light) {
-    --document_background: AntiqueWhite;
-    --document_font_color: black;
-    --document_footer: Tan;
-    --document_link: black;
-    --document_link_hover: Gray;
-    --document_content_background: Seashell;
-    --document_active: Peru;
-
-    --even-row: AliceBlue;
-    --odd-row: BurlyWood;
+    --document-background: #faebd7;
+    --document-font-color: #000;
+    --document-footer: #d2b48c;
+    --document-link: #000;
+    --document-link-hover: #808080;
+    --document-content-background: #fff5ee;
+    --document-active: #cd853f;
+    --even-row: #f0f8ff;
+    --odd-row: #deb887;
   }
-  &:has(.dark) {
-    --document_background: #05445e;
-    --document_font_color: #f2f2f2;
-    --document_footer: #2f3645;
-    --document_link: #189ab4;
-    --document_link_hover: #e6754b;
-    --document_content_background: #033c47;
-    --document_active: #d4f1f4;
 
-    --even-row: #444444;
-    --odd-row: #333333;
+  &:has(.dark) {
+    --document-background: #05445e;
+    --document-font-color: #f2f2f2;
+    --document-footer: #2f3645;
+    --document-link: #189ab4;
+    --document-link-hover: #e6754b;
+    --document-content-background: #033c47;
+    --document-active: #d4f1f4;
+    --even-row: #444;
+    --odd-row: #333;
   }
 }
 
 body {
+  padding-bottom: 4em;
   margin: 0;
+  background-color: var(--document-background);
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--document_background);
   touch-action: manipulation;
-  padding-bottom: 4em;
 }
 
 code {
   font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 th {
@@ -52,7 +51,7 @@ summary::first-letter,
 th::first-letter,
 label::first-letter,
 button::first-letter,
-input[type="submit"]::first-letter {
+input[type='submit']::first-letter {
   text-transform: uppercase;
 }
 
@@ -61,17 +60,13 @@ input[type="submit"]::first-letter {
   option,
   select,
   textarea {
-    background-color: black;
-    color: white;
+    background-color: #000;
+    color: #fff;
   }
 
-  input[type="checkbox"] + label::before,
-  input[type="radio"] + label::before {
-    background-color: black;
-  }
-
-  #boardButton span {
-    background-color: black !important;
+  input[type='checkbox'] + label::before,
+  input[type='radio'] + label::before {
+    background-color: #000;
   }
 
   img#graph {
@@ -79,22 +74,22 @@ input[type="submit"]::first-letter {
   }
 
   button,
-  input[type="submit"] {
-    background-color: var(--document_link);
+  input[type='submit'] {
+    background-color: var(--document-link);
   }
 }
 
 * {
   max-width: 100vw;
-  color: var(--document_font_color);
+  color: var(--document-font-color);
 }
 
 .error {
-  color: red !important;
+  color: #f00 !important;
   text-align: center;
 }
 
-.float_left {
+.float-left {
   float: left;
 }
 
@@ -103,11 +98,12 @@ input[type="submit"]::first-letter {
   transform: rotate(180deg);
 }
 
-.no_border {
-  border: none;
+.no-border {
+  border: 0;
+
   td,
   tr,
   th {
-    border: none !important;
+    border: 0 !important;
   }
 }
