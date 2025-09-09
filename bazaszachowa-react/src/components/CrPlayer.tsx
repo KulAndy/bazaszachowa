@@ -45,7 +45,12 @@ const CrPlayer: React.FC<CrPlayerProperties> = ({
         <td>{player.kat ? <span>{player.kat}</span> : null}</td>
       </tr>
       <tr>
-        <th>CR ID</th>
+        <th>
+          {
+            // eslint-disable-next-line i18next/no-literal-string
+          }
+          CR ID
+        </th>
         <td>
           <a
             href={`http://www.cr-pzszach.pl/ew/viewpage.php?page_id=1&zwiazek=&typ_czlonka=&pers_id=${player.id}`}
@@ -55,7 +60,12 @@ const CrPlayer: React.FC<CrPlayerProperties> = ({
         </td>
       </tr>
       <tr>
-        <th>FIDE ID</th>
+        <th>
+          {
+            // eslint-disable-next-line i18next/no-literal-string
+          }
+          FIDE ID
+        </th>
         <td>
           <a href={`https://ratings.fide.com/profile/${player.fide_id}`}>
             {player.fide_id}

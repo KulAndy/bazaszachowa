@@ -35,8 +35,7 @@ const Contact = () => {
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
-      // eslint-disable-next-line sonarjs/slow-regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
         alert("contact.Niedozwolony adres");
       } else if (emailRegex.test(formData.email)) {
@@ -181,10 +180,16 @@ const Contact = () => {
       </form>
       <address>
         <p>
-          {t("contact.phone")} : <a href="tel:+48730758890">+48 730 758 890</a>
+          {t("contact.phone")} :{" "}
+          <a href="tel:+48730758890">
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            +48 730 758 890
+          </a>
         </p>
         <p>
-          {t("e_mail")} : <a href="andykrk22@gmail.com">andykrk22@gmail.com</a>
+          {t("e_mail")} : <a href="andykrk22@gmail.com">{admin_mail}</a>
         </p>
       </address>
     </Content>

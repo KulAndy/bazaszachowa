@@ -226,7 +226,11 @@ const Player = () => {
         </div>
         <details>
           <summary>
-            {t("players.profile")} yottabase
+            {t("players.profile")}
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            yottabase
             <a
               href={`https://www.yottachess.com/player/${encodeURIComponent(
                 name || "",

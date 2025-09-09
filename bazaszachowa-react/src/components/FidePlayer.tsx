@@ -47,7 +47,12 @@ const FidePlayer: React.FC<FidePlayerProperties> = ({
         <td>{player.birthday}</td>
       </tr>
       <tr>
-        <th colSpan={2}>Elo</th>
+        <th colSpan={2}>
+          {
+            // eslint-disable-next-line i18next/no-literal-string
+          }
+          Elo
+        </th>
       </tr>
       <tr>
         <th>{t("elo.standard")}</th>

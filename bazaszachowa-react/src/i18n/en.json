@@ -168,5 +168,6 @@
     "lastname": "lastname",
     "firstname": "firstname",
     "problem": "problem",
-    "not_found": "Not found"
+    "not_found": "Not found",
+    "sth_went_wong": "Something went wrong"
 }

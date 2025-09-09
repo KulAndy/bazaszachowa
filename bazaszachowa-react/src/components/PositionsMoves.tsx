@@ -146,8 +146,18 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
           <th>{t("no_games")}</th>
           <th>%</th>
           <th>{t("latest")}</th>
-          <th>F&alpha;</th>
-          <th>F&beta;</th>
+          <th>
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            F&alpha;
+          </th>
+          <th>
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            F&beta;
+          </th>
         </tr>
         {stats.map((item, index) => (
           // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop

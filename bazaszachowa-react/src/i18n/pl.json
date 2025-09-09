@@ -168,5 +168,6 @@
     "lastname": "nazwisko",
     "firstname": "imię",
     "problem": "problem",
-    "not_found": "Nie znaleziono strony"
+    "not_found": "Nie znaleziono strony",
+    "sth_went_wong": "Coś poszło nie tak"
 }

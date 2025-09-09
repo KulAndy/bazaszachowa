@@ -17,6 +17,9 @@ import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
+import i18next from "eslint-plugin-i18next";
+import * as regexpPlugin from "eslint-plugin-regexp";
+import pluginLingui from "eslint-plugin-lingui";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -174,7 +177,7 @@ const rules = {
   "react/forward-ref-uses-ref": "error",
   "react/hook-use-state": "error",
   "react/jsx-closing-bracket-location": "error",
-  "react/jsx-curly-newline": "error",
+  "react/jsx-curly-newline": "off",
   "react/jsx-curly-spacing": "error",
   "react/jsx-equals-spacing": "error",
   "react/jsx-curly-brace-presence": "error",
@@ -233,7 +236,9 @@ const rules = {
   "import/no-self-import": "error",
   "import/no-useless-path-segments": "error",
   "import/first": "error",
+
   "perfectionist/sort-imports": 0,
+
   "func-names": ["error", "always"],
   "no-eval": "error",
   "consistent-return": "error",
@@ -360,4 +365,7 @@ export default defineConfig([
       "unicorn/prevent-abbreviations": "off",
     },
   },
+  i18next.configs["flat/recommended"],
+  regexpPlugin.configs["flat/recommended"],
+  pluginLingui.configs["flat/recommended"],
 ]);

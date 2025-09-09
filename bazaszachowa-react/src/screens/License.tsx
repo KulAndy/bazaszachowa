@@ -23,13 +23,28 @@ const License = () => {
         </ul>
         <sub>
           {t("license.source_code")}{" "}
-          <a href="https://github.com/KulAndy/bazaszachowa">frontend</a>{" "}
+          <a href="https://github.com/KulAndy/bazaszachowa">
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            frontend
+          </a>{" "}
           {t("license.and")}{" "}
-          <a href="https://github.com/KulAndy/bazaszachowa-api">backend</a>
+          <a href="https://github.com/KulAndy/bazaszachowa-api">
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            backend
+          </a>
         </sub>
         <hr />
         {t("license.other_cases")}{" "}
-        <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU AGPLv3</a>
+        <a href="https://www.gnu.org/licenses/agpl-3.0.html">
+          {
+            // eslint-disable-next-line i18next/no-literal-string
+          }
+          GNU AGPLv3
+        </a>
         <hr />
         <a href={NOMENU_URLS.docs}>{t("license.docs")}</a>
       </article>

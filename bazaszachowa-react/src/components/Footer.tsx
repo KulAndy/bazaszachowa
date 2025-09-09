@@ -13,7 +13,12 @@ const Footer = () => {
       <p>
         <address>
           <span className="copyleft">©</span>
-          <a href={`mailto:${admin_mail}`}>Andrzej Kulesza</a>
+          <a href={`mailto:${admin_mail}`}>
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            Andrzej Kulesza
+          </a>
           2025
         </address>
       </p>

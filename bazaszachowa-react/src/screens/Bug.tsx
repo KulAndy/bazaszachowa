@@ -34,8 +34,7 @@ const Bug = () => {
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
-      // eslint-disable-next-line sonarjs/slow-regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
         alert("Niedozwolony adres");
       } else if (emailRegex.test(formData.email)) {

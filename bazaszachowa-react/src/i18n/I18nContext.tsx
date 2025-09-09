@@ -18,7 +18,13 @@ interface I18nContextType {
   t: (key: string, options?: number | Polyglot.InterpolationOptions) => string;
 }
 
-const I18nContext = createContext<I18nContextType | undefined>(undefined);
+const defaultI18nContext: I18nContextType = {
+  locale: "pl",
+  setLocale: () => {},
+  t: (key: string) => key,
+};
+
+export const I18nContext = createContext<I18nContextType>(defaultI18nContext);
 
 const detectLocale = (): Locale => {
   const cookieLocale = Cookies.get("locale");

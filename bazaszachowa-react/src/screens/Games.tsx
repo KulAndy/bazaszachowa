@@ -247,7 +247,12 @@ const Games = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>ECO:</td>
+                  <td>
+                    {
+                      // eslint-disable-next-line i18next/no-literal-string
+                    }
+                    ECO:
+                  </td>
                   <td
                     style={
                       { display: "flex", justifyContent: "flex-end" } as const

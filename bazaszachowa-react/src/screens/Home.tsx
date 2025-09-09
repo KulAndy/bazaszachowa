@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import Content from "../components/Content";
 import { useI18n } from "../i18n/I18nContext";
 import logo from "../logo.svg";

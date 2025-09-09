@@ -1,5 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 
+import { I18nContext } from "../i18n/I18nContext";
+
 interface ErrorBoundaryProperties {
   readonly children: ReactNode;
 }
@@ -23,13 +25,18 @@ class ErrorBoundary extends Component<
 
   public componentDidCatch(_: Error, _2: ErrorInfo): void {}
 
-  // eslint-disable-next-line sonarjs/function-return-type
   public render() {
-    if (this.state.hasError) {
-      return <h1 className="error">Coś poszło nie tak.</h1>;
-    }
-
-    return this.props.children;
+    return (
+      <I18nContext.Consumer>
+        {({ t }) =>
+          this.state.hasError ? (
+            <h1 className="error">{t("sth_went_wong")}.</h1>
+          ) : (
+            this.props.children
+          )
+        }
+      </I18nContext.Consumer>
+    );
   }
 }
 
