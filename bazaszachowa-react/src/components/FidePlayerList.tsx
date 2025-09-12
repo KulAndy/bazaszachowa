@@ -1,3 +1,5 @@
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+
 import { useI18n } from "../context/useI18n";
 
 import FidePlayer, { type FidePlayerType } from "./FidePlayer";
@@ -24,12 +26,14 @@ const FidePlayersList: React.FC<FidePlayersListProperties> = ({ players }) => {
       <FidePlayer player={items[0]} showSource={true} />
 
       {items.length > 1 && (
-        <details id="ambigous">
-          <summary>{t("player.other_found")}</summary>
-          {items.slice(1).map((item) => (
-            <FidePlayer key={item.fideid} player={item} />
-          ))}
-        </details>
+        <Accordion id="ambigous">
+          <AccordionSummary>{t("player.other_found")}</AccordionSummary>
+          <AccordionDetails>
+            {items.slice(1).map((item) => (
+              <FidePlayer key={item.fideid} player={item} />
+            ))}
+          </AccordionDetails>
+        </Accordion>
       )}
     </div>
   );

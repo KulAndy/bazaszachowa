@@ -1,10 +1,17 @@
+import { Box, Typography } from "@mui/material";
+
 import Content from "../components/Content";
 import { useI18n } from "../context/useI18n";
+
 const NotFound = () => {
   const { t } = useI18n();
   return (
     <Content>
-      <h1 className="error">{t("not_found")}</h1>
+      <Box mt={4} textAlign="center">
+        <Typography className="error" variant="h3">
+          {t("not_found")}
+        </Typography>
+      </Box>
     </Content>
   );
 };

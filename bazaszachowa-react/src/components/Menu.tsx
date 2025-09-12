@@ -1,40 +1,107 @@
-import { Link } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Menu as MuiMenu,
+  Toolbar,
+} from "@mui/material";
+import { useCallback, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 import { useI18n } from "../context/useI18n";
 
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import LangToggle from "./LangToggle";
 
-const Menu = ({
-  links,
-}: {
+interface MenuProperties {
   readonly links: Record<string, { name: string; url: string }>;
-}) => {
+}
+
+const Menu: React.FC<MenuProperties> = ({ links }) => {
   const { t } = useI18n();
-  const menuNavigation = (
+  const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
+
+  const handleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElement(event.currentTarget);
+  }, []);
+
+  const handleMenuClose = useCallback(() => {
+    setAnchorElement(null);
+  }, []);
+
+  const menuItems = (
     <>
-      <li>
+      <MenuItem>
         <ColorSchemeToggle />
-      </li>
-      <li>
+      </MenuItem>
+      <MenuItem>
         <LangToggle />
-      </li>
+      </MenuItem>
       {Object.keys(links).map((key) => (
-        <li key={key}>
-          <Link to={links[key].url}>{t(links[key].name)}</Link>
-        </li>
+        <MenuItem
+          component={RouterLink}
+          key={key}
+          onClick={handleMenuClose}
+          to={links[key].url}
+        >
+          {t(links[key].name)}
+        </MenuItem>
       ))}
     </>
   );
 
   return (
-    <nav>
-      <ul className="desktop">{menuNavigation}</ul>
-      <details className="mobile">
-        <summary>{t("menu.menu")}</summary>
-        <ul style={{ padding: 0 } as const}>{menuNavigation} </ul>
-      </details>
-    </nav>
+    <AppBar color="default" position="static">
+      <Toolbar>
+        <Box
+          sx={
+            {
+              display: { md: "flex", xs: "none" },
+              flexGrow: 1,
+              gap: 2,
+            } as const
+          }
+        >
+          <ColorSchemeToggle />
+          <LangToggle />
+          {Object.keys(links).map((key) => (
+            <Button
+              color="inherit"
+              component={RouterLink}
+              key={key}
+              to={links[key].url}
+            >
+              {t(links[key].name)}
+            </Button>
+          ))}
+        </Box>
+
+        <Box
+          sx={
+            { display: { md: "none", xs: "flex" }, marginLeft: "auto" } as const
+          }
+        >
+          <IconButton
+            aria-label="menu"
+            color="inherit"
+            edge="start"
+            onClick={handleMenuOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+          <MuiMenu
+            anchorEl={anchorElement}
+            onClose={handleMenuClose}
+            open={Boolean(anchorElement)}
+          >
+            {menuItems}
+          </MuiMenu>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 

@@ -1,66 +1,84 @@
-import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
-
 import "../styles/PreparationForm.css";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
 import { useI18n } from "../context/useI18n";
 import { URLS } from "../settings";
-
-const handleSubmit = (event: React.FormEvent) => {
-  event.preventDefault();
-};
 
 const PreparationForm = () => {
   const { t } = useI18n();
   const [player, setPlayer] = useState("");
   const [color, setColor] = useState("white");
+  const navigate = useNavigate();
 
-  const handleSetWhite = useCallback(() => {
-    setColor("white");
-  }, []);
+  const handleSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      if (!player.trim()) {
+        alert(t("players.player_required"));
+        return;
+      }
+      navigate(`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`);
+    },
+    [player, color, navigate, t],
+  );
 
-  const handleSetBlack = useCallback(() => {
-    setColor("black");
-  }, []);
+  const colorCallback = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) =>
+      setColor(event.target.value),
+    [],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">{t("players.player")}</label>
       <SearchPlayersWithHints
         callback={setPlayer}
+        label={t("players.player")}
         placeholder="Nowak, Jan"
         required
       />
-      <p style={{ textAlign: "center" } as const}>
-        <label htmlFor="color">{t("color")}</label>
-      </p>
-      <p id="color-toggle" style={{ textAlign: "center" } as const}>
-        <input
-          checked={color === "white"}
-          id="white"
+
+      <FormControl
+        component="fieldset"
+        sx={{ display: "block", mt: 2 } as const}
+      >
+        <FormLabel component="legend" sx={{ textAlign: "center" } as const}>
+          {t("color")}
+        </FormLabel>
+        <RadioGroup
           name="color"
-          onChange={handleSetWhite}
-          type="radio"
-          value="white"
-        />
-        <label htmlFor="white">{t("white")}</label>
-        <input
-          checked={color === "black"}
-          id="black"
-          name="color"
-          onChange={handleSetBlack}
-          type="radio"
-          value="black"
-        />
-        <label htmlFor="black">{t("black")}</label>
-      </p>
-      <p style={{ textAlign: "center" } as const}>
-        <Link
-          to={`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`}
+          onChange={colorCallback}
+          row
+          sx={{ justifyContent: "center" } as const}
+          value={color}
         >
-          <input type="submit" value={t("search")} />
-        </Link>
-      </p>
+          <FormControlLabel
+            control={<Radio />}
+            label={t("white")}
+            value="white"
+          />
+          <FormControlLabel
+            control={<Radio />}
+            label={t("black")}
+            value="black"
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <div style={{ marginTop: "1rem", textAlign: "center" } as const}>
+        <Button type="submit" variant="contained">
+          {t("search")}
+        </Button>
+      </div>
     </form>
   );
 };

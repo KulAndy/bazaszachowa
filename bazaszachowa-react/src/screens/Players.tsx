@@ -1,4 +1,16 @@
 import "../styles/Players.scss";
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -33,47 +45,73 @@ const Players = () => {
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
       event.preventDefault();
-
       navigate(`${URLS.players.url}${player || ""}`);
     },
     [navigate, player],
   );
 
   return (
-    <div id="players">
-      <Content>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="name">{t("players.player")} </label>
+    <Content className="players">
+      <Paper sx={{ mb: 3, p: 3 } as const}>
+        <Box
+          alignItems="center"
+          component="form"
+          display="flex"
+          flexWrap="wrap"
+          gap={2}
+          justifyContent="center"
+          onSubmit={handleSubmit}
+        >
           <SearchPlayersWithHints
             callback={setPlayer}
-            id="name"
-            name="name"
-            required
+            id="search-hints"
+            name="search-hints"
             value={player}
           />
-          <br />
-          <input type="submit" value={t("search")} />
-        </form>
-        {players.length > 0 && (
-          <table>
-            <tr>
-              <th>{t("players.fullname")}</th>
-              <th>{t("players.profile")}</th>
-            </tr>
-            {players.map((item) => (
-              <tr key={item}>
-                <td>{item}</td>
-                <td>
-                  <Link to={NOMENU_URLS.profile + encodeURIComponent(item)}>
-                    {t("players.see")}
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </table>
-        )}
-      </Content>
-    </div>
+          <Button color="primary" type="submit" variant="contained">
+            {t("search")}
+          </Button>
+        </Box>
+      </Paper>
+
+      {players.length > 0 && (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Typography fontWeight="bold" variant="subtitle1">
+                    {t("players.fullname")}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography fontWeight="bold" variant="subtitle1">
+                    {t("players.profile")}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {players.map((item) => (
+                <TableRow key={item}>
+                  <TableCell>{item}</TableCell>
+                  <TableCell>
+                    <Button
+                      component={Link}
+                      size="small"
+                      to={NOMENU_URLS.profile + encodeURIComponent(item)}
+                      variant="outlined"
+                    >
+                      {t("players.see")}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Content>
   );
 };
 

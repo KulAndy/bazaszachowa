@@ -1,28 +1,37 @@
+import { Box, Link, Typography } from "@mui/material";
+
 import { useI18n } from "../context/useI18n";
 import { admin_mail } from "../settings";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const { t } = useI18n();
+
   return (
-    <footer>
-      <p>
+    <Box component="footer" sx={{ mt: 4, py: 2, textAlign: "center" } as const}>
+      <Typography gutterBottom variant="body2">
         {t("footer.info")}:{" "}
-        <a href="https://zrzutka.pl/z/bazaszachowa">{t("footer.collection")}</a>
-      </p>
+        <Link
+          href="https://zrzutka.pl/z/bazaszachowa"
+          rel="noopener"
+          target="_blank"
+        >
+          {t("footer.collection")}
+        </Link>
+      </Typography>
       <hr />
-      <p>
+      <Typography variant="body2">
         <address>
-          <span className="copyleft">©</span>
-          <a href={`mailto:${admin_mail}`}>
+          <span className="copyleft">©</span>{" "}
+          <Link href={`mailto:${admin_mail}`} underline="hover">
             {
               // eslint-disable-next-line i18next/no-literal-string
             }
             Andrzej Kulesza
-          </a>
+          </Link>{" "}
           2025
         </address>
-      </p>
-    </footer>
+      </Typography>
+    </Box>
   );
 };
 

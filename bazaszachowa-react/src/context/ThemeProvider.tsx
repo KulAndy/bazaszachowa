@@ -1,5 +1,16 @@
+import {
+  createTheme,
+  CssBaseline,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material";
 import Cookies from "js-cookie";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { ThemeContext } from "./ThemeContext";
 
@@ -39,25 +50,36 @@ export const ThemeProvider = ({
     };
   }, []);
 
-  const memoizedTheme = useMemo(() => theme, [theme]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((previousTheme) => {
       const newTheme = previousTheme === "light" ? "dark" : "light";
       Cookies.set("theme", newTheme, { expires: 365 });
       return newTheme;
     });
-  };
+  }, []);
+
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          background: { default: "var(--document-background)" },
+          mode: theme === "light" ? "light" : "dark",
+        },
+      }),
+    [theme],
+  );
 
   const contextValue = useMemo(
-    () => ({ theme: memoizedTheme, toggleTheme }),
-    [memoizedTheme, toggleTheme],
+    () => ({ theme, toggleTheme }),
+    [theme, toggleTheme],
   );
 
   return (
     <ThemeContext.Provider value={contextValue}>
-      {children}
+      <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };

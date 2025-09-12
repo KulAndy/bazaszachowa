@@ -1,3 +1,17 @@
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+
 import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
 
@@ -27,59 +41,65 @@ const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
   );
 
   return (
-    <details>
-      <summary>
-        {t(color)}{" "}
-        <a
-          href={`${NOMENU_URLS.profile}${encodeURIComponent(
-            name,
-          )}/${encodeURIComponent(color)}`}
-        >
-          {t("stats.filter")}
-        </a>
-      </summary>
-      <table style={{ border: 0 } as const}>
-        <tr>
-          <td>{t("opening")}</td>
-          <td>{t("quantity")}</td>
-          <td>%</td>
-          <td>{t("stats.filter_header")}</td>
-        </tr>
-
-        {items.map((item) => (
-          <tr key={item.key}>
-            <td>{item.opening}</td>
-            <td>{item.count}</td>
-            <td>{item.percent}</td>
-            <td>
-              <a
-                href={`${NOMENU_URLS.profile}${encodeURIComponent(
-                  name,
-                )}/${encodeURIComponent(color)}/${encodeURIComponent(
-                  item.opening,
-                )}`}
-              >
-                {t("stats.filter")}
-              </a>
-            </td>
-          </tr>
-        ))}
-        <tr>
-          <td />
-          <td>{sum}</td>
-          <td>
-            {(
-              items.reduce(
-                (accumulator, { count, percent }) =>
-                  accumulator + count * percent,
-                0,
-              ) / sum
-            ).toFixed(2)}
-          </td>
-          <td />
-        </tr>
-      </table>
-    </details>
+    <Accordion>
+      <AccordionSummary>{t(color)} </AccordionSummary>
+      <AccordionDetails>
+        <TableContainer component={Paper}>
+          <Table style={{ border: 0 } as const}>
+            <TableHead>
+              <TableRow>
+                <TableCell>{t("opening")}</TableCell>
+                <TableCell>{t("quantity")}</TableCell>
+                <TableCell>%</TableCell>
+                <TableCell>{t("stats.filter_header")}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item) => (
+                <TableRow key={item.key}>
+                  <TableCell>{item.opening}</TableCell>
+                  <TableCell>{item.count}</TableCell>
+                  <TableCell>{item.percent}</TableCell>
+                  <TableCell>
+                    <Link
+                      to={`${NOMENU_URLS.profile}${encodeURIComponent(
+                        name,
+                      )}/${encodeURIComponent(color)}/${encodeURIComponent(
+                        item.opening,
+                      )}`}
+                    >
+                      {t("stats.filter")}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+              <TableRow>
+                <TableCell />
+                <TableCell>{sum}</TableCell>
+                <TableCell>
+                  {(
+                    items.reduce(
+                      (accumulator, { count, percent }) =>
+                        accumulator + count * percent,
+                      0,
+                    ) / sum
+                  ).toFixed(2)}
+                </TableCell>
+                <TableCell>
+                  <Link
+                    to={`${NOMENU_URLS.profile}${encodeURIComponent(
+                      name,
+                    )}/${encodeURIComponent(color)}`}
+                  >
+                    {t("stats.filter")}
+                  </Link>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

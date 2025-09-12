@@ -1,3 +1,5 @@
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+
 import { useI18n } from "../context/useI18n";
 
 import CrPlayer, { type CrPlayerType } from "./CrPlayer";
@@ -96,12 +98,14 @@ const CrPlayersList: React.FC<CrPlayersListProperties> = ({ players }) => {
       <CrPlayer player={items[0]} showSource={true} />
 
       {items.length > 1 && (
-        <details id="ambigous">
-          <summary>{t("player.other_found")}</summary>
-          {items.slice(1).map((item) => (
-            <CrPlayer key={item.id} player={item} />
-          ))}
-        </details>
+        <Accordion id="ambigous">
+          <AccordionSummary>{t("player.other_found")}</AccordionSummary>
+          <AccordionDetails>
+            {items.slice(1).map((item) => (
+              <CrPlayer key={item.id} player={item} />
+            ))}
+          </AccordionDetails>
+        </Accordion>
       )}
     </div>
   );

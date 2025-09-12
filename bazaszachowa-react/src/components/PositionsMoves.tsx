@@ -1,3 +1,10 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { type HTMLProps } from "react";
 
 import { useI18n } from "../context/useI18n";
@@ -140,52 +147,58 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
 
   return (
     <div {...properties}>
-      <table id="stats">
-        <tr>
-          <th>{t("move")}</th>
-          <th>{t("no_games")}</th>
-          <th>%</th>
-          <th>{t("latest")}</th>
-          <th>
-            {
-              // eslint-disable-next-line i18next/no-literal-string
-            }
-            F&alpha;
-          </th>
-          <th>
-            {
-              // eslint-disable-next-line i18next/no-literal-string
-            }
-            F&beta;
-          </th>
-        </tr>
-        {stats.map((item, index) => (
-          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
-          <tr key={item.move} onClick={() => doMove(item.move)}>
-            <td>{item.move}</td>
-            <td>{item.games}</td>
-            <td>{((item.points / item.games) * 100).toFixed(2)}</td>
-            <td>{Math.max(...item.years)}</td>
-            <td>
-              <meter max={total} value={values[index] * scaleFactor} />
-            </td>
-            <td>
-              <meter
-                max={1}
-                value={
-                  calcProbability({
-                    eps: 0.1,
-                    minYear,
-                    moveStats: item.stats,
-                    year: currentYear,
-                    yearsMap,
-                  }) * scaleFactor2
-                }
-              />
-            </td>
-          </tr>
-        ))}
-      </table>
+      <Table id="stats">
+        <TableHead>
+          <TableRow>
+            <TableCell>{t("move")}</TableCell>
+            <TableCell>{t("no_games")}</TableCell>
+            <TableCell>%</TableCell>
+            <TableCell>{t("latest")}</TableCell>
+            <TableCell>
+              {
+                // eslint-disable-next-line i18next/no-literal-string
+              }
+              F&alpha;
+            </TableCell>
+            <TableCell>
+              {
+                // eslint-disable-next-line i18next/no-literal-string
+              }
+              F&beta;
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {stats.map((item, index) => (
+            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+            <TableRow key={item.move} onClick={() => doMove(item.move)}>
+              <TableCell>{item.move}</TableCell>
+              <TableCell>{item.games}</TableCell>
+              <TableCell>
+                {((item.points / item.games) * 100).toFixed(2)}
+              </TableCell>
+              <TableCell>{Math.max(...item.years)}</TableCell>
+              <TableCell>
+                <meter max={total} value={values[index] * scaleFactor} />
+              </TableCell>
+              <TableCell>
+                <meter
+                  max={1}
+                  value={
+                    calcProbability({
+                      eps: 0.1,
+                      minYear,
+                      moveStats: item.stats,
+                      year: currentYear,
+                      yearsMap,
+                    }) * scaleFactor2
+                  }
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

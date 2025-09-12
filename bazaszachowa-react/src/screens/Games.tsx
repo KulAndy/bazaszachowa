@@ -1,4 +1,21 @@
 import "../styles/Games.scss";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  type SelectChangeEvent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useCallback, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
@@ -25,6 +42,8 @@ const Games = () => {
   const [searchedBase, setSearchedBase] = useState("all");
   const [loadingGames, setLoadingGames] = useState(false);
 
+  const [helpOpen, setHelpOpen] = useState(false);
+
   const options1 = [];
   const options2 = [];
   let counter = 1;
@@ -32,18 +51,18 @@ const Games = () => {
     for (let index = 0; index < 10; index++) {
       for (let index_ = 0; index_ < 10; index_++) {
         options1.push(
-          <option key={`min-${counter}`} value={counter}>
+          <MenuItem key={`min-${counter}`} value={counter}>
             {letter}
             {index}
             {index_}
-          </option>,
+          </MenuItem>,
         );
         options2.push(
-          <option key={`max-${counter}`} value={counter++}>
+          <MenuItem key={`max-${counter}`} value={counter++}>
             {letter}
             {index}
             {index_}
-          </option>,
+          </MenuItem>,
         );
       }
     }
@@ -121,51 +140,47 @@ const Games = () => {
   );
 
   const handleMinEcoChange = useCallback(
-    (event_: React.ChangeEvent<HTMLSelectElement>) => {
-      setMinEco(Number.parseInt(event_.target.value));
+    (event_: SelectChangeEvent<number>) => {
+      setMinEco(event_.target.value);
     },
     [],
   );
 
   const handleMaxEcoChange = useCallback(
-    (event_: React.ChangeEvent<HTMLSelectElement>) => {
-      setMaxEco(Number.parseInt(event_.target.value));
+    (event_: SelectChangeEvent<number>) => {
+      setMaxEco(event_.target.value);
     },
     [],
   );
 
-  const handleBaseChangePoland = useCallback(() => {
-    setBase("poland");
-  }, []);
+  const closeCallback = useCallback(() => setHelpOpen(false), []);
+  const openCallback = useCallback(() => setHelpOpen(true), []);
 
-  const handleBaseChangeAll = useCallback(() => {
-    setBase("all");
-  }, []);
+  const baseCallback = useCallback(
+    (event_: React.ChangeEvent<HTMLInputElement>) =>
+      setBase(event_.target.value),
+    [],
+  );
 
-  const handleSearchingClassic = useCallback(() => {
-    setSearching("classic");
-  }, []);
-
-  const handleSearchingFulltext = useCallback(() => {
-    setSearching("fulltext");
-  }, []);
+  const searchCallback = useCallback(
+    (event_: React.ChangeEvent<HTMLInputElement>) =>
+      setSearching(event_.target.value),
+    [],
+  );
 
   return (
     <div id="games">
-      <Content>
+      <Content style={{ display: "flex", flexDirection: "column" } as const}>
         <div id="search-container">
-          <div className="desktop"></div>
           <form onSubmit={handleSubmit}>
             <table className="no-border">
               <tbody>
                 <tr>
-                  <td>
-                    <label>{t("white")}:</label>
-                  </td>
-                  <td colSpan={3}>
+                  <td colSpan={2}>
                     <SearchPlayersWithHints
                       callback={setWhite}
                       id="white"
+                      label={t("white")}
                       list="whitelist"
                       placeholder="Nowak, Jan"
                       type="text"
@@ -173,13 +188,11 @@ const Games = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <label>{t("black")}:</label>
-                  </td>
-                  <td colSpan={3}>
+                  <td colSpan={2}>
                     <SearchPlayersWithHints
                       callback={setBlack}
                       id="black"
+                      label={t("black")}
                       list="blacklist"
                       placeholder="Nowak, Jan"
                       type="text"
@@ -187,14 +200,15 @@ const Games = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ width: "21ch" } as const}>
-                    <label>{t("games.ignore_colors")}</label>
-                  </td>
-                  <td colSpan={3}>
-                    <input
-                      checked={ignore}
-                      onChange={handleToggleIgnore}
-                      type="checkbox"
+                  <td colSpan={2}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={ignore}
+                          onChange={handleToggleIgnore}
+                        />
+                      }
+                      label={t("games.ignore_colors")}
                     />
                   </td>
                 </tr>
@@ -204,44 +218,38 @@ const Games = () => {
                   </td>
                   <td
                     style={
-                      { display: "flex", justifyContent: "flex-end" } as const
+                      {
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "flex-start",
+                      } as const
                     }
                   >
-                    <input
-                      max={currentYear}
-                      min="1475"
+                    <TextField
                       onChange={handleMinYearChange}
-                      step="1"
-                      style={{ width: "4em" } as const}
+                      slotProps={
+                        { htmlInput: { max: currentYear, min: 1475 } } as const
+                      }
                       type="number"
                       value={minYear}
                     />
-                  </td>
-                  <td> - </td>
-                  <td
-                    style={
-                      { display: "flex", justifyContent: "flex-start" } as const
-                    }
-                  >
-                    <input
-                      max={currentYear}
-                      min="1475"
+                    {" — "}
+                    <TextField
                       onChange={handleMaxYearChange}
-                      step="1"
-                      style={{ width: "4em" } as const}
+                      slotProps={
+                        { htmlInput: { max: currentYear, min: 1475 } } as const
+                      }
                       type="number"
                       value={maxYear}
                     />
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <label>{t("tournament")}:</label>
-                  </td>
-                  <td colSpan={3}>
-                    <input
+                  <td colSpan={2}>
+                    <TextField
+                      fullWidth
+                      label={t("tournament")}
                       onChange={handleEventChange}
-                      type="text"
                       value={event}
                     />
                   </td>
@@ -255,30 +263,24 @@ const Games = () => {
                   </td>
                   <td
                     style={
-                      { display: "flex", justifyContent: "flex-end" } as const
+                      {
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "flex-start",
+                      } as const
                     }
                   >
-                    <select
-                      name="ecoMin"
-                      onChange={handleMinEcoChange}
-                      value={minEco}
-                    >
-                      {options1}
-                    </select>
-                  </td>
-                  <td> - </td>
-                  <td
-                    style={
-                      { display: "flex", justifyContent: "flex-start" } as const
-                    }
-                  >
-                    <select
-                      name="ecoMax"
-                      onChange={handleMaxEcoChange}
-                      value={maxEco}
-                    >
-                      {options2}
-                    </select>
+                    <FormControl>
+                      <Select onChange={handleMinEcoChange} value={minEco}>
+                        {options1}
+                      </Select>
+                    </FormControl>
+                    {" — "}
+                    <FormControl>
+                      <Select onChange={handleMaxEcoChange} value={maxEco}>
+                        {options2}
+                      </Select>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
@@ -286,24 +288,20 @@ const Games = () => {
                     <label>{t("base")}:</label>
                   </td>
                   <td>
-                    <label>{t("games.poland")} </label>
-                    <input
-                      checked={base === "poland"}
-                      name="base"
-                      onChange={handleBaseChangePoland}
-                      type="radio"
-                      value="poland"
-                    />
-                  </td>
-                  <td colSpan={2}>
-                    <label>{t("games.all")} </label>
-                    <input
-                      checked={base === "all"}
-                      name="base"
-                      onChange={handleBaseChangeAll}
-                      type="radio"
-                      value="all"
-                    />
+                    <FormControl component="fieldset">
+                      <RadioGroup onChange={baseCallback} row value={base}>
+                        <FormControlLabel
+                          control={<Radio />}
+                          label={t("games.poland")}
+                          value="poland"
+                        />
+                        <FormControlLabel
+                          control={<Radio />}
+                          label={t("games.all")}
+                          value="all"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
@@ -311,35 +309,53 @@ const Games = () => {
                     <label>{t("games.searching")}</label>
                   </td>
                   <td>
-                    <label>{t("games.searching_classic")}</label>
-                    <input
-                      checked={searching === "classic"}
-                      name="searching"
-                      onChange={handleSearchingClassic}
-                      type="radio"
-                    />
-                  </td>
-                  <td colSpan={2}>
-                    <label>{t("games.searching_exact")}</label>
-                    <input
-                      checked={searching === "fulltext"}
-                      name="searching"
-                      onChange={handleSearchingFulltext}
-                      type="radio"
-                    />
+                    <FormControl component="fieldset">
+                      <RadioGroup
+                        onChange={searchCallback}
+                        row
+                        value={searching}
+                      >
+                        <FormControlLabel
+                          control={<Radio />}
+                          label={t("games.searching_classic")}
+                          value="classic"
+                        />
+                        <FormControlLabel
+                          control={<Radio />}
+                          label={t("games.searching_exact")}
+                          value="fulltext"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr style={{ height: "4em" } as const}>
-                  <th colSpan={4}>
+                  <th colSpan={2}>
                     <button>{t("games.search")}</button>
                   </th>
                 </tr>
               </tbody>
             </table>
           </form>
-          <div id="right-content">
-            <details id="help">
-              <summary>{t("games.help")}</summary>
+          <div>
+            <Button
+              onClick={openCallback}
+              sx={{ ml: 2 } as const}
+              type="button"
+              variant="outlined"
+            >
+              {t("games.help")}
+            </Button>
+          </div>
+
+          <Dialog
+            fullWidth
+            maxWidth="sm"
+            onClose={closeCallback}
+            open={helpOpen}
+          >
+            <DialogTitle>{t("games.help")}</DialogTitle>
+            <DialogContent dividers>
               <ul>
                 {t("games.params")}:<li>{t("games.param.player")}</li>
                 <li>
@@ -361,14 +377,14 @@ const Games = () => {
                   </ul>
                 </li>
               </ul>
-            </details>
-          </div>
+            </DialogContent>
+          </Dialog>
         </div>
         {loadingGames ? (
           <div>
             <div className="loading">
-              <div className="spin"></div>
-              <p>{t("games.loading_games")} </p>
+              <CircularProgress />
+              <Typography>{t("games.loading_games")}...</Typography>
             </div>
           </div>
         ) : (

@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import { Chess } from "chess.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -199,58 +200,39 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   }, [variants]);
 
   const renderBestMove = useCallback(() => {
-    if (best && variants[best]) {
-      return (
-        <>
-          <p>
-            {t("stockfish.best_move")}{" "}
-            <span style={{ fontWeight: "bolder" } as const}>
-              {variants[best].san || ""}
-            </span>
-          </p>
-          <p>
-            {t("stockfish.eval")}{" "}
-            <span style={{ fontWeight: "bolder" } as const}>
-              {variants[best].prefix || ""}
-              {Math.abs(variants[best].value ?? Number.NaN)}
-            </span>
-          </p>
-        </>
-      );
+    const move = best && variants[best] ? variants[best] : valuesArray[0];
+    if (!move) {
+      return null;
     }
 
     return (
-      <>
-        <p>
-          {t("stockfish.best_move")}{" "}
-          <span>{valuesArray.length === 0 ? "-" : valuesArray[0]?.san}</span>
-        </p>
-        <p>
-          {t("stockfish.eval")}{" "}
-          <span>
-            {valuesArray.length === 0 ? (
-              "-"
-            ) : (
-              <>
-                {valuesArray[0]?.prefix}
-                {valuesArray[0]?.value}
-              </>
-            )}
-          </span>
-        </p>
-      </>
+      <Box mb={2}>
+        <Typography variant="h6">
+          {t("stockfish.best_move")}:{" "}
+          <Typography component="span" fontWeight="bold">
+            {move.san}
+          </Typography>
+        </Typography>
+        <Typography variant="subtitle1">
+          {t("stockfish.eval")}:{" "}
+          <Typography component="span" fontWeight="bold">
+            {move.prefix}
+            {Math.abs(move.value)}
+          </Typography>
+        </Typography>
+      </Box>
     );
   }, [best, variants, valuesArray, t]);
 
   const renderVariants = useCallback(() => {
     return valuesArray.slice(0, 3).map((value, index) => (
-      <p key={index}>
-        <span style={{ fontWeight: "bolder" } as const}>
+      <Typography key={index} mb={1} variant="body2">
+        <Typography component="span" fontWeight="bold">
           {value.san} {value.prefix}
           {Math.abs(value.value) || 0}
-        </span>{" "}
+        </Typography>{" "}
         {uciVariant2San({ fen, moves: value.variant }).join(" ")}
-      </p>
+      </Typography>
     ));
   }, [valuesArray, fen]);
 

@@ -1,4 +1,5 @@
 import "../styles/Player.scss";
+import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -175,7 +176,7 @@ const Player = () => {
           {loadingCr ? (
             <div>
               <div className="loading">
-                <div className="spin"></div>
+                <CircularProgress />
                 <p>{t("player.searching_cr")} </p>
               </div>
             </div>
@@ -185,7 +186,7 @@ const Player = () => {
           {loadingFide ? (
             <div>
               <div className="loading">
-                <div className="spin"></div>
+                <CircularProgress />
                 <p>{t("player.searching_fide")} </p>
               </div>
             </div>
@@ -255,7 +256,7 @@ const Player = () => {
               {loadingStats ? (
                 <div>
                   <div className="loading">
-                    <div className="spin"></div>
+                    <CircularProgress />
                     <p>{t("player.loading_stats")} </p>
                   </div>
                 </div>
@@ -279,7 +280,7 @@ const Player = () => {
         {loadingGames ? (
           <div>
             <div className="loading">
-              <div className="spin"></div>
+              <CircularProgress />
               <p>{t("player.loading_games")} </p>
             </div>
           </div>

@@ -1,39 +1,41 @@
-import { type HTMLProps, useCallback, useEffect, useState } from "react";
+import TextField, { type TextFieldProps } from "@mui/material/TextField";
+import { useCallback, useEffect, useState } from "react";
 
 import { API } from "../settings";
 
 const replaceNationalCharacters = (text: string) => {
-  let toReplace = text;
-  toReplace = toReplace.replaceAll("ą", "a");
-  toReplace = toReplace.replaceAll("Ą", "A");
-  toReplace = toReplace.replaceAll("ć", "c");
-  toReplace = toReplace.replaceAll("Ć", "C");
-  toReplace = toReplace.replaceAll("ę", "e");
-  toReplace = toReplace.replaceAll("Ę", "E");
-  toReplace = toReplace.replaceAll("ł", "l");
-  toReplace = toReplace.replaceAll("Ł", "L");
-  toReplace = toReplace.replaceAll("ń", "n");
-  toReplace = toReplace.replaceAll("Ń", "n");
-  toReplace = toReplace.replaceAll("ó", "o");
-  toReplace = toReplace.replaceAll("Ó", "o");
-  toReplace = toReplace.replaceAll("ś", "s");
-  toReplace = toReplace.replaceAll("Ś", "s");
-  toReplace = toReplace.replaceAll("ź", "z");
-  toReplace = toReplace.replaceAll("Ź", "Z");
-  toReplace = toReplace.replaceAll("ż", "z");
-  toReplace = toReplace.replaceAll("Ż", "Z");
-  return toReplace;
+  return text
+    .replaceAll("ą", "a")
+    .replaceAll("Ą", "A")
+    .replaceAll("ć", "c")
+    .replaceAll("Ć", "C")
+    .replaceAll("ę", "e")
+    .replaceAll("Ę", "E")
+    .replaceAll("ł", "l")
+    .replaceAll("Ł", "L")
+    .replaceAll("ń", "n")
+    .replaceAll("Ń", "N")
+    .replaceAll("ó", "o")
+    .replaceAll("Ó", "O")
+    .replaceAll("ś", "s")
+    .replaceAll("Ś", "S")
+    .replaceAll("ź", "z")
+    .replaceAll("Ź", "Z")
+    .replaceAll("ż", "z")
+    .replaceAll("Ż", "Z");
 };
 
-interface SearchPlayersWithHintsProperties extends HTMLProps<HTMLInputElement> {
+type SearchPlayersWithHintsProperties = {
   readonly callback: (x: string) => void;
   readonly id?: string;
+  readonly label?: string;
   readonly list?: string;
-}
+} & TextFieldProps;
 
 const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
-  callback = () => {},
+  callback,
   id = "input",
+  label,
   list,
   ...properties
 }) => {
@@ -57,7 +59,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
     fetchData();
   }, [text]);
 
-  const handleInput = useCallback(
+  const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       callback(replaceNationalCharacters(event.target.value));
       setText(replaceNationalCharacters(event.target.value));
@@ -67,17 +69,21 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
 
   return (
     <>
-      <input
-        list={list || `${id}_datalist`}
+      <TextField
+        fullWidth
+        id={id}
+        label={label}
+        onChange={handleChange}
         placeholder="Nowak, Jan"
+        slotProps={{ htmlInput: { list: list || `${id}_datalist` } } as const}
         value={text}
+        variant="outlined"
         {...properties}
-        onInput={handleInput}
       />
       {players.length > 0 && (
         <datalist id={list || `${id}_datalist`}>
-          {players.map((item) => (
-            <option key={item} value={item} />
+          {players.map((player) => (
+            <option key={player} value={player} />
           ))}
         </datalist>
       )}

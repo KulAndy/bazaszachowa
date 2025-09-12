@@ -1,3 +1,5 @@
+import { Box, Divider, Link, Typography } from "@mui/material";
+
 import Content from "../components/Content";
 import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
@@ -7,10 +9,12 @@ const License = () => {
 
   return (
     <Content>
-      <article>
-        {t("license.intro")}:
+      <Box component="article">
+        <Typography gutterBottom variant="body1">
+          {t("license.intro")}:
+        </Typography>
+        {t("license.user")}
         <ul>
-          {t("license.user")}
           <li>{t("license.right_use")}</li>
           <li>{t("license.right_analyze")}</li>
           <li>{t("license.right_copy")}</li>
@@ -21,33 +25,52 @@ const License = () => {
           <li>{t("license.beer_for_author")}</li>
           <li>{t("license.error_reports")}</li>
         </ul>
-        <sub>
+        <Typography
+          component="sub"
+          display="block"
+          gutterBottom
+          variant="body2"
+        >
           {t("license.source_code")}{" "}
-          <a href="https://github.com/KulAndy/bazaszachowa">
+          <Link
+            href="https://github.com/KulAndy/bazaszachowa"
+            rel="noopener"
+            target="_blank"
+          >
             {
               // eslint-disable-next-line i18next/no-literal-string
             }
             frontend
-          </a>{" "}
+          </Link>{" "}
           {t("license.and")}{" "}
-          <a href="https://github.com/KulAndy/bazaszachowa-api">
+          <Link
+            href="https://github.com/KulAndy/bazaszachowa-api"
+            rel="noopener"
+            target="_blank"
+          >
             {
               // eslint-disable-next-line i18next/no-literal-string
             }
             backend
-          </a>
-        </sub>
-        <hr />
-        {t("license.other_cases")}{" "}
-        <a href="https://www.gnu.org/licenses/agpl-3.0.html">
-          {
-            // eslint-disable-next-line i18next/no-literal-string
-          }
-          GNU AGPLv3
-        </a>
-        <hr />
-        <a href={NOMENU_URLS.docs}>{t("license.docs")}</a>
-      </article>
+          </Link>
+        </Typography>
+        <Divider sx={{ my: 2 } as const} />
+        <Typography gutterBottom variant="body1">
+          {t("license.other_cases")}{" "}
+          <Link
+            href="https://www.gnu.org/licenses/agpl-3.0.html"
+            rel="noopener"
+            target="_blank"
+          >
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            GNU AGPLv3
+          </Link>
+        </Typography>
+        <Divider sx={{ my: 2 } as const} />
+        <Link href={NOMENU_URLS.docs}>{t("license.docs")}</Link>
+      </Box>
     </Content>
   );
 };

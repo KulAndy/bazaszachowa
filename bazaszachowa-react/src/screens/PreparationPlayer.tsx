@@ -1,4 +1,5 @@
 import "../styles/PreparationPlayer.scss";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -180,21 +181,16 @@ const PreparationPlayer = ({
   }, []);
 
   return (
-    <div id="preparation">
-      <h1>
+    <Box id="preparation">
+      <Typography gutterBottom variant="h4">
         <Link to={NOMENU_URLS.profile + encodeURIComponent(player)}>
           {player}
         </Link>{" "}
         - {t("preparation.against")} {t(color)}
-      </h1>
-      <div
-        style={
-          {
-            display: "flex",
-            flexDirection:
-              notationLayout === "bottom" ? "column-reverse" : "row",
-          } as const
-        }
+      </Typography>
+      <Stack
+        direction={notationLayout === "bottom" ? "column-reverse" : "row"}
+        spacing={2}
       >
         <ChessEditor
           boardSize={boardSize}
@@ -206,58 +202,46 @@ const PreparationPlayer = ({
           zoomIn={handleZoomIn}
           zoomOut={handleZoomOut}
         />
-        <div>
-          <div
-            style={
-              {
-                alignItems:
-                  notationLayout === "bottom" ? "center" : "flex-start",
-                display: "flex",
-                flexDirection:
-                  notationLayout === "bottom" ? "column-reverse" : "column",
-                justifyContent: "flex-start",
-                maxHeight: boardSize,
-                overflow: "auto",
-              } as const
-            }
-          >
-            {games.length === 0 ? (
-              <div>
-                <div className="loading">
-                  <div className="spin"></div>
-                  <p>{t("player.loading_stats")} </p>
-                </div>
-              </div>
-            ) : (
-              <>
-                <PositionMoves
-                  doMove={doMove}
-                  stats={tree}
-                  style={
-                    {
-                      maxHeight: boardSize / 2,
-                      overflow: "auto",
-                    } as const
-                  }
-                />
+
+        <Box
+          alignItems={notationLayout === "bottom" ? "center" : "flex-start"}
+          display="flex"
+          flexDirection={
+            notationLayout === "bottom" ? "column-reverse" : "column"
+          }
+          justifyContent="flex-start"
+          maxHeight={boardSize}
+          overflow="auto"
+        >
+          {games.length === 0 ? (
+            <Stack
+              alignItems="center"
+              justifyContent="center"
+              spacing={1}
+              sx={{ py: 4 } as const}
+            >
+              <CircularProgress />
+              <Typography>{t("player.loading_stats")}</Typography>
+            </Stack>
+          ) : (
+            <>
+              <Box maxHeight={boardSize / 2} overflow="auto">
+                <PositionMoves doMove={doMove} stats={tree} />
+              </Box>
+              <Box maxHeight={boardSize / 2} overflow="auto">
                 <GamesTable
                   games={games.filter((game) => gamesFilter.includes(game.id))}
-                  noEmpty={true}
-                  simple={true}
-                  style={
-                    {
-                      maxHeight: boardSize / 2,
-                      overflow: "auto",
-                    } as const
-                  }
+                  noEmpty
+                  simple
                 />
-              </>
-            )}
-          </div>
-          <TrendFunctionExplanation />
-        </div>
-      </div>
-    </div>
+              </Box>
+            </>
+          )}
+        </Box>
+      </Stack>
+
+      <TrendFunctionExplanation />
+    </Box>
   );
 };
 

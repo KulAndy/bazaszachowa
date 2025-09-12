@@ -1,5 +1,5 @@
 button,
-input[type="submit"] {
+input[type='submit'] {
   padding: 10px 20px;
   border-radius: 4px;
   color: var(--document-font-color);
@@ -68,11 +68,11 @@ nav {
     width: 100%;
 
     &[open] summary::marker {
-      content: "X";
+      content: 'X';
     }
 
     &:not([open]) summary::marker {
-      content: "\2630";
+      content: '\2630';
     }
   }
 }
@@ -147,16 +147,16 @@ article {
   height: min(850px, 50vw, 70vh);
 }
 
+body {
+  padding-bottom: 5em;
+  overflow-x: hidden;
+}
+
 @media only screen and (width <= 768px) {
   * {
     max-width: 100%;
     overflow-wrap: normal;
     word-break: keep-all;
-  }
-
-  body {
-    padding-bottom: 5em;
-    overflow-x: hidden;
   }
 
   .app {
@@ -197,7 +197,7 @@ article {
     display: none !important;
   }
 
-  input[type="radio"] {
+  input[type='radio'] {
     float: left;
   }
 }
@@ -277,6 +277,12 @@ article {
   to {
     transform: rotate(360deg);
   }
+}
+
+caption {
+  background-color: var(--document-content-background);
+  caption-side: top !important;
+  text-align: center !important;
 }
 
 table#games {

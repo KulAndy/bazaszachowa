@@ -1,3 +1,12 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { Chess } from "chess.js";
 import { type HTMLProps, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -129,75 +138,102 @@ const GamesTable: React.FC<
 
   return (
     <div {...properties}>
-      <table id="games">
-        <caption>
-          {t("game_table.games")}: {games.length || 0}{" "}
-          <button onClick={handleDownload}>{t("download")}</button>
-        </caption>
-        <tr>
-          {!simple && <th className="desktop">{t("white_elo")}</th>}
-          <th>{t("white")}</th>
-          <th style={{ whiteSpace: "nowrap" } as const}>{t("result")}</th>
-          <th>{t("black")}</th>
-          {!simple && (
-            <>
-              <th className="desktop">{t("black_elo")}</th>
-              <th className="desktop">{t("tournament")}</th>
-            </>
-          )}
-          <th>{t("date")}</th>
-          {!simple && (
-            <>
-              <th className="desktop" style={{ whiteSpace: "nowrap" } as const}>
-                ECO
-              </th>
-              <th className="desktop" />
-            </>
-          )}
-        </tr>
-        {items.map((item) => (
-          <tr key={item.id}>
-            <Link
-              state={
-                {
-                  base,
-                  gameid: item.id,
-                  list: items.map((element) => element.id),
-                } as const
-              }
-              style={{ display: "contents" } as const}
-              to={`${NOMENU_URLS.game}${base}/${item.id}`}
-            >
-              {!simple && <td className="desktop">{item.WhiteElo}</td>}
-              <td>{item.White}</td>
-              <td style={{ textAlign: "center" } as const}>{item.Result}</td>
-              <td>{item.Black}</td>
+      <TableContainer component={Paper}>
+        <Table>
+          <caption>
+            {t("game_table.games")}: {games.length || 0}{" "}
+            <button onClick={handleDownload}>{t("download")}</button>
+          </caption>
+          <TableHead>
+            <TableRow>
+              {!simple && (
+                <TableCell className="desktop">{t("white_elo")}</TableCell>
+              )}
+              <TableCell>{t("white")}</TableCell>
+              <TableCell style={{ whiteSpace: "nowrap" } as const}>
+                {t("result")}
+              </TableCell>
+              <TableCell>{t("black")}</TableCell>
               {!simple && (
                 <>
-                  <td className="desktop">{item.BlackElo}</td>
-                  <td className="desktop">{item.Event}</td>
+                  <TableCell className="desktop">{t("black_elo")}</TableCell>
+                  <TableCell className="desktop">{t("tournament")}</TableCell>
                 </>
               )}
-              <td>
-                {item.Year}.{item.Month || "??"}.{item.Day || "??"}
-              </td>
-              {!simple && <td className="desktop">{item.ECO}</td>}
-            </Link>
-            {!simple && (
-              <td className="desktop">
+              <TableCell>{t("date")}</TableCell>
+              {!simple && (
+                <>
+                  <TableCell
+                    className="desktop"
+                    style={{ whiteSpace: "nowrap" } as const}
+                  >
+                    ECO
+                  </TableCell>
+                  <TableCell className="desktop" />
+                </>
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item, index) => (
+              <TableRow
+                key={item.id}
+                sx={
+                  {
+                    bgcolor: () =>
+                      index % 2 === 0 ? "var(--even-row)" : "var(--odd-row)",
+                  } as const
+                }
+              >
                 <Link
-                  reloadDocument
-                  style={{ whiteSpace: "nowrap" } as const}
-                  target="_blank"
-                  to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+                  state={
+                    {
+                      base,
+                      gameid: item.id,
+                      list: items.map((element) => element.id),
+                    } as const
+                  }
+                  style={{ display: "contents" } as const}
+                  to={`${NOMENU_URLS.game}${base}/${item.id}`}
                 >
-                  PGN
+                  {!simple && (
+                    <TableCell className="desktop">{item.WhiteElo}</TableCell>
+                  )}
+                  <TableCell>{item.White}</TableCell>
+                  <TableCell style={{ textAlign: "center" } as const}>
+                    {item.Result}
+                  </TableCell>
+                  <TableCell>{item.Black}</TableCell>
+                  {!simple && (
+                    <>
+                      <TableCell className="desktop">{item.BlackElo}</TableCell>
+                      <TableCell className="desktop">{item.Event}</TableCell>
+                    </>
+                  )}
+                  <TableCell>
+                    {item.Year}.{item.Month || "??"}.{item.Day || "??"}
+                  </TableCell>
+                  {!simple && (
+                    <TableCell className="desktop">{item.ECO}</TableCell>
+                  )}
                 </Link>
-              </td>
-            )}
-          </tr>
-        ))}
-      </table>
+                {!simple && (
+                  <TableCell className="desktop">
+                    <Link
+                      reloadDocument
+                      style={{ whiteSpace: "nowrap" } as const}
+                      target="_blank"
+                      to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+                    >
+                      PGN
+                    </Link>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

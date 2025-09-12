@@ -1,3 +1,5 @@
+import { Typography } from "@mui/material";
+
 import Content from "../components/Content";
 import { useI18n } from "../context/useI18n";
 
@@ -6,18 +8,14 @@ const Rodo = () => {
   return (
     <Content>
       <article>
-        {t("gdpr.gdpr_info")}
-        <br />
-        <br />
-        {t("gdpr.gdpr_dedication")}
-        <br />
-        <br />
+        <Typography component="p">{t("gdpr.gdpr_info")}</Typography>
+        <Typography component="p">{t("gdpr.gdpr_dedication")}</Typography>
         <iframe
           allow="autoplay"
           src={t("gdpr.kiss_my_ass_link")}
           title={t("gdpr.kiss_my_ass_title")}
         ></iframe>
-        <figcaption>{t("gdpr.kiss_my_ass_caption")} </figcaption>
+        <figcaption>{t("gdpr.kiss_my_ass_caption")} </figcaption>{" "}
       </article>
     </Content>
   );

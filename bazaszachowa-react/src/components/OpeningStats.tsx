@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
 
@@ -50,9 +52,9 @@ const OpeningsStats: React.FC<OpeningsStatsProperties> = ({ name, stats }) => {
           ).toFixed(2)}
         </td>
         <td>
-          <a href={`${NOMENU_URLS.profile}${encodeURIComponent(name)}`}>
+          <Link to={`${NOMENU_URLS.profile}${encodeURIComponent(name)}`}>
             {t("stats.reset")}
-          </a>
+          </Link>
         </td>
       </tr>
     </table>

@@ -1,4 +1,15 @@
-import "../styles/Contact.scss";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Link,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useCallback, useState } from "react";
 
 import Content from "../components/Content";
@@ -23,10 +34,20 @@ const Contact = () => {
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { files, name, value } = event.target;
-
-      setFormData((previousData) => ({
-        ...previousData,
+      setFormData((previous) => ({
+        ...previous,
         [name]: files ? files[0] : value,
+      }));
+    },
+    [],
+  );
+
+  const handleContentChange = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
+      setFormData((previous) => ({
+        ...previous,
+        [name]: value,
       }));
     },
     [],
@@ -38,160 +59,133 @@ const Contact = () => {
       const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
         alert("contact.Niedozwolony adres");
-      } else if (emailRegex.test(formData.email)) {
-        const form = new FormData();
-        form.append("email", formData.email);
-        form.append("subject", formData.subject);
-        form.append("content", formData.content);
-        form.append("attachment", formData.attachment || "");
-
-        fetch(API.BASE_URL + API.send_mail, {
-          body: form,
-          method: "POST",
-        })
-          .then((response) => {
-            if (response.status === 200) {
-              alert(t("contact.successfully_sent"));
-            } else {
-              throw new Error("Sent failed");
-            }
-          })
-          .catch(() => {
-            t("contact.failled_sent");
-          });
-      } else {
-        alert(t("contact.invalid_mail"));
+        return;
       }
-    },
-    [
-      formData.attachment,
-      formData.content,
-      formData.email,
-      formData.subject,
-      t,
-    ],
-  );
+      if (!emailRegex.test(formData.email)) {
+        alert(t("contact.invalid_mail"));
+        return;
+      }
 
-  const handleContent = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const { name, value } = event.target;
+      const form = new FormData();
+      form.append("email", formData.email);
+      form.append("subject", formData.subject);
+      form.append("content", formData.content);
+      form.append("attachment", formData.attachment || "");
 
-      setFormData((previousData) => ({
-        ...previousData,
-        [name]: value,
-      }));
+      fetch(API.BASE_URL + API.send_mail, {
+        body: form,
+        method: "POST",
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            alert(t("contact.successfully_sent"));
+          } else {
+            throw new Error("Send failed");
+          }
+        })
+        .catch(() => {
+          alert(t("contact.failled_sent"));
+        });
     },
-    [],
+    [formData, t],
   );
 
   return (
     <Content classNames={["contact"] as const}>
-      <form
-        action={API.BASE_URL + API.send_mail}
-        encType="multipart/form-data"
-        id="form"
-        method="post"
-        onSubmit={handleSubmit}
-        target="_self"
-      >
-        <h3>{t("contact.email")}: </h3>
-        <input
+      <form encType="multipart/form-data" onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label={t("contact.email")}
+          margin="normal"
           name="email"
           onChange={handleInputChange}
           required
           type="email"
           value={formData.email}
         />
-        <h3>{t("contact.subject")}: </h3>
-        <input
-          id="sub1"
-          name="subject"
-          onChange={handleInputChange}
-          required
-          type="radio"
-          value="Pomysł"
-        />
-        <label htmlFor="sub1">{t("contact.idea")}</label>
-        <br />
-        <input
-          id="sub2"
-          name="subject"
-          onChange={handleInputChange}
-          required
-          type="radio"
-          value="Uwaga"
-        />
-        <label htmlFor="sub2"> {t("contact.remark")} </label>
-        <br />
-        <input
-          id="sub3"
-          name="subject"
-          onChange={handleInputChange}
-          required
-          type="radio"
-          value="Błąd w partii"
-        />
-        <label htmlFor="sub3"> {t("contact.bug_in_game")} </label>
-        <br />
-        <input
-          id="sub4"
-          name="subject"
-          onChange={handleInputChange}
-          required
-          type="radio"
-          value="Brakująca partia"
-        />
-        <label htmlFor="sub4"> {t("contact.missing_game")} </label>
-        <br />
-        <input
-          id="sub5"
-          name="subject"
-          onChange={handleInputChange}
-          required
-          type="radio"
-          value="Inne"
-        />
-        <label htmlFor="sub5"> {t("contact.other")} </label>
-        <br />
-        <h4> {t("contact.content")} : </h4>
-        <textarea
-          cols={50}
-          form="form"
+
+        <FormControl component="fieldset" margin="normal">
+          <FormLabel component="legend">{t("contact.subject")}</FormLabel>
+          <RadioGroup
+            name="subject"
+            onChange={handleInputChange}
+            value={formData.subject}
+          >
+            <FormControlLabel
+              control={<Radio />}
+              label={t("contact.idea")}
+              value="Pomysł"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              label={t("contact.remark")}
+              value="Uwaga"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              label={t("contact.bug_in_game")}
+              value="Błąd w partii"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              label={t("contact.missing_game")}
+              value="Brakująca partia"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              label={t("contact.other")}
+              value="Inne"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <TextField
+          fullWidth
+          label={t("contact.content")}
+          margin="normal"
+          multiline
           name="content"
-          onChange={handleContent}
-          placeholder="Wpisz tekst..."
+          onChange={handleContentChange}
           rows={6}
           value={formData.content}
-        ></textarea>
-        <br />
-        <label htmlFor="attachment">
-          {t("contact.game")} {t("contact.game_limit")}
-        </label>
-        <br />
-        <input
-          accept=".pgn, .txt, .cbv, .zip, .7z, .rar"
-          id="attachment"
-          name="attachment"
-          onChange={handleInputChange}
-          type="file"
         />
-        <br /> <br />
-        <input name="submit" type="submit" value={t("contact.send")} />
+
+        <Box marginY={2}>
+          <label htmlFor="attachment">
+            {t("contact.game")} {t("contact.game_limit")}{" "}
+          </label>
+          <br />
+          <input
+            accept=".pgn, .txt, .cbv, .zip, .7z, .rar"
+            id="attachment"
+            name="attachment"
+            onChange={handleInputChange}
+            type="file"
+          />
+        </Box>
+
+        <div style={{ textAlign: "center" } as const}>
+          <Button color="primary" type="submit" variant="contained">
+            {t("contact.send")}
+          </Button>
+        </div>
       </form>
-      <address>
-        <p>
-          {t("contact.phone")} :{" "}
-          <a href="tel:+48730758890">
+
+      <Box component="address" marginTop={4}>
+        <Typography>
+          {t("contact.phone")}:{" "}
+          <Link href="tel:+48730758890">
             {
               // eslint-disable-next-line i18next/no-literal-string
             }
             +48 730 758 890
-          </a>
-        </p>
-        <p>
-          {t("e_mail")} : <a href="andykrk22@gmail.com">{admin_mail}</a>
-        </p>
-      </address>
+          </Link>
+        </Typography>
+        <Typography>
+          {t("e_mail")}:{" "}
+          <Link href="mailto:andykrk22@gmail.com">{admin_mail}</Link>
+        </Typography>
+      </Box>
     </Content>
   );
 };
