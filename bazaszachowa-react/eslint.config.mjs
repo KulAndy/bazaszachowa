@@ -1,5 +1,5 @@
+import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import jsxA11Y from "eslint-plugin-jsx-a11y";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -11,62 +11,15 @@ import reactPerf from "eslint-plugin-react-perf";
 import perfectionist from "eslint-plugin-perfectionist";
 import promise from "eslint-plugin-promise";
 import sonarjs from "eslint-plugin-sonarjs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import i18next from "eslint-plugin-i18next";
 import * as regexpPlugin from "eslint-plugin-regexp";
 import pluginLingui from "eslint-plugin-lingui";
 import reactRefresh from "eslint-plugin-react-refresh";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-const extendedRules = fixupConfigRules(
-  compat.extends(
-    "plugin:jsx-a11y/recommended",
-    "plugin:jsx-a11y/strict",
-    "plugin:no-unsanitized/recommended-legacy",
-    "plugin:prettier/recommended",
-    "plugin:promise/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:react-perf/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:perfectionist/recommended-alphabetical-legacy",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:@typescript-eslint/strict",
-    "plugin:perfectionist/recommended-alphabetical-legacy",
-    "plugin:sonarjs/recommended-legacy",
-  ),
-);
-
-const plugins = {
-  "jsx-a11y": fixupPluginRules(jsxA11Y),
-  react: fixupPluginRules(reactPlugin),
-  "react-hooks": fixupPluginRules(reactHooks),
-  "react-hooks-extra": reactHooksExtra,
-  "react-dom": reactDom,
-  "react-naming-convention": reactNamingConvention,
-  "react-web-api": reactWebApi,
-  "react-perf": fixupPluginRules(reactPerf),
-  perfectionist: fixupPluginRules(perfectionist),
-  promise: fixupPluginRules(promise),
-  sonarjs: fixupPluginRules(sonarjs),
-  unicorn: eslintPluginUnicorn,
-};
+import noUnsanitized from "eslint-plugin-no-unsanitized";
+import prettierRecommended from "eslint-plugin-prettier/recommended";
+import importPlugin from "eslint-plugin-import";
 
 const languageOptions = {
   globals: globals.builtin,
@@ -79,7 +32,6 @@ const languageOptions = {
 };
 
 const rules = {
-  ...eslintPluginUnicorn.configs.recommended.rules,
   "jsx-a11y/no-aria-hidden-on-focusable": "error",
   "jsx-a11y/prefer-tag-over-role": "error",
   "sonarjs/cognitive-complexity": "off",
@@ -345,9 +297,34 @@ const rules = {
 const abbrevatedFiles = ["src/react-app-env.d.ts", "src/vite-env.d.ts"];
 export default defineConfig([
   globalIgnores(["src/wasm/*"]),
+  i18next.configs["flat/recommended"],
+  reactDom.configs.recommended,
+  reactNamingConvention.configs.recommended,
+  reactWebApi.configs.recommended,
+  eslintPluginUnicorn.configs.recommended,
+  regexpPlugin.configs["flat/recommended"],
+  pluginLingui.configs["flat/recommended"],
+  reactRefresh.configs.recommended,
+  jsxA11Y.flatConfigs.strict,
+  jsxA11Y.flatConfigs.recommended,
+  noUnsanitized.configs.recommended,
+  prettierRecommended,
+  promise.configs["flat/recommended"],
+  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.flat["jsx-runtime"],
+  reactHooks.configs["recommended-latest"],
+  reactHooksExtra.configs.recommended,
+  reactPerf.configs.flat.recommended,
+  importPlugin.flatConfigs.recommended,
+  importPlugin.flatConfigs.errors,
+  importPlugin.flatConfigs.warnings,
+  importPlugin.flatConfigs.typescript,
+  perfectionist.configs["recommended-alphabetical"],
+  tseslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.strict,
+  sonarjs.configs.recommended,
   {
-    extends: extendedRules,
-    plugins,
     ignores: abbrevatedFiles,
 
     languageOptions,
@@ -356,8 +333,6 @@ export default defineConfig([
   },
   {
     files: abbrevatedFiles,
-    extends: extendedRules,
-    plugins,
 
     languageOptions,
 
@@ -366,8 +341,4 @@ export default defineConfig([
       "unicorn/prevent-abbreviations": "off",
     },
   },
-  i18next.configs["flat/recommended"],
-  regexpPlugin.configs["flat/recommended"],
-  pluginLingui.configs["flat/recommended"],
-  reactRefresh.configs.recommended,
 ]);
