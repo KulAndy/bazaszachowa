@@ -20,10 +20,7 @@ interface ChessboardProperties {
   readonly nextMove: () => void;
   readonly prevMove: () => void;
   readonly sourceSquare: null | string;
-  readonly targetColor?: "green";
   readonly targetSquares: string[];
-  readonly whitePiecesColor?: string;
-  readonly whiteSquareColor?: string;
 }
 
 const Chessboard: React.FC<ChessboardProperties> = ({

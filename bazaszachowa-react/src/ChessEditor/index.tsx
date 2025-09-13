@@ -1,9 +1,3 @@
-import {
-  faChessBishop,
-  faChessKnight,
-  faChessQueen,
-  faChessRook,
-} from "@fortawesome/free-solid-svg-icons";
 import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -11,7 +5,6 @@ import { Link } from "react-router-dom";
 import ButtonsBar from "./ButtonsBar";
 import Chessboard from "./Chessboard";
 import Notation from "./Notation";
-import TouchableIcon from "./TouchableIcon";
 import "./style.scss";
 
 // eslint-disable-next-line no-use-before-define
@@ -570,42 +563,43 @@ ${
       >
         <div>
           <div
+            className="cg-wrap"
             style={
-              { display: promotionMenuVisible ? "block" : "none" } as const
+              {
+                display: promotionMenuVisible ? "flex" : "none",
+                justifyContent: "space-around",
+                margin: "10px 0",
+              } as const
             }
           >
-            <div
-              style={
-                {
-                  alignItems: "center",
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                } as const
-              }
-            >
-              <TouchableIcon
-                className="promotion"
-                icon={faChessQueen}
-                onClick={handlePromotion("q")}
-              />
-              <TouchableIcon
-                className="promotion"
-                icon={faChessRook}
-                onClick={handlePromotion("r")}
-              />
-              <TouchableIcon
-                className="promotion"
-                icon={faChessBishop}
-                onClick={handlePromotion("b")}
-              />
-              <TouchableIcon
-                className="promotion"
-                icon={faChessKnight}
-                onClick={handlePromotion("n")}
-              />
-            </div>
+            {(
+              [
+                { icon: "queen", value: "q" },
+                { icon: "rook", value: "r" },
+                { icon: "bishop", value: "b" },
+                { icon: "knight", value: "n" },
+              ] as const
+            ).map((piece) => (
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+              <div
+                key={piece.value}
+                onClick={handlePromotion(piece.value)}
+                style={{ cursor: "pointer" } as const}
+              >
+                <piece
+                  className={`cg-piece white ${piece.icon}`}
+                  key={piece.value}
+                  style={
+                    {
+                      display: "block",
+                      height: 40,
+                      position: "static",
+                      width: 40,
+                    } as const
+                  }
+                />
+              </div>
+            ))}
           </div>
 
           <Chessboard
