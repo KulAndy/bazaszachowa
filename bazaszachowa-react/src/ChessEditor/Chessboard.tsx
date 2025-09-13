@@ -1,32 +1,17 @@
-/* eslint-disable react-perf/jsx-no-new-function-as-prop */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import "./style.scss";
-import {
-  faChessBishop as faChessBishopRegular,
-  faChessKing as faChessKingRegular,
-  faChessKnight as faChessKnightRegular,
-  faChessPawn as faChessPawnRegular,
-  faChessQueen as faChessQueenRegular,
-  faChessRook as faChessRookRegular,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faChessBishop as faChessBishopSolid,
-  faChessKing as faChessKingSolid,
-  faChessKnight as faChessKnightSolid,
-  faChessPawn as faChessPawnSolid,
-  faChessQueen as faChessQueenSolid,
-  faChessRook as faChessRookSolid,
-  faCircle as faCircleSolid,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback } from "react";
+import "@lichess-org/chessground/assets/chessground.base.css";
+import "@lichess-org/chessground/assets/chessground.brown.css";
+import "@lichess-org/chessground/assets/chessground.cburnett.css";
 
-const allowDrop = (event_: React.DragEvent) => {
-  event_.preventDefault();
-};
+import { Chessground } from "@lichess-org/chessground";
+import type { Api as ChessgroundApi } from "@lichess-org/chessground/api";
+import type { Key } from "@lichess-org/chessground/types";
+import { Chess, type Square } from "chess.js";
+import { useCallback, useEffect, useRef } from "react";
+
+import type { ShortMove } from ".";
 
 interface ChessboardProperties {
+  readonly addMove: (x: ShortMove) => void;
   readonly blackPiecesColor?: string;
   readonly blackSquareColor?: string;
   readonly boardSize: number;
@@ -34,7 +19,6 @@ interface ChessboardProperties {
   readonly flip: boolean;
   readonly nextMove: () => void;
   readonly prevMove: () => void;
-  readonly sendSquare: (x: string) => void;
   readonly sourceSquare: null | string;
   readonly targetColor?: "green";
   readonly targetSquares: string[];
@@ -43,296 +27,80 @@ interface ChessboardProperties {
 }
 
 const Chessboard: React.FC<ChessboardProperties> = ({
-  blackPiecesColor = "black",
-  blackSquareColor = "#b58863",
+  addMove,
   boardSize = 400,
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   flip = false,
   nextMove = () => {},
   prevMove: previousMove = () => {},
-  sendSquare = () => {},
-  sourceSquare = null,
-  targetColor = "green",
-  targetSquares = [],
-  whitePiecesColor = "white",
-  whiteSquareColor = "#f0d9b5",
 }) => {
-  const drag = (square: string) => {
-    sendSquare(square);
-  };
+  const boardReference = useRef<HTMLDivElement | null>(null);
+  const apiReference = useRef<ChessgroundApi | null>(null);
 
-  const drop = (square: string) => {
-    sendSquare(square);
-  };
-
-  const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h"];
-  const piecesPlacement = fen.includes(" ")
-    ? fen.split(" ")[0]
-    : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  const piecesPlacementRows = piecesPlacement.split("/");
-  const board = [];
-  let key = 0;
-  for (
-    let index = 0;
-    index < piecesPlacementRows.length && index < 8;
-    index++
-  ) {
-    const row = [];
-    let counter = 0;
-    for (
-      let index_ = 0;
-      index_ < piecesPlacementRows[index].length && index_ < 8;
-      index_++
-    ) {
-      let piece = null;
-      let color = null;
-      let contour = null;
-      let contourColor = null;
-      switch (piecesPlacementRows[index][index_]) {
-        case "B": {
-          piece = faChessBishopSolid;
-          color = whitePiecesColor;
-          contour = faChessBishopRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "b": {
-          piece = faChessBishopSolid;
-          color = blackPiecesColor;
-          contour = faChessBishopRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        case "K": {
-          piece = faChessKingSolid;
-          color = whitePiecesColor;
-          contour = faChessKingRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "k": {
-          piece = faChessKingSolid;
-          color = blackPiecesColor;
-          contour = faChessKingRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        case "N": {
-          piece = faChessKnightSolid;
-          color = whitePiecesColor;
-          contour = faChessKnightRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "n": {
-          piece = faChessKnightSolid;
-          color = blackPiecesColor;
-          contour = faChessKnightRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        case "P": {
-          piece = faChessPawnSolid;
-          color = whitePiecesColor;
-          contour = faChessPawnRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "p": {
-          piece = faChessPawnSolid;
-          color = blackPiecesColor;
-          contour = faChessPawnRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        case "Q": {
-          piece = faChessQueenSolid;
-          color = whitePiecesColor;
-          contour = faChessQueenRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "q": {
-          piece = faChessQueenSolid;
-          color = blackPiecesColor;
-          contour = faChessQueenRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        case "R": {
-          piece = faChessRookSolid;
-          color = whitePiecesColor;
-          contour = faChessRookRegular;
-          contourColor = blackPiecesColor;
-          break;
-        }
-        case "r": {
-          piece = faChessRookSolid;
-          color = blackPiecesColor;
-          contour = faChessRookRegular;
-          contourColor = whitePiecesColor;
-          break;
-        }
-        default: {
-          const n = Number.parseInt(piecesPlacementRows[index][index_]);
-          for (let k = 0; k < n; k++) {
-            const square = `${LETTERS[counter]}${8 - index}`;
-            if (targetSquares.includes(square)) {
-              row.push(
-                <div
-                  key={key++}
-                  onClick={() => {
-                    sendSquare(square);
-                  }}
-                  onDragOver={allowDrop}
-                  onDrop={() => {
-                    drop(square);
-                  }}
-                  style={
-                    {
-                      backgroundColor:
-                        sourceSquare === square
-                          ? "goldenrod"
-                          : // eslint-disable-next-line sonarjs/no-nested-conditional
-                            (index + counter) % 2 === 1
-                            ? blackSquareColor
-                            : whiteSquareColor,
-                      display: "flex",
-                      flex: 1,
-                      height: boardSize / 8,
-                      width: boardSize / 8,
-                    } as const
-                  }
-                >
-                  <span className="target">
-                    <FontAwesomeIcon
-                      // size={boardSize / 9}
-                      className={targetColor}
-                      color={targetColor}
-                      icon={faCircleSolid}
-                      style={{ color: targetColor } as const}
-                    />
-                  </span>
-                </div>,
-              );
-            } else {
-              row.push(
-                <div
-                  key={key++}
-                  onClick={() => {
-                    sendSquare(square);
-                  }}
-                  onDragOver={allowDrop}
-                  onDrop={() => {
-                    drop(square);
-                  }}
-                  style={
-                    {
-                      backgroundColor:
-                        sourceSquare === square
-                          ? "goldenrod"
-                          : // eslint-disable-next-line sonarjs/no-nested-conditional
-                            (index + counter) % 2 === 1
-                            ? blackSquareColor
-                            : whiteSquareColor,
-                      display: "flex",
-                      flex: 1,
-                      height: boardSize / 8,
-                      width: boardSize / 8,
-                    } as const
-                  }
-                />,
-              );
-            }
-            counter++;
-          }
-          continue;
-        }
-      }
-      const square = `${LETTERS[counter]}${8 - index}`;
-      row.push(
-        <div
-          key={key++}
-          onClick={() => {
-            sendSquare(square);
-          }}
-          onDragOver={allowDrop}
-          onDrop={() => {
-            drop(square);
-          }}
-          style={
-            {
-              alignItems: "center",
-              backgroundColor:
-                sourceSquare === square
-                  ? "goldenrod"
-                  : // eslint-disable-next-line sonarjs/no-nested-conditional
-                    (index + counter) % 2 === 1
-                    ? blackSquareColor
-                    : whiteSquareColor,
-              display: "flex",
-              flex: 1,
-              height: boardSize / 8,
-              justifyContent: "center",
-              width: boardSize / 8,
-            } as const
-          }
-        >
-          <span
-            className={`${color} piece fa-stack`}
-            draggable
-            onDragStart={(event) => {
-              event.stopPropagation();
-              drag(square);
-            }}
-          >
-            {targetSquares.includes(square) && (
-              <FontAwesomeIcon
-                className={`${targetColor} target fa-stack-1x`}
-                color={targetColor}
-                icon={faCircleSolid}
-                style={{ color: targetColor } as const}
-              />
-            )}
-            {contourColor === blackPiecesColor && (
-              <FontAwesomeIcon
-                className={`${contourColor}-contour fa fa-stack-2x`}
-                color={contourColor}
-                icon={contour}
-                style={{ color: contourColor } as const}
-              />
-            )}
-            <FontAwesomeIcon
-              className={`${color} fa fa-stack-3x`}
-              color={color}
-              icon={piece}
-              style={{ color } as const}
-            />
-          </span>
-        </div>,
-      );
-      counter++;
+  useEffect(() => {
+    if (!boardReference.current) {
+      return;
     }
-    if (flip) {
-      row.reverse();
-    }
-    board.push(
-      <div style={{ display: "flex", flexDirection: "row" } as const}>
-        {row}
-      </div>,
-    );
-  }
 
-  if (flip) {
-    board.reverse();
-  }
+    const chess = new Chess(fen);
+    const api = Chessground(boardReference.current, {
+      coordinates: false,
+      disableContextMenu: true,
+      draggable: {
+        enabled: true,
+        showGhost: true,
+      },
+      drawable: {
+        defaultSnapToValidMove: true,
+      },
+      events: {
+        move: (orig: Key, destination: Key) => {
+          addMove({ from: orig as Square, to: destination as Square });
+        },
+      },
+      fen,
+      highlight: {
+        check: true,
+        lastMove: true,
+      },
+      movable: {
+        color: "both",
+        dests: chess.moves({ verbose: true }).reduce((destinations, move) => {
+          const newDestinations = destinations.get(move.from) || [];
+          newDestinations.push(move.to);
+          destinations.set(move.from, newDestinations);
+
+          return destinations;
+        }, new Map<Key, Key[]>()),
+        free: false,
+        rookCastle: true,
+        showDests: true,
+      },
+      orientation: flip ? "black" : "white",
+      predroppable: { enabled: false },
+      premovable: {
+        enabled: false,
+      },
+      selectable: {
+        enabled: true,
+      },
+    });
+
+    apiReference.current = api;
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      api.destroy();
+      apiReference.current = null;
+    };
+  }, [fen, flip, addMove]);
 
   const handleWheel: React.WheelEventHandler<HTMLDivElement> = useCallback(
     (event) => {
       if (event.deltaY > 0) {
-        nextMove();
+        nextMove?.();
       } else {
-        previousMove();
+        previousMove?.();
       }
       event.stopPropagation();
     },
@@ -341,14 +109,11 @@ const Chessboard: React.FC<ChessboardProperties> = ({
 
   return (
     <div
-      onScroll={handleWheel}
-      onScrollCapture={handleWheel}
+      aria-hidden
       onWheel={handleWheel}
-      onWheelCapture={handleWheel}
-      style={{ width: boardSize } as const}
-    >
-      {board}
-    </div>
+      ref={boardReference}
+      style={{ height: `${boardSize}px`, width: `${boardSize}px` } as const}
+    />
   );
 };
 

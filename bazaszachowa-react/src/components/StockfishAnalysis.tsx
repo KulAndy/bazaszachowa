@@ -184,6 +184,9 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   }, [currentDepth, stockfish]);
 
   const valuesArray = useMemo(() => {
+    const chess = new Chess(fen);
+    const turn = chess.turn();
+
     return Object.values(variants)
       .filter((item) => item.san !== null)
       .toSorted((a, b) => {
@@ -195,9 +198,9 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
           b.type === "mate"
             ? (10_000 - Math.abs(b.value)) * Math.sign(b.value)
             : b.value;
-        return bValue - aValue;
+        return (bValue - aValue) * (turn === "w" ? -1 : 1);
       });
-  }, [variants]);
+  }, [variants, fen]);
 
   const renderBestMove = useCallback(() => {
     const move = best && variants[best] ? variants[best] : valuesArray[0];

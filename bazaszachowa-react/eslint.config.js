@@ -42,6 +42,7 @@ const rules = {
   "sonarjs/different-types-comparison": "off",
   "sonarjs/table-header": "off",
   "unicorn/number-literal-case": "off",
+  "unicorn/no-array-reduce": "off",
   "unicorn/string-content": "error",
   "unicorn/no-unused-properties": "error",
   "unicorn/custom-error-definition": "error",

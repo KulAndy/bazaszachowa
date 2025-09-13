@@ -75,6 +75,43 @@ interface HeadersProperties {
   WhiteElo?: null | number;
 }
 
+const writeMove = (
+  moves: Move[],
+  moveIndex: number,
+  variant: boolean,
+  forked: boolean,
+) => {
+  let notation = "";
+  const move = moves[moveIndex];
+  const moveNumber = move.moveNo;
+  if (variant) {
+    notation += "(";
+  }
+  if (move.turn === "w") {
+    notation += `${moveNumber}. `;
+  } else if (variant || forked) {
+    notation += `${moveNumber}... `;
+  }
+  notation += `${move.san} `;
+  let hasVariant = false;
+  for (const moveVariant of move.variations) {
+    if (moveVariant.index) {
+      notation += writeMove(moves, moveVariant.index, true, true);
+      hasVariant = true;
+    }
+  }
+
+  if (move.next) {
+    notation += writeMove(moves, move.next, false, hasVariant);
+  }
+
+  if (variant) {
+    notation += ") ";
+  }
+
+  return notation;
+};
+
 const ChessEditor: React.FC<ChessEditorProperties> = ({
   boardSize = 400,
   data = null,
@@ -158,6 +195,9 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
 
   const addMove = useCallback(
     (move: ShortMove) => {
+      setSourceSquare(move.from);
+      setDestinationSquare(move.to);
+
       const chess = new Chess(history.current[index.current].fen);
       if (!chess.isGameOver()) {
         const moveNo = history.current[index.current]?.moveNo || 0;
@@ -257,6 +297,8 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         }
         return true;
       }
+      setSourceSquare(null);
+      setDestinationSquare(null);
       return true;
     },
     [setHistory, setIndex],
@@ -282,65 +324,6 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
       break;
     }
   }
-
-  const captureSquare = useCallback(
-    (square: string) => {
-      const chess = new Chess(history.current[index.current].fen);
-      if (!chess.isGameOver()) {
-        if (sourceSquare === null) {
-          setSourceSquare(square as Square);
-          setTargetSquares(
-            chess
-              .moves({ square: square as Square, verbose: true })
-              .map((move) => move.to),
-          );
-        } else {
-          setDestinationSquare(square as Square);
-          if (addMove({ from: sourceSquare, to: square as Square })) {
-            setSourceSquare(null);
-            setDestinationSquare(null);
-            setTargetSquares([]);
-          }
-        }
-      }
-    },
-    [addMove, sourceSquare],
-  );
-
-  const writeMove = useCallback(
-    (moves: Move[], moveIndex: number, variant: boolean, forked: boolean) => {
-      let notation = "";
-      const move = moves[moveIndex];
-      const moveNumber = move.moveNo;
-      if (variant) {
-        notation += "(";
-      }
-      if (move.turn === "w") {
-        notation += `${moveNumber}. `;
-      } else if (variant || forked) {
-        notation += `${moveNumber}... `;
-      }
-      notation += `${move.san} `;
-      let hasVariant = false;
-      for (const moveVariant of move.variations) {
-        if (moveVariant.index) {
-          notation += writeMove(moves, moveVariant.index, true, true);
-          hasVariant = true;
-        }
-      }
-
-      if (move.next) {
-        notation += writeMove(moves, move.next, false, hasVariant);
-      }
-
-      if (variant) {
-        notation += ") ";
-      }
-
-      return notation;
-    },
-    [],
-  );
 
   const download = useCallback(() => {
     const pgn = `[Event "${headers.Event || "*"}"]
@@ -374,7 +357,6 @@ ${
     headers.Round,
     headers.Site,
     headers.White,
-    writeMove,
   ]);
 
   useEffect(() => {
@@ -627,12 +609,12 @@ ${
           </div>
 
           <Chessboard
+            addMove={addMove}
             boardSize={boardSize}
             fen={history.current[index.current].fen}
             flip={flip}
             nextMove={handleNextIndex}
             prevMove={handlePreviousIndex}
-            sendSquare={captureSquare}
             sourceSquare={sourceSquare}
             targetSquares={targetSquares}
           />
