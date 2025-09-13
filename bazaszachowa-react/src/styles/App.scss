@@ -1,5 +1,5 @@
 button,
-input[type='submit'] {
+input[type="submit"] {
   padding: 10px 20px;
   border-radius: 4px;
   color: var(--document-font-color);
@@ -68,11 +68,11 @@ nav {
     width: 100%;
 
     &[open] summary::marker {
-      content: 'X';
+      content: "X";
     }
 
     &:not([open]) summary::marker {
-      content: '\2630';
+      content: "\2630";
     }
   }
 }
@@ -197,7 +197,7 @@ body {
     display: none !important;
   }
 
-  input[type='radio'] {
+  input[type="radio"] {
     float: left;
   }
 }
@@ -257,26 +257,6 @@ body {
   margin: auto;
   color: #fff;
   text-align: center;
-}
-
-.spin {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border: 10px solid var(--document-font-color);
-  border-radius: 30px;
-  border-right: 10px solid transparent;
-  animation: spin 2s linear 0s infinite normal;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 caption {
