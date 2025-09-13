@@ -61,6 +61,15 @@ export const ThemeProvider = ({
   const muiTheme = useMemo(
     () =>
       createTheme({
+        components: {
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                backgroundColor: "var(--document-footer)",
+              },
+            },
+          },
+        },
         palette: {
           background: { default: "var(--document-background)" },
           mode: theme === "light" ? "light" : "dark",
