@@ -50,7 +50,7 @@ const PreparationPlayer = ({
 
   const [boardSize, setBoardSize] = useState(() =>
     Math.min(
-      350,
+      450,
       window.innerWidth * 0.9,
       window.innerHeight -
         10 *

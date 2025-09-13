@@ -7,7 +7,10 @@ import { VitePWA } from "vite-plugin-pwa";
 import legacy from "@vitejs/plugin-legacy";
 
 export default defineConfig({
-  build: { emptyOutDir: true },
+  build: {
+    minify: "esbuild",
+    sourcemap: false,
+  },
   plugins: [
     react(),
     checker({

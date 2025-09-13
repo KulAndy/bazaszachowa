@@ -162,6 +162,12 @@ body {
   .app {
     min-height: calc(100vh - 5em);
   }
+  th,
+  tr,
+  td,
+  table {
+    padding: 0 !important;
+  }
 
   nav {
     ul,
