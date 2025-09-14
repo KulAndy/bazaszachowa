@@ -54,54 +54,59 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
   );
 
   return (
-    <AppBar color="default" position="static">
-      <Toolbar>
-        <Box
-          sx={
-            {
-              display: { md: "flex", xs: "none" },
-              flexGrow: 1,
-              gap: 2,
-            } as const
-          }
-        >
-          <ColorSchemeToggle />
-          <LangToggle />
-          {Object.keys(links).map((key) => (
-            <Button
-              color="inherit"
-              component={RouterLink}
-              key={key}
-              to={links[key].url}
-            >
-              {t(links[key].name)}
-            </Button>
-          ))}
-        </Box>
+    <nav>
+      <AppBar color="default" position="static">
+        <Toolbar>
+          <Box
+            sx={
+              {
+                display: { md: "flex", xs: "none" },
+                flexGrow: 1,
+                gap: 2,
+              } as const
+            }
+          >
+            <ColorSchemeToggle />
+            <LangToggle />
+            {Object.keys(links).map((key) => (
+              <Button
+                color="inherit"
+                component={RouterLink}
+                key={key}
+                to={links[key].url}
+              >
+                {t(links[key].name)}
+              </Button>
+            ))}
+          </Box>
 
-        <Box
-          sx={
-            { display: { md: "none", xs: "flex" }, marginLeft: "auto" } as const
-          }
-        >
-          <IconButton
-            aria-label="menu"
-            color="inherit"
-            edge="start"
-            onClick={handleMenuOpen}
+          <Box
+            sx={
+              {
+                display: { md: "none", xs: "flex" },
+                marginLeft: "auto",
+              } as const
+            }
           >
-            <MenuIcon />
-          </IconButton>
-          <MuiMenu
-            anchorEl={anchorElement}
-            onClose={handleMenuClose}
-            open={Boolean(anchorElement)}
-          >
-            {menuItems}
-          </MuiMenu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+            <IconButton
+              aria-label="menu"
+              color="inherit"
+              edge="start"
+              onClick={handleMenuOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+            <MuiMenu
+              anchorEl={anchorElement}
+              onClose={handleMenuClose}
+              open={Boolean(anchorElement)}
+            >
+              {menuItems}
+            </MuiMenu>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </nav>
   );
 };
 
