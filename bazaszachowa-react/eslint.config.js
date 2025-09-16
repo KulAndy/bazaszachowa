@@ -36,6 +36,7 @@ const rules = {
   "react-dom/no-missing-iframe-sandbox": "off",
   "react-dom/no-missing-button-type": "off",
   "react-dom/no-unsafe-iframe-sandbox": "off",
+  "jsx-a11y/media-has-caption": "off",
   "jsx-a11y/no-aria-hidden-on-focusable": "error",
   "jsx-a11y/prefer-tag-over-role": "error",
   "sonarjs/cognitive-complexity": "off",

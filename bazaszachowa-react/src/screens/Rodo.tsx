@@ -10,11 +10,9 @@ const Rodo = () => {
       <article>
         <Typography component="p">{t("gdpr.gdpr_info")}</Typography>
         <Typography component="p">{t("gdpr.gdpr_dedication")}</Typography>
-        <iframe
-          allow="autoplay"
-          src={t("gdpr.kiss_my_ass_link")}
-          title={t("gdpr.kiss_my_ass_title")}
-        ></iframe>
+        <audio autoPlay controls loop>
+          <source src={t("gdpr.kiss_my_ass_link")} type="audio/mp3" />
+        </audio>
         <figcaption>{t("gdpr.kiss_my_ass_caption")} </figcaption>{" "}
       </article>
     </Content>
