@@ -4,72 +4,31 @@ const settings = require("./settings");
 const axios = require("axios");
 const fs = require("fs-extra");
 
-const directoryPath = path.join(
-  __dirname,
-  "bazaszachowa-react",
-  "public",
-  "docs",
-);
+const app = express();
+const distPath = path.join(__dirname, "bazaszachowa-react", "dist");
+
+const directoryPath = path.join(distPath, "docs");
 
 fs.readdir(directoryPath, (err, files) => {
   if (err) {
     console.error("Error reading directory:", err);
-    process.exit(1);
+    return;
   }
 
   const fileList = JSON.stringify(files.filter((file) => file.endsWith(".md")));
 
-  const outputPath = path.join(
-    __dirname,
-    "bazaszachowa-react",
-    "dist",
-    "fileList.json",
-  );
+  const outputPath = path.join(distPath, "fileList.json");
 
   fs.ensureDir(path.dirname(outputPath))
-    .then(() => {
-      fs.writeFile(outputPath, fileList, (err) => {
-        if (err) {
-          console.error("Error writing file list:", err);
-          process.exit(1);
-        }
-      });
-    })
+    .then(() => fs.writeFile(outputPath, fileList))
     .catch((err) => {
-      console.error("Error ensuring directory exists:", err);
-      process.exit(1);
-    });
-
-  const outputPath2 = path.join(
-    __dirname,
-    "bazaszachowa-react",
-    "public",
-    "fileList.json",
-  );
-
-  fs.ensureDir(path.dirname(outputPath2))
-    .then(() => {
-      fs.writeFile(outputPath2, fileList, (err) => {
-        if (err) {
-          console.error("Error writing file list:", err);
-          process.exit(1);
-        }
-      });
-    })
-    .catch((err) => {
-      console.error("Error ensuring directory exists:", err);
-      process.exit(1);
+      console.error("Error ensuring directory exists or writing file:", err);
     });
 });
-const app = express();
 
-app.use(express.static(path.join(__dirname, "bazaszachowa-react", "dist")));
+app.use(express.static(distPath));
 
-app.post(settings.urls.send_mail, (req, res) => {
-  res.send("<h1>jeszcze nie zaimplementowano</h1>");
-});
-
-app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
+app.get(settings.urls.game_raw + ":base/:gameid", async (req, res) => {
   const base = req.params.base;
   const gameid = req.params.gameid;
 
@@ -141,9 +100,7 @@ app.get(settings.urls.game_raw + ":base/:gameid", (req, res) => {
 });
 
 app.all("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "bazaszachowa-react", "dist", "index.html"),
-  );
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
