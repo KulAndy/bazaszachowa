@@ -22,7 +22,7 @@ fs.readdir(directoryPath, (err, files) => {
   const outputPath = path.join(
     __dirname,
     "bazaszachowa-react",
-    "build",
+    "dist",
     "fileList.json",
   );
 
