@@ -60,6 +60,8 @@ const PreparationPlayer = ({
     ),
   );
 
+  const [generatedTree, setGeneratedTree] = useState(0);
+
   const loadGames = useCallback(
     (currentPlayer: string, currentColor: string) => {
       void fetch(
@@ -72,6 +74,7 @@ const PreparationPlayer = ({
           processor.clear();
 
           processor.getTree(data);
+          setGeneratedTree((previous) => previous + 1);
 
           const fens = processor.searchFEN(fen);
 
@@ -194,6 +197,7 @@ const PreparationPlayer = ({
       >
         <ChessEditor
           boardSize={boardSize}
+          key={generatedTree}
           notationLayout={notationLayout}
           profileUrl={NOMENU_URLS.profile}
           setDoMove={setDoMove}
