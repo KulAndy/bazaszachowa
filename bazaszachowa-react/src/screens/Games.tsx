@@ -33,8 +33,8 @@ const Games = () => {
   const [ignore, setIgnore] = useState(false);
   const [minYear, setMinYear] = useState(1475);
   const [maxYear, setMaxYear] = useState(currentYear);
-  const [minEco, setMinEco] = useState(1);
-  const [maxEco, setMaxEco] = useState(500);
+  const [minEco, setMinEco] = useState("A00");
+  const [maxEco, setMaxEco] = useState("E99");
   const [base, setBase] = useState("all");
   const [searching, setSearching] = useState("classic");
   const [event, setEvent] = useState("");
@@ -51,14 +51,17 @@ const Games = () => {
     for (let index = 0; index < 10; index++) {
       for (let index_ = 0; index_ < 10; index_++) {
         options1.push(
-          <MenuItem key={`min-${counter}`} value={counter}>
+          <MenuItem key={`min-${counter}`} value={`${letter}${index}${index_}`}>
             {letter}
             {index}
             {index_}
           </MenuItem>,
         );
         options2.push(
-          <MenuItem key={`max-${counter}`} value={counter++}>
+          <MenuItem
+            key={`max-${counter++}`}
+            value={`${letter}${index}${index_}`}
+          >
             {letter}
             {index}
             {index_}
@@ -139,19 +142,15 @@ const Games = () => {
     [],
   );
 
-  const handleMinEcoChange = useCallback(
-    (event_: SelectChangeEvent<number>) => {
-      setMinEco(event_.target.value);
-    },
-    [],
-  );
+  const handleMinEcoChange = useCallback((event_: SelectChangeEvent) => {
+    console.log(event_.target.value);
+    setMinEco(event_.target.value);
+  }, []);
 
-  const handleMaxEcoChange = useCallback(
-    (event_: SelectChangeEvent<number>) => {
-      setMaxEco(event_.target.value);
-    },
-    [],
-  );
+  const handleMaxEcoChange = useCallback((event_: SelectChangeEvent) => {
+    console.log(event_.target.value);
+    setMaxEco(event_.target.value);
+  }, []);
 
   const closeCallback = useCallback(() => setHelpOpen(false), []);
   const openCallback = useCallback(() => setHelpOpen(true), []);
