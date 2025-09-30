@@ -143,12 +143,10 @@ const Games = () => {
   );
 
   const handleMinEcoChange = useCallback((event_: SelectChangeEvent) => {
-    console.log(event_.target.value);
     setMinEco(event_.target.value);
   }, []);
 
   const handleMaxEcoChange = useCallback((event_: SelectChangeEvent) => {
-    console.log(event_.target.value);
     setMaxEco(event_.target.value);
   }, []);
 
