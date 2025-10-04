@@ -114,8 +114,8 @@ const Player = () => {
         "&minYear=" +
         "&maxYear=" +
         "&event=" +
-        "&minEco=1" +
-        "&maxEco=500" +
+        "&minEco=A00" +
+        "&maxEco=E99" +
         "&base=all" +
         "&searching=fulltext";
     }
