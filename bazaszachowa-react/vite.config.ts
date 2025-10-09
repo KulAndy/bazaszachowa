@@ -15,10 +15,6 @@ export default defineConfig({
     react(),
     checker({
       typescript: true,
-      eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
-        watchPath: "./src",
-      },
     }),
     stylelint({
       files: ["./src/**/*.{css,scss,sass,less}"],

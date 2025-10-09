@@ -104,7 +104,7 @@
   "stockfish.eval": "ocena",
   "math.function": "funkcja",
   "math.functions": "funkcje",
-  "math.const": "stałe",
+  "math.consts": "stałe",
   "math.vars": "zmienne",
   "math.alpha.b": "Stała reprezentująca po ilu latach prawdopodobieństwo na ruch się wyrównuje.",
   "math.alpha.c": "Stała reprezentująca aktualny rok.",

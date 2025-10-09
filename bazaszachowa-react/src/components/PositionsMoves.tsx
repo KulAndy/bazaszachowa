@@ -179,9 +179,24 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
               </TableCell>
               <TableCell>{Math.max(...item.years)}</TableCell>
               <TableCell>
+                {(((values[index] * scaleFactor) / total) * 100).toFixed(2)}%
+                <br />
                 <meter max={total} value={values[index] * scaleFactor} />
               </TableCell>
               <TableCell>
+                {(
+                  calcProbability({
+                    eps: 0.1,
+                    minYear,
+                    moveStats: item.stats,
+                    year: currentYear,
+                    yearsMap,
+                  }) *
+                  scaleFactor2 *
+                  100
+                ).toFixed(2)}
+                %
+                <br />
                 <meter
                   max={1}
                   value={
