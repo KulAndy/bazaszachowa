@@ -1,0 +1,8 @@
+.stat-section {
+  display: flex;
+  flex-direction: column;
+
+  th::first-letter {
+    text-transform: none;
+  }
+}

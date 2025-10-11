@@ -10,6 +10,7 @@ import type { CrPlayerType } from "../components/CrPlayer";
 import CrPlayersList from "../components/CrPlayerList";
 import type { FidePlayerType } from "../components/FidePlayer";
 import FidePlayersList from "../components/FidePlayerList";
+import GamesStats from "../components/GamesStats";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
 import { useI18n } from "../context/useI18n";
@@ -277,6 +278,7 @@ const Player = () => {
             </td>
           </tr>
         </table>
+        {games ? <GamesStats games={games} player={name || ""} /> : null}
         {loadingGames ? (
           <div>
             <div className="loading">

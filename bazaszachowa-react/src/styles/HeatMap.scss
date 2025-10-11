@@ -1,0 +1,25 @@
+.heatmap-board {
+  display: grid;
+  width: fit-content;
+  border: 2px solid #222;
+  margin: auto;
+  background-color: #ff0;
+  grid-template-columns: repeat(8, 40px);
+  grid-template-rows: repeat(8, 40px);
+
+  &,
+  * {
+    color: #000;
+  }
+}
+
+.heatmap-square {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: flex-end;
+  justify-content: center;
+  border: 1px solid rgb(0 0 0 / 20%);
+  color: #000;
+  font-size: 10px;
+}
