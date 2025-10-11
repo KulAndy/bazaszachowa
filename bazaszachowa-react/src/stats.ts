@@ -1,3 +1,5 @@
+import initWasm from "./wasm/stats";
+
 export interface StatSummary {
   avg: number;
   dominant: null | number;
@@ -11,7 +13,57 @@ export interface StatSummary {
   variance: number;
 }
 
+let wasmComputeStats: ((argument0: number[]) => StatSummary) | null = null;
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+// eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
+initWasm().then((wasm: any) => {
+  wasmComputeStats = (array: number[]) => {
+    const minNumber = Math.min(...array);
+    const maxNumber = Math.max(...array);
+
+    let intType = "Uint32";
+    if (minNumber >= 0 && maxNumber <= 255) {
+      intType = "Uint8";
+    } else if (minNumber >= -128 && maxNumber <= 127) {
+      intType = "Int8";
+    }
+    const wasmVector = new wasm[`Vector${intType}`]();
+    for (const item of array) {
+      wasmVector.push_back(item);
+    }
+
+    const avg = wasm[`avg_${intType}`](wasmVector);
+    const variance = wasm[`variance_${intType}`](wasmVector);
+    const stddev = wasm[`stddev_${intType}`](wasmVector);
+    const median = wasm[`median_${intType}`](wasmVector);
+    const q1 = wasm[`q1_${intType}`](wasmVector);
+    const q3 = wasm[`q3_${intType}`](wasmVector);
+    const dominant = wasm[`dominant_${intType}`](wasmVector);
+    const histogram = wasm[`histogram_${intType}`](wasmVector);
+
+    wasmVector.delete();
+
+    return {
+      avg,
+      dominant,
+      histogram,
+      max: maxNumber,
+      median,
+      min: minNumber,
+      q1,
+      q3,
+      stddev,
+      variance,
+    };
+  };
+});
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+
 export function computeStats(data: number[]): StatSummary {
+  if (wasmComputeStats !== null) {
+    return wasmComputeStats(data);
+  }
   const n = data.length;
   if (n === 0) {
     return {
