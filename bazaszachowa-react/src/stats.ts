@@ -62,7 +62,11 @@ initWasm().then((wasm: any) => {
 
 export function computeStats(data: number[]): StatSummary {
   if (wasmComputeStats !== null) {
-    return wasmComputeStats(data);
+    try {
+      return wasmComputeStats(data);
+    } catch {
+      /* empty */
+    }
   }
   const n = data.length;
   if (n === 0) {

@@ -5,10 +5,11 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@mui/material";
 import { Chess } from "chess.js";
-import { type HTMLProps, useCallback } from "react";
+import React, { type HTMLProps, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
 import type { GameData } from "../ChessEditor";
@@ -18,10 +19,10 @@ import initWasm from "../wasm/uci2pgn";
 
 let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
-initWasm().then((wasm) => {
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+// eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
+initWasm().then((wasm: any) => {
   uci2san = (movesObject) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const moves = new wasm.VectorString();
 
     for (const element of movesObject) {
@@ -29,16 +30,14 @@ initWasm().then((wasm) => {
       if (element.promotion) {
         uci += element.promotion;
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       moves.push_back(uci);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const san = wasm.convertUciToPgn(moves);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     moves.delete();
     return san as string;
   };
 });
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
 
 const legacyGame2pgn: (x: GameData) => Promise<string> = (game: GameData) => {
   return new Promise((resolve, reject) => {
@@ -124,26 +123,53 @@ const GamesTable: React.FC<
   ...properties
 }) => {
   const { t } = useI18n();
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(25);
   const handleDownload = useCallback(() => {
     download(games);
   }, [games]);
+
+  const handleChangePage = useCallback((_: unknown, newPage: number) => {
+    setPage(newPage);
+  }, []);
+
+  const handleChangeLimit = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setLimit(Number(event.target.value));
+      setPage(0);
+    },
+    [],
+  );
+
+  const paginator = (
+    <TablePagination
+      component="div"
+      count={games?.length || 0}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeLimit}
+      page={page}
+      rowsPerPage={limit}
+    />
+  );
+
   if (!games || (noEmpty && games.length === 0)) {
     return null;
   }
 
-  const items = games.map((game, index) => ({
+  const items = games?.map((game, index) => ({
     ...game,
     key: index,
   }));
 
   return (
     <div {...properties}>
+      <p>
+        {t("game_table.games")}: {games.length || 0}{" "}
+        <button onClick={handleDownload}>{t("download")}</button>
+      </p>
       <TableContainer component={Paper}>
+        {paginator}
         <Table>
-          <caption>
-            {t("game_table.games")}: {games.length || 0}{" "}
-            <button onClick={handleDownload}>{t("download")}</button>
-          </caption>
           <TableHead>
             <TableRow>
               {!simple && (
@@ -175,64 +201,69 @@ const GamesTable: React.FC<
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item, index) => (
-              <TableRow
-                key={item.id}
-                sx={
-                  {
-                    bgcolor: () =>
-                      index % 2 === 0 ? "var(--even-row)" : "var(--odd-row)",
-                  } as const
-                }
-              >
-                <Link
-                  state={
+            {items
+              .slice(page * limit, (page + 1) * limit)
+              .map((item, index) => (
+                <TableRow
+                  key={item.id}
+                  sx={
                     {
-                      base,
-                      gameid: item.id,
-                      list: items.map((element) => element.id),
+                      bgcolor: () =>
+                        index % 2 === 0 ? "var(--even-row)" : "var(--odd-row)",
                     } as const
                   }
-                  style={{ display: "contents" } as const}
-                  to={`${NOMENU_URLS.game}${base}/${item.id}`}
                 >
+                  <Link
+                    state={
+                      {
+                        base,
+                        gameid: item.id,
+                        list: items.map((element) => element.id),
+                      } as const
+                    }
+                    style={{ display: "contents" } as const}
+                    to={`${NOMENU_URLS.game}${base}/${item.id}`}
+                  >
+                    {!simple && (
+                      <TableCell className="desktop">{item.WhiteElo}</TableCell>
+                    )}
+                    <TableCell>{item.White}</TableCell>
+                    <TableCell style={{ textAlign: "center" } as const}>
+                      {item.Result}
+                    </TableCell>
+                    <TableCell>{item.Black}</TableCell>
+                    {!simple && (
+                      <>
+                        <TableCell className="desktop">
+                          {item.BlackElo}
+                        </TableCell>
+                        <TableCell className="desktop">{item.Event}</TableCell>
+                      </>
+                    )}
+                    <TableCell>
+                      {item.Year}.{item.Month || "??"}.{item.Day || "??"}
+                    </TableCell>
+                    {!simple && (
+                      <TableCell className="desktop">{item.ECO}</TableCell>
+                    )}
+                  </Link>
                   {!simple && (
-                    <TableCell className="desktop">{item.WhiteElo}</TableCell>
+                    <TableCell className="desktop">
+                      <Link
+                        reloadDocument
+                        style={{ whiteSpace: "nowrap" } as const}
+                        target="_blank"
+                        to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+                      >
+                        PGN
+                      </Link>
+                    </TableCell>
                   )}
-                  <TableCell>{item.White}</TableCell>
-                  <TableCell style={{ textAlign: "center" } as const}>
-                    {item.Result}
-                  </TableCell>
-                  <TableCell>{item.Black}</TableCell>
-                  {!simple && (
-                    <>
-                      <TableCell className="desktop">{item.BlackElo}</TableCell>
-                      <TableCell className="desktop">{item.Event}</TableCell>
-                    </>
-                  )}
-                  <TableCell>
-                    {item.Year}.{item.Month || "??"}.{item.Day || "??"}
-                  </TableCell>
-                  {!simple && (
-                    <TableCell className="desktop">{item.ECO}</TableCell>
-                  )}
-                </Link>
-                {!simple && (
-                  <TableCell className="desktop">
-                    <Link
-                      reloadDocument
-                      style={{ whiteSpace: "nowrap" } as const}
-                      target="_blank"
-                      to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
-                    >
-                      PGN
-                    </Link>
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
+        {paginator}
       </TableContainer>
     </div>
   );

@@ -2,6 +2,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -12,42 +13,10 @@ import React, { useEffect, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
 import { useI18n } from "../context/useI18n";
-import { computeStats } from "../stats";
-import initWasm from "../wasm/game_stats";
+import { type StatSummary } from "../stats";
 
 import HeatMap from "./HeatMap";
 import StatIndicators from "./StatIndicators";
-
-const emptyStatObject = {
-  black: {
-    attackedPieces: [],
-    centerControl: [],
-    extendedCenterControl: [],
-    heatMap: {},
-    materialBalance: [],
-    mobility: [],
-    pawnStruct: {
-      doubled: 0,
-      fianchetto: 0,
-      isolated: 0,
-      passed: 0,
-    },
-  },
-  white: {
-    attackedPieces: [],
-    centerControl: [],
-    extendedCenterControl: [],
-    heatMap: {},
-    materialBalance: [],
-    mobility: [],
-    pawnStruct: {
-      doubled: 0,
-      fianchetto: 0,
-      isolated: 0,
-      passed: 0,
-    },
-  },
-};
 
 interface GamesStatsProperties {
   readonly games: GameData[];
@@ -55,12 +24,12 @@ interface GamesStatsProperties {
 }
 
 interface GameStats {
-  attackedPieces: number[];
-  centerControl: number[];
-  extendedCenterControl: number[];
+  attackedPieces: StatSummary;
+  centerControl: StatSummary;
+  extendedCenterControl: StatSummary;
   heatMap: Record<string, number>;
-  materialBalance: number[];
-  mobility: number[];
+  materialBalance: StatSummary;
+  mobility: StatSummary;
   pawnStruct: {
     doubled: number;
     fianchetto: number;
@@ -68,107 +37,59 @@ interface GameStats {
     passed: number;
   };
 }
+
 const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
   const { t } = useI18n();
-  const [loaded, setLoaded] = useState(false);
-  const [calcGameStats, setCalcGameStats] = useState<
-    (x: GameData[], color: "b" | "w") => Promise<GameStats>
-  >(() => () => Promise.resolve(emptyStatObject.white));
+  const [loading, setLoading] = useState(true);
   const [gameStats, setGameStats] = useState<{
     black: GameStats;
     white: GameStats;
-  }>(emptyStatObject);
+  }>();
+  const [worker, setWorker] = useState(
+    () =>
+      new Worker(new URL("gameStats.worker.ts", import.meta.url), {
+        type: "module",
+      }),
+  );
 
   useEffect(() => {
-    if (games && loaded) {
-      (async () => {
-        const [black, white] = await Promise.all([
-          calcGameStats(
-            games.filter((g) => g.Black === player),
-            "b",
-          ),
-          calcGameStats(
-            games.filter((g) => g.White === player),
-            "w",
-          ),
-        ]);
-        setGameStats({ black: black, white: white });
-      })();
+    if (games.length === 0) {
+      return;
     }
-  }, [calcGameStats, games, loaded, player]);
+
+    const handleMessage = (
+      event: MessageEvent<{
+        black: GameStats;
+        white: GameStats;
+      }>,
+    ) => {
+      setGameStats(event.data);
+      setLoading(false);
+    };
+    worker.addEventListener("message", handleMessage);
+    worker.postMessage({ games, player });
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      worker.removeEventListener("message", handleMessage);
+    };
+  }, [games, player, worker]);
 
   useEffect(() => {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    void initWasm().then((wasm: any) => {
-      setCalcGameStats(() =>
-        // eslint-disable-next-line sonarjs/no-nested-functions, unicorn/consistent-function-scoping
-        async (rows: GameData[], color: "b" | "w"): Promise<GameStats> => {
-          const wasmColor = new wasm.Color(color);
-          const wasmGames = new wasm.VectorGameData();
-          for (const row of rows) {
-            const wasmGame = new wasm.GameData(row.id, row.Result, row.Year);
-            const wasmMoves = new wasm.VectorMove();
-            for (const move of row.moves) {
-              const wasmMove = new wasm.Move(
-                move.from,
-                move.to,
-                move.promotion,
-              );
-              wasmMoves.push_back(wasmMove);
-            }
+    setWorker(
+      new Worker(new URL("gameStats.worker.ts", import.meta.url), {
+        type: "module",
+      }),
+    );
+  }, [player]);
 
-            wasmGame.moves = wasmMoves;
-            wasmGames.push_back(wasmGame);
-          }
-
-          const [
-            heatMap,
-            mobility,
-            attackedPices,
-            materialBalance,
-            centerControl,
-            extendedCenteControl,
-            pawnStruct,
-          ] = await Promise.all([
-            wasm.computeHeatmap(wasmGames, wasmColor),
-            wasm.computeMobility(wasmGames, wasmColor),
-            wasm.computeAttackedPieces(wasmGames, wasmColor),
-            wasm.computeMaterialBalances(wasmGames, wasmColor),
-            wasm.computeCenterControl(wasmGames, wasmColor),
-            wasm.computeExtendedCenterControl(wasmGames, wasmColor),
-            wasm.computePawnStruct(wasmGames, wasmColor),
-          ]);
-
-          for (let index = 0; index < wasmGames.size(); index++) {
-            const wasmGame = wasmGames.get(index);
-            if (wasmGame.moves) {
-              wasmGame.moves.delete();
-            }
-            wasmGame.delete();
-          }
-          wasmGames.delete();
-          wasmColor.delete();
-
-          return {
-            attackedPieces: attackedPices,
-            centerControl,
-            extendedCenterControl: extendedCenteControl,
-            heatMap,
-            materialBalance,
-            mobility,
-            pawnStruct,
-          };
-        },
-      );
-      setLoaded(true);
-    });
-  }, []);
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
     <div>
-      {gameStats ? (
+      {games && gameStats ? (
         <div id="computed-stats">
           <h2>{t("stats.descriptions")}</h2>
 
@@ -180,23 +101,23 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
 
                 <StatIndicators
                   name={t("stats.mobility")}
-                  summary={computeStats(gameStats[item].mobility)}
+                  summary={gameStats[item].mobility}
                 />
                 <StatIndicators
                   name={t("stats.balance")}
-                  summary={computeStats(gameStats[item].materialBalance)}
+                  summary={gameStats[item].materialBalance}
                 />
                 <StatIndicators
                   name={t("stats.center")}
-                  summary={computeStats(gameStats[item].centerControl)}
+                  summary={gameStats[item].centerControl}
                 />
                 <StatIndicators
                   name={t("stats.center_ext")}
-                  summary={computeStats(gameStats[item].extendedCenterControl)}
+                  summary={gameStats[item].extendedCenterControl}
                 />
                 <StatIndicators
                   name={t("stats.attacked")}
-                  summary={computeStats(gameStats[item].attackedPieces)}
+                  summary={gameStats[item].attackedPieces}
                 />
                 <h4>{t("stats.pawn_struct")}</h4>
                 <Table>
@@ -225,7 +146,9 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
             </Accordion>
           ))}
         </div>
-      ) : null}
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 };
