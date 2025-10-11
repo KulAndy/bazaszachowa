@@ -169,5 +169,17 @@
   "firstname": "firstname",
   "problem": "problem",
   "not_found": "Not found",
-  "sth_went_wong": "Something went wrong"
+  "sth_went_wong": "Something went wrong",
+  "stats.descriptions": "Aggregated game stats (25 moves)",
+  "stats.balance": "Material Balance",
+  "stats.center": "Pawns in center",
+  "stats.center_ext": "Pawns in extended center",
+  "stats.attacked": "Attacked Pieces",
+  "stats.pawn_struct": "Pawn struct",
+  "stats.doubled": "doubled",
+  "stats.fianchetto": "fianchetto",
+  "stats.isolated": "isolated",
+  "stats.passed": "passed",
+  "stats.frequency": "Frequency",
+  "stats.mobility": "Mobility"
 }

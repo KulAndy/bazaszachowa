@@ -169,5 +169,17 @@
   "firstname": "imię",
   "problem": "problem",
   "not_found": "Nie znaleziono strony",
-  "sth_went_wong": "Coś poszło nie tak"
+  "sth_went_wong": "Coś poszło nie tak",
+  "stats.descriptions": "Zbiorcze statystyki partii (25 ruchów)",
+  "stats.center": "Pionki w centrum",
+  "stats.center_ext": "Pionki w rozszerzonym centrum",
+  "stats.balance": "Balans materiału",
+  "stats.attacked": "Atakowane bierki",
+  "stats.pawn_struct": "Struktura pionowa",
+  "stats.doubled": "Zdublowane",
+  "stats.fianchetto": "fianchetto",
+  "stats.isolated": "izolaki",
+  "stats.passed": "wolniaki",
+  "stats.frequency": "Ilość",
+  "stats.mobility": "Mobilność"
 }

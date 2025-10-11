@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   BarElement,
   CategoryScale,
@@ -9,8 +8,9 @@ import {
   Tooltip,
 } from "chart.js";
 import { useMemo } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Bar } from "react-chartjs-2";
+
+import { useI18n } from "../context/useI18n";
 
 ChartJS.register(
   BarElement,
@@ -31,6 +31,7 @@ const options = {
 };
 
 const Histogram = ({ data }: { readonly data: Record<number, number> }) => {
+  const { t } = useI18n();
   const labels = Object.keys(data)
     .map(Number)
     .toSorted((a, b) => a - b);
@@ -44,12 +45,12 @@ const Histogram = ({ data }: { readonly data: Record<number, number> }) => {
           borderColor: "rgba(53, 162, 235, 1)",
           borderWidth: 1,
           data: values,
-          label: "Frequency",
+          label: t("stats.frequency"),
         },
       ],
       labels,
     }),
-    [labels, values],
+    [labels, t, values],
   );
 
   return (

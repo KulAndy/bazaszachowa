@@ -1,4 +1,3 @@
-/* eslint-disable i18next/no-literal-string */
 import {
   Accordion,
   AccordionDetails,
@@ -12,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
+import { useI18n } from "../context/useI18n";
 import { computeStats } from "../stats";
 import initWasm from "../wasm/game_stats";
 
@@ -69,6 +69,7 @@ interface GameStats {
   };
 }
 const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
+  const { t } = useI18n();
   const [loaded, setLoaded] = useState(false);
   const [calcGameStats, setCalcGameStats] = useState<
     (x: GameData[], color: "b" | "w") => Promise<GameStats>
@@ -169,41 +170,41 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
     <div>
       {gameStats ? (
         <div id="computed-stats">
-          <h2>Computed Game Stats</h2>
+          <h2>{t("stats.descriptions")}</h2>
 
           {(["white", "black"] as const).map((item) => (
             <Accordion key={item}>
-              <AccordionSummary>{item}</AccordionSummary>
+              <AccordionSummary>{t(item)}</AccordionSummary>
               <AccordionDetails>
                 <HeatMap heatmap={gameStats[item].heatMap} />
 
                 <StatIndicators
-                  name="Mobility"
+                  name={t("stats.mobility")}
                   summary={computeStats(gameStats[item].mobility)}
                 />
                 <StatIndicators
-                  name="Material Balance"
+                  name={t("stats.balance")}
                   summary={computeStats(gameStats[item].materialBalance)}
                 />
                 <StatIndicators
-                  name="Center Control"
+                  name={t("stats.center")}
                   summary={computeStats(gameStats[item].centerControl)}
                 />
                 <StatIndicators
-                  name="Extended Center Control"
+                  name={t("stats.center_ext")}
                   summary={computeStats(gameStats[item].extendedCenterControl)}
                 />
                 <StatIndicators
-                  name="Attacked Pieces"
+                  name={t("stats.attacked")}
                   summary={computeStats(gameStats[item].attackedPieces)}
                 />
-                <h4>Pawn struct</h4>
+                <h4>{t("stats.pawn_struct")}</h4>
                 <Table>
                   <TableHead>
-                    <TableCell>Dublaki</TableCell>
-                    <TableCell>Fianchetto</TableCell>
-                    <TableCell>Izolaki</TableCell>
-                    <TableCell>Wolniaki</TableCell>
+                    <TableCell>{t("stats.doubled")}</TableCell>
+                    <TableCell>{t("stats.fianchetto")}</TableCell>
+                    <TableCell>{t("stats.isolated")}</TableCell>
+                    <TableCell>{t("stats.passed")}</TableCell>
                   </TableHead>
                   <TableBody>
                     <TableRow>

@@ -4,8 +4,8 @@
   border: 2px solid #222;
   margin: auto;
   background-color: #ff0;
-  grid-template-columns: repeat(8, 40px);
-  grid-template-rows: repeat(8, 40px);
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
 
   &,
   * {
@@ -15,8 +15,8 @@
 
 .heatmap-square {
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: min(40px, 8.5vw, 8.5vh);
+  height: min(40px, 8.5vw, 8.5vh);
   align-items: flex-end;
   justify-content: center;
   border: 1px solid rgb(0 0 0 / 20%);
