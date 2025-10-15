@@ -48,6 +48,15 @@ export default defineConfig({
         theme_color: "#000000",
         background_color: "#ffffff",
       },
+      workbox: {
+        navigateFallbackDenylist: [/^\/game_raw\/.*/],
+        runtimeCaching: [
+          {
+            urlPattern: /^\/game_raw\/.*/,
+            handler: "NetworkOnly",
+          },
+        ],
+      },
     }),
     legacy({
       targets: ["defaults", "not IE 11"],
