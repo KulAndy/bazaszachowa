@@ -52,10 +52,8 @@ export const I18nProvider: React.FC<{ readonly children: React.ReactNode }> = ({
   };
 
   return (
-    <I18nContext.Provider
-      value={{ locale: localeState, setLocale, t } as const}
-    >
+    <I18nContext value={{ locale: localeState, setLocale, t } as const}>
       {children}
-    </I18nContext.Provider>
+    </I18nContext>
   );
 };

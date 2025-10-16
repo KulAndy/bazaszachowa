@@ -70,11 +70,11 @@ export const ThemeProvider = ({
 
   return (
     // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext value={{ theme, toggleTheme }}>
       <MuiThemeProvider theme={muiTheme}>
         <CssBaseline />
         {children}
       </MuiThemeProvider>
-    </ThemeContext.Provider>
+    </ThemeContext>
   );
 };
