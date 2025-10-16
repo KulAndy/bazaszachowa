@@ -32,6 +32,8 @@ const languageOptions = {
 };
 
 const rules = {
+  "react-hooks/exhaustive-deps": "off",
+  "react-perf/jsx-no-new-function-as-prop": "off",
   "react-hooks-extra/no-direct-set-state-in-use-effect": "off",
   "react-dom/no-missing-iframe-sandbox": "off",
   "react-dom/no-missing-button-type": "off",

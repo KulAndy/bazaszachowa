@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import { Chess } from "chess.js";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { useI18n } from "../context/useI18n";
+import BestMoveSpan from "./BestMoveSpan";
+import VariantList, { type Variant } from "./VariantList";
 
 const wasmSupported =
   typeof WebAssembly === "object" &&
@@ -22,50 +22,7 @@ interface StockfishAnalysisProperties {
   readonly visible: boolean;
 }
 
-interface UciVariant2SanProperties {
-  fen: string;
-  moves: string[];
-}
-
-interface Variant {
-  prefix: string;
-  san: string;
-  type: string;
-  value: number;
-  variant: string[];
-}
-
 const evalRegex = /score (cp|mate) ([\d-]+) .*$/;
-
-const uciVariant2San = ({ fen, moves }: UciVariant2SanProperties): string[] => {
-  const chess = new Chess(fen);
-  const splittedFen = fen.split(" ");
-  const turn = chess.turn();
-  let moveNo = Number(splittedFen.at(-1));
-  const variant: string[] = [`${moveNo++}.`];
-
-  if (turn === "b") {
-    variant.push("...");
-  }
-
-  for (const move of moves) {
-    try {
-      const doneMove = chess.move(move);
-      if (!doneMove) {
-        break;
-      }
-
-      if (variant.length % 3 === 0) {
-        variant.push(`${moveNo++}.`);
-      }
-      variant.push(doneMove.san);
-    } catch {
-      break;
-    }
-  }
-
-  return variant;
-};
 
 const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   depth = 20,
@@ -75,7 +32,6 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
   threads = 3,
   visible = true,
 }) => {
-  const { t } = useI18n();
   const [variants, setVariants] = useState<Record<string, Variant>>({});
   const [currentDepth, setCurrentDepth] = useState(0);
   const [best, setBest] = useState<null | string>(null);
@@ -202,47 +158,10 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
       });
   }, [variants, fen]);
 
-  const renderBestMove = useCallback(() => {
-    const move = best && variants[best] ? variants[best] : valuesArray[0];
-    if (!move) {
-      return null;
-    }
-
-    return (
-      <Box mb={2}>
-        <Typography variant="h6">
-          {t("stockfish.best_move")}:{" "}
-          <Typography component="span" fontWeight="bold">
-            {move.san}
-          </Typography>
-        </Typography>
-        <Typography variant="subtitle1">
-          {t("stockfish.eval")}:{" "}
-          <Typography component="span" fontWeight="bold">
-            {move.prefix}
-            {Math.abs(move.value)}
-          </Typography>
-        </Typography>
-      </Box>
-    );
-  }, [best, variants, valuesArray, t]);
-
-  const renderVariants = useCallback(() => {
-    return valuesArray.slice(0, 3).map((value, index) => (
-      <Typography key={index} mb={1} variant="body2">
-        <Typography component="span" fontWeight="bold">
-          {value.san} {value.prefix}
-          {Math.abs(value.value) || 0}
-        </Typography>{" "}
-        {uciVariant2San({ fen, moves: value.variant }).join(" ")}
-      </Typography>
-    ));
-  }, [valuesArray, fen]);
-
   return (
     <div className={visible ? "" : "inactive"} id="engine-container">
-      {renderBestMove()}
-      {renderVariants()}
+      <BestMoveSpan best={best} valuesArray={valuesArray} variants={variants} />
+      <VariantList fen={fen} valuesArray={valuesArray} />
     </div>
   );
 };

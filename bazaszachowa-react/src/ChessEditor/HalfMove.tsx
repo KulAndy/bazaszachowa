@@ -1,5 +1,4 @@
 const HalfMove = ({
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   doMove = () => {},
   isCurrent = false,
   isMain = true,

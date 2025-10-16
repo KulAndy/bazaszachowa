@@ -6,7 +6,7 @@ import { Chessground } from "@lichess-org/chessground";
 import type { Api as ChessgroundApi } from "@lichess-org/chessground/api";
 import type { Key } from "@lichess-org/chessground/types";
 import { Chess, type Square } from "chess.js";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import type { ShortMove } from ".";
 
@@ -92,22 +92,17 @@ const Chessboard: React.FC<ChessboardProperties> = ({
     };
   }, [fen, flip, addMove]);
 
-  const handleWheel: React.WheelEventHandler<HTMLDivElement> = useCallback(
-    (event) => {
-      if (event.deltaY > 0) {
-        nextMove?.();
-      } else {
-        previousMove?.();
-      }
-      event.stopPropagation();
-    },
-    [nextMove, previousMove],
-  );
-
   return (
     <div
       aria-hidden
-      onWheel={handleWheel}
+      onWheel={(event) => {
+        if (event.deltaY > 0) {
+          nextMove?.();
+        } else {
+          previousMove?.();
+        }
+        event.stopPropagation();
+      }}
       ref={boardReference}
       style={{ height: `${boardSize}px`, width: `${boardSize}px` } as const}
     />

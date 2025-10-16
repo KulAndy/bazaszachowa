@@ -32,12 +32,6 @@ const PreparationForm = () => {
     [player, color, navigate, t],
   );
 
-  const colorCallback = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      setColor(event.target.value),
-    [],
-  );
-
   return (
     <form onSubmit={handleSubmit}>
       <SearchPlayersWithHints
@@ -56,7 +50,7 @@ const PreparationForm = () => {
         </FormLabel>
         <RadioGroup
           name="color"
-          onChange={colorCallback}
+          onChange={(event) => setColor(event.target.value)}
           row
           sx={{ justifyContent: "center" } as const}
           value={color}

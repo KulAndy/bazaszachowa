@@ -13,7 +13,6 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
   disable = false,
   icon,
   iconColor = "black",
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   onClick = () => {},
   style = {} as const,
   ...properties

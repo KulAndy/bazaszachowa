@@ -12,7 +12,11 @@ export default defineConfig({
     sourcemap: false,
   },
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: ["babel-plugin-react-compiler"],
+      },
+    }),
     checker({
       typescript: true,
     }),

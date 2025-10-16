@@ -12,7 +12,7 @@ import {
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
 
@@ -36,29 +36,28 @@ interface ButtonsBarProperties {
 }
 
 const ButtonsBar: React.FC<ButtonsBarProperties> = ({
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
   download = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   firstMove = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   flip = () => {},
   isFirst = true,
   isLast = true,
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   lastMove = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   nextMove = () => {},
   notationLayout = "column",
   notationSwitch = false,
   playing,
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   previousMove = () => {},
   setNotationLayout = () => {},
   setPlaying,
   width,
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   zoomIn = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   zoomOut = () => {},
 }) => {
   const activeIconColor = "black";
@@ -148,17 +147,6 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
     zoomOut,
   ]);
 
-  const toggleNotation = useCallback(() => {
-    setNotationLayout(
-      notationLayout === "none"
-        ? // eslint-disable-next-line sonarjs/no-nested-conditional
-          window.innerHeight > window.innerWidth
-          ? "bottom"
-          : "right"
-        : "none",
-    );
-  }, [notationLayout, setNotationLayout]);
-
   return (
     <div
       className="black"
@@ -234,7 +222,16 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
         <TouchableIcon
           className="control switch-notation"
           icon={notationLayout === "none" ? faFileLines : faFish}
-          onClick={toggleNotation}
+          onClick={() =>
+            setNotationLayout(
+              notationLayout === "none"
+                ? // eslint-disable-next-line sonarjs/no-nested-conditional
+                  window.innerHeight > window.innerWidth
+                  ? "bottom"
+                  : "right"
+                : "none",
+            )
+          }
         />
       ) : null}
     </div>

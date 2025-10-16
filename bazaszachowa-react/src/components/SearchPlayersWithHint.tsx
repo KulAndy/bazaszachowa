@@ -1,5 +1,5 @@
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { API } from "../settings";
 
@@ -59,23 +59,18 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
     fetchData();
   }, [text]);
 
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (callback !== undefined) {
-        callback(replaceNationalCharacters(event.target.value));
-      }
-      setText(replaceNationalCharacters(event.target.value));
-    },
-    [callback],
-  );
-
   return (
     <>
       <TextField
         fullWidth
         id={id}
         label={label}
-        onChange={handleChange}
+        onChange={(event) => {
+          if (callback !== undefined) {
+            callback(replaceNationalCharacters(event.target.value));
+          }
+          setText(replaceNationalCharacters(event.target.value));
+        }}
         placeholder="Nowak, Jan"
         slotProps={{ htmlInput: { list: list || `${id}_datalist` } } as const}
         value={text}

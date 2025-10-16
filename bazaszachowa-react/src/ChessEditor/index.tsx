@@ -105,6 +105,35 @@ const writeMove = (
   return notation;
 };
 
+interface DownloadProperties {
+  headers: { Date?: string } & HeadersProperties;
+  history: Move[];
+}
+
+const download = ({ headers, history }: DownloadProperties) => {
+  const pgn = `[Event "${headers.Event || "*"}"]
+[Site "${headers.Site || "*"}"]
+[Date "${headers.Date || "*"}"]
+[Round "${headers.Round || "*"}"]
+[White "${headers.White || "*"}"]
+[Black "${headers.Black || "*"}"]
+[Result "${headers.Result || "*"}"]
+
+${
+  history.length === 1 ? "1. " : writeMove(history, 1, false, false)
+} ${headers.Result || "*"}`;
+
+  const blob = new Blob([pgn], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "game.pgn";
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
 const ChessEditor: React.FC<ChessEditorProperties> = ({
   boardSize = 400,
   data = null,
@@ -113,12 +142,12 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   profileUrl = null,
   setDoMove = () => {},
   setFen = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   setNotationLayout = () => {},
   showPlayers = true,
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   zoomIn = () => {},
-  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+
   zoomOut = () => {},
 }) => {
   const [playing, setPlaying] = useState(false);
@@ -318,40 +347,6 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
     }
   }
 
-  const download = useCallback(() => {
-    const pgn = `[Event "${headers.Event || "*"}"]
-[Site "${headers.Site || "*"}"]
-[Date "${headers.Date || "*"}"]
-[Round "${headers.Round || "*"}"]
-[White "${headers.White || "*"}"]
-[Black "${headers.Black || "*"}"]
-[Result "${headers.Result || "*"}"]
-
-${
-  history.current.length === 1
-    ? "1. "
-    : writeMove(history.current, 1, false, false)
-} ${headers.Result || "*"}`;
-
-    const blob = new Blob([pgn], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "game.pgn";
-    link.click();
-
-    URL.revokeObjectURL(url);
-  }, [
-    headers.Black,
-    headers.Date,
-    headers.Event,
-    headers.Result,
-    headers.Round,
-    headers.Site,
-    headers.White,
-  ]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (getNextMoveIndex(index.current) && playing) {
@@ -489,38 +484,6 @@ ${
     setTargetSquares([]);
   };
 
-  const handleNextIndex = useCallback(() => {
-    setIndex(getNextMoveIndex(index.current)!);
-  }, [setIndex]);
-
-  const handlePreviousIndex = useCallback(() => {
-    setIndex(getPreviousIndex(index.current)!);
-  }, [setIndex]);
-
-  const goFirst = useCallback(() => {
-    setIndex(0);
-  }, [setIndex]);
-
-  const toggleFlip = useCallback(() => {
-    setFlip((flipped) => !flipped);
-  }, []);
-
-  const goLast = useCallback(() => {
-    setIndex(getLastMoveIndex(index.current)!);
-  }, [getLastMoveIndex, setIndex]);
-
-  const goNext = useCallback(() => {
-    setIndex(getNextMoveIndex(index.current)!);
-  }, [setIndex]);
-
-  const goPrevious = useCallback(() => {
-    setIndex(getPreviousIndex(index.current)!);
-  }, [setIndex]);
-
-  const togglePlaying = useCallback(() => {
-    setPlaying((previousPlaying) => !previousPlaying);
-  }, []);
-
   return (
     <div id="board">
       {showPlayers ? (
@@ -607,25 +570,29 @@ ${
             boardSize={boardSize}
             fen={history.current[index.current].fen}
             flip={flip}
-            nextMove={handleNextIndex}
-            prevMove={handlePreviousIndex}
+            nextMove={() => setIndex(getNextMoveIndex(index.current)!)}
+            prevMove={() => setIndex(getPreviousIndex(index.current)!)}
             sourceSquare={sourceSquare}
             targetSquares={targetSquares}
           />
           <ButtonsBar
-            download={download}
-            firstMove={goFirst}
-            flip={toggleFlip}
+            download={() => {
+              download({ headers, history: history.current });
+            }}
+            firstMove={() => setIndex(0)}
+            flip={() => setFlip((flipped) => !flipped)}
             isFirst={index.current === 0}
             isLast={getNextMoveIndex(index.current) === null}
-            lastMove={goLast}
-            nextMove={goNext}
+            lastMove={() => setIndex(getLastMoveIndex(index.current)!)}
+            nextMove={() => setIndex(getNextMoveIndex(index.current)!)}
             notationLayout={notationLayout}
             notationSwitch={notationSwitch}
             playing={playing}
-            previousMove={goPrevious}
+            previousMove={() => setIndex(getPreviousIndex(index.current)!)}
             setNotationLayout={setNotationLayout}
-            setPlaying={togglePlaying}
+            setPlaying={() => {
+              setPlaying((previousPlaying) => !previousPlaying);
+            }}
             width={boardSize}
             zoomIn={zoomIn}
             zoomOut={zoomOut}

@@ -170,7 +170,6 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
         </TableHead>
         <TableBody>
           {stats.map((item, index) => (
-            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
             <TableRow key={item.move} onClick={() => doMove(item.move)}>
               <TableCell>{item.move}</TableCell>
               <TableCell>{item.games}</TableCell>

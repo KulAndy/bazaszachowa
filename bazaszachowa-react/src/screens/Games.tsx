@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useActionState, useCallback, useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
 import Content from "../components/Content";
@@ -85,13 +85,6 @@ const Games = () => {
     }
   }
 
-  const handleToggleIgnore = useCallback(() => {
-    setIgnore((previous) => !previous);
-  }, []);
-
-  const closeCallback = useCallback(() => setHelpOpen(false), []);
-  const openCallback = useCallback(() => setHelpOpen(true), []);
-
   return (
     <div id="games">
       <Content style={{ display: "flex", flexDirection: "column" } as const}>
@@ -129,7 +122,9 @@ const Games = () => {
                       control={
                         <Checkbox
                           checked={ignore}
-                          onChange={handleToggleIgnore}
+                          onChange={() => {
+                            setIgnore((previous) => !previous);
+                          }}
                         />
                       }
                       label={t("games.ignore_colors")}
@@ -263,7 +258,7 @@ const Games = () => {
           </form>
           <div>
             <Button
-              onClick={openCallback}
+              onClick={() => setHelpOpen(true)}
               sx={{ ml: 2 } as const}
               type="button"
               variant="outlined"
@@ -274,7 +269,7 @@ const Games = () => {
           <Dialog
             fullWidth
             maxWidth="sm"
-            onClose={closeCallback}
+            onClose={() => setHelpOpen(false)}
             open={helpOpen}
           >
             <DialogTitle>{t("games.help")}</DialogTitle>

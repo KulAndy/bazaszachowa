@@ -8,7 +8,7 @@ import {
   Menu as MuiMenu,
   Toolbar,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useI18n } from "../context/useI18n";
@@ -24,14 +24,6 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
   const { t } = useI18n();
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
-  const handleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElement(event.currentTarget);
-  }, []);
-
-  const handleMenuClose = useCallback(() => {
-    setAnchorElement(null);
-  }, []);
-
   const menuItems = (
     <>
       <MenuItem>
@@ -44,7 +36,9 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
         <MenuItem
           component={RouterLink}
           key={key}
-          onClick={handleMenuClose}
+          onClick={() => {
+            setAnchorElement(null);
+          }}
           to={links[key].url}
         >
           {t(links[key].name)}
@@ -92,13 +86,17 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
               aria-label="menu"
               color="inherit"
               edge="start"
-              onClick={handleMenuOpen}
+              onClick={(event: React.MouseEvent<HTMLElement>) => {
+                setAnchorElement(event.currentTarget);
+              }}
             >
               <MenuIcon />
             </IconButton>
             <MuiMenu
               anchorEl={anchorElement}
-              onClose={handleMenuClose}
+              onClose={() => {
+                setAnchorElement(null);
+              }}
               open={Boolean(anchorElement)}
             >
               {menuItems}

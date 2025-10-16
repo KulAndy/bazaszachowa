@@ -1,5 +1,5 @@
 import "../styles/Game.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ChessEditor, { type GameData } from "../ChessEditor";
@@ -144,60 +144,6 @@ const Game = () => {
   const firstGame = list.indexOf(gameid) <= 0;
   const lastGame = list.indexOf(gameid) >= list.length - 1;
 
-  const goFirst = useCallback(
-    (event: React.MouseEvent) => {
-      if (firstGame) {
-        event.preventDefault();
-      }
-    },
-    [firstGame],
-  );
-
-  const goPrevious = useCallback(
-    (event: React.MouseEvent) => {
-      if (firstGame) {
-        event.preventDefault();
-      }
-    },
-    [firstGame],
-  );
-
-  const goNext = useCallback(
-    (event: React.MouseEvent) => {
-      if (lastGame) {
-        event.preventDefault();
-      }
-    },
-    [lastGame],
-  );
-
-  const goLast = useCallback(
-    (event: React.MouseEvent) => {
-      if (lastGame) {
-        event.preventDefault();
-      }
-    },
-    [lastGame],
-  );
-
-  const handleZoomIn = useCallback(() => {
-    setBoardSize((previousSize) =>
-      Math.min(
-        previousSize + 25,
-        window.innerWidth * 0.9,
-        window.innerHeight -
-          10 *
-            Number.parseFloat(
-              getComputedStyle(document.documentElement).fontSize,
-            ),
-      ),
-    );
-  }, []);
-
-  const handleZoomOut = useCallback(() => {
-    setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
-  }, []);
-
   return (
     <div id="game">
       <Content>
@@ -211,7 +157,11 @@ const Game = () => {
         <div id="button-container">
           <Link
             id="first-link"
-            onClick={goFirst}
+            onClick={(event: React.MouseEvent) => {
+              if (firstGame) {
+                event.preventDefault();
+              }
+            }}
             state={
               {
                 base,
@@ -227,7 +177,11 @@ const Game = () => {
           </Link>
           <Link
             id="previous-link"
-            onClick={goPrevious}
+            onClick={(event: React.MouseEvent) => {
+              if (firstGame) {
+                event.preventDefault();
+              }
+            }}
             state={
               {
                 base,
@@ -243,7 +197,11 @@ const Game = () => {
           </Link>
           <Link
             id="next-link"
-            onClick={goNext}
+            onClick={(event: React.MouseEvent) => {
+              if (lastGame) {
+                event.preventDefault();
+              }
+            }}
             state={
               {
                 base,
@@ -259,7 +217,11 @@ const Game = () => {
           </Link>
           <Link
             id="last-link"
-            onClick={goLast}
+            onClick={(event: React.MouseEvent) => {
+              if (lastGame) {
+                event.preventDefault();
+              }
+            }}
             state={
               {
                 base,
@@ -281,12 +243,25 @@ const Game = () => {
             notationLayout={notationLayout}
             notationSwitch={true}
             profileUrl={NOMENU_URLS.profile}
-            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
             setDoMove={() => {}}
             setFen={setFen}
             setNotationLayout={setNotationLayout}
-            zoomIn={handleZoomIn}
-            zoomOut={handleZoomOut}
+            zoomIn={() => {
+              setBoardSize((previousSize) =>
+                Math.min(
+                  previousSize + 25,
+                  window.innerWidth * 0.9,
+                  window.innerHeight -
+                    10 *
+                      Number.parseFloat(
+                        getComputedStyle(document.documentElement).fontSize,
+                      ),
+                ),
+              );
+            }}
+            zoomOut={() => {
+              setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
+            }}
           />
           {fen ? (
             <StockfishAnalysis fen={fen} visible={notationLayout === "none"} />

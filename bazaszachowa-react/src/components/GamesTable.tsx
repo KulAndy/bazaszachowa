@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Chess } from "chess.js";
-import React, { type HTMLProps, useCallback, useState } from "react";
+import React, { type HTMLProps, useState } from "react";
 import { Link } from "react-router-dom";
 
 import type { GameData } from "../ChessEditor";
@@ -125,28 +125,18 @@ const GamesTable: React.FC<
   const { t } = useI18n();
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(25);
-  const handleDownload = useCallback(() => {
-    download(games);
-  }, [games]);
-
-  const handleChangePage = useCallback((_: unknown, newPage: number) => {
-    setPage(newPage);
-  }, []);
-
-  const handleChangeLimit = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setLimit(Number(event.target.value));
-      setPage(0);
-    },
-    [],
-  );
 
   const paginator = (
     <TablePagination
       component="div"
       count={games?.length || 0}
-      onPageChange={handleChangePage}
-      onRowsPerPageChange={handleChangeLimit}
+      onPageChange={(_, newPage) => {
+        setPage(newPage);
+      }}
+      onRowsPerPageChange={(event) => {
+        setLimit(Number(event.target.value));
+        setPage(0);
+      }}
       page={page}
       rowsPerPage={limit}
     />
@@ -165,7 +155,13 @@ const GamesTable: React.FC<
     <div {...properties}>
       <p style={{ textAlign: "center" } as const}>
         {t("game_table.games")}: {games.length || 0}{" "}
-        <button onClick={handleDownload}>{t("download")}</button>
+        <button
+          onClick={() => {
+            download(games);
+          }}
+        >
+          {t("download")}
+        </button>
       </p>
       <TableContainer component={Paper}>
         {paginator}
