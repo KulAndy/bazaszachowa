@@ -163,7 +163,7 @@ const GamesTable: React.FC<
 
   return (
     <div {...properties}>
-      <p>
+      <p style={{ textAlign: "center" } as const}>
         {t("game_table.games")}: {games.length || 0}{" "}
         <button onClick={handleDownload}>{t("download")}</button>
       </p>

@@ -26,7 +26,7 @@ const replaceNationalCharacters = (text: string) => {
 };
 
 type SearchPlayersWithHintsProperties = {
-  readonly callback: (x: string) => void;
+  readonly callback?: (x: string) => void;
   readonly id?: string;
   readonly label?: string;
   readonly list?: string;
@@ -61,7 +61,9 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      callback(replaceNationalCharacters(event.target.value));
+      if (callback !== undefined) {
+        callback(replaceNationalCharacters(event.target.value));
+      }
       setText(replaceNationalCharacters(event.target.value));
     },
     [callback],
