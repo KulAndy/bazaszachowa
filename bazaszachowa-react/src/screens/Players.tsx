@@ -11,66 +11,68 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useActionState, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import Content from "../components/Content";
 import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
+import SubmitButton from "../components/SubmitButton";
 import { useI18n } from "../context/useI18n";
-import { API, NOMENU_URLS, URLS } from "../settings";
+import { API, NOMENU_URLS } from "../settings";
+
+async function fetchPlayers(formData: FormData): Promise<string[]> {
+  "use server";
+  return new Promise((resolve, reject) => {
+    const formValue = formData.get("player");
+    if (typeof formValue !== "string") {
+      reject(new Error("Empty player"));
+      return;
+    }
+    const player = formValue?.toString().trim() || "";
+    fetch(API.BASE_URL + API.players + encodeURIComponent(player))
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch players");
+        }
+        return response.json();
+      })
+      .then(resolve)
+      .catch(reject);
+  });
+}
 
 const Players = () => {
   const { t } = useI18n();
-  const navigate = useNavigate();
   const { name } = useParams();
-  const [player, setPlayer] = useState(name);
-  const [players, setPlayers] = useState<string[]>([]);
+  const [player, setPlayer] = useState(name || "");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (player !== null && player !== undefined) {
-        const response = await fetch(
-          API.BASE_URL + API.players + encodeURIComponent(player.trim()),
-        );
-
-        const jsonData = (await response.json()) as string[];
-        setPlayers(jsonData);
-      }
-    };
-
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name]);
-
-  const handleSubmit = useCallback(
-    (event: React.FormEvent) => {
-      event.preventDefault();
-      navigate(`${URLS.players.url}${player || ""}`);
+  const [players, submit] = useActionState(
+    async (_previous: unknown, formData: FormData) => {
+      const list = await fetchPlayers(formData);
+      return list;
     },
-    [navigate, player],
+    [] as string[],
   );
 
   return (
     <Content className="players">
       <Paper sx={{ mb: 3, p: 3 } as const}>
         <Box
-          alignItems="center"
+          action={submit}
           component="form"
           display="flex"
           flexWrap="wrap"
           gap={2}
           justifyContent="center"
-          onSubmit={handleSubmit}
         >
           <SearchPlayersWithHints
             callback={setPlayer}
             id="search-hints"
-            name="search-hints"
+            name="player"
+            required
             value={player}
           />
-          <Button color="primary" type="submit" variant="contained">
-            {t("search")}
-          </Button>
+          <SubmitButton text={t("search")} />
         </Box>
       </Paper>
 
