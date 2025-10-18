@@ -302,7 +302,11 @@ const rules = {
   "no-unused-vars": "off",
 };
 
-const abbrevatedFiles = ["src/react-app-env.d.ts", "src/vite-env.d.ts"];
+const abbrevatedFiles = [
+  "src/react-app-env.d.ts",
+  "src/vite-env.d.ts",
+  "scripts",
+];
 export default defineConfig([
   globalIgnores(["src/wasm/*"]),
   i18next.configs["flat/recommended"],
