@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import { useTheme } from "./context/useTheme";
+import GameRaw from "./screens/GameRaw";
 import { NOMENU_URLS, URLS } from "./settings";
 
 import "./styles/reset.css";
@@ -53,6 +54,10 @@ const App = () => {
                 <Route
                   Component={Game}
                   path={`${NOMENU_URLS.game}:base/:gameid`}
+                />
+                <Route
+                  Component={GameRaw}
+                  path={`${NOMENU_URLS.game_raw}:base/:gameid`}
                 />
                 <Route
                   Component={Preparation}

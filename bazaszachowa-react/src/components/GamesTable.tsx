@@ -62,7 +62,8 @@ const legacyGame2pgn: (x: GameData) => Promise<string> = (game: GameData) => {
   });
 };
 
-const game2pgn = async (game: GameData) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const game2pgn = async (game: GameData) => {
   let pgn = `[Event "${game.Event || "?"}"]
 [Site "${game.Site || "?"}"]
 [Date "${game.Year || "????"}.${game.Month || "??"}.${game.Month || "??"}"]
