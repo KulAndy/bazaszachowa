@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
 import Content from "../components/Content";
@@ -25,13 +25,15 @@ import SubmitButton from "../components/SubmitButton";
 import { useI18n } from "../context/useI18n";
 import { API } from "../settings";
 
+const currentYear = new Date().getFullYear();
+
 const Games = () => {
   const { t } = useI18n();
-  const currentYear = new Date().getFullYear();
-  const formReference = useRef<HTMLFormElement>(null);
   const [ignore, setIgnore] = useState(false);
   const [searchedBase, setSearchedBase] = useState("all");
   const [helpOpen, setHelpOpen] = useState(false);
+  const [minYear, setMinYear] = useState("1475");
+  const [maxYear, setMaxYear] = useState(currentYear.toString());
 
   const [games, submitAction, isPending] = useActionState(
     async (previousState: GameData[], formData: FormData) => {
@@ -59,6 +61,10 @@ const Games = () => {
         table: string;
       };
       setSearchedBase(data.table);
+
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       return data.rows;
     },
     [],
@@ -89,7 +95,7 @@ const Games = () => {
     <div id="games">
       <Content style={{ display: "flex", flexDirection: "column" } as const}>
         <div id="search-container">
-          <form action={submitAction} ref={formReference}>
+          <form action={submitAction}>
             <table className="no-border">
               <tbody>
                 <tr>
@@ -144,27 +150,37 @@ const Games = () => {
                       } as const
                     }
                   >
-                    <TextField
-                      defaultValue={1475}
-                      name="minYear"
-                      slotProps={
-                        {
-                          htmlInput: { max: currentYear, min: 1475 },
-                        } as const
-                      }
-                      type="number"
-                    />
+                    <FormControl>
+                      <TextField
+                        defaultValue={minYear}
+                        name="minYear"
+                        onChange={(event) => setMinYear(event.target.value)}
+                        slotProps={
+                          {
+                            htmlInput: { max: currentYear, min: 1475 },
+                          } as const
+                        }
+                        type="number"
+                        value={minYear}
+                      />
+                    </FormControl>
+
                     {" — "}
-                    <TextField
-                      defaultValue={currentYear}
-                      name="maxYear"
-                      slotProps={
-                        {
-                          htmlInput: { max: currentYear, min: 1475 },
-                        } as const
-                      }
-                      type="number"
-                    />
+
+                    <FormControl>
+                      <TextField
+                        defaultValue={maxYear}
+                        name="maxYear"
+                        onChange={(event) => setMaxYear(event.target.value)}
+                        slotProps={
+                          {
+                            htmlInput: { max: currentYear, min: 1475 },
+                          } as const
+                        }
+                        type="number"
+                        value={maxYear}
+                      />
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
