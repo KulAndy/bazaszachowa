@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { lazy, use } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import ErrorBoundary from "./components/ErrorBoundary";
+import { ErrorBoundary } from "react-error-boundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
 import GameRaw from "./screens/GameRaw";
@@ -11,6 +11,7 @@ import { NOMENU_URLS, URLS } from "./settings";
 import "./styles/reset.css";
 import "./styles/App.scss";
 import { ThemeContext } from "./context/ThemeContext";
+import { useI18n } from "./context/useI18n";
 
 const Bug = lazy(() => import("./screens/Bug"));
 const Contact = lazy(() => import("./screens/Contact"));
@@ -27,6 +28,7 @@ const Preparation = lazy(() => import("./screens/Preparation"));
 const Rodo = lazy(() => import("./screens/Rodo"));
 
 const App = () => {
+  const { t } = useI18n();
   const { theme, toggleTheme } = use(ThemeContext);
   const storedTheme = Cookies.get("theme");
   if (storedTheme !== undefined && storedTheme !== theme) {
@@ -34,12 +36,14 @@ const App = () => {
   }
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<h1 className="error">{t("sth_went_wong")}.</h1>}>
       <div className={`app ${theme}`}>
         <Router>
           <Menu links={URLS} />
           <div id="main">
-            <ErrorBoundary>
+            <ErrorBoundary
+              fallback={<h1 className="error">{t("sth_went_wong")}.</h1>}
+            >
               <Routes>
                 <Route Component={Home} path={URLS.home.url} />
                 <Route Component={Contact} path={URLS.contact.url} />
