@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useOptimistic } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 import type { GameData } from "../ChessEditor";
@@ -18,9 +18,7 @@ const GameRaw = () => {
   const base = state?.base || parameters.base || "all";
   const gameid = Number(state?.gameid || parameters.gameid || 0);
 
-  console.log(base, gameid);
-
-  const [pgn, setPgn] = useState<string>("");
+  const [pgn, setPgn] = useOptimistic<string>("");
 
   useEffect(() => {
     document.body.innerHTML = "";
@@ -30,6 +28,22 @@ const GameRaw = () => {
     document.body.style.fontSize = "14px";
     document.body.style.background = "#000";
     document.body.style.color = "#fff";
+
+    setPgn(
+      `[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "N, N"]
+[Black "N, N"]
+[Result "*"]
+[ECO "?"]
+[WhiteElo "0"]
+[BlackElo "0"]
+
+1. *
+`,
+    );
 
     fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
       .then((response) => response.json())
@@ -56,7 +70,7 @@ const GameRaw = () => {
         const pgnText = await game2pgn(data);
         setPgn(pgnText);
       });
-  }, [base, gameid]);
+  }, [base, gameid, setPgn]);
 
   useEffect(() => {
     if (pgn) {
