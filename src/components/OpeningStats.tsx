@@ -29,34 +29,36 @@ const OpeningsStats: React.FC<OpeningsStatsProperties> = ({ name, stats }) => {
 
   return (
     <table id="stats_table" style={{ border: 0 } as const}>
-      <tr>
-        <td colSpan={4} style={{ padding: 0 } as const}>
-          <ColorStats color="white" name={name} stats={stats.whites} />
-        </td>
-      </tr>
-      <tr>
-        <td colSpan={4}>
-          <ColorStats color="black" name={name} stats={stats.blacks} />
-        </td>
-      </tr>
-      <tr>
-        <td>{t("sum")}</td>
-        <td>{sum}</td>
-        <td>
-          {(
-            [...stats.whites, ...stats.blacks].reduce(
-              (accumulator, { count, percent }) =>
-                accumulator + count * percent,
-              0,
-            ) / sum
-          ).toFixed(2)}
-        </td>
-        <td>
-          <Link to={`${NOMENU_URLS.profile}${encodeURIComponent(name)}`}>
-            {t("stats.reset")}
-          </Link>
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td colSpan={4} style={{ padding: 0 } as const}>
+            <ColorStats color="white" name={name} stats={stats.whites} />
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={4}>
+            <ColorStats color="black" name={name} stats={stats.blacks} />
+          </td>
+        </tr>
+        <tr>
+          <td>{t("sum")}</td>
+          <td>{sum}</td>
+          <td>
+            {(
+              [...stats.whites, ...stats.blacks].reduce(
+                (accumulator, { count, percent }) =>
+                  accumulator + count * percent,
+                0,
+              ) / sum
+            ).toFixed(2)}
+          </td>
+          <td>
+            <Link to={`${NOMENU_URLS.profile}${encodeURIComponent(name)}`}>
+              {t("stats.reset")}
+            </Link>
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 };

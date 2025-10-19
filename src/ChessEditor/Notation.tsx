@@ -21,7 +21,10 @@ const Notation: React.FC<NotationProperties> = ({
   const processMove = (move: Move, isMain: boolean) => {
     if (move.turn === "w") {
       moveComponents.push(
-        <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+        <span
+          key={`${move.moveNo}w`}
+          style={{ fontWeight: isMain ? "bold" : "normal" } as const}
+        >
           {`${move.moveNo}. `}
         </span>,
       );
@@ -36,6 +39,7 @@ const Notation: React.FC<NotationProperties> = ({
         }}
         isCurrent={currentIndex === move.index}
         isMain={isMain}
+        key={move.index}
         move={move.san}
       />,
     );
@@ -43,30 +47,43 @@ const Notation: React.FC<NotationProperties> = ({
     if (move.variations.length > 0) {
       for (const variation of move.variations) {
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+          <span
+            key={`${move.index}open_variant`}
+            style={{ fontWeight: isMain ? "bold" : "normal" } as const}
+          >
             ({" "}
           </span>,
         );
         if (move.turn === "b") {
-          moveComponents.push(<span>{`${move.moveNo}... `}</span>);
+          moveComponents.push(
+            <span
+              key={`${move.moveNo}b${move.index}`}
+            >{`${move.moveNo}... `}</span>,
+          );
         }
         processMove(variation, false);
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+          <span
+            key={`${move.index}close_variant`}
+            style={{ fontWeight: isMain ? "bold" : "normal" } as const}
+          >
             ){" "}
           </span>,
         );
       }
       if (move.next && move.turn === "w") {
         moveComponents.push(
-          <span style={{ fontWeight: isMain ? "bold" : "normal" } as const}>
+          <span
+            key={`${move.moveNo}padding`}
+            style={{ fontWeight: isMain ? "bold" : "normal" } as const}
+          >
             {`${move.moveNo}... `}
           </span>,
         );
       } else if (move.turn === "b") {
         moveComponents.push(
-          <span>&nbsp;&nbsp;</span>,
-          <span>&nbsp;&nbsp;</span>,
+          <span key={`${move.moveNo}padding1`}>&nbsp;&nbsp;</span>,
+          <span key={`${move.moveNo}padding2`}>&nbsp;&nbsp;</span>,
         );
       }
     }
@@ -74,7 +91,9 @@ const Notation: React.FC<NotationProperties> = ({
     if (move.next) {
       processMove(moves[move.next], isMain);
     } else if (move.turn === "w") {
-      moveComponents.push(<span>&nbsp;&nbsp;</span>);
+      moveComponents.push(
+        <span key={`${move.moveNo}padding`}>&nbsp;&nbsp;</span>,
+      );
     }
   };
 

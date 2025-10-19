@@ -122,10 +122,12 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
                 <h4>{t("stats.pawn_struct")}</h4>
                 <Table>
                   <TableHead>
-                    <TableCell>{t("stats.doubled")}</TableCell>
-                    <TableCell>{t("stats.fianchetto")}</TableCell>
-                    <TableCell>{t("stats.isolated")}</TableCell>
-                    <TableCell>{t("stats.passed")}</TableCell>
+                    <TableRow>
+                      <TableCell>{t("stats.doubled")}</TableCell>
+                      <TableCell>{t("stats.fianchetto")}</TableCell>
+                      <TableCell>{t("stats.isolated")}</TableCell>
+                      <TableCell>{t("stats.passed")}</TableCell>
+                    </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow>

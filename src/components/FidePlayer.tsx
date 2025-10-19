@@ -1,6 +1,7 @@
 import {
   Paper,
   Table,
+  TableBody,
   TableCell,
   TableContainer,
   TableRow,
@@ -36,45 +37,47 @@ const FidePlayer: React.FC<FidePlayerProperties> = ({
             <a href="https://ratings.fide.com/download_lists.phtml">FIDE</a>
           </caption>
         ) : null}
-        <TableRow>
-          <TableCell colSpan={2}>{player.name}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>ID</TableCell>
-          <TableCell>
-            <a href={`https://ratings.fide.com/profile/${player.fideid}`}>
-              {player.fideid}
-            </a>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>{t("player.fide_title")}</TableCell>
-          <TableCell>{player.title || t("none")}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>{t("player.birth_year")}</TableCell>
-          <TableCell>{player.birthday}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell colSpan={2}>
-            {
-              // eslint-disable-next-line i18next/no-literal-string
-            }
-            Elo
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>{t("elo.standard")}</TableCell>
-          <TableCell>{player.rating}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>{t("elo.rapid")}</TableCell>
-          <TableCell>{player.rapid_rating}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>{t("elo.blitz")}</TableCell>
-          <TableCell>{player.blitz_rating}</TableCell>
-        </TableRow>
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={2}>{player.name}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>
+              <a href={`https://ratings.fide.com/profile/${player.fideid}`}>
+                {player.fideid}
+              </a>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t("player.fide_title")}</TableCell>
+            <TableCell>{player.title || t("none")}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t("player.birth_year")}</TableCell>
+            <TableCell>{player.birthday}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={2}>
+              {
+                // eslint-disable-next-line i18next/no-literal-string
+              }
+              Elo
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t("elo.standard")}</TableCell>
+            <TableCell>{player.rating}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t("elo.rapid")}</TableCell>
+            <TableCell>{player.rapid_rating}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{t("elo.blitz")}</TableCell>
+            <TableCell>{player.blitz_rating}</TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
     </TableContainer>
   );

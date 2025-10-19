@@ -24,29 +24,24 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
   const { t } = useI18n();
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
-  const menuItems = (
-    <>
-      <MenuItem>
-        <ColorSchemeToggle />
+  const menuItems = [
+    <MenuItem key="color-scheme">
+      <ColorSchemeToggle />
+    </MenuItem>,
+    <MenuItem key="lang">
+      <LangToggle />
+    </MenuItem>,
+    ...Object.keys(links).map((key) => (
+      <MenuItem
+        component={RouterLink}
+        key={key}
+        onClick={() => setAnchorElement(null)}
+        to={links[key].url}
+      >
+        {t(links[key].name)}
       </MenuItem>
-      <MenuItem>
-        <LangToggle />
-      </MenuItem>
-      {Object.keys(links).map((key) => (
-        <MenuItem
-          component={RouterLink}
-          key={key}
-          onClick={() => {
-            setAnchorElement(null);
-          }}
-          to={links[key].url}
-        >
-          {t(links[key].name)}
-        </MenuItem>
-      ))}
-    </>
-  );
-
+    )),
+  ];
   return (
     <nav>
       <AppBar color="default" position="static">

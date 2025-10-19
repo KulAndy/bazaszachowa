@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
         </Link>
       </Typography>
       <hr />
-      <Typography variant="body2">
+      <Typography component="div" variant="body2">
         <address>
           <span className="copyleft">©</span>{" "}
           <Link href={`mailto:${admin_mail}`} underline="hover">
