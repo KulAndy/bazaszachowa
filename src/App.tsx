@@ -1,16 +1,16 @@
 import Cookies from "js-cookie";
-import { lazy } from "react";
+import { lazy, use } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
-import { useTheme } from "./context/useTheme";
 import GameRaw from "./screens/GameRaw";
 import { NOMENU_URLS, URLS } from "./settings";
 
 import "./styles/reset.css";
 import "./styles/App.scss";
+import { ThemeContext } from "./context/ThemeContext";
 
 const Bug = lazy(() => import("./screens/Bug"));
 const Contact = lazy(() => import("./screens/Contact"));
@@ -27,7 +27,7 @@ const Preparation = lazy(() => import("./screens/Preparation"));
 const Rodo = lazy(() => import("./screens/Rodo"));
 
 const App = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = use(ThemeContext);
   const storedTheme = Cookies.get("theme");
   if (storedTheme !== undefined && storedTheme !== theme) {
     toggleTheme();

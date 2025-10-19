@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import { use } from "react";
 
 import { I18nContext, type I18nContextType } from "./I18nContext";
 
 export const useI18n = (): I18nContextType => {
-  const context = useContext(I18nContext);
+  const context = use(I18nContext);
   if (!context) {
     throw new Error("useI18n must be used within I18nProvider");
   }
