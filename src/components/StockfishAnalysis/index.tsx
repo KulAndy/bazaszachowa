@@ -39,7 +39,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
 
   useEffect(() => {
     const worker = new Worker(stockfishFile);
-    setStockfish(worker);
+    queueMicrotask(() => setStockfish(worker));
 
     return () => {
       worker.terminate();
@@ -56,9 +56,11 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
     stockfish.postMessage(`setoption name MultiPV value ${multiPV}`);
     stockfish.postMessage(`setoption name Hash value ${hashSize}`);
     stockfish.postMessage(`position fen ${fen}`);
-    setCurrentDepth(1);
-    setVariants({});
-    setBest(null);
+    queueMicrotask(() => {
+      setCurrentDepth(1);
+      setVariants({});
+      setBest(null);
+    });
   }, [threads, multiPV, hashSize, stockfish, fen]);
 
   useEffect(() => {

@@ -40,7 +40,9 @@ export const I18nProvider: React.FC<{ readonly children: React.ReactNode }> = ({
 
   useEffect(() => {
     const phrases = dictionaries[localeState];
-    setPolyglot(new Polyglot({ locale: localeState, phrases }));
+    queueMicrotask(() =>
+      setPolyglot(new Polyglot({ locale: localeState, phrases })),
+    );
     Cookies.set("locale", localeState);
   }, [localeState]);
 

@@ -70,6 +70,7 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
   ...properties
 }) => {
   const { t } = useI18n();
+  // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
   if (!stats || stats.length === 0) {
     return null;
   }
