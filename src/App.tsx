@@ -1,17 +1,18 @@
 import Cookies from "js-cookie";
 import { lazy, use } from "react";
+// eslint-disable-next-line import/no-unresolved
+import { ErrorBoundary } from "react-error-boundary";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import { ErrorBoundary } from "react-error-boundary";
 import Footer from "./components/Footer";
 import Menu from "./components/Menu";
+import { ThemeContext } from "./context/ThemeContext";
+import { useI18n } from "./context/useI18n";
 import GameRaw from "./screens/GameRaw";
 import { NOMENU_URLS, URLS } from "./settings";
 
 import "./styles/reset.css";
 import "./styles/App.scss";
-import { ThemeContext } from "./context/ThemeContext";
-import { useI18n } from "./context/useI18n";
 
 const Bug = lazy(() => import("./screens/Bug"));
 const Contact = lazy(() => import("./screens/Contact"));

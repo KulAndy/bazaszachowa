@@ -27,6 +27,10 @@ export default defineConfig({
     }),
     checker({
       typescript: true,
+      eslint: {
+        lintCommand: "eslint src",
+        watchPath: "src",
+      },
     }),
     stylelint({
       files: ["./src/**/*.{css,scss,sass,less}"],
