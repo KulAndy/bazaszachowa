@@ -170,6 +170,19 @@ const PreparationPlayer = ({
     };
   }, []);
 
+  const handleZoomIn = useCallback(() => {
+    setBoardSize((previousSize) =>
+      Math.min(
+        previousSize + 25,
+        Math.min(window.innerWidth, window.innerHeight),
+      ),
+    );
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
+  }, []);
+
   return (
     <Box id="preparation">
       <Typography gutterBottom variant="h4">
@@ -190,17 +203,8 @@ const PreparationPlayer = ({
           setDoMove={setDoMove}
           setFen={setFen}
           showPlayers={false}
-          zoomIn={() => {
-            setBoardSize((previousSize) =>
-              Math.min(
-                previousSize + 25,
-                Math.min(window.innerWidth, window.innerHeight),
-              ),
-            );
-          }}
-          zoomOut={() => {
-            setBoardSize((previousSize) => Math.max(previousSize - 25, 100));
-          }}
+          zoomIn={handleZoomIn}
+          zoomOut={handleZoomOut}
         />
 
         <Box

@@ -31,7 +31,7 @@ export const ThemeProvider = ({
     );
 
     if (storedTheme === undefined) {
-      queueMicrotask(() => setTheme(mediaQueryList.matches ? "dark" : "light"));
+      setTheme(mediaQueryList.matches ? "dark" : "light");
     }
 
     const handleChange = (event: MediaQueryListEvent) =>

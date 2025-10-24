@@ -120,6 +120,7 @@ const rules = {
   "react-dom/no-script-url": "error",
   "react-dom/no-unknown-property": "error",
 
+  "react-hooks/set-state-in-effect": "off",
   "react/jsx-filename-extension": [
     "error",
     {

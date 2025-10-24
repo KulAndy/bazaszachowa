@@ -76,12 +76,10 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
   }, [games, player, worker]);
 
   useEffect(() => {
-    queueMicrotask(() =>
-      setWorker(
-        new Worker(new URL("gameStats.worker.ts", import.meta.url), {
-          type: "module",
-        }),
-      ),
+    setWorker(
+      new Worker(new URL("gameStats.worker.ts", import.meta.url), {
+        type: "module",
+      }),
     );
   }, [player]);
 
