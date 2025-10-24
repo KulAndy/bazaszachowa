@@ -30,3 +30,4 @@ build/
 node_modules/
 public/google*.html
 .stylelintcache
+.eslintcache

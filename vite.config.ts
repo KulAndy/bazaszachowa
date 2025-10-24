@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import checker from "vite-plugin-checker";
+import eslint from "vite-plugin-eslint2";
 import stylelint from "vite-plugin-stylelint";
 import compression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
@@ -25,13 +25,7 @@ export default defineConfig({
         ],
       },
     }),
-    checker({
-      typescript: true,
-      eslint: {
-        lintCommand: "eslint src",
-        watchPath: "src",
-      },
-    }),
+    eslint(),
     stylelint({
       files: ["./src/**/*.{css,scss,sass,less}"],
     }),
