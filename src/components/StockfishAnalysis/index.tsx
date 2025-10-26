@@ -44,7 +44,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
     return () => {
       worker.terminate();
     };
-  }, [fen]);
+  }, []);
 
   useEffect(() => {
     if (!stockfish) {
@@ -129,34 +129,33 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
     return () => {
       stockfish.removeEventListener("message", onMessage);
     };
-  }, [currentDepth, depth, fen, stockfish, threads, multiPV, hashSize]);
+  }, [currentDepth, depth, fen, stockfish]);
 
   useEffect(() => {
-    if (!stockfish || currentDepth === 0) {
-      return;
+    if (stockfish && currentDepth > 0) {
+      setVariants({});
+      setBest(null);
+      stockfish.postMessage(`go depth ${currentDepth}`);
     }
-
-    stockfish.postMessage(`go depth ${currentDepth}`);
   }, [currentDepth, stockfish]);
 
-  const valuesArray = useMemo(() => {
-    const chess = new Chess(fen);
-    const turn = chess.turn();
-
-    return Object.values(variants)
-      .filter((item) => item.san !== null)
-      .toSorted((a, b) => {
-        const aValue =
-          a.type === "mate"
-            ? (10_000 - Math.abs(a.value)) * Math.sign(a.value)
-            : a.value;
-        const bValue =
-          b.type === "mate"
-            ? (10_000 - Math.abs(b.value)) * Math.sign(b.value)
-            : b.value;
-        return (bValue - aValue) * (turn === "w" ? -1 : 1);
-      });
-  }, [variants, fen]);
+  const valuesArray = useMemo(
+    () =>
+      Object.values(variants)
+        .filter((item) => item.san !== null)
+        .toSorted((a, b) => {
+          const aValue =
+            a.type === "mate"
+              ? (10_000 - Math.abs(a.value)) * Math.sign(a.value)
+              : a.value;
+          const bValue =
+            b.type === "mate"
+              ? (10_000 - Math.abs(b.value)) * Math.sign(b.value)
+              : b.value;
+          return bValue - aValue;
+        }),
+    [variants],
+  );
 
   return (
     <div className={visible ? "" : "inactive"} id="engine-container">
