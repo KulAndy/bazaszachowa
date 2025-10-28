@@ -46,7 +46,7 @@ const PreparationForm = () => {
         sx={{ display: "block", mt: 2 } as const}
       >
         <FormLabel component="legend" sx={{ textAlign: "center" } as const}>
-          {t("color")}
+          {t("preparation.against")}
         </FormLabel>
         <RadioGroup
           name="color"
