@@ -131,6 +131,7 @@ const GamesTable: React.FC<
     <TablePagination
       component="div"
       count={games?.length || 0}
+      labelRowsPerPage=""
       onPageChange={(_, newPage) => {
         setPage(newPage);
       }}
