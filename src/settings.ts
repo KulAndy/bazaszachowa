@@ -12,8 +12,7 @@ const URLS = {
 };
 const API = {
   base_download: "/download/",
-  // BASE_URL: "https://api.bazaszachowa.smallhost.pl",
-  BASE_URL: "http://localhost:3000",
+  BASE_URL: "https://api.bazaszachowa.smallhost.pl",
   cr: "/player/cr/",
   dumps: "/base/dumps",
   extremes: "/player/limit/",
