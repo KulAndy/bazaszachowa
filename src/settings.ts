@@ -12,20 +12,21 @@ const URLS = {
 };
 const API = {
   base_download: "/download/",
-  BASE_URL: "https://api.bazaszachowa.smallhost.pl",
-  cr: "/cr_data/",
-  dumps: "/base-dumps",
-  extremes: "/min_max_year_elo/",
-  fide: "/fide_data/",
+  // BASE_URL: "https://api.bazaszachowa.smallhost.pl",
+  BASE_URL: "http://localhost:3000",
+  cr: "/player/cr/",
+  dumps: "/base/dumps",
+  extremes: "/player/limit/",
+  fide: "/player/fide/",
   game: "/game/",
   games: {
-    filter: "/search_player_opening_game/",
-    normal: "/search_game/",
+    filter: "/games/opening/",
+    normal: "/games/",
   },
-  graph: "/graph/",
-  openings: "/player_opening_stats/",
-  players: "/search_player/",
-  send_mail: "/send-email",
+  graph: "/player/plot/",
+  openings: "/player/openings/",
+  players: "/players/",
+  send_mail: "/mail/send",
 };
 const NOMENU_URLS = {
   activation: "/activation/",
