@@ -2,21 +2,23 @@
 
 pod adresem api.bazaszachowa.smallhost.pl/(funkcja) jest następujące API
 
-/(funkcja)/:param1/:param2/:param3?
+`/(funkcja)/:param1/:param2/:param3?`
 oznacza, że dla funkcji parametry 1 i 2 są obwiązkowe, 3 opcjonalny
 
-funkcje z parametrami można wywoływać metodą GEt i POST
+funkcje z parametrami można wywoływać metodą GETi POST
 bez parametrów, a wymagające dane wejściowe metodą POST
 
-* cr_data/:player
-  * dane wejściowe:
+- `/player/cr/:player`
+  - dane wejściowe:
+
   ```
   {
     player - Nazwisko, Imię
   }
-    ```
+  ```
 
-  * dane wyjściowe:
+  - dane wyjściowe:
+
   ```
   {
     id: CR-ID
@@ -24,160 +26,124 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     fide_id: FIDE-ID
     name: NAZWISKO Imię
   }
-    ```
-*   fide_data/:player
-    * dane wejściowe
-    ```
-    {
-        name - nazwisko, imię
-    }
-    ```
+  ```
 
-    * dane wyjściowe
-    ```
-    {
-        fideid: fideid - id FIDE,
-        name: name - nazwisko, imię,
-        title: title - tytuł,
-        rating: rating - ranking,
-        rapid_rating: rating - ranking w rapidzie,
-        blitz_rating: rating - rankingu w blitzu,
-        birthday: rok - rocznik
-    }
-    ```
+- `/player/fide/:player`
+  - dane wejściowe
 
-* game/:base/:id
-  * dane wejściowe:
+  ```
+  {
+      name - nazwisko, imię
+  }
+  ```
+
+  - dane wyjściowe
+
+  ```
+  {
+      fideid: fideid - id FIDE,
+      name: name - nazwisko, imię,
+      title: title - tytuł,
+      rating: rating - ranking,
+      rapid_rating: rating - ranking w rapidzie,
+      blitz_rating: rating - rankingu w blitzu,
+      birthday: rok - rocznik
+  }[]
+  ```
+
+- `/game/:base/:id`
+  - dane wejściowe:
+
   ```
   {
     id: id,
     base - poland/all
   }
-    ```
-
-  * dane wyjściowe:
   ```
-    [
-        {
-            id: id1,
-            moves: [
-              {
-                from:pole,
-                to:pole,
-                promotion?:p/n/b/r/q/k
-              },
-              {
-                from:pole,
-                to:pole,
-                promotion?:p/n/b/r/q/k
-              },
-              .
-              .
-              .
-            ],
-            Event: turniej,
-            Site: miejsce,
-            Year: rok,
-            Month: miesiąc,
-            Day: dzień miesiąca,
-            Round: runda,
-            White: biały,
-            Black: czarny,
-            Result: wynik,
-            WhiteElo: elo białego,
-            BlackElo: elo czarnego,
-            ECO: eco
-        },
-        {
-            id: id2,
-            moves: [
-              {
-                from:pole,
-                to:pole,
-                promotion?:p/n/b/r/q/k
-              },
-              {
-                from:pole,
-                to:pole,
-                promotion?:p/n/b/r/q/k
-              },
-                .
-                .
-                .
-            ],
-            Event: turniej,
-            Site: miejsce,
-            Year: rok,
-            Month: miesiąc,
-            Day: dzień miesiąca,
-            Round: runda,
-            White: biały,
-            Black: czarny,
-            Result: wynik,
-            WhiteElo: elo białego,
-            BlackElo: elo czarnego,
-            ECO: eco
-        }
-    ]
-    ```
-* graph/:format/:player
-  * dane wejściowe:
+
+  - dane wyjściowe:
+
+  ```
+      {
+          id,
+          moves: {
+              from:pole,
+              to:pole,
+              promotion?:p|n|b|r|q|k
+          }[],
+          Event: turniej,
+          Site: miejsce,
+          Year: rok,
+          Month: miesiąc,
+          Day: dzień miesiąca,
+          Round: runda,
+          White: biały,
+          Black: czarny,
+          Result: wynik,
+          WhiteElo: elo białego,
+          BlackElo: elo czarnego,
+          ECO: eco
+      }[],
+  ```
+
+- `/player/plot/:format/:player`
+  - dane wejściowe:
+
   ```
   {
-    format - jpeg
+    format - jpeg|svg
     player - Nazwisko, Imię
     }
-    ```
+  ```
 
-  * dane wyjściowe:
+  - dane wyjściowe:
     plik jpeg / svg
 
-* min_max_year_eco/:player
-  * dane wejściowe
+- `/player/limit/:player`
+  - dane wejściowe
+
   ```
   {
     name - Nazwisko, Imię
     }
-    ```
+  ```
 
-  * dane wyjściowe:
+  - dane wyjściowe:
+
   ```
   {
     maxElo: maksymalny ranking w bazie
     minYear: rok najstarszej partii
     maxYear: rok najnowszej partii
     }
-    ```
-* player_opening_stats/:player
-  * dane wejściowe:
+  ```
+
+- `/player/openings/:player`
+  - dane wejściowe:
+
   ```
   {
     player - Nazwisko, Imię
-    }
-    ```
+  }
+  ```
 
-  * dane wyjściowe:
+  - dane wyjściowe:
+
   ```
   {
-    whites: białe
-    {
-      opening: debiut,
-      count: ilość,
-      percent: średni wynik w procentach,
-      },
-    blacks: czarne
-    {
+    whites|blacks:  {
       opening: debiut,
       count: ilość,
       percent: średni wynik w procentach,
       }
-    }
-    ```
+  }
+  ```
 
-* search_game
-  * dane wejściowe:
+- `/games`
+  - dane wejściowe:
+
     ```
-  {
+    {
     white: biały (opcjonalne, jeśli ustawiono black),
     black: czarny (opcjonalne, jeśli ustawiono white),
     [ignore: ignorowanie kolorów (true/false, domyślnie false)],
@@ -191,67 +157,53 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     }
     ```
 
-   * dane wyjściowe:
-    ```
-    {
-      id: id,
-      moves: [
-        {
-          from:pole,
-          to:pole,
-          promotion?:p/n/b/r/q/k
-        },
-        {
-          from:pole,
-          to:pole,
-          promotion?:p/n/b/r/q/k
-        },
-          .
-          .
-          .
-      ],
-      Event: turniej,
-      Site: miejsce,
-      Year: rok,
-      Month: miesiąc,
-      Day: dzień miesiąca,
-      Round: runda,
-      White: biały,
-      Black: czarny,
-      Result: wynik,
-      WhiteElo: elo białego,
-      BlackElo: elo czarnego
-      [, ECO: eco]
-      }
-      ```
-* search_player_opening_game/:player/:color/:opening?
-  * dane wejściowe:
- ```
+  - dane wyjściowe:
+
+  ```
+  {
+    id,
+    moves: {
+        from:pole,
+        to:pole,
+        promotion?:p/n/b/r/q/k
+    }[],
+    Event: turniej,
+    Site: miejsce,
+    Year: rok,
+    Month: miesiąc,
+    Day: dzień miesiąca,
+    Round: runda,
+    White: biały,
+    Black: czarny,
+    Result: wynik,
+    WhiteElo: elo białego,
+    BlackElo: elo czarnego
+    [, ECO: eco]
+    }[]
+  ```
+
+- `/player/opening/:player/:color/:opening?`
+  - dane wejściowe:
+
+  ```
   {
     player - Nazwisko, Imię,
     color - kolor (white/black)
     [, opening: debiut]
     }
-    ```
-  * dane wyjściowe:
   ```
+
+- dane wyjściowe:
+
+```
+
     {
       id: id,
-      moves: [
-        {
+      moves: {
           from:pole,
           to:pole,
           promotion?:p/n/b/r/q/k
-        },
-        {
-          from:pole,
-          to:pole,
-          promotion?:p/n/b/r/q/k
-        },
-        .
-        .
-        .
-      ],
+        }[],
       Event: turniej,
       Site: miejsce,
       Year: rok,
@@ -264,54 +216,37 @@ bez parametrów, a wymagające dane wejściowe metodą POST
       WhiteElo: elo białego,
       BlackElo: elo czarnego
       [, ECO: eco]
-      }
-      ```
+      }[]
+```
 
+- `/players/:player`
+  - dane wejściowe
 
-* search_player/:player
-    * dane wejściowe
-    ```
-    {
-        player - Nazwisko, Imię
-    }
+```
 
-    ```
-    * dane wyjściowe
-    ```
-    [
-            {
-                fullname: player1
-            },
-            {
-                fullname: player2
-            },
-            .
-            .
-            .
-    ]
-    ```
-* send-email
-    * dane wejściowe
-    ```
-    {
-        email - nadawca
-        subject - temat
-        content - zawartość
-        file - załącznik (jako plik, a nie w res.file, a nie wartość w res.body)
-    }
+{
+player - Nazwisko, Imię
+}
 
-    ```
-    * dane wyjściowe
-    ```
-    [
-            {
-                fullname: player1
-            },
-            {
-                fullname: player2
-            },
-            .
-            .
-            .
-    ]
-    ```
+```
+
+- dane wyjściowe
+
+```
+
+string[]
+Nazwisko, Imię
+```
+
+- `/mail/send`
+  - dane wejściowe
+
+  ```
+  {
+  email - nadawca
+  subject - temat
+  content - zawartość
+  file - załącznik (jako plik, w req.file, a nie wartość w res.body)
+  }
+
+  ```
