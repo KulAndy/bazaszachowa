@@ -1,0 +1,83 @@
+/
+
+- **App.tsx** - główny plik aplikacji
+- **ChessEditor** - szachownica z możliwością edycji
+  - **ButtonsBar.tsx** - pasek przycisków
+  - **Chessboard.tsx** - szachownica
+  - **HalfMove.tsx** - półruchy do notacji
+  - **index.tsx** - główny plik modułu
+  - **Notation.tsx** - notacja
+  - **style.scss** - style
+  - **TouchableIcon.tsx** - klikalna ikona
+- **ChessProcessor** - generator drzewa wariantów
+  - **index.tsx** - główny plik modułu
+    jeśli to możliwe, używa `/wasm/chess_processor`
+- **components** - komponenty
+  - **ColorSchemeToggle** - wybór trybu jasnego/ciemnego
+  - **ColorStats.tsx** - statystki koloru
+  - **Content.tsx** - kontener na główną zawartość
+  - **CrPlayer.tsx** - karta zawodnika PZSzach
+  - **CrPlayerList.tsx** - lista zawodników PZSzach
+  - **FidePlayer.tsx** - karta zawodnika FIDE
+  - **FidePlayerList.tsx** - lista zawodników FIDE
+  - **Footer.tsx** - stopka
+  - **GamesStats.tsx** - zbiorcze statystyki gier
+  - **GamesTable.tsx** - tabela gier
+  - **gameStats.worker.ts** - oblicza zbiorcze statystki gier, korzysta z wasm/game_stats
+  - **HeatMap.tsx** - mapa ciepła
+  - **Histogram.tsx** - histogram
+  - **LangToggle.tsx** - zmiana języka pl/en
+  - **MarkdownFileReader.tsx** - czytnik plików .md
+  - **Menu.tsx** - menu
+  - **OpeningStats.tsx** - statystyki dla obu kolorów
+  - **PositionsMoves.tsx** - preferowane ruchy w pozycji
+  - **SearchPlayersWithHint.tsx** - input podpowiadający zawodników
+  - **StatIndicators.tsx** - podkomponent `GamesStats`
+  - **SubmitButton** - przycisk do zatwierdzania formularzy, pokazuje ładowanie
+  - **StockfishAnalysis** - ocena pozycji silnika
+    - **BestMoveSpan.tsx** - komponent najlepszego ruchu
+    - **index.tsx** - główny plik modułu
+    - **VariantList.tsx** - lista wariantów z oceną
+  - **TrendFunctionExplanation** - opis matematyczny funkcji trendu
+- **context** - komponenty
+  - **I18n** - kontekst tłumaczenia
+  - **Theme** - przechowuje tryb jasny/ciemny
+- **logo.svg** - logo
+- **main.tsx** - główny plik reacta (vite)
+- **reportWebVitals.tsx** - zależności reacta
+- **screens** - pliki szablonów stron
+  - **Bug.tsx** - zgłaszanie błędów
+  - **Contact.tsx** - kontalt
+  - **Documentation.tsx** - dokumentacja
+  - **Game.tsx** - gra w trybie interaktywnym
+  - **GameRaw.ts** - gra w formacie PGN
+  - **Games.tsx** - wyszukiwarka gier
+  - **Home.tsx** - strona główna
+  - **License.tsx** - licencja
+  - **NotFound.tsx** - dla http 404
+  - **Player.tsx** - profil gracza
+  - **Players.tsx** - wyszukiwarka graczy
+  - **Preparation.tsx** - przygotowanie
+  - **PreparationForm.tsx** - wyszukiwarka przygtowań graczy
+  - **PreparationPlayer.tsx** - przygotowanie gracza, drzewo wariantów
+  - **Rodo.tsx** - rodo
+- **styles** - style strony
+  - **App.scss**
+  - **Bug.scss**
+  - **Contact.scss**
+  - **Game.scss**
+  - **Games.scss**
+  - **HeatMap.scss**
+  - **Home.scss**
+  - **index.scss** - główny plik css
+  - **Player.scss**
+  - **Players.scss**
+  - **Preparation.css**
+  - **PreparationForm.css**
+  - **PreparationPlayer.scss**
+  - **reset.css** - arkusz zerujący
+- **wasm** - katalog z plikami WebAssembly, [funkcje w C++](https://github.com/KulAndy/bazaszachowa-wasm)
+  - **chess_processor** - tworzy drzewo debiutów
+  - **game_stats** - zbiorcze statystyki partii jak mapa ciepła, mobilność, balans materiału, etc.
+  - **stats** - oblicza statystyki z podanych danych liczbowych (kwartyle, wariancja)
+  - **uci2pgn** - zamiana uci na san
