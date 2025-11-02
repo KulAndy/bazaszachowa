@@ -17,7 +17,7 @@ let wasmComputeStats: ((argument0: number[]) => StatSummary) | null = null;
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
 // eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
-initWasm().then((wasm: any) => {
+void initWasm().then((wasm: any) => {
   wasmComputeStats = (array: number[]) => {
     const minNumber = Math.min(...array);
     const maxNumber = Math.max(...array);

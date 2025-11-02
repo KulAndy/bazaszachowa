@@ -12,7 +12,7 @@ const MarkdownFileReader = ({ filePath }: { readonly filePath: string }) => {
       setMarkdownContent(markdownText);
     };
 
-    fetchMarkdownFile();
+    void fetchMarkdownFile();
   }, [filePath]);
 
   return (

@@ -55,7 +55,7 @@ const Game = () => {
   };
 
   useEffect(() => {
-    fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
+    void fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
       .then((response) => response.json())
       .then((response: GameData[]) => {
         if (response.length > 0) {
@@ -101,6 +101,7 @@ const Game = () => {
         }
       }
       if (index > -1) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         navigate(`${NOMENU_URLS.game}${base}/${list[index]}`, {
           state: {
             base,

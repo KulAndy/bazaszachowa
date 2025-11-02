@@ -40,7 +40,7 @@ const Downloads = () => {
   const { t } = useI18n();
   const [dumps, setDumps] = useState<Dump[]>([]);
   useEffect(() => {
-    fetch(API.BASE_URL + API.dumps)
+    void fetch(API.BASE_URL + API.dumps)
       .then((response) => response.json())
       .then(setDumps);
   }, []);

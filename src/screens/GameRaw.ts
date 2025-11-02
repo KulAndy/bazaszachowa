@@ -45,7 +45,7 @@ const GameRaw = () => {
 `,
     );
 
-    fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
+    void fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
       .then((response) => response.json())
       .then(async (response: GameData[]) => {
         const data =

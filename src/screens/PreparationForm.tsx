@@ -27,6 +27,7 @@ const PreparationForm = () => {
         alert(t("players.player_required"));
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       navigate(`${URLS.preparation.url}${encodeURIComponent(player)}/${color}`);
     },
     [player, color, navigate, t],

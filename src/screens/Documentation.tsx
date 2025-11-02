@@ -16,7 +16,7 @@ const Documentation = () => {
       setFileList(data);
     };
 
-    fetchData();
+    void fetchData();
   }, []);
 
   return file !== undefined && file !== null ? (

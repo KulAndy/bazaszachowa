@@ -33,11 +33,7 @@ const languageOptions = {
 };
 
 const rules = {
-  "react-hooks/exhaustive-deps": "off",
   "react-perf/jsx-no-new-function-as-prop": "off",
-  "react-dom/no-missing-iframe-sandbox": "off",
-  "react-dom/no-missing-button-type": "off",
-  "react-dom/no-unsafe-iframe-sandbox": "off",
   "jsx-a11y/media-has-caption": "off",
   "jsx-a11y/no-aria-hidden-on-focusable": "error",
   "jsx-a11y/prefer-tag-over-role": "error",
@@ -61,12 +57,9 @@ const rules = {
   "promise/catch-or-return": "off",
   "promise/prefer-catch": "error",
   "@typescript-eslint/no-unsafe-member-access": "off",
-  "@typescript-eslint/no-floating-promises": "off",
   "@typescript-eslint/prefer-optional-chain": "error",
   "@typescript-eslint/no-unnecessary-type-arguments": "error",
-  "@typescript-eslint/prefer-nullish-coalescing": "off",
   "@typescript-eslint/dot-notation": "error",
-  "@typescript-eslint/no-empty-function": "off",
   "@typescript-eslint/no-non-null-assertion": "off",
 
   "@typescript-eslint/no-unused-vars": [
@@ -135,7 +128,6 @@ const rules = {
   "react/forward-ref-uses-ref": "error",
   "react/hook-use-state": "error",
   "react/jsx-closing-bracket-location": "error",
-  "react/jsx-curly-newline": "off",
   "react/jsx-curly-spacing": "error",
   "react/jsx-equals-spacing": "error",
   "react/jsx-curly-brace-presence": "error",
@@ -158,7 +150,6 @@ const rules = {
   "react/prefer-read-only-props": "error",
   "react/prefer-stateless-function": "error",
   "react/void-dom-elements-no-children": "error",
-  "react/react-in-jsx-scope": "off",
   "react/prop-types": "off",
 
   "import/no-unresolved": "error",

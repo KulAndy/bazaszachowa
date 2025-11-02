@@ -3,7 +3,7 @@ import { computeStats } from "../stats";
 import initWasm from "../wasm/game_stats";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
-initWasm().then((wasm: any) => {
+void initWasm().then((wasm: any) => {
   // eslint-disable-next-line sonarjs/post-message
   self.addEventListener(
     "message",
@@ -84,7 +84,7 @@ initWasm().then((wasm: any) => {
         globalThis.postMessage({ black, white });
       };
 
-      pom();
+      void pom();
     },
   );
 });

@@ -21,7 +21,7 @@ let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
 // eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
-initWasm().then((wasm: any) => {
+void initWasm().then((wasm: any) => {
   uci2san = (movesObject) => {
     const moves = new wasm.VectorString();
 
@@ -159,7 +159,7 @@ const GamesTable: React.FC<
         {t("game_table.games")}: {games.length || 0}{" "}
         <button
           onClick={() => {
-            download(games);
+            void download(games);
           }}
         >
           {t("download")}

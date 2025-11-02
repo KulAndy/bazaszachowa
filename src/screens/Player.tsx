@@ -115,7 +115,7 @@ const Player = () => {
         "&base=all" +
         "&searching=fulltext";
     }
-    fetch(url)
+    void fetch(url)
       .then((response) => response.json())
       .then((data: unknown) => {
         if (color === undefined) {
@@ -239,6 +239,7 @@ const Player = () => {
           <iframe
             loading="lazy"
             referrerPolicy="origin-when-cross-origin"
+            // eslint-disable-next-line react-dom/no-unsafe-iframe-sandbox
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
             src={`https://www.yottachess.com/player/${encodeURIComponent(
               name || "",

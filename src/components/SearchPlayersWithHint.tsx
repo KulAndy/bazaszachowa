@@ -56,7 +56,7 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
       }
     };
 
-    fetchData();
+    void fetchData();
   }, [text]);
 
   return (
