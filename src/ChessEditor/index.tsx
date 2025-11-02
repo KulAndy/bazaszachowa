@@ -357,6 +357,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         clearTimeout(timer);
       }
 
+      // eslint-disable-next-line unicorn/consistent-function-scoping
       return () => {
         setPlaying(false);
         setIndex_(0);

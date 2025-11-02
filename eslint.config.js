@@ -9,9 +9,9 @@ import reactNamingConvention from "eslint-plugin-react-naming-convention";
 import reactWebApi from "eslint-plugin-react-web-api";
 import reactPerf from "eslint-plugin-react-perf";
 import perfectionist from "eslint-plugin-perfectionist";
-import promise from "eslint-plugin-promise";
+import pluginPromise from "eslint-plugin-promise";
 import sonarjs from "eslint-plugin-sonarjs";
-import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import pluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import i18next from "eslint-plugin-i18next";
 import * as regexpPlugin from "eslint-plugin-regexp";
@@ -19,7 +19,8 @@ import pluginLingui from "eslint-plugin-lingui";
 import reactRefresh from "eslint-plugin-react-refresh";
 import noUnsanitized from "eslint-plugin-no-unsanitized";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
-import importPlugin from "eslint-plugin-import";
+import pluginImport from "eslint-plugin-import";
+import pluginSecurity from "eslint-plugin-security";
 
 const languageOptions = {
   globals: globals.builtin,
@@ -195,6 +196,7 @@ const rules = {
   "import/first": "error",
 
   "perfectionist/sort-imports": 0,
+  "security/detect-object-injection": "off",
 
   "func-names": ["error", "always"],
   "no-eval": "error",
@@ -309,7 +311,7 @@ export default defineConfig([
   reactDom.configs.recommended,
   reactNamingConvention.configs.recommended,
   reactWebApi.configs.recommended,
-  eslintPluginUnicorn.configs.recommended,
+  pluginUnicorn.configs.recommended,
   regexpPlugin.configs["flat/recommended"],
   pluginLingui.configs["flat/recommended"],
   reactRefresh.configs.recommended,
@@ -317,22 +319,24 @@ export default defineConfig([
   jsxA11Y.flatConfigs.recommended,
   noUnsanitized.configs.recommended,
   prettierRecommended,
-  promise.configs["flat/recommended"],
+  pluginPromise.configs["flat/recommended"],
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat["jsx-runtime"],
   reactHooks.configs.flat.recommended,
   reactHooks.configs.flat["recommended-latest"],
   reactHooksExtra.configs.recommended,
   reactPerf.configs.flat.recommended,
-  importPlugin.flatConfigs.recommended,
-  importPlugin.flatConfigs.errors,
-  importPlugin.flatConfigs.warnings,
-  importPlugin.flatConfigs.typescript,
+  pluginImport.flatConfigs.recommended,
+  pluginImport.flatConfigs.errors,
+  pluginImport.flatConfigs.warnings,
+  pluginImport.flatConfigs.typescript,
+  pluginImport.flatConfigs.react,
   perfectionist.configs["recommended-alphabetical"],
   tseslint.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   tseslint.configs.strict,
   sonarjs.configs.recommended,
+  pluginSecurity.configs.recommended,
   {
     ignores: abbrevatedFiles,
 
