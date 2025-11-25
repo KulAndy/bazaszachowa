@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import Polyglot from "node-polyglot";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 import en from "../i18n/en.json";
 import pl from "../i18n/pl.json";
@@ -33,22 +33,18 @@ export const I18nProvider: React.FC<{ readonly children: React.ReactNode }> = ({
 }) => {
   const [localeState, setLocaleState] = useState<Locale>(detectLocale);
 
-  const [polyglot, setPolyglot] = useState(
+  const polyglot = useMemo(
     () =>
       new Polyglot({ locale: localeState, phrases: dictionaries[localeState] }),
+    [localeState],
   );
-
-  useEffect(() => {
-    const phrases = dictionaries[localeState];
-    setPolyglot(new Polyglot({ locale: localeState, phrases }));
-    Cookies.set("locale", localeState);
-  }, [localeState]);
 
   const t = (key: string, options?: number | Polyglot.InterpolationOptions) =>
     polyglot.t(key, options);
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
+    Cookies.set("locale", newLocale);
   };
 
   return (

@@ -135,14 +135,13 @@ const Player = () => {
     loadCr();
     loadFide();
     loadStats();
-    loadGames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   useEffect(() => {
     loadGames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [color, opening]);
+  }, [color, opening, name]);
 
   return (
     <div id="player">

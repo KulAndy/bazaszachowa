@@ -22,20 +22,18 @@ export const ThemeProvider = ({
 }: {
   readonly children: ReactNode;
 }) => {
-  const [theme, setTheme] = useState<string>(getInitialTheme);
+  const [theme, setTheme] = useState<string>(() => getInitialTheme());
 
   useEffect(() => {
-    const storedTheme = Cookies.get("theme");
     const mediaQueryList = globalThis.matchMedia(
       "(prefers-color-scheme: dark)",
     );
 
-    if (storedTheme === undefined) {
-      setTheme(mediaQueryList.matches ? "dark" : "light");
-    }
-
-    const handleChange = (event: MediaQueryListEvent) =>
-      setTheme(event.matches ? "dark" : "light");
+    const handleChange = (event: MediaQueryListEvent) => {
+      const newTheme = event.matches ? "dark" : "light";
+      setTheme(newTheme);
+      Cookies.set("theme", newTheme, { expires: 365 });
+    };
 
     mediaQueryList.addEventListener("change", handleChange);
 
