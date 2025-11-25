@@ -74,6 +74,7 @@
   "player.cr_title": "Tytuł/Kat.",
   "player.fide_title": "Tytuł",
   "player.birth_year": "Rocznik",
+  "player.poland_tournaments": "Polskie turnieje",
   "elo.standard": "Klasyczne",
   "elo.rapid": "Szybkie",
   "elo.blitz": "Błyskawiczne",
@@ -181,5 +182,9 @@
   "stats.isolated": "izolaki",
   "stats.passed": "wolniaki",
   "stats.frequency": "Ilość",
-  "stats.mobility": "Mobilność"
+  "stats.mobility": "Mobilność",
+  "tournament.name": "nazwa",
+  "tournament.start_date": "początek",
+  "tournament.end_date": "koniec",
+  "tournament.page": "strona"
 }

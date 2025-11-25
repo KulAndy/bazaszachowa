@@ -13,6 +13,7 @@ import FidePlayersList from "../components/FidePlayerList";
 import GamesStats from "../components/GamesStats";
 import GamesTable from "../components/GamesTable";
 import OpeningsStats from "../components/OpeningStats";
+import PolandTournaments from "../components/PolandTournaments";
 import { useI18n } from "../context/useI18n";
 import { API, URLS } from "../settings";
 
@@ -279,6 +280,7 @@ const Player = () => {
             </tr>
           </tbody>
         </table>
+        {name ? <PolandTournaments name={name} /> : null}
         {games ? <GamesStats games={games} player={name || ""} /> : null}
         {loadingGames ? (
           <div>

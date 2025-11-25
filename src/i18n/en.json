@@ -74,6 +74,7 @@
   "player.cr_title": "Title",
   "player.fide_title": "Title",
   "player.birth_year": "Birth",
+  "player.poland_tournaments": "Poland tournaments",
   "elo.standard": "Standard",
   "elo.rapid": "Rapid",
   "elo.blitz": "Blitz",
@@ -181,5 +182,9 @@
   "stats.isolated": "isolated",
   "stats.passed": "passed",
   "stats.frequency": "Frequency",
-  "stats.mobility": "Mobility"
+  "stats.mobility": "Mobility",
+  "tournament.name": "name",
+  "tournament.start_date": "start",
+  "tournament.end_date": "end",
+  "tournament.page": "page"
 }
