@@ -65,7 +65,7 @@ const PolandTournaments: React.FC<PolandTournamentsProperties> = ({ name }) => {
                   <TableCell>{item.start.slice(0, 10)}</TableCell>
                   <TableCell>{item.end.slice(0, 10)}</TableCell>
                   <TableCell>
-                    <a href={item.url}>{t("link")}</a>
+                    {item.url ? <a href={item.url}>{t("link")}</a> : null}
                   </TableCell>
                   <TableCell>
                     <a
