@@ -59,10 +59,17 @@ export default defineConfig({
         background_color: "#ffffff",
       },
       workbox: {
-        navigateFallbackDenylist: [/^\/game_raw\/.*/],
+        navigateFallbackDenylist: [
+          /^\/game_raw\/.*/,
+          /chess_processor|game_stats|stats|uci2pgn/,
+        ],
         runtimeCaching: [
           {
             urlPattern: /^\/game_raw\/.*/,
+            handler: "NetworkOnly",
+          },
+          {
+            urlPattern: /chess_processor|game_stats|stats|uci2pgn/,
             handler: "NetworkOnly",
           },
         ],
@@ -76,3 +83,4 @@ export default defineConfig({
     include: ["@emotion/react", "@emotion/styled"],
   },
 });
+
