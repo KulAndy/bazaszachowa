@@ -75,6 +75,7 @@
   "player.fide_title": "Title",
   "player.birth_year": "Birth",
   "player.poland_tournaments": "Poland tournaments",
+  "player.fide_tournaments": "FIDE tournaments",
   "elo.standard": "Standard",
   "elo.rapid": "Rapid",
   "elo.blitz": "Blitz",
@@ -186,5 +187,6 @@
   "tournament.name": "name",
   "tournament.start_date": "start",
   "tournament.end_date": "end",
-  "tournament.page": "page"
+  "tournament.page": "page",
+  "tournament.country": "country"
 }

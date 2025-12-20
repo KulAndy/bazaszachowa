@@ -27,6 +27,7 @@ const API = {
   players: "/players/",
   send_mail: "/mail/send",
   poland_tournaments: "/player/tournaments/poland/",
+  fide_tournaments: "/player/tournaments/fide/",
 };
 const NOMENU_URLS = {
   activation: "/activation/",
