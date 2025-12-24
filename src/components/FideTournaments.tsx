@@ -15,6 +15,8 @@ import React, { useEffect, useState } from "react";
 import { useI18n } from "../context/useI18n";
 import { API } from "../settings";
 
+import TournamentTimeSeries from "./TournamentTimeSeries";
+
 interface FideTournamentsProperties {
   readonly name: string;
 }
@@ -41,12 +43,17 @@ const FideTournaments: React.FC<FideTournamentsProperties> = ({ name }) => {
       });
   }, [name]);
 
+  if (tournaments.length === 0) {
+    return null;
+  }
+
   return (
     <Accordion>
       <AccordionSummary>
         {t("player.fide_tournaments")}: {tournaments.length}
       </AccordionSummary>
       <AccordionDetails>
+        <TournamentTimeSeries series={tournaments} />
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
