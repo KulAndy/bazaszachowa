@@ -51,39 +51,47 @@ bez parametrów, a wymagające dane wejściowe metodą POST
   }[]
   ```
 
-- `/game/:base/:id`
+- `/player/tournaments/poland/:player`
   - dane wejściowe:
 
   ```
   {
-    id: id,
-    base - poland/all
+    player - Nazwisko, Imię
   }
   ```
 
   - dane wyjściowe:
 
   ```
-      {
-          id,
-          moves: {
-              from:pole,
-              to:pole,
-              promotion?:p|n|b|r|q|k
-          }[],
-          Event: turniej,
-          Site: miejsce,
-          Year: rok,
-          Month: miesiąc,
-          Day: dzień miesiąca,
-          Round: runda,
-          White: biały,
-          Black: czarny,
-          Result: wynik,
-          WhiteElo: elo białego,
-          BlackElo: elo czarnego,
-          ECO: eco
-      }[],
+  {
+    end: data ISO,
+    id: ID CR,
+    name: nazwa,
+    players: int[],
+    start: data ISO,
+    url: serwis turniejowy
+  }
+  ```
+
+- `/player/tournaments/fide/:player`
+  - dane wejściowe:
+
+  ```
+  {
+    player - Nazwisko, Imię
+  }
+  ```
+
+  - dane wyjściowe:
+
+  ```
+  {
+    country: kraj (char[3])
+    id: ID FIDE,
+    name: nazwa,
+    players: int[],
+    start: data ISO
+  }
   ```
 
 - `/player/plot/:format/:player`
@@ -139,6 +147,94 @@ bez parametrów, a wymagające dane wejściowe metodą POST
   }
   ```
 
+- `/player/opening/:player/:color/:opening?`
+  - dane wejściowe:
+
+  ```
+  {
+    player - Nazwisko, Imię,
+    color - kolor (white/black)
+    [, opening: debiut]
+    }
+  ```
+
+  - dane wyjściowe:
+
+```
+
+    {
+      id: id,
+      moves: {
+          from:pole,
+          to:pole,
+          promotion?:p/n/b/r/q/k
+        }[],
+      Event: turniej,
+      Site: miejsce,
+      Year: rok,
+      Month: miesiąc,
+      Day: dzień miesiąca,
+      Round: runda,
+      White: biały,
+      Black: czarny,
+      Result: wynik,
+      WhiteElo: elo białego,
+      BlackElo: elo czarnego
+      [, ECO: eco]
+      }[]
+```
+
+- `/players/:player`
+  - dane wejściowe:
+
+  ```
+  {
+  player - Nazwisko, Imię
+  }
+  ```
+
+  - dane wyjściowe:
+
+  ```
+  string[]
+  Nazwisko, Imię
+  ```
+
+- `/game/:base/:id`
+  - dane wejściowe:
+
+  ```
+  {
+    id: id,
+    base - poland/all
+  }
+  ```
+
+  - dane wyjściowe:
+
+  ```
+      {
+          id,
+          moves: {
+              from:pole,
+              to:pole,
+              promotion?:p|n|b|r|q|k
+          }[],
+          Event: turniej,
+          Site: miejsce,
+          Year: rok,
+          Month: miesiąc,
+          Day: dzień miesiąca,
+          Round: runda,
+          White: biały,
+          Black: czarny,
+          Result: wynik,
+          WhiteElo: elo białego,
+          BlackElo: elo czarnego,
+          ECO: eco
+      }[],
+  ```
+
 - `/games`
   - dane wejściowe:
 
@@ -181,62 +277,6 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     [, ECO: eco]
     }[]
   ```
-
-- `/player/opening/:player/:color/:opening?`
-  - dane wejściowe:
-
-  ```
-  {
-    player - Nazwisko, Imię,
-    color - kolor (white/black)
-    [, opening: debiut]
-    }
-  ```
-
-- dane wyjściowe:
-
-```
-
-    {
-      id: id,
-      moves: {
-          from:pole,
-          to:pole,
-          promotion?:p/n/b/r/q/k
-        }[],
-      Event: turniej,
-      Site: miejsce,
-      Year: rok,
-      Month: miesiąc,
-      Day: dzień miesiąca,
-      Round: runda,
-      White: biały,
-      Black: czarny,
-      Result: wynik,
-      WhiteElo: elo białego,
-      BlackElo: elo czarnego
-      [, ECO: eco]
-      }[]
-```
-
-- `/players/:player`
-  - dane wejściowe
-
-```
-
-{
-player - Nazwisko, Imię
-}
-
-```
-
-- dane wyjściowe
-
-```
-
-string[]
-Nazwisko, Imię
-```
 
 - `/mail/send`
   - dane wejściowe
