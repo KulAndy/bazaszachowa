@@ -40,10 +40,10 @@
 
 ### all_players
 
-| Kolumna         | Typ         | Null | Ustawienia domyślne | Odsyłacze do        |
-| --------------- | ----------- | ---- | ------------------- | ------------------- |
-| id (Podstawowy) | mediumint   | Nie  |                     | players -> id       |
-| fullname        | varchar(80) | Nie  |                     | players -> fullname |
+| Kolumna         | Typ          | Null | Ustawienia domyślne | Odsyłacze do        |
+| --------------- | ------------ | ---- | ------------------- | ------------------- |
+| id (Podstawowy) | mediumint    | Nie  |                     | players -> id       |
+| fullname        | varchar(255) | Nie  |                     | players -> fullname |
 
 #### Indeksy
 
@@ -87,43 +87,35 @@
 | ECO          | BTREE | Tak          | Nie       | ECO     | A                           | Nie  |
 | ECO_2        | BTREE | Nie          | Nie       | ECO     | A                           | Nie  |
 
-### eco
+### fide_players
 
-| Kolumna             | Typ         | Null | Ustawienia domyślne |
-| ------------------- | ----------- | ---- | ------------------- |
-| fideid (Podstawowy) | int         | Nie  |                     |
-| name                | varchar(90) | Tak  | NULL                |
-| country             | char(3)     | Tak  | NULL                |
-| sex                 | char(3)     | Tak  | NULL                |
-| title               | varchar(3)  | Tak  | NULL                |
-| w_title             | varchar(3)  | Tak  | NULL                |
-| o_title             | varchar(9)  | Tak  | NULL                |
-| foa_title           | varchar(3)  | Tak  | NULL                |
-| rating              | smallint    | Tak  | NULL                |
-| games               | smallint    | Tak  | NULL                |
-| k                   | tinyint     | Tak  | NULL                |
-| rapid_rating        | smallint    | Tak  | NULL                |
-| rapid_games         | smallint    | Tak  | NULL                |
-| rapid_k             | tinyint     | Tak  | NULL                |
-| blitz_rating        | smallint    | Tak  | NULL                |
-| blitz_games         | smallint    | Tak  | NULL                |
-| blitz_k             | tinyint     | Tak  | NULL                |
-| birthday            | mediumint   | Tak  | NULL                |
-| flag                | varchar(2)  | Tak  | NULL                |
+| Kolumna             | Typ                                                       | Null | Ustawienia domyślne |
+| ------------------- | --------------------------------------------------------- | ---- | ------------------- |
+| fideid (Podstawowy) | int                                                       | Nie  |                     |
+| name                | varchar(255)                                              | Tak  | NULL                |
+| country             | enum('AFG', 'AHO', 'ALB', 'ALG', 'AND', 'ANG', ...)       | Tak  | NULL                |
+| sex                 | enum('M', 'F')                                            | Tak  | NULL                |
+| title               | enum('GM', 'IM', 'FM', 'CM', 'WGM', 'WIM', ...)           | Tak  | NULL                |
+| w_title             | enum('WGM', 'WIM', 'WFM', 'WCM')                          | Tak  | NULL                |
+| o_title             | set('IA', 'FA', 'FST', 'FT', 'FI', 'NI', 'DI', 'IO', ...) | Tak  | NULL                |
+| rating              | smallint                                                  | Tak  | NULL                |
+| rapid_rating        | smallint                                                  | Tak  | NULL                |
+| blitz_rating        | smallint                                                  | Tak  | NULL                |
+| birthday            | year                                                      | Tak  | NULL                |
 
 #### Indeksy
 
-| Nazwa klucza | Typ      | Jednoznaczny | Spakowany | Kolumna | Metoda porównywania napisów | Null |
-| ------------ | -------- | ------------ | --------- | ------- | --------------------------- | ---- |
-| PRIMARY      | BTREE    | Tak          | Nie       | fideid  | A                           | Nie  |
-| name         | FULLTEXT | Nie          | Nie       | name    |                             | Tak  |
+| Nazwa klucza | Typ   | Jednoznaczny | Spakowany | Kolumna | Metoda porównywania napisów | Null |
+| ------------ | ----- | ------------ | --------- | ------- | --------------------------- | ---- |
+| PRIMARY      | BTREE | Tak          | Nie       | fideid  | A                           | Nie  |
+| name         | BTREE | Nie          | Nie       | name    | A                           | Tak  |
 
 ### players
 
-| Kolumna         | Typ         | Null |
-| --------------- | ----------- | ---- |
-| id (Podstawowy) | mediumint   | Nie  |
-| fullname        | varchar(80) | Nie  |
+| Kolumna         | Typ          | Null |
+| --------------- | ------------ | ---- |
+| id (Podstawowy) | mediumint    | Nie  |
+| fullname        | varchar(255) | Nie  |
 
 #### Indeksy
 
@@ -133,7 +125,6 @@
 | fullname             | BTREE    | Tak          | Nie       | fullname | A                           | Nie  |
 | idx_players_relation | BTREE    | Nie          | Nie       | id       | A                           | Nie  |
 |                      |          |              |           | fullname | A                           | Nie  |
-| fullname_2           | BTREE    | Nie          | Nie       | fullname | A                           | Nie  |
 | fullname_3           | FULLTEXT | Nie          | Nie       | fullname |                             | Nie  |
 
 ### poland_games
@@ -161,6 +152,8 @@
 | ------------ | ----- | ------------ | --------- | ------- | --------------------------- | ---- |
 | PRIMARY      | BTREE | Tak          | Nie       | id      | A                           | Nie  |
 | Year         | BTREE | Nie          | Nie       | Year    | A                           | Nie  |
+|              |       |              |           | Month   |                             |      |
+|              |       |              |           | Day     |                             |      |
 | WhiteID      | BTREE | Nie          | Nie       | WhiteID | A                           | Nie  |
 | BlackID      | BTREE | Nie          | Nie       | BlackID | A                           | Nie  |
 | eventID      | BTREE | Nie          | Nie       | eventID | A                           | Nie  |
@@ -169,10 +162,10 @@
 
 ### poland_players
 
-| Kolumna         | Typ         | Null | Ustawienia domyślne | Odsyłacze do |
-| --------------- | ----------- | ---- | ------------------- | ------------ |
-| id (Podstawowy) | mediumint   | Nie  | players -> id       |              |
-| fullname        | varchar(80) | Nie  | players -> fullname |              |
+| Kolumna         | Typ          | Null | Ustawienia domyślne | Odsyłacze do |
+| --------------- | ------------ | ---- | ------------------- | ------------ |
+| id (Podstawowy) | mediumint    | Nie  | players -> id       |              |
+| fullname        | varchar(255) | Nie  | players -> fullname |              |
 
 #### Indeksy
 
@@ -186,10 +179,10 @@
 
 ### sites
 
-| Kolumna         | Typ         | Null |
-| --------------- | ----------- | ---- |
-| id (Podstawowy) | mediumint   | Nie  |
-| site            | varchar(80) | Nie  |
+| Kolumna         | Typ          | Null |
+| --------------- | ------------ | ---- |
+| id (Podstawowy) | mediumint    | Nie  |
+| site            | varchar(255) | Nie  |
 
 #### Indeksy
 
