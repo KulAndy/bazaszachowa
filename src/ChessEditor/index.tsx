@@ -243,13 +243,12 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
           if (
             index.current !== undefined &&
             getNextMoveIndex(index.current) &&
-            history.current[getNextMoveIndex(index.current)!] !== null &&
             history.current[getNextMoveIndex(index.current)!] !== undefined &&
-            history.current[getNextMoveIndex(index.current)!].from ===
+            history.current[getNextMoveIndex(index.current)!]?.from ===
               doneMove.from &&
-            history.current[getNextMoveIndex(index.current)!].to ===
+            history.current[getNextMoveIndex(index.current)!]?.to ===
               doneMove.to &&
-            history.current[getNextMoveIndex(index.current)!].promotion ===
+            history.current[getNextMoveIndex(index.current)!]?.promotion ===
               doneMove.promotion
           ) {
             setIndex(getNextMoveIndex(index.current)!);
@@ -264,11 +263,11 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
                 getNextMoveIndex(index.current)!
               ].variations) {
                 if (
-                  variation !== null &&
+                  // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
                   variation !== undefined &&
                   variation.from === doneMove.from &&
-                  variation.to === doneMove.to &&
-                  variation.promotion === doneMove.promotion
+                  variation?.to === doneMove.to &&
+                  variation?.promotion === doneMove.promotion
                 ) {
                   setIndex(variation.index!);
                   return true;

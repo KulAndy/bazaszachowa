@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import { lazy, use } from "react";
-// eslint-disable-next-line import/no-unresolved
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 

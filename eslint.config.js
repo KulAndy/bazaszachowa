@@ -101,6 +101,7 @@ const rules = {
 
   "react-naming-convention/use-state": "error",
   "react-naming-convention/context-name": "error",
+  "react-naming-convention/ref-name": "off",
   "react-hooks/rules-of-hooks": "error",
   "react-hooks/exhaustive-deps": "error",
   "react-hooks-extra/no-direct-set-state-in-use-effect": "off",
