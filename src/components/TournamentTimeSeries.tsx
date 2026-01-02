@@ -137,10 +137,19 @@ const TournamentTimeSeries: React.FC<TournamentTimeSeriesProperties> = ({
   }, [labels.join(","), values.join(",")]);
 
   return (
-    <div
-      style={{ backgroundColor: "#fff", height: 300, width: "100%" } as const}
-    >
-      <canvas ref={canvasReference} />
+    <div style={{ overflowX: "auto", width: "100%" } as const}>
+      <div
+        style={
+          {
+            backgroundColor: "#fff",
+            height: 300,
+            minWidth: 600,
+            width: "100%",
+          } as const
+        }
+      >
+        <canvas ref={canvasReference} />
+      </div>
     </div>
   );
 };
