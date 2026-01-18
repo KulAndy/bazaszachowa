@@ -15,16 +15,11 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
   icon,
   iconColor = "black",
   onClick = noop,
-  style = {} as const,
   ...properties
 }) => {
   if (disable) {
     return (
-      <span
-        className={`${className} ${iconColor} disabled`}
-        style={style}
-        {...properties}
-      >
+      <span className={`${className} ${iconColor} disabled`} {...properties}>
         <FontAwesomeIcon color={iconColor} icon={icon} />
       </span>
     );
@@ -34,7 +29,6 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
     <span
       className={`${className} ${iconColor}`}
       onClick={onClick}
-      style={style}
       {...properties}
     >
       <FontAwesomeIcon color={iconColor} icon={icon} />

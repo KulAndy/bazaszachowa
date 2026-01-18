@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { sumBy } from "es-toolkit";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../context/useI18n";
@@ -30,15 +31,7 @@ export interface Stat {
 
 const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
   const { t } = useI18n();
-  const items = stats.map((stat, index) => ({
-    ...stat,
-    key: index,
-  }));
-
-  const sum = items.reduce(
-    (accumulator, currentItem) => accumulator + currentItem.count,
-    0,
-  );
+  const sum = sumBy(stats, (item) => item.count);
 
   return (
     <Accordion>
@@ -55,8 +48,8 @@ const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.key}>
+              {stats.map((item) => (
+                <TableRow key={item.opening}>
                   <TableCell>{item.opening}</TableCell>
                   <TableCell>{item.count}</TableCell>
                   <TableCell>{item.percent}</TableCell>
@@ -78,11 +71,7 @@ const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
                 <TableCell>{sum}</TableCell>
                 <TableCell>
                   {(
-                    items.reduce(
-                      (accumulator, { count, percent }) =>
-                        accumulator + count * percent,
-                      0,
-                    ) / sum
+                    sumBy(stats, (item) => item.count * item.percent) / sum
                   ).toFixed(2)}
                 </TableCell>
                 <TableCell>

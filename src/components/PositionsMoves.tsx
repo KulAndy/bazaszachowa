@@ -5,7 +5,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { noop } from "es-toolkit";
+import { countBy, flatMap, noop, sumBy } from "es-toolkit";
 import { type HTMLProps } from "react";
 
 import { useI18n } from "../context/useI18n";
@@ -77,41 +77,33 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
 
   const currentYear = new Date().getFullYear();
 
-  const yearsMap: Record<number, number> = {};
-  const moveMap: Record<string, Record<number, number>> = {};
-  for (const stat of stats) {
-    moveMap[stat.move] = {};
-    for (const year of stat.years) {
-      yearsMap[year] = (yearsMap[year] || 0) + 1;
-      moveMap[stat.move][year] = (moveMap[stat.move][year] || 0) + 1;
-    }
-  }
+  const yearsMap = countBy(
+    flatMap(stats, (stat) => stat.years),
+    (item) => item,
+  );
 
   const yearBound = 10;
   const base = Math.pow(yearBound, 1 / yearBound);
 
-  const total = stats.reduce(
-    (accumulator, stat) =>
-      accumulator + stat.years.length * Math.pow(base, yearBound),
-    0,
+  const total = sumBy(
+    stats,
+    (item) => item.years.length * Math.pow(base, yearBound),
   );
 
   const values = stats.map((item) =>
-    item.years.reduce(
-      (accum, year) =>
-        accum +
-        Math.pow(
-          base,
-          year <= currentYear - yearBound - 1
-            ? 1
-            : yearBound - (currentYear - year),
-        ),
-      0,
+    sumBy(item.years, (year) =>
+      Math.pow(
+        base,
+        year <= currentYear - yearBound - 1
+          ? 1
+          : yearBound - (currentYear - year),
+      ),
     ),
   );
 
   const maxValue = Math.max(...values);
-  const maxYear = Math.max(...stats.map((item) => Math.max(...item.years)));
+  const maxYear = Math.max(...Object.keys(yearsMap).map(Number));
+  const minYear = Math.min(...Object.keys(yearsMap).map(Number));
 
   let scaleFactor = 1;
   const denominator =
@@ -123,7 +115,6 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
     scaleFactor = total / maxValue / denominator;
   }
 
-  const minYear = Math.min(...Object.keys(yearsMap).map(Number));
   const values2 = stats.map((item) =>
     calcProbability({
       eps: 0.1,

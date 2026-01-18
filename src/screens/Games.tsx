@@ -34,6 +34,7 @@ const Games = () => {
   const [helpOpen, setHelpOpen] = useState(false);
   const [minYear, setMinYear] = useState("1475");
   const [maxYear, setMaxYear] = useState(currentYear.toString());
+  const [tournamentEvent, setTournamentEvent] = useState("");
 
   const [games, submitAction, isPending] = useActionState(
     async (previousState: GameData[], formData: FormData) => {
@@ -186,10 +187,13 @@ const Games = () => {
                 <tr>
                   <td colSpan={2}>
                     <TextField
-                      defaultValue=""
                       fullWidth
                       label={t("tournament")}
                       name="event"
+                      onChange={(event) =>
+                        setTournamentEvent(event.target.value)
+                      }
+                      value={tournamentEvent}
                     />
                   </td>
                 </tr>

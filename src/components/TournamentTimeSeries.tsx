@@ -8,6 +8,7 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
+import { countBy } from "es-toolkit";
 import React, { useEffect, useRef } from "react";
 
 import { useI18n } from "../context/useI18n";
@@ -32,8 +33,8 @@ interface TournamentTimeSeriesProperties {
 
 const current = new Date();
 
-const getYearMonthRange = (start: string): string[] => {
-  const result: string[] = [];
+const getYearMonthRange = (start: string): `${number}-${string}`[] => {
+  const result: `${number}-${string}`[] = [];
 
   const [startYear, startMonth] = start.split("-").map(Number);
 
@@ -65,20 +66,15 @@ const TournamentTimeSeries: React.FC<TournamentTimeSeriesProperties> = ({
 
   let minDate = "9999-12";
 
-  const grouped = series.reduce<Record<string, number>>((accumulator, item) => {
+  const grouped = countBy(series, (item) => {
     const date = new Date(item.start);
+    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+  });
 
-    const yearMonth = `${date.getUTCFullYear()}-${String(
-      date.getUTCMonth() + 1,
-    ).padStart(2, "0")}`;
-
-    if (minDate > yearMonth) {
-      minDate = yearMonth;
-    }
-
-    accumulator[yearMonth] = (accumulator[yearMonth] ?? 0) + 1;
-    return accumulator;
-  }, {});
+  const groupKeys = Object.keys(grouped);
+  if (groupKeys.length > 0) {
+    minDate = Object.keys(grouped).toSorted((a, b) => a.localeCompare(b))[0];
+  }
 
   const fullRange = getYearMonthRange(minDate);
 

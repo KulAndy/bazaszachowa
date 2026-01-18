@@ -13,8 +13,6 @@ import type { ShortMove } from ".";
 
 interface ChessboardProperties {
   readonly addMove: (x: ShortMove) => void;
-  readonly blackPiecesColor?: string;
-  readonly blackSquareColor?: string;
   readonly boardSize: number;
   readonly fen: string;
   readonly flip: boolean;
@@ -63,13 +61,12 @@ const Chessboard: React.FC<ChessboardProperties> = ({
       },
       movable: {
         color: "both",
-        dests: chess.moves({ verbose: true }).reduce((destinations, move) => {
-          const newDestinations = destinations.get(move.from) || [];
-          newDestinations.push(move.to);
-          destinations.set(move.from, newDestinations);
-
-          return destinations;
-        }, new Map<Key, Key[]>()),
+        dests: chess
+          .moves({ verbose: true })
+          .reduce((destinations, { from, to }) => {
+            destinations.set(from, [...(destinations.get(from) || []), to]);
+            return destinations;
+          }, new Map<Key, Key[]>()),
         free: false,
         rookCastle: true,
         showDests: true,

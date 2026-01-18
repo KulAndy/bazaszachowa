@@ -1,3 +1,6 @@
+import { groupBy, mapValues } from "es-toolkit";
+import { floor, max, mean, min, round } from "es-toolkit/compat";
+
 import initWasm from "./wasm/stats";
 
 export interface StatSummary {
@@ -19,8 +22,8 @@ let wasmComputeStats: ((argument0: number[]) => StatSummary) | null = null;
 // eslint-disable-next-line unicorn/prefer-top-level-await, @typescript-eslint/no-explicit-any
 void initWasm().then((wasm: any) => {
   wasmComputeStats = (array: number[]) => {
-    const minNumber = Math.min(...array);
-    const maxNumber = Math.max(...array);
+    const minNumber = min(array) || Number.POSITIVE_INFINITY;
+    const maxNumber = max(array) || Number.NEGATIVE_INFINITY;
 
     let intType = "Uint32";
     if (minNumber >= 0 && maxNumber <= 255) {
@@ -84,25 +87,15 @@ export function computeStats(data: number[]): StatSummary {
     };
   }
 
-  let sum = 0;
-  let min = Number.POSITIVE_INFINITY;
-  let max = Number.NEGATIVE_INFINITY;
-  const freq: Record<number, number> = {};
+  const minValue = min(data) || Number.POSITIVE_INFINITY;
+  const maxValue = max(data) || Number.NEGATIVE_INFINITY;
+  const avg = mean(data);
 
-  for (let index = 0; index < n; index++) {
-    const x = data[index];
-    sum += x;
-    if (x < min) {
-      min = x;
-    }
-    if (x > max) {
-      max = x;
-    }
-    const rounded = Math.round(x);
-    freq[rounded] = (freq[rounded] || 0) + 1;
-  }
+  const freq: Record<number, number> = mapValues(
+    groupBy(data, (item) => round(item)),
+    (item) => item.length,
+  );
 
-  const avg = sum / n;
   let sqDiffSum = 0;
   for (let index = 0; index < n; index++) {
     const diff = data[index] - avg;
@@ -112,11 +105,11 @@ export function computeStats(data: number[]): StatSummary {
   const stddev = Math.sqrt(variance);
 
   const sorted = data.toSorted((a, b) => a - b);
-  const mid = Math.floor(n / 2);
+  const mid = floor(n / 2);
   const median =
     n % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
-  const q1 = sorted[Math.floor(n / 4)];
-  const q3 = sorted[Math.floor((3 * n) / 4)];
+  const q1 = sorted[floor(n / 4)];
+  const q3 = sorted[floor((3 * n) / 4)];
 
   let dominant: null | number = null;
   let maxFreq = 0;
@@ -131,9 +124,9 @@ export function computeStats(data: number[]): StatSummary {
     avg,
     dominant,
     histogram: freq,
-    max,
+    max: maxValue,
     median,
-    min,
+    min: minValue,
     q1,
     q3,
     stddev,
