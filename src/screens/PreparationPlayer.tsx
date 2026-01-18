@@ -17,7 +17,7 @@ const debounce = <T extends unknown[]>(
   callback: (...arguments_: T) => void,
   delay: number,
 ): ((...arguments_: T) => void) => {
-  let timeoutId: NodeJS.Timeout | undefined;
+  let timeoutId: number | undefined;
 
   return (...arguments_: T): void => {
     clearTimeout(timeoutId);
