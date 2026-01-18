@@ -1,29 +1,8 @@
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
+import { deburr } from "es-toolkit";
 import { useEffect, useState } from "react";
 
 import { API } from "../settings";
-
-const replaceNationalCharacters = (text: string) => {
-  return text
-    .replaceAll("ą", "a")
-    .replaceAll("Ą", "A")
-    .replaceAll("ć", "c")
-    .replaceAll("Ć", "C")
-    .replaceAll("ę", "e")
-    .replaceAll("Ę", "E")
-    .replaceAll("ł", "l")
-    .replaceAll("Ł", "L")
-    .replaceAll("ń", "n")
-    .replaceAll("Ń", "N")
-    .replaceAll("ó", "o")
-    .replaceAll("Ó", "O")
-    .replaceAll("ś", "s")
-    .replaceAll("Ś", "S")
-    .replaceAll("ź", "z")
-    .replaceAll("Ź", "Z")
-    .replaceAll("ż", "z")
-    .replaceAll("Ż", "Z");
-};
 
 type SearchPlayersWithHintsProperties = {
   readonly callback?: (x: string) => void;
@@ -67,9 +46,9 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
         label={label}
         onChange={(event) => {
           if (callback !== undefined) {
-            callback(replaceNationalCharacters(event.target.value));
+            callback(deburr(event.target.value));
           }
-          setText(replaceNationalCharacters(event.target.value));
+          setText(deburr(event.target.value));
         }}
         placeholder="Nowak, Jan"
         slotProps={{ htmlInput: { list: list || `${id}_datalist` } } as const}
