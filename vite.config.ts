@@ -25,7 +25,9 @@ export default defineConfig({
         ],
       },
     }),
-    eslint(),
+    eslint({
+      build: true,
+    }),
     stylelint({
       files: ["./src/**/*.{css,scss,sass,less}"],
     }),
@@ -83,4 +85,3 @@ export default defineConfig({
     include: ["@emotion/react", "@emotion/styled"],
   },
 });
-

@@ -6,6 +6,7 @@ import { Chessground } from "@lichess-org/chessground";
 import type { Api as ChessgroundApi } from "@lichess-org/chessground/api";
 import type { Key } from "@lichess-org/chessground/types";
 import { Chess, type Square } from "chess.js";
+import { noop } from "es-toolkit";
 import { useEffect, useRef } from "react";
 
 import type { ShortMove } from ".";
@@ -28,8 +29,8 @@ const Chessboard: React.FC<ChessboardProperties> = ({
   boardSize = 400,
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   flip = false,
-  nextMove = () => {},
-  prevMove: previousMove = () => {},
+  nextMove = noop,
+  prevMove: previousMove = noop,
 }) => {
   const boardReference = useRef<HTMLDivElement | null>(null);
   const apiReference = useRef<ChessgroundApi | null>(null);

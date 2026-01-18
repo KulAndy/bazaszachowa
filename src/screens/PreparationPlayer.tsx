@@ -1,5 +1,6 @@
 import "../styles/PreparationPlayer.scss";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { debounce, noop } from "es-toolkit";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,20 +14,6 @@ import { API, NOMENU_URLS } from "../settings";
 
 const processor = new ChessProcessor();
 
-const debounce = <T extends unknown[]>(
-  callback: (...arguments_: T) => void,
-  delay: number,
-): ((...arguments_: T) => void) => {
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-  return (...arguments_: T): void => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      callback(...arguments_);
-    }, delay);
-  };
-};
-
 const PreparationPlayer = ({
   color,
   player,
@@ -39,7 +26,7 @@ const PreparationPlayer = ({
   const [tree, setTree] = useState<StatsItem[]>([]);
   const [fen, setFen] = useState<string | undefined>();
 
-  const [doMove, setDoMove] = useState(() => () => {});
+  const [doMove, setDoMove] = useState(() => noop);
   const [gamesFilter, setGamesFilter] = useState<number[]>([]);
   const [notationLayout, setNotationLayout] = useState(
     window.innerHeight > window.innerWidth ||

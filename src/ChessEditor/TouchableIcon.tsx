@@ -1,5 +1,6 @@
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { noop } from "es-toolkit";
 
 interface TouchableIconProperties extends React.HTMLProps<HTMLSpanElement> {
   readonly disable?: boolean;
@@ -13,7 +14,7 @@ const TouchableIcon: React.FC<TouchableIconProperties> = ({
   disable = false,
   icon,
   iconColor = "black",
-  onClick = () => {},
+  onClick = noop,
   style = {} as const,
   ...properties
 }) => {

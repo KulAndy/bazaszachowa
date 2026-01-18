@@ -12,6 +12,7 @@ import {
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { noop } from "es-toolkit";
 import { useEffect } from "react";
 
 import TouchableIcon from "./TouchableIcon";
@@ -36,29 +37,22 @@ interface ButtonsBarProperties {
 }
 
 const ButtonsBar: React.FC<ButtonsBarProperties> = ({
-  download = () => {},
-
-  firstMove = () => {},
-
-  flip = () => {},
+  download = noop,
+  firstMove = noop,
+  flip = noop,
   isFirst = true,
   isLast = true,
-
-  lastMove = () => {},
-
-  nextMove = () => {},
+  lastMove = noop,
+  nextMove = noop,
   notationLayout = "column",
   notationSwitch = false,
   playing,
-
-  previousMove = () => {},
-  setNotationLayout = () => {},
+  previousMove = noop,
+  setNotationLayout = noop,
   setPlaying,
   width,
-
-  zoomIn = () => {},
-
-  zoomOut = () => {},
+  zoomIn = noop,
+  zoomOut = noop,
 }) => {
   const activeIconColor = "black";
   const inactiveIconColor = "gray";

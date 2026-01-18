@@ -1,3 +1,4 @@
+import { noop } from "es-toolkit";
 import Polyglot from "node-polyglot";
 import { createContext } from "react";
 
@@ -11,7 +12,7 @@ export type Locale = "en" | "pl";
 
 const defaultI18nContext: I18nContextType = {
   locale: "pl",
-  setLocale: () => {},
+  setLocale: noop,
   t: (key: string) => key,
 };
 

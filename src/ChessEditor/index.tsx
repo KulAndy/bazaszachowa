@@ -1,10 +1,12 @@
 import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
+import { noop } from "es-toolkit";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ButtonsBar from "./ButtonsBar";
 import Chessboard from "./Chessboard";
 import Notation from "./Notation";
+
 import "./style.scss";
 
 // eslint-disable-next-line no-use-before-define
@@ -140,15 +142,12 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   notationLayout = "bottom",
   notationSwitch = false,
   profileUrl = null,
-  setDoMove = () => {},
-  setFen = () => {},
-
-  setNotationLayout = () => {},
+  setDoMove = noop,
+  setFen = noop,
+  setNotationLayout = noop,
   showPlayers = true,
-
-  zoomIn = () => {},
-
-  zoomOut = () => {},
+  zoomIn = noop,
+  zoomOut = noop,
 }) => {
   const [playing, setPlaying] = useState(false);
   const [flip, setFlip] = useState(false);

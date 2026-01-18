@@ -1,5 +1,7 @@
+import { noop } from "es-toolkit";
+
 const HalfMove = ({
-  doMove = () => {},
+  doMove = noop,
   isCurrent = false,
   isMain = true,
   move = "",

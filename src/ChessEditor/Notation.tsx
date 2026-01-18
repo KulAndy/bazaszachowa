@@ -1,3 +1,5 @@
+import { noop } from "es-toolkit";
+
 import HalfMove from "./HalfMove";
 
 import type { Move } from ".";
@@ -15,7 +17,7 @@ const Notation: React.FC<NotationProperties> = ({
   height = 400,
   moves = [],
   result = null,
-  setIndex = () => {},
+  setIndex = noop,
 }) => {
   const moveComponents: React.JSX.Element[] = [];
   const processMove = (move: Move, isMain: boolean) => {

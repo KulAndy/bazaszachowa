@@ -5,6 +5,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { noop } from "es-toolkit";
 import { type HTMLProps } from "react";
 
 import { useI18n } from "../context/useI18n";
@@ -65,7 +66,7 @@ const calcProbability = ({
 };
 
 const PositionMoves: React.FC<PositionMovesProperties> = ({
-  doMove = () => {},
+  doMove = noop,
   stats,
   ...properties
 }) => {

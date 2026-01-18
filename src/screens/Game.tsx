@@ -1,4 +1,5 @@
 import "../styles/Game.scss";
+import { noop } from "es-toolkit";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -244,7 +245,7 @@ const Game = () => {
             notationLayout={notationLayout}
             notationSwitch={true}
             profileUrl={NOMENU_URLS.profile}
-            setDoMove={() => {}}
+            setDoMove={noop}
             setFen={setFen}
             setNotationLayout={setNotationLayout}
             zoomIn={() => {
