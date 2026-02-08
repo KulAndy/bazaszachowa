@@ -21,7 +21,7 @@ const PreparationForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent) => {
+    (event: React.SubmitEvent) => {
       event.preventDefault();
       if (!player.trim()) {
         alert(t("players.player_required"));

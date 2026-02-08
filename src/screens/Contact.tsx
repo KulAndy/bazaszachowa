@@ -54,7 +54,7 @@ const Contact = () => {
   );
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent) => {
+    (event: React.SubmitEvent) => {
       event.preventDefault();
       const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
