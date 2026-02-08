@@ -58,7 +58,7 @@ const Contact = () => {
       event.preventDefault();
       const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
       if (formData.email.trim() === admin_mail) {
-        alert("contact.Niedozwolony adres");
+        alert(t("contact.forbidden_mail"));
         return;
       }
       if (!emailRegex.test(formData.email)) {
@@ -84,7 +84,7 @@ const Contact = () => {
           }
         })
         .catch(() => {
-          alert(t("contact.failled_sent"));
+          alert(t("contact.failed_sent"));
         });
     },
     [formData, t],

@@ -46,11 +46,11 @@ const Bug = () => {
       const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
 
       if (formData.email.trim() === admin_mail) {
-        alert("Niedozwolony adres");
+        alert(t("contact.forbidden_mail"));
         return;
       }
       if (!emailRegex.test(formData.email)) {
-        alert("To nie jest poprawny email");
+        alert(t("contact.invalid_mail"));
         return;
       }
 
@@ -69,13 +69,13 @@ const Bug = () => {
       fetch(API.BASE_URL + API.send_mail, { body: form, method: "POST" })
         .then((response) => {
           if (response.status === 200) {
-            alert("Poprawnie wysłano wiadomość");
+            alert(t("contact.successfully_sent"));
           } else {
             throw new Error("Send error");
           }
         })
         .catch(() => {
-          alert("Nie udało się wysłać wiadomości");
+          alert(t("contact.failed_sent"));
         });
     },
     [base, gameid, formData],

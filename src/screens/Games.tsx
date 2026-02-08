@@ -41,7 +41,7 @@ const Games = () => {
       const whiteForm = formData.get("white") as string;
       const blackForm = formData.get("black") as string;
       if (!whiteForm.trim() && !blackForm.trim()) {
-        alert("Wymagane nazwisko przynajmniej jednego z graczy");
+        alert(t("games.min1"));
         return previousState;
       }
 
