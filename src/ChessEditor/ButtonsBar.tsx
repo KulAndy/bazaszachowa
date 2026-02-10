@@ -1,17 +1,3 @@
-import {
-  faBackwardFast,
-  faBackwardStep,
-  faCircleHalfStroke,
-  faCirclePlay,
-  faCircleStop,
-  faDownload,
-  faFileLines,
-  faFish,
-  faForwardFast,
-  faForwardStep,
-  faMagnifyingGlassMinus,
-  faMagnifyingGlassPlus,
-} from "@fortawesome/free-solid-svg-icons";
 import { noop } from "es-toolkit";
 import { useEffect } from "react";
 
@@ -157,7 +143,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
     >
       <TouchableIcon
         className="control"
-        icon={faCircleHalfStroke}
+        icon="circle-half-stroke"
         iconColor={activeIconColor}
         onClick={flip}
         title="CTRL + F"
@@ -165,7 +151,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
       <TouchableIcon
         className="control"
         disable={isFirst}
-        icon={faBackwardFast}
+        icon="backward-fast"
         iconColor={isFirst ? inactiveIconColor : activeIconColor}
         onClick={firstMove}
         title="↓"
@@ -173,14 +159,14 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
       <TouchableIcon
         className="control"
         disable={isFirst}
-        icon={faBackwardStep}
+        icon="backward-step"
         iconColor={isFirst ? inactiveIconColor : activeIconColor}
         onClick={previousMove}
         title="←"
       />
       <TouchableIcon
         className="control"
-        icon={playing ? faCircleStop : faCirclePlay}
+        icon={playing ? "circle-stop" : "circle-play"}
         iconColor={activeIconColor}
         onClick={setPlaying}
         title="CTRL + P"
@@ -188,7 +174,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
       <TouchableIcon
         className="control"
         disable={isLast}
-        icon={faForwardStep}
+        icon="forward-step"
         iconColor={isLast ? inactiveIconColor : activeIconColor}
         onClick={nextMove}
         title="→"
@@ -196,26 +182,26 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
       <TouchableIcon
         className="control"
         disable={isLast}
-        icon={faForwardFast}
+        icon="forward-fast"
         iconColor={isLast ? inactiveIconColor : activeIconColor}
         onClick={lastMove}
         title="↑"
       />
-      <TouchableIcon className="control" icon={faDownload} onClick={download} />
+      <TouchableIcon className="control" icon="download" onClick={download} />
       <TouchableIcon
         className="control"
-        icon={faMagnifyingGlassMinus}
+        icon="magnifying-glass-minus"
         onClick={zoomOut}
       />
       <TouchableIcon
         className="control"
-        icon={faMagnifyingGlassPlus}
+        icon="magnifying-glass-plus"
         onClick={zoomIn}
       />
       {notationSwitch ? (
         <TouchableIcon
           className="control switch-notation"
-          icon={notationLayout === "none" ? faFileLines : faFish}
+          icon={notationLayout === "none" ? "file-lines" : "fish"}
           onClick={() =>
             setNotationLayout(
               notationLayout === "none"
