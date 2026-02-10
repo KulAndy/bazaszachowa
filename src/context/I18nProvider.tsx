@@ -2,27 +2,27 @@ import Cookies from "js-cookie";
 import Polyglot from "node-polyglot";
 import { useMemo, useState } from "react";
 
+import de from "../i18n/de.json";
 import en from "../i18n/en.json";
 import pl from "../i18n/pl.json";
 
-import { I18nContext } from "./I18nContext";
-
-type Locale = "en" | "pl";
+import { I18nContext, isLocale, type Locale } from "./I18nContext";
 
 const dictionaries: Record<Locale, Record<string, string>> = {
+  de,
   en,
   pl,
 };
 
 const detectLocale = (): Locale => {
   const cookieLocale = Cookies.get("locale");
-  if (cookieLocale === "pl" || cookieLocale === "en") {
+  if (isLocale(cookieLocale)) {
     return cookieLocale;
   }
   if (typeof navigator !== "undefined") {
     const browserLang = navigator.language.slice(0, 2);
-    if (browserLang === "pl") {
-      return "pl";
+    if (isLocale(browserLang)) {
+      return browserLang;
     }
   }
   return "en";

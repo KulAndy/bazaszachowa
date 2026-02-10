@@ -78,7 +78,7 @@ const Bug = () => {
           alert(t("contact.failed_sent"));
         });
     },
-    [base, gameid, formData],
+    [base, gameid, formData, t],
   );
 
   return (
