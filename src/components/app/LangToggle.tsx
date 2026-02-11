@@ -1,7 +1,7 @@
 import { FormControl, MenuItem, Select } from "@mui/material";
 
-import type { Locale } from "../context/I18nContext";
-import { useI18n } from "../context/useI18n";
+import type { Locale } from "../../context/I18nContext";
+import { useI18n } from "../../context/useI18n";
 
 const flagsDict: Record<Locale, string> = {
   de: "🇩🇪",

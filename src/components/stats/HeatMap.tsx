@@ -1,4 +1,5 @@
-import "../styles/HeatMap.scss";
+import "../../styles/HeatMap.scss";
+
 interface HeatMapProperties {
   readonly heatmap: Record<string, number>;
 }

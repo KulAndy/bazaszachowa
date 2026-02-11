@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 
-import { useI18n } from "../context/useI18n";
+import { useI18n } from "../../context/useI18n";
 
 import CrPlayer, { type CrPlayerType } from "./CrPlayer";
 

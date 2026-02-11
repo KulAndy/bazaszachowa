@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-import Content from "../components/Content";
+import Content from "../components/app/Content";
 import { useI18n } from "../context/useI18n";
 
 const NotFound = () => {

@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { useI18n } from "../context/useI18n";
 import { API } from "../settings";
 
-import TournamentTimeSeries from "./TournamentTimeSeries";
+import TournamentTimeSeries from "./stats/TournamentTimeSeries";
 
 interface PolandTournamentsProperties {
   readonly name: string;

@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 import ChessEditor, { type GameData } from "../ChessEditor";
 import ChessProcessor from "../ChessProcessor";
 import GamesTable from "../components/GamesTable";
-import PositionMoves, { type StatsItem } from "../components/PositionsMoves";
+import PositionMoves, {
+  type StatsItem,
+} from "../components/player/PositionsMoves";
 import TrendFunctionExplanation from "../components/TrendFunctionExplanation";
 import { useI18n } from "../context/useI18n";
 import { API, NOMENU_URLS } from "../settings";

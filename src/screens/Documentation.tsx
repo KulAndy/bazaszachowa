@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import Content from "../components/Content";
-import MarkdownFileReader from "../components/MarkdownFileReader";
+import Content from "../components/app/Content";
+import MarkdownFileReader from "../components/app/MarkdownFileReader";
 import { NOMENU_URLS } from "../settings";
 
 const Documentation = () => {

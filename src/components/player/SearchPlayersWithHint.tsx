@@ -2,7 +2,7 @@ import TextField, { type TextFieldProps } from "@mui/material/TextField";
 import { deburr } from "es-toolkit";
 import { useEffect, useState } from "react";
 
-import { API } from "../settings";
+import { API } from "../../settings";
 
 type SearchPlayersWithHintsProperties = {
   readonly callback?: (x: string) => void;

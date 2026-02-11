@@ -10,7 +10,7 @@ import {
 import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 
-import { useI18n } from "../context/useI18n";
+import { useI18n } from "../../context/useI18n";
 
 ChartJS.register(
   BarElement,

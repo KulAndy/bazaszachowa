@@ -1,5 +1,4 @@
 /* eslint-disable i18next/no-literal-string */
-import "../styles/StatIndicators.scss";
 import {
   Paper,
   Table,
@@ -10,9 +9,10 @@ import {
   TableRow,
 } from "@mui/material";
 
-import type { StatSummary } from "../stats";
+import type { StatSummary } from "../../../stats";
+import Histogram from "../Histogram";
 
-import Histogram from "./Histogram";
+import "./StatIndicators.scss";
 
 interface StatIndicatorsProperties {
   readonly name: string;

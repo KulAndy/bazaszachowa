@@ -10,7 +10,7 @@ import {
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
+import SearchPlayersWithHints from "../components/player/SearchPlayersWithHint";
 import { useI18n } from "../context/useI18n";
 import { URLS } from "../settings";
 

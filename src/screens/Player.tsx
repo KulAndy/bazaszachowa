@@ -4,17 +4,17 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import type { GameData } from "../ChessEditor";
-import type { Stat } from "../components/ColorStats";
-import Content from "../components/Content";
-import type { CrPlayerType } from "../components/CrPlayer";
-import CrPlayersList from "../components/CrPlayerList";
-import type { FidePlayerType } from "../components/FidePlayer";
-import FidePlayersList from "../components/FidePlayerList";
+import Content from "../components/app/Content";
 import FideTournaments from "../components/FideTournaments";
-import GamesStats from "../components/GamesStats";
 import GamesTable from "../components/GamesTable";
-import OpeningsStats from "../components/OpeningStats";
+import type { CrPlayerType } from "../components/player/CrPlayer";
+import CrPlayersList from "../components/player/CrPlayerList";
+import type { FidePlayerType } from "../components/player/FidePlayer";
+import FidePlayersList from "../components/player/FidePlayerList";
 import PolandTournaments from "../components/PolandTournaments";
+import type { Stat } from "../components/stats/ColorStats";
+import GamesStats from "../components/stats/GamesStats";
+import OpeningsStats from "../components/stats/OpeningStats";
 import { useI18n } from "../context/useI18n";
 import { API, URLS } from "../settings";
 

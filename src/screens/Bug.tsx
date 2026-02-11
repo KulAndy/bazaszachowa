@@ -12,7 +12,7 @@ import {
 import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Content from "../components/Content";
+import Content from "../components/app/Content";
 import { useI18n } from "../context/useI18n";
 import { admin_mail, API } from "../settings";
 

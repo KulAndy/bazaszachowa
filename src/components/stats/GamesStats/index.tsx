@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-import type { GameData } from "../ChessEditor";
-import { useI18n } from "../context/useI18n";
-import { type StatSummary } from "../stats";
+import type { GameData } from "../../../ChessEditor";
+import { useI18n } from "../../../context/useI18n";
+import { type StatSummary } from "../../../stats";
+import HeatMap from "../HeatMap";
 
-import HeatMap from "./HeatMap";
 import StatIndicators from "./StatIndicators";
 
 interface GamesStatsProperties {

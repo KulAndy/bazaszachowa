@@ -3,8 +3,8 @@ import { lazy, use } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import Footer from "./components/app/Footer";
+import Menu from "./components/app/Menu";
 import { ThemeContext } from "./context/ThemeContext";
 import { useI18n } from "./context/useI18n";
 import GameRaw from "./screens/GameRaw";

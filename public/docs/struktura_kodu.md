@@ -13,27 +13,32 @@
   - **index.tsx** - główny plik modułu
     jeśli to możliwe, używa `/wasm/chess_processor`
 - **components** - komponenty
-  - **ColorSchemeToggle** - wybór trybu jasnego/ciemnego
-  - **ColorStats.tsx** - statystki koloru
-  - **Content.tsx** - kontener na główną zawartość
-  - **CrPlayer.tsx** - karta zawodnika PZSzach
-  - **CrPlayerList.tsx** - lista zawodników PZSzach
-  - **FidePlayer.tsx** - karta zawodnika FIDE
-  - **FidePlayerList.tsx** - lista zawodników FIDE
-  - **Footer.tsx** - stopka
-  - **GamesStats.tsx** - zbiorcze statystyki gier
+  - **app**
+    - **ColorSchemeToggle** - wybór trybu jasnego/ciemnego
+    - **Content.tsx** - kontener na główną zawartość
+    - **Footer.tsx** - stopka
+    - **LangToggle.tsx** - zmiana języka pl/en
+    - **MarkdownFileReader.tsx** - czytnik plików .md
+    - **Menu.tsx** - menu
+    - **SubmitButton** - przycisk do zatwierdzania formularzy, pokazuje ładowanie
+  - **player**
+    - **CrPlayer.tsx** - karta zawodnika PZSzach
+    - **CrPlayerList.tsx** - lista zawodników PZSzach
+    - **FidePlayer.tsx** - karta zawodnika FIDE
+    - **FidePlayerList.tsx** - lista zawodników FIDE
+    - **PositionsMoves.tsx** - preferowane ruchy w pozycji
+    - **SearchPlayersWithHint.tsx** - input podpowiadający zawodników
+  - **stats**
+    - **GamesStats** - zbiorcze statystyki gier
+      - **idnex.tsx** - główny komponent
+      - **gameStats.worker.ts** - oblicza zbiorcze statystki gier, korzysta z wasm/game_stats
+      - **StatIndicators.tsx** - podkomponent `GamesStats`
+    - **ColorStats.tsx** - statystki koloru
+    - **HeatMap.tsx** - mapa ciepła
+    - **Histogram.tsx** - histogram
+    - **OpeningStats.tsx** - statystyki dla obu kolorów
+    - **TournamentTimeSeries.tsx** - liczba turniejów na przestrzeni lat jako wykres
   - **GamesTable.tsx** - tabela gier
-  - **gameStats.worker.ts** - oblicza zbiorcze statystki gier, korzysta z wasm/game_stats
-  - **HeatMap.tsx** - mapa ciepła
-  - **Histogram.tsx** - histogram
-  - **LangToggle.tsx** - zmiana języka pl/en
-  - **MarkdownFileReader.tsx** - czytnik plików .md
-  - **Menu.tsx** - menu
-  - **OpeningStats.tsx** - statystyki dla obu kolorów
-  - **PositionsMoves.tsx** - preferowane ruchy w pozycji
-  - **SearchPlayersWithHint.tsx** - input podpowiadający zawodników
-  - **StatIndicators.tsx** - podkomponent `GamesStats`
-  - **SubmitButton** - przycisk do zatwierdzania formularzy, pokazuje ładowanie
   - **StockfishAnalysis** - ocena pozycji silnika
     - **BestMoveSpan.tsx** - komponent najlepszego ruchu
     - **index.tsx** - główny plik modułu

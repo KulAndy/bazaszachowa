@@ -1,6 +1,6 @@
-import type { GameData } from "../ChessEditor";
-import { computeStats } from "../stats";
-import initWasm from "../wasm/game_stats";
+import type { GameData } from "../../../ChessEditor";
+import { computeStats } from "../../../stats";
+import initWasm from "../../../wasm/game_stats";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
 void initWasm().then((wasm: any) => {

@@ -13,8 +13,8 @@ import {
 import { sumBy } from "es-toolkit";
 import { Link } from "react-router-dom";
 
-import { useI18n } from "../context/useI18n";
-import { NOMENU_URLS } from "../settings";
+import { useI18n } from "../../context/useI18n";
+import { NOMENU_URLS } from "../../settings";
 
 export interface ColorStatsProperties {
   readonly color: string;

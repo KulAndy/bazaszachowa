@@ -14,9 +14,9 @@ import {
 import { useActionState, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import Content from "../components/Content";
-import SearchPlayersWithHints from "../components/SearchPlayersWithHint";
-import SubmitButton from "../components/SubmitButton";
+import Content from "../components/app/Content";
+import SubmitButton from "../components/app/SubmitButton";
+import SearchPlayersWithHints from "../components/player/SearchPlayersWithHint";
 import { useI18n } from "../context/useI18n";
 import { API, NOMENU_URLS } from "../settings";
 

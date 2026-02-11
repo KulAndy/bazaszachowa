@@ -8,7 +8,7 @@ import {
 import { countBy, flatMap, noop, sumBy } from "es-toolkit";
 import { type HTMLProps } from "react";
 
-import { useI18n } from "../context/useI18n";
+import { useI18n } from "../../context/useI18n";
 
 export interface StatsItem {
   games: number;

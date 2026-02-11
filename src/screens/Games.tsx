@@ -18,10 +18,10 @@ import {
 import { useActionState, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
-import Content from "../components/Content";
+import Content from "../components/app/Content";
+import SubmitButton from "../components/app/SubmitButton";
 import GamesTable from "../components/GamesTable";
-import SearchPlayersWithHint from "../components/SearchPlayersWithHint";
-import SubmitButton from "../components/SubmitButton";
+import SearchPlayersWithHint from "../components/player/SearchPlayersWithHint";
 import { useI18n } from "../context/useI18n";
 import { API } from "../settings";
 

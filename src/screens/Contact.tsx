@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 
-import Content from "../components/Content";
+import Content from "../components/app/Content";
 import { useI18n } from "../context/useI18n";
 import { admin_mail, API } from "../settings";
 

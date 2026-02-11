@@ -2,7 +2,7 @@ import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { use } from "react";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const ColorSchemeToggle = () => {
   const { theme, toggleTheme } = use(ThemeContext);

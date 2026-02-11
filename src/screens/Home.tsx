@@ -1,5 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
-import Content from "../components/Content";
+import Content from "../components/app/Content";
 import { useI18n } from "../context/useI18n";
 import logo from "../logo.svg";
 import "../styles/Home.scss";

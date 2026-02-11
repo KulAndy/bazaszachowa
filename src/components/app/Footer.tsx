@@ -1,7 +1,7 @@
 import { Box, Link, Typography } from "@mui/material";
 
-import { useI18n } from "../context/useI18n";
-import { admin_mail } from "../settings";
+import { useI18n } from "../../context/useI18n";
+import { admin_mail } from "../../settings";
 
 const Footer: React.FC = () => {
   const { t } = useI18n();

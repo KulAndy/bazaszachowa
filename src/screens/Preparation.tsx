@@ -2,7 +2,7 @@ import "../styles/Preparation.css";
 
 import { useParams } from "react-router-dom";
 
-import Content from "../components/Content";
+import Content from "../components/app/Content";
 
 import PreparationForm from "./PreparationForm";
 import PreparationPlayer from "./PreparationPlayer";

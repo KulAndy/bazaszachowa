@@ -11,7 +11,7 @@ import {
 import { countBy } from "es-toolkit";
 import React, { useEffect, useRef } from "react";
 
-import { useI18n } from "../context/useI18n";
+import { useI18n } from "../../context/useI18n";
 
 Chart.register(
   LineController,
