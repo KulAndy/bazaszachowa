@@ -71,7 +71,7 @@ const Downloads = () => {
         </li>
       </ul>
       <p>
-        <a href="https://github.com/KulAndy/bazaszachowa/tree/react/bazaszachowa-react/src/i18n">
+        <a href="https://github.com/KulAndy/bazaszachowa/tree/react/src/i18n">
           {t("download.translation")}
         </a>
       </p>
