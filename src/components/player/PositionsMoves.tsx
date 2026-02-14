@@ -139,7 +139,7 @@ const PositionMoves: React.FC<PositionMovesProperties> = ({
 
   return (
     <div {...properties}>
-      <Table id="stats">
+      <Table className="colorful-table" id="stats">
         <TableHead>
           <TableRow>
             <TableCell>{t("move")}</TableCell>

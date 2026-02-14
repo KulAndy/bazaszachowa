@@ -1,5 +1,3 @@
-import "../styles/Preparation.css";
-
 import { useParams } from "react-router-dom";
 
 import Content from "../components/app/Content";
@@ -9,19 +7,21 @@ import PreparationPlayer from "./PreparationPlayer";
 
 const Preparation = () => {
   const { color, player } = useParams();
-  return player === undefined ||
+
+  const child =
+    player === undefined ||
     color === undefined ||
     player === null ||
     color === null ||
     player.trim().length === 0 ? (
-    <Content style={{ textAlign: "center", width: "fit-content" } as const}>
       <PreparationForm />
-    </Content>
-  ) : (
+    ) : (
+      <PreparationPlayer color={color} player={player} />
+    );
+
+  return (
     <div id="preparation">
-      <Content>
-        <PreparationPlayer color={color} player={player} />
-      </Content>
+      <Content style={{ width: "fit-content" } as const}>{child}</Content>
     </div>
   );
 };

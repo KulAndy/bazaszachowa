@@ -1,5 +1,5 @@
 button,
-input[type='submit'] {
+input[type="submit"] {
   padding: 10px 20px;
   border-radius: 4px;
   color: var(--document-font-color);
@@ -68,11 +68,11 @@ nav {
     width: 100%;
 
     &[open] summary::marker {
-      content: 'X';
+      content: "X";
     }
 
     &:not([open]) summary::marker {
-      content: '\2630';
+      content: "\2630";
     }
   }
 }
@@ -115,7 +115,6 @@ article {
 }
 
 #content,
-#content2,
 #left-content,
 #right-content {
   background-color: var(--document-content-background);
@@ -129,19 +128,6 @@ article {
   margin-top: 0 !important;
 }
 
-#content2 {
-  margin-left: 10px;
-}
-
-#pre {
-  margin-top: 10px;
-
-  table {
-    width: fit-content;
-    margin: auto;
-  }
-}
-
 #graph {
   width: min(850px, 50vw, 70vh);
   height: min(850px, 50vw, 70vh);
@@ -150,6 +136,18 @@ article {
 body {
   padding-bottom: 5em;
   overflow-x: hidden;
+}
+
+math {
+  width: fit-content;
+}
+
+:has(math) {
+  text-align: left;
+}
+
+mspace {
+  width: 1ch;
 }
 
 @media only screen and (width <= 768px) {
@@ -204,7 +202,7 @@ body {
     display: none !important;
   }
 
-  input[type='radio'] {
+  input[type="radio"] {
     float: left;
   }
 }
@@ -242,20 +240,6 @@ body {
       }
     }
   }
-
-  .mobile {
-    display: none;
-  }
-}
-
-#table tr {
-  &:nth-child(2n) {
-    background-color: var(--even-row);
-  }
-
-  &:nth-child(2n + 1) {
-    background-color: var(--odd-row);
-  }
 }
 
 .loading {
@@ -270,38 +254,4 @@ caption {
   background-color: var(--document-content-background);
   caption-side: top !important;
   text-align: center !important;
-}
-
-table#games {
-  margin: auto;
-
-  tr {
-    &:nth-child(2n),
-    &:nth-child(2n) td,
-    &:nth-child(2n) th,
-    &:nth-child(2n) input {
-      background-color: var(--even-row);
-    }
-
-    &:nth-child(2n + 1),
-    &:nth-child(2n + 1) td,
-    &:nth-child(2n + 1) th,
-    &:nth-child(2n + 1) input {
-      background-color: var(--odd-row);
-    }
-
-    td button:hover {
-      color: var(--document-link-hover);
-    }
-  }
-
-  button {
-    a {
-      color: var(--document-font-color);
-    }
-
-    button:hover a {
-      color: var(--document-link-hover);
-    }
-  }
 }

@@ -37,10 +37,6 @@
   }
 
   #left-content {
-    * {
-      width: fit-content;
-    }
-
     ul {
       display: flex;
       width: fit-content;
@@ -52,7 +48,7 @@
         list-style: none;
 
         &:not(:last-of-type)::after {
-          content: ',';
+          content: ",";
         }
       }
     }

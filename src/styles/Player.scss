@@ -11,10 +11,6 @@
     overflow-wrap: break-word;
   }
 
-  p[style='text-align: center;'] {
-    border: 1px solid #000;
-  }
-
   iframe {
     width: 90vw;
     height: 80vh;
@@ -34,11 +30,11 @@
     }
 
     &[open] summary::before {
-      content: '▼';
+      content: "▼";
     }
 
     &:not([open]) summary::before {
-      content: '▶';
+      content: "▶";
     }
 
     table {
@@ -56,11 +52,11 @@
     margin: auto;
 
     &[open] summary {
-      list-style: '▼';
+      list-style: "▼";
     }
 
     &:not([open]) summary {
-      list-style: '▶';
+      list-style: "▶";
     }
   }
 }

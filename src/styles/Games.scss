@@ -1,28 +1,40 @@
-#games {
-  div.desktop {
-    width: 30vw;
-    visibility: hidden;
-  }
-
-  #content {
-    width: fit-content;
-  }
-
-  #games #right-content {
-    margin-top: 0;
-  }
-}
-
-#search-container {
-  display: flex;
-  flex-direction: row;
+table.colorful-table {
   margin: auto;
+
+  tr {
+    &:nth-child(2n),
+    &:nth-child(2n) td,
+    &:nth-child(2n) th,
+    &:nth-child(2n) input {
+      background-color: var(--even-row);
+    }
+
+    &:nth-child(2n + 1),
+    &:nth-child(2n + 1) td,
+    &:nth-child(2n + 1) th,
+    &:nth-child(2n + 1) input {
+      background-color: var(--odd-row);
+    }
+
+    td button:hover {
+      color: var(--document-link-hover);
+    }
+  }
+
+  button {
+    a {
+      color: var(--document-font-color);
+    }
+
+    button:hover a {
+      color: var(--document-link-hover);
+    }
+  }
 }
 
 @media only screen and (width <= 768px) {
   #games {
-    #content,
-    #right-content {
+    #content {
       width: 100% !important;
       padding: 0 !important;
       margin: 0 !important;

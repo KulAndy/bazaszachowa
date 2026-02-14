@@ -1,24 +1,19 @@
 {
-    "extends": [
-        "stylelint-config-recommended",
-        "stylelint-config-standard",
-        "stylelint-config-standard-scss",
-        "stylelint-config-idiomatic-order",
-        "stylelint-config-sass-guidelines"
-    ],
-    "plugins": [
-        "stylelint-order",
-        "stylelint-scss"
-    ],
-    "rules": {
-        "order/order": [
-            "custom-properties",
-            "declarations"
-        ],
-        "@stylistic/declaration-colon-space-after": null,
-        "selector-no-qualifying-type": null,
-        "selector-max-id": 3,
-        "selector-max-compound-selectors": 4,
-        "max-nesting-depth": 3
-    }
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-standard",
+    "stylelint-config-standard-scss",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-sass-guidelines"
+  ],
+  "plugins": ["stylelint-order", "stylelint-scss"],
+  "rules": {
+    "order/order": ["custom-properties", "declarations"],
+    "@stylistic/string-quotes": "double",
+    "@stylistic/declaration-colon-space-after": null,
+    "selector-no-qualifying-type": null,
+    "selector-max-id": 3,
+    "selector-max-compound-selectors": 4,
+    "max-nesting-depth": 3
+  }
 }

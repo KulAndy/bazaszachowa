@@ -1,4 +1,3 @@
-import "../styles/Games.scss";
 import {
   Button,
   Checkbox,
@@ -94,8 +93,21 @@ const Games = () => {
 
   return (
     <div id="games">
-      <Content style={{ display: "flex", flexDirection: "column" } as const}>
-        <div id="search-container">
+      <Content
+        style={
+          {
+            display: "flex",
+            flexDirection: "column",
+            width: "fit-content",
+          } as const
+        }
+      >
+        <div
+          id="search-container"
+          style={
+            { display: "flex", flexDirection: "row", margin: "auto" } as const
+          }
+        >
           <form action={submitAction}>
             <table className="no-border">
               <tbody>

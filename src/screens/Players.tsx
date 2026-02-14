@@ -1,4 +1,3 @@
-import "../styles/Players.scss";
 import {
   Box,
   Button,

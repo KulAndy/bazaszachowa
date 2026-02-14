@@ -1,7 +1,0 @@
-@media only screen and (width <= 768px) {
-  #color-toggle {
-    display: grid;
-    justify-content: flex-start;
-    grid-template-columns: repeat(2, auto);
-  }
-}

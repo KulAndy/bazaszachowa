@@ -20,7 +20,7 @@ const Documentation = () => {
   }, []);
 
   return file !== undefined && file !== null ? (
-    <Content style={{ width: "100%" } as const}>
+    <Content style={{ overflow: "auto", width: "100%" } as const}>
       <MarkdownFileReader filePath={`/docs/${file}`} />
     </Content>
   ) : (

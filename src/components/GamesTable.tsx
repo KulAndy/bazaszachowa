@@ -17,6 +17,8 @@ import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
 import initWasm from "../wasm/uci2pgn";
 
+import "../styles/Games.scss";
+
 let uci2san: ((x: GameData["moves"]) => string) | null = null;
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
@@ -131,6 +133,7 @@ const GamesTable: React.FC<
     <TablePagination
       component="div"
       count={games?.length || 0}
+      labelDisplayedRows={({ count, from, to }) => `${from}-${to}/${count}`}
       labelRowsPerPage=""
       onPageChange={(_, newPage) => {
         setPage(newPage);
@@ -167,7 +170,7 @@ const GamesTable: React.FC<
       </p>
       <TableContainer component={Paper}>
         {paginator}
-        <Table>
+        <Table className="colorful-table">
           <TableHead>
             <TableRow>
               {!simple && (
@@ -199,66 +202,54 @@ const GamesTable: React.FC<
             </TableRow>
           </TableHead>
           <TableBody>
-            {items
-              .slice(page * limit, (page + 1) * limit)
-              .map((item, index) => (
-                <TableRow
-                  key={item.id}
-                  sx={
+            {items.slice(page * limit, (page + 1) * limit).map((item) => (
+              <TableRow key={item.id}>
+                <Link
+                  state={
                     {
-                      bgcolor: () =>
-                        index % 2 === 0 ? "var(--even-row)" : "var(--odd-row)",
+                      base,
+                      gameid: item.id,
+                      list: items.map((element) => element.id),
                     } as const
                   }
+                  style={{ display: "contents" } as const}
+                  to={`${NOMENU_URLS.game}${base}/${item.id}`}
                 >
-                  <Link
-                    state={
-                      {
-                        base,
-                        gameid: item.id,
-                        list: items.map((element) => element.id),
-                      } as const
-                    }
-                    style={{ display: "contents" } as const}
-                    to={`${NOMENU_URLS.game}${base}/${item.id}`}
-                  >
-                    {!simple && (
-                      <TableCell className="desktop">{item.WhiteElo}</TableCell>
-                    )}
-                    <TableCell>{item.White}</TableCell>
-                    <TableCell style={{ textAlign: "center" } as const}>
-                      {item.Result}
-                    </TableCell>
-                    <TableCell>{item.Black}</TableCell>
-                    {!simple && (
-                      <>
-                        <TableCell className="desktop">
-                          {item.BlackElo}
-                        </TableCell>
-                        <TableCell className="desktop">{item.Event}</TableCell>
-                      </>
-                    )}
-                    <TableCell>
-                      {item.Year}.{item.Month || "??"}.{item.Day || "??"}
-                    </TableCell>
-                    {!simple && (
-                      <TableCell className="desktop">{item.ECO}</TableCell>
-                    )}
-                  </Link>
                   {!simple && (
-                    <TableCell className="desktop">
-                      <Link
-                        reloadDocument
-                        style={{ whiteSpace: "nowrap" } as const}
-                        target="_blank"
-                        to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
-                      >
-                        PGN
-                      </Link>
-                    </TableCell>
+                    <TableCell className="desktop">{item.WhiteElo}</TableCell>
                   )}
-                </TableRow>
-              ))}
+                  <TableCell>{item.White}</TableCell>
+                  <TableCell style={{ textAlign: "center" } as const}>
+                    {item.Result}
+                  </TableCell>
+                  <TableCell>{item.Black}</TableCell>
+                  {!simple && (
+                    <>
+                      <TableCell className="desktop">{item.BlackElo}</TableCell>
+                      <TableCell className="desktop">{item.Event}</TableCell>
+                    </>
+                  )}
+                  <TableCell>
+                    {item.Year}.{item.Month || "??"}.{item.Day || "??"}
+                  </TableCell>
+                  {!simple && (
+                    <TableCell className="desktop">{item.ECO}</TableCell>
+                  )}
+                </Link>
+                {!simple && (
+                  <TableCell className="desktop">
+                    <Link
+                      reloadDocument
+                      style={{ whiteSpace: "nowrap" } as const}
+                      target="_blank"
+                      to={`${NOMENU_URLS.game_raw}${base}/${item.id}`}
+                    >
+                      PGN
+                    </Link>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
         {paginator}
