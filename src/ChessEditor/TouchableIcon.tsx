@@ -1,12 +1,10 @@
-import {
-  FontAwesomeIcon,
-  type FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
+import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { noop } from "es-toolkit";
 
 interface TouchableIconProperties extends React.HTMLProps<HTMLSpanElement> {
   readonly disable?: boolean;
-  readonly icon: FontAwesomeIconProps["icon"];
+  readonly icon: IconDefinition;
   readonly iconColor?: string;
   readonly onClick: () => void;
 }
