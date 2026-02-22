@@ -84,7 +84,7 @@ const GamesStats: React.FC<GamesStatsProperties> = ({ games, player }) => {
   }, [player]);
 
   if (loading) {
-    return <CircularProgress />;
+    return null;
   }
 
   return (
