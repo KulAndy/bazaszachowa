@@ -7,22 +7,22 @@
   tr,
   th,
   td {
+    user-select: none;
     width: fit-content;
     height: fit-content;
     border: 2px solid #000;
-    user-select: none;
   }
 
   table#stats {
     tr:not(:has(td:hover)) td:first-child {
-      color: var(--document-link);
       cursor: pointer;
       font-weight: bold;
+      color: var(--document-link);
     }
 
     tr:has(td):hover * {
-      color: var(--document-link-hover);
       cursor: pointer;
+      color: var(--document-link-hover);
     }
   }
 }

@@ -3,11 +3,12 @@
     "stylelint-config-recommended",
     "stylelint-config-standard",
     "stylelint-config-standard-scss",
-    "stylelint-config-idiomatic-order",
+    "stylelint-config-clean-order",
     "stylelint-config-sass-guidelines"
   ],
-  "plugins": ["stylelint-order", "stylelint-scss"],
+  "plugins": ["stylelint-order", "stylelint-scss", "stylelint-prettier"],
   "rules": {
+    "prettier/prettier": true,
     "order/order": ["custom-properties", "declarations"],
     "@stylistic/string-quotes": "double",
     "@stylistic/declaration-colon-space-after": null,

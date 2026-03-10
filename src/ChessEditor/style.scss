@@ -8,8 +8,8 @@
   &,
   span,
   p {
-    background-color: #fff !important;
     color: #000 !important;
+    background-color: #fff !important;
   }
 }
 
@@ -51,8 +51,8 @@
     &,
     span,
     p {
-      background-color: #000 !important;
       color: #fff !important;
+      background-color: #000 !important;
     }
   }
 }
@@ -69,8 +69,8 @@
   &:hover:not(.disabled) {
     &,
     * {
-      color: #808080;
       cursor: pointer;
+      color: #808080;
     }
   }
 

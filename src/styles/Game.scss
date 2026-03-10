@@ -10,10 +10,11 @@
 
   #content {
     display: flex;
-    width: unset;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    width: unset;
   }
 
   #first,
@@ -42,8 +43,8 @@
     background-color: var(--document-content-background);
 
     p {
-      max-height: 3em !important;
       overflow-y: auto;
+      max-height: 3em !important;
       text-wrap: wrap;
     }
   }
@@ -73,8 +74,8 @@
 
     #button-container {
       display: grid;
-      gap: 0;
       grid-template-columns: min-content min-content;
+      gap: 0;
     }
 
     #first-link {
