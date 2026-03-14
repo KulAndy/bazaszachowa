@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
             }
             Andrzej Kulesza
           </Link>{" "}
-          2025
+          2026
         </address>
       </Typography>
     </Box>
