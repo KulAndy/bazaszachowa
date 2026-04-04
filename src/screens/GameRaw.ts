@@ -18,7 +18,7 @@ const GameRaw = () => {
   const base = state?.base || parameters.base || "all";
   const gameid = Number(state?.gameid || parameters.gameid || 0);
 
-  const [pgn, setPgn] = useOptimistic<string>("");
+  const [pgn, setPgn] = useOptimistic("");
 
   useEffect(() => {
     document.body.innerHTML = "";

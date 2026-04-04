@@ -19,4 +19,4 @@ const defaultI18nContext: I18nContextType = {
   t: (key: string) => key,
 };
 
-export const I18nContext = createContext<I18nContextType>(defaultI18nContext);
+export const I18nContext = createContext(defaultI18nContext);

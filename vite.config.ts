@@ -4,7 +4,6 @@ import eslint from "vite-plugin-eslint2";
 import stylelint from "vite-plugin-stylelint";
 import compression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
-import legacy from "@vitejs/plugin-legacy";
 
 export default defineConfig({
   build: {
@@ -61,6 +60,7 @@ export default defineConfig({
         background_color: "#ffffff",
       },
       workbox: {
+        globIgnores: ["**/*worker*.js", "**/*.wasm"],
         navigateFallbackDenylist: [
           /^\/game_raw\/.*/,
           /chess_processor|game_stats|stats|uci2pgn/,
@@ -76,9 +76,6 @@ export default defineConfig({
           },
         ],
       },
-    }),
-    legacy({
-      targets: ["defaults", "not IE 11"],
     }),
   ],
   optimizeDeps: {

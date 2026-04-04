@@ -1,10 +1,7 @@
 import { noop } from "es-toolkit";
 import { createContext } from "react";
 
-export const ThemeContext = createContext<{
-  theme: string;
-  toggleTheme: () => void;
-}>({
+export const ThemeContext = createContext({
   theme: "light",
   toggleTheme: noop,
 });
