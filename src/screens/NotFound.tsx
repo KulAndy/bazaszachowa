@@ -7,7 +7,7 @@ const NotFound = () => {
   const { t } = useI18n();
   return (
     <Content>
-      <Box mt={4} textAlign="center">
+      <Box sx={{ mt: 4, textAlign: "center" } as const}>
         <Typography className="error" variant="h3">
           {t("not_found")}
         </Typography>

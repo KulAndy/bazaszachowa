@@ -197,31 +197,38 @@ const PreparationPlayer = ({
         />
 
         <Box
-          alignItems={notationLayout === "bottom" ? "center" : "flex-start"}
-          display="flex"
-          flexDirection={
-            notationLayout === "bottom" ? "column-reverse" : "column"
+          sx={
+            {
+              alignItems: notationLayout === "bottom" ? "center" : "flex-start",
+              display: "flex",
+              flexDirection:
+                notationLayout === "bottom" ? "column-reverse" : "column",
+              justifyContent: "flex-start",
+              maxHeight: boardSize,
+              overflow: "auto",
+            } as const
           }
-          justifyContent="flex-start"
-          maxHeight={boardSize}
-          overflow="auto"
         >
           {games.length === 0 ? (
             <Stack
-              alignItems="center"
-              justifyContent="center"
               spacing={1}
-              sx={{ py: 4 } as const}
+              sx={
+                {
+                  alignItems: "center",
+                  justifyContent: "center",
+                  py: 4,
+                } as const
+              }
             >
               <CircularProgress />
               <Typography>{t("player.loading_stats")}</Typography>
             </Stack>
           ) : (
             <>
-              <Box maxHeight={boardSize / 2} overflow="auto">
+              <Box sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}>
                 <PositionMoves doMove={doMove} stats={tree} />
               </Box>
-              <Box maxHeight={boardSize / 2} overflow="auto">
+              <Box sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}>
                 <GamesTable
                   games={games.filter((game) => gamesFilter.includes(game.id))}
                   noEmpty

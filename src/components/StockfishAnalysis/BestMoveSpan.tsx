@@ -23,16 +23,16 @@ const BestMoveSpan: React.FC<BestMoveSpanProperties> = ({
   }
 
   return (
-    <Box mb={2}>
+    <Box sx={{ mb: 2 } as const}>
       <Typography variant="h6">
         {t("stockfish.best_move")}:{" "}
-        <Typography component="span" fontWeight="bold">
+        <Typography component="span" sx={{ fontWeight: "bold" } as const}>
           {move.san}
         </Typography>
       </Typography>
       <Typography variant="subtitle1">
         {t("stockfish.eval")}:{" "}
-        <Typography component="span" fontWeight="bold">
+        <Typography component="span" sx={{ fontWeight: "bold" } as const}>
           {move.prefix}
           {Math.abs(move.value)}
         </Typography>

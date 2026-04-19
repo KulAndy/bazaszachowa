@@ -1,6 +1,6 @@
 import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
 import { noop } from "es-toolkit";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ButtonsBar from "./ButtonsBar";
@@ -159,7 +159,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
   );
   const [targetSquares, setTargetSquares] = useState<string[]>([]);
 
-  const history = useRef<Move[]>([
+  const [history, setHistory] = useState<Move[]>([
     {
       fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
       moveNo: 0,
@@ -167,61 +167,62 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
       variations: [],
     },
   ]);
-  const index = useRef(0);
+  const [index, setIndex] = useState(0);
   const [sourceSquare, setSourceSquare] = useState<null | Square>(null);
   const [destinationSquare, setDestinationSquare] = useState<null | Square>(
     null,
   );
 
   const [promotionMenuVisible, setPromotionMenuVisible] = useState(false);
-  const [index_, setIndex_] = useState(0);
 
-  const setHistory = useCallback(
-    (newHistory: Move[]) => {
-      history.current = newHistory;
-      setFen(newHistory[index.current].fen);
-    },
-    [setFen],
-  );
+  useEffect(() => {
+    if (history[index] !== undefined) {
+      setFen(history[index].fen);
+    }
+  }, [index, history, setFen]);
 
-  const setIndex = useCallback(
+  const safeSetIndex = useCallback(
     (newIndex: number) => {
-      if (history.current[newIndex] !== undefined) {
-        index.current = newIndex;
-        setFen(history.current[newIndex].fen);
-        setIndex_(index_ + 1);
+      if (history[newIndex] !== undefined) {
+        setIndex(newIndex);
       }
     },
-    [index_, setFen],
+    [history],
   );
 
   const getPreviousIndex = (currentIndex: number) => {
-    return currentIndex === 0 ? 0 : history.current[currentIndex].prev;
+    return currentIndex === 0 ? 0 : history[currentIndex].prev;
   };
 
-  const getNextMoveIndex = (currentIndex: number) => {
-    if (history.current[currentIndex]?.next !== undefined) {
-      return history.current[currentIndex].next;
-    }
-    return null;
-  };
+  const getNextMoveIndex = useCallback(
+    (currentIndex: number) => {
+      if (history[currentIndex]?.next !== undefined) {
+        return history[currentIndex].next;
+      }
+      return null;
+    },
+    [history],
+  );
 
-  const getLastMoveIndex = useCallback((currentIndex: number) => {
-    let nextMoveIndex = getNextMoveIndex(currentIndex);
-    while (nextMoveIndex && getNextMoveIndex(nextMoveIndex)) {
-      nextMoveIndex = getNextMoveIndex(nextMoveIndex);
-    }
-    return nextMoveIndex;
-  }, []);
+  const getLastMoveIndex = useCallback(
+    (currentIndex: number) => {
+      let nextMoveIndex = getNextMoveIndex(currentIndex);
+      while (nextMoveIndex && getNextMoveIndex(nextMoveIndex)) {
+        nextMoveIndex = getNextMoveIndex(nextMoveIndex);
+      }
+      return nextMoveIndex;
+    },
+    [getNextMoveIndex],
+  );
 
   const addMove = useCallback(
     (move: ShortMove) => {
       setSourceSquare(move.from);
       setDestinationSquare(move.to);
 
-      const chess = new Chess(history.current[index.current].fen);
+      const chess = new Chess(history[index].fen);
       if (!chess.isGameOver()) {
-        const moveNo = history.current[index.current]?.moveNo || 0;
+        const moveNo = history[index]?.moveNo || 0;
         let doneMove;
         try {
           doneMove = chess.move(move);
@@ -240,27 +241,23 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         }
         if (doneMove) {
           if (
-            index.current !== undefined &&
-            getNextMoveIndex(index.current) &&
-            history.current[getNextMoveIndex(index.current)!] !== undefined &&
-            history.current[getNextMoveIndex(index.current)!]?.from ===
-              doneMove.from &&
-            history.current[getNextMoveIndex(index.current)!]?.to ===
-              doneMove.to &&
-            history.current[getNextMoveIndex(index.current)!]?.promotion ===
-              doneMove.promotion
+            index !== undefined &&
+            getNextMoveIndex(index) &&
+            history[getNextMoveIndex(index)!] !== undefined &&
+            history[getNextMoveIndex(index)!]?.from === doneMove.from &&
+            history[getNextMoveIndex(index)!]?.to === doneMove.to &&
+            history[getNextMoveIndex(index)!]?.promotion === doneMove.promotion
           ) {
-            setIndex(getNextMoveIndex(index.current)!);
+            safeSetIndex(getNextMoveIndex(index)!);
           } else {
             if (
-              index.current !== undefined &&
-              getNextMoveIndex(index.current) !== undefined &&
-              history.current[getNextMoveIndex(index.current)!] !== null &&
-              history.current[getNextMoveIndex(index.current)!] !== undefined
+              index !== undefined &&
+              getNextMoveIndex(index) !== undefined &&
+              history[getNextMoveIndex(index)!] !== null &&
+              history[getNextMoveIndex(index)!] !== undefined
             ) {
-              for (const variation of history.current[
-                getNextMoveIndex(index.current)!
-              ].variations) {
+              for (const variation of history[getNextMoveIndex(index)!]
+                .variations) {
                 if (
                   // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
                   variation !== undefined &&
@@ -268,42 +265,39 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
                   variation?.to === doneMove.to &&
                   variation?.promotion === doneMove.promotion
                 ) {
-                  setIndex(variation.index!);
+                  safeSetIndex(variation.index!);
                   return true;
                 }
               }
             }
-            const newHistory = [...history.current];
+            const newHistory = [...history];
             const fen = chess.fen();
             const moveObject = {
               fen,
               from: doneMove.from,
               index: newHistory.length,
               moveNo: moveNo + (fen.split(" ")[1] === "b" ? 1 : 0),
-              prev: index.current,
+              prev: index,
               promotion: doneMove.promotion,
               san: doneMove.san,
               to: doneMove.to,
               turn: doneMove.color,
               variations: [],
             };
-            if (newHistory[index.current].next) {
+            if (newHistory[index].next) {
               if (
-                newHistory[newHistory[index.current].next!].to ||
+                newHistory[newHistory[index].next].to ||
                 (doneMove.to &&
-                  newHistory[newHistory[index.current].next!].from !==
-                    doneMove.from)
+                  newHistory[newHistory[index].next].from !== doneMove.from)
               ) {
-                newHistory[newHistory[index.current].next!].variations.push(
-                  moveObject,
-                );
+                newHistory[newHistory[index].next].variations.push(moveObject);
               }
             } else {
-              newHistory[index.current].next = newHistory.length;
+              newHistory[index].next = newHistory.length;
             }
             newHistory.push(moveObject);
             setHistory(newHistory);
-            setIndex(newHistory.length - 1);
+            safeSetIndex(newHistory.length - 1);
           }
         } else if (
           move.from &&
@@ -321,7 +315,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
       setDestinationSquare(null);
       return true;
     },
-    [setHistory, setIndex],
+    [history, index, setHistory, safeSetIndex, getNextMoveIndex],
   );
 
   let notationPlacement;
@@ -347,29 +341,27 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (getNextMoveIndex(index.current) && playing) {
-        setIndex(getNextMoveIndex(index.current)!);
+      if (getNextMoveIndex(index) && playing) {
+        safeSetIndex(getNextMoveIndex(index)!);
       } else {
         setPlaying(false);
-        setIndex_(0);
         clearTimeout(timer);
       }
 
       // eslint-disable-next-line unicorn/consistent-function-scoping
       return () => {
         setPlaying(false);
-        setIndex_(0);
         clearTimeout(timer);
       };
     }, 250);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing, index, index_]);
+  }, [playing, index]);
 
   useEffect(() => {
-    setFen(history.current[index.current].fen);
+    setFen(history[index].fen);
     setTargetSquares([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.current, index.current]);
+  }, [history, index]);
 
   useEffect(() => {
     if (data !== null) {
@@ -405,7 +397,18 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         White: data.White || "N, N",
         WhiteElo: data.WhiteElo || null,
       });
-      history.current = [
+      setHistory([
+        {
+          fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+          moveNo: 0,
+          san: "",
+          variations: [],
+        },
+      ]);
+      setIndex(0);
+      let currentIndex = 0;
+      let counter = 1;
+      const newHistory: Move[] = [
         {
           fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
           moveNo: 0,
@@ -413,10 +416,6 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
           variations: [],
         },
       ];
-      index.current = 0;
-      let currentIndex = index.current || 0;
-      let counter = history.current[currentIndex]?.moveNo || 1;
-      const newHistory = [...history.current];
       const newChess = new Chess();
 
       for (const move of data.moves) {
@@ -464,10 +463,12 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         setIndex(0);
       }, 250);
     }
+  }, [data]);
+
+  useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     setDoMove(() => addMove);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [addMove, setDoMove]);
 
   const handlePromotion = (piece: Exclude<PieceSymbol, "k" | "p">) => () => {
     if (sourceSquare && destinationSquare) {
@@ -567,27 +568,27 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
           <Chessboard
             addMove={addMove}
             boardSize={boardSize}
-            fen={history.current[index.current].fen}
+            fen={history[index].fen}
             flip={flip}
-            nextMove={() => setIndex(getNextMoveIndex(index.current)!)}
-            prevMove={() => setIndex(getPreviousIndex(index.current)!)}
+            nextMove={() => safeSetIndex(getNextMoveIndex(index)!)}
+            prevMove={() => safeSetIndex(getPreviousIndex(index)!)}
             sourceSquare={sourceSquare}
             targetSquares={targetSquares}
           />
           <ButtonsBar
             download={() => {
-              download({ headers, history: history.current });
+              download({ headers, history: history });
             }}
-            firstMove={() => setIndex(0)}
+            firstMove={() => safeSetIndex(0)}
             flip={() => setFlip((flipped) => !flipped)}
-            isFirst={index.current === 0}
-            isLast={getNextMoveIndex(index.current) === null}
-            lastMove={() => setIndex(getLastMoveIndex(index.current)!)}
-            nextMove={() => setIndex(getNextMoveIndex(index.current)!)}
+            isFirst={index === 0}
+            isLast={getNextMoveIndex(index) === null}
+            lastMove={() => safeSetIndex(getLastMoveIndex(index)!)}
+            nextMove={() => safeSetIndex(getNextMoveIndex(index)!)}
             notationLayout={notationLayout}
             notationSwitch={notationSwitch}
             playing={playing}
-            previousMove={() => setIndex(getPreviousIndex(index.current)!)}
+            previousMove={() => safeSetIndex(getPreviousIndex(index)!)}
             setNotationLayout={setNotationLayout}
             setPlaying={() => {
               setPlaying((previousPlaying) => !previousPlaying);
@@ -599,11 +600,11 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
         </div>
         <div className={notationLayout === "none" ? "inactive" : ""}>
           <Notation
-            currentIndex={index.current}
+            currentIndex={index}
             height={boardSize}
-            moves={history.current}
+            moves={history}
             result={headers.Result || null}
-            setIndex={setIndex}
+            setIndex={safeSetIndex}
           />
         </div>
       </div>

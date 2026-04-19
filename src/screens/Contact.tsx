@@ -150,7 +150,7 @@ const Contact = () => {
           value={formData.content}
         />
 
-        <Box marginY={2}>
+        <Box sx={{ marginY: 2 } as const}>
           <label htmlFor="attachment">
             {t("contact.game")} {t("contact.game_limit")}{" "}
           </label>
@@ -171,7 +171,7 @@ const Contact = () => {
         </div>
       </form>
 
-      <Box component="address" marginTop={4}>
+      <Box component="address" sx={{ marginTop: 4 } as const}>
         <Typography>
           {t("contact.phone")}:{" "}
           <Link href="tel:+48730758890">

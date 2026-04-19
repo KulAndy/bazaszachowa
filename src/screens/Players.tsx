@@ -59,10 +59,14 @@ const Players = () => {
         <Box
           action={submit}
           component="form"
-          display="flex"
-          flexWrap="wrap"
-          gap={2}
-          justifyContent="center"
+          sx={
+            {
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 2,
+              justifyContent: "center",
+            } as const
+          }
         >
           <SearchPlayersWithHints
             callback={setPlayer}
@@ -81,12 +85,18 @@ const Players = () => {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <Typography fontWeight="bold" variant="subtitle1">
+                  <Typography
+                    sx={{ fontWeight: "bold" } as const}
+                    variant="subtitle1"
+                  >
                     {t("players.fullname")}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography fontWeight="bold" variant="subtitle1">
+                  <Typography
+                    sx={{ fontWeight: "bold" } as const}
+                    variant="subtitle1"
+                  >
                     {t("players.profile")}
                   </Typography>
                 </TableCell>

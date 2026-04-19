@@ -84,7 +84,7 @@ const Bug = () => {
   return (
     <Content classNames={["bug"] as const}>
       <form onSubmit={handleSubmit}>
-        <Box display="flex" flexDirection="column" gap={2}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 } as const}>
           <TextField
             label={t("lastname")}
             name="lastname"

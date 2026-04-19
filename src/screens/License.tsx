@@ -27,8 +27,8 @@ const License = () => {
         </ul>
         <Typography
           component="sub"
-          display="block"
           gutterBottom
+          sx={{ display: "block" } as const}
           variant="body2"
         >
           {t("license.source_code")}{" "}
