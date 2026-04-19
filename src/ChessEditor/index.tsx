@@ -297,7 +297,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
             }
             newHistory.push(moveObject);
             setHistory(newHistory);
-            safeSetIndex(newHistory.length - 1);
+            setIndex(newHistory.length - 1);
           }
         } else if (
           move.from &&
