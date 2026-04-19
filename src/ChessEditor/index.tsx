@@ -248,7 +248,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
             history[getNextMoveIndex(index)!]?.to === doneMove.to &&
             history[getNextMoveIndex(index)!]?.promotion === doneMove.promotion
           ) {
-            safeSetIndex(getNextMoveIndex(index)!);
+            setIndex(getNextMoveIndex(index)!);
           } else {
             if (
               index !== undefined &&
@@ -265,7 +265,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
                   variation?.to === doneMove.to &&
                   variation?.promotion === doneMove.promotion
                 ) {
-                  safeSetIndex(variation.index!);
+                  setIndex(variation.index!);
                   return true;
                 }
               }
@@ -315,7 +315,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
       setDestinationSquare(null);
       return true;
     },
-    [history, index, setHistory, safeSetIndex, getNextMoveIndex],
+    [history, index, setHistory, getNextMoveIndex],
   );
 
   let notationPlacement;
