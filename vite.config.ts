@@ -1,13 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import eslint from "vite-plugin-eslint2";
-import stylelint from "vite-plugin-stylelint";
-import compression from "vite-plugin-compression";
 import { VitePWA } from "vite-plugin-pwa";
+import checker from "vite-plugin-checker";
 
 export default defineConfig({
   build: {
-    minify: "esbuild",
+    minify: "terser",
     sourcemap: false,
   },
   plugins: [
@@ -24,13 +22,15 @@ export default defineConfig({
         ],
       },
     }),
-    eslint({
-      build: true,
+    checker({
+      typescript: true,
+      eslint: {
+        lintCommand: "eslint ./src --ext .ts,.tsx",
+      },
+      stylelint: {
+        lintCommand: "stylelint './src/**/*.{css,scss,sass,less}'",
+      },
     }),
-    stylelint({
-      files: ["./src/**/*.{css,scss,sass,less}"],
-    }),
-    compression({ algorithm: "brotliCompress" }),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "robots.txt"],
