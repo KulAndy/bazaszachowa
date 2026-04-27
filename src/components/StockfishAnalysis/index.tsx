@@ -1,4 +1,5 @@
 import { Chess } from "chess.js";
+import { debounce } from "es-toolkit";
 import { useEffect, useMemo, useState } from "react";
 
 import BestMoveSpan from "./BestMoveSpan";
@@ -45,6 +46,24 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
       worker.terminate();
     };
   }, []);
+
+  useEffect(() => {
+    const restartWorker = debounce(() => {
+      if (best === null) {
+        setStockfish((previous) => {
+          previous?.terminate();
+          return new Worker(stockfishFile);
+        });
+      }
+    }, 1500);
+
+    restartWorker();
+
+    return () => {
+      restartWorker.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fen]);
 
   useEffect(() => {
     if (!stockfish) {
