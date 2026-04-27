@@ -57,16 +57,26 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
           >
             <ColorSchemeToggle />
             <LangToggle />
-            {Object.keys(links).map((key) => (
-              <Button
-                color="inherit"
-                component={RouterLink}
-                key={key}
-                to={links[key].url}
-              >
-                {t(links[key].name)}
-              </Button>
-            ))}
+            <Box
+              sx={
+                {
+                  display: "flex",
+                  flexGrow: 1,
+                  justifyContent: "space-around",
+                } as const
+              }
+            >
+              {Object.keys(links).map((key) => (
+                <Button
+                  color="inherit"
+                  component={RouterLink}
+                  key={key}
+                  to={links[key].url}
+                >
+                  {t(links[key].name)}
+                </Button>
+              ))}
+            </Box>
           </Box>
 
           <Box
