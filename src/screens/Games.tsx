@@ -35,6 +35,11 @@ const Games = () => {
   const [maxYear, setMaxYear] = useState(currentYear.toString());
   const [tournamentEvent, setTournamentEvent] = useState("");
 
+  const [base, setBase] = useState("all");
+  const [searching, setSearching] = useState("classic");
+  const [minEco, setMinEco] = useState("A00");
+  const [maxEco, setMaxEco] = useState("E99");
+
   const [games, submitAction, isPending] = useActionState(
     async (previousState: GameData[], formData: FormData) => {
       const whiteForm = formData.get("white") as string;
@@ -44,13 +49,18 @@ const Games = () => {
         return previousState;
       }
 
-      const body: Record<string, string> = {};
-      for (const [key, value] of formData.entries()) {
-        if (value && typeof value !== "object") {
-          body[key] = String(value);
-        }
-      }
-      body.ignore = String(ignore);
+      const body: Record<string, string> = {
+        black: blackForm,
+        event: tournamentEvent,
+        ignore: String(ignore),
+        maxEco,
+        maxYear,
+        minEco,
+        minYear,
+        searching,
+        table: base,
+        white: whiteForm,
+      };
 
       const url = new URL(API.BASE_URL + API.games.normal);
       url.search = new URLSearchParams(body).toString();
@@ -226,13 +236,22 @@ const Games = () => {
                     }
                   >
                     <FormControl>
-                      <Select defaultValue="A00" name="minEco">
+                      <Select
+                        name="minEco"
+                        onChange={(event) => setMinEco(event.target.value)}
+                        value={minEco}
+                      >
                         {options1}
                       </Select>
                     </FormControl>
                     {" — "}
                     <FormControl>
-                      <Select defaultValue="E99" name="maxEco">
+                      <Select
+                        defaultValue="E99"
+                        name="maxEco"
+                        onChange={(event) => setMaxEco(event.target.value)}
+                        value={maxEco}
+                      >
                         {options2}
                       </Select>
                     </FormControl>
@@ -244,7 +263,12 @@ const Games = () => {
                   </td>
                   <td>
                     <FormControl component="fieldset">
-                      <RadioGroup defaultValue="all" name="table" row>
+                      <RadioGroup
+                        name="table"
+                        onChange={(event) => setBase(event.target.value)}
+                        row
+                        value={base}
+                      >
                         <FormControlLabel
                           control={<Radio />}
                           label={t("games.poland")}
@@ -265,7 +289,12 @@ const Games = () => {
                   </td>
                   <td>
                     <FormControl component="fieldset">
-                      <RadioGroup defaultValue="classic" name="searching" row>
+                      <RadioGroup
+                        name="searching"
+                        onChange={(event) => setSearching(event.target.value)}
+                        row
+                        value={searching}
+                      >
                         <FormControlLabel
                           control={<Radio />}
                           label={t("games.searching_classic")}
@@ -280,7 +309,8 @@ const Games = () => {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ height: "4em" } as const}>
+
+                <tr>
                   <th colSpan={2}>
                     <SubmitButton text={t("games.search")} />
                   </th>
