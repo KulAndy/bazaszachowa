@@ -242,8 +242,14 @@ const PZSzachCalculator = () => {
           ) : null}
         </Box>
         <Typography variant="h4">{t("players")}</Typography>
-        <TableContainer component={Paper}>
-          <Table className="colorful-table">
+        <TableContainer
+          component={Paper}
+          sx={{ margin: "auto", width: "fit-content" } as const}
+        >
+          <Table
+            className="colorful-table"
+            sx={{ width: "fit-content" } as const}
+          >
             <TableHead>
               <TableRow>
                 <TableCell>{t("round")}</TableCell>
@@ -262,7 +268,9 @@ const PZSzachCalculator = () => {
               </TableRow>
               {opponents.map((opponent, index) => (
                 <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell sx={{ textAlign: "center" } as const}>
+                    {index + 1}
+                  </TableCell>
                   <OpponentRow
                     opponent={opponent}
                     setOpponent={updateOpponent(index)}
