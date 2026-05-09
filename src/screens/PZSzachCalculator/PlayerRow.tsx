@@ -60,11 +60,13 @@ const PlayerRow = <T extends Player>({
               }
               value={player.title}
             >
-              {TITLES.filter((item) => item.sex === player.sex).map((item) => (
-                <MenuItem key={item.title} value={item.title}>
-                  {item.title} - {item.rating}
-                </MenuItem>
-              ))}
+              {TITLES.filter((item) => item.sex === player.sex)
+                .toSorted((a, b) => b.rating - a.rating)
+                .map((item) => (
+                  <MenuItem key={item.title} value={item.title}>
+                    {item.title} - {item.rating}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Box>

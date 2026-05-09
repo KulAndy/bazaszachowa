@@ -51,6 +51,7 @@ const PZSzachCalculator = () => {
   const [rounds, setRounds] = useState(9);
   const [baseTime, setBaseTime] = useState(90);
   const [increment, setIncrement] = useState(30);
+  const [controlBonus, setControlBonus] = useState(0);
 
   const [opponents, setOpponents] = useState<Opponent[]>([]);
   const updateOpponent = useCallback(
@@ -89,17 +90,26 @@ const PZSzachCalculator = () => {
     }
   }, [rounds, setOpponents, opponents.length]);
 
-  const allPlayer = useMemo(() => [player, ...opponents], [player, opponents]);
   const playedGames = useMemo(() => countPlayedGames(opponents), [opponents]);
   const gameResults = useMemo(
     () => calculateGameResults(opponents),
     [opponents],
   );
   const averageRating = useMemo(
-    () => calculateAvgRating(allPlayer),
-    [allPlayer],
+    () => calculateAvgRating([player, ...opponents]),
+    [player, opponents],
   );
   const delta = useMemo(() => calculateDelta(opponents), [opponents]);
+  const { remark, title } = useMemo(
+    () =>
+      getNorm(
+        player,
+        opponents.filter((item) => ["=", "0", "1"].includes(item.result)),
+        baseTime + increment + controlBonus,
+        system === "round-robin",
+      ),
+    [player, opponents, system, baseTime, increment, controlBonus],
+  );
   return (
     <div id="calculator">
       <Content>
@@ -167,6 +177,14 @@ const PZSzachCalculator = () => {
               type="number"
               value={increment || ""}
             />
+            <TextField
+              label={t("pol_calculator.control")}
+              onChange={(event) =>
+                setControlBonus(Number.parseInt(event.target.value) || 0)
+              }
+              type="number"
+              value={controlBonus || ""}
+            />
           </FormControl>
         </Box>
         <Box>
@@ -179,16 +197,19 @@ const PZSzachCalculator = () => {
               (item) =>
                 item.sex === player.sex &&
                 item.required_rating !== null &&
-                item.min_time <= baseTime + increment &&
+                item.min_time <= baseTime + increment + controlBonus &&
                 item.games <= rounds,
             ).toSorted((a, b) => b.rating - a.rating)[0]?.title || t("none")}
           </Typography>
           {system === "round-robin" && (
-            <Typography>{t("pol_calculator.4,6")}</Typography>
+            <Typography>{t("pol_calculator.4.6")}</Typography>
           )}
           <Typography>
             {t("pol_calculator.rating_sum")}:{" "}
-            {sumBy(allPlayer, (item) => playerRating(item))}
+            {sumBy(
+              opponents.filter((item) => ["=", "0", "1"].includes(item.result)),
+              (item) => playerRating(item),
+            ) + playerRating(player)}
           </Typography>
           <Typography>
             {t("pol_calculator.avg_rating")}: {round(averageRating)}
@@ -212,9 +233,13 @@ const PZSzachCalculator = () => {
             {round(averageRating + delta)}
           </Typography>
           <Typography>
-            {t("pol_calculator.norm")}:{" "}
-            {getNorm(player, opponents)?.title || t("none")}
+            {t("pol_calculator.norm")}: {title?.title || t("none")}
           </Typography>
+          {title && remark ? (
+            <Typography>
+              {t(`pol_calculator.${remark}`)}: {remark}
+            </Typography>
+          ) : null}
         </Box>
         <Typography variant="h4">{t("players")}</Typography>
         <TableContainer component={Paper}>

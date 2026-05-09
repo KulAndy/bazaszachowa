@@ -2,3 +2,9 @@
   width: 90vw;
   text-align: center;
 }
+
+@media only screen and (width <= 768px) {
+  #calculator #content {
+    width: 95vw;
+  }
+}
