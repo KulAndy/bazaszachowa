@@ -1,5 +1,9 @@
 import {
   Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -15,7 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { round, sumBy } from "es-toolkit";
+import { round, sumBy, uniq } from "es-toolkit";
 import {
   type SetStateAction,
   useCallback,
@@ -41,6 +45,23 @@ import PlayerRow, { type Player } from "./PlayerRow";
 
 import "./styles.scss";
 
+const getRatingRanges = (sex: "F" | "M") => {
+  const ratings = uniq(
+    TITLES.filter((item) => item.sex === sex && item.rating !== null).map(
+      (item) => item.rating,
+    ),
+  ).toSorted((a, b) => b - a);
+
+  return ratings.map((rating, index) => ({
+    max: index === 0 ? null : ratings[index - 1] - 1,
+    min: index === ratings.length - 1 ? null : rating,
+    rating,
+  }));
+};
+
+const femaleRatingRanges = getRatingRanges("F");
+const maleRatingRanges = getRatingRanges("M");
+
 const PZSzachCalculator = () => {
   const { t } = useI18n();
   const [player, setPlayer] = useState<Player>({
@@ -52,6 +73,7 @@ const PZSzachCalculator = () => {
   const [baseTime, setBaseTime] = useState(90);
   const [increment, setIncrement] = useState(30);
   const [controlBonus, setControlBonus] = useState(0);
+  const [showEloConverting, setShowEloConverting] = useState(false);
 
   const [opponents, setOpponents] = useState<Opponent[]>([]);
   const updateOpponent = useCallback(
@@ -242,6 +264,85 @@ const PZSzachCalculator = () => {
           ) : null}
         </Box>
         <Typography variant="h4">{t("players")}</Typography>
+        <div>
+          <Button
+            onClick={() => setShowEloConverting(true)}
+            sx={{ ml: 2 } as const}
+            type="button"
+            variant="outlined"
+          >
+            {t("pol_calculator.converting_rating")}
+          </Button>
+        </div>
+
+        <Dialog
+          fullWidth
+          maxWidth="sm"
+          onClose={() => setShowEloConverting(false)}
+          open={showEloConverting}
+        >
+          <DialogTitle>{t("pol_calculator.converting_rating")}</DialogTitle>
+          <DialogContent dividers>
+            <Typography>
+              {t("pol_calculator.converting_rating_explanation")}
+            </Typography>
+            <Typography variant="h6"> {t("male")}</Typography>
+            <TableContainer
+              component={Paper}
+              sx={{ margin: "auto", width: "fit-content" } as const}
+            >
+              <Table
+                className="colorful-table"
+                sx={{ width: "fit-content" } as const}
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>{t("min")}</TableCell>
+                    <TableCell>{t("max")}</TableCell>
+                    <TableCell>{t("pol_calculator.rating_pzszach")}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {maleRatingRanges.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.min}</TableCell>
+                      <TableCell>{item.max}</TableCell>
+                      <TableCell>{item.rating}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Typography variant="h6"> {t("female")}</Typography>
+            <TableContainer
+              component={Paper}
+              sx={{ margin: "auto", width: "fit-content" } as const}
+            >
+              <Table
+                className="colorful-table"
+                sx={{ width: "fit-content" } as const}
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>{t("min")}</TableCell>
+                    <TableCell>{t("max")} </TableCell>
+                    <TableCell>{t("pol_calculator.rating_pzszach")}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {femaleRatingRanges.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.min}</TableCell>
+                      <TableCell>{item.max}</TableCell>
+                      <TableCell>{item.rating}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </DialogContent>
+        </Dialog>
+
         <TableContainer
           component={Paper}
           sx={{ margin: "auto", width: "fit-content" } as const}

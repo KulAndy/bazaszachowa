@@ -201,6 +201,8 @@
   "lost": "verloren",
   "draw": "unentschieden",
   "system": "System",
+  "min": "min",
+  "max": "max",
   "pol_calculator.norm": "Norm",
   "pol_calculator.rating_performance": "Leistungsrating",
   "pol_calculator.avg_rating": "Durchschnittliche Bewertung",
@@ -219,5 +221,8 @@
   "pol_calculator.4.4": "4.4 In Wettbewerben, in denen mehr Partien gespielt wurden als das für die Auswertung erforderliche Minimum, können Partien, die gegen Spieler gewonnen wurden, deren Teilnahme den Durchschnitt der Wertungszahlen verschlechtert, ausgelassen werden. Die Anzahl der für die Auswertung eingereichten Partien darf jedoch nicht unter dem erforderlichen Minimum liegen.",
   "pol_calculator.4.5": "4.5 Wenn ein Schweizer Systemturnier mehr Runden umfasst als das erforderliche Minimum, kann die Norm auch in Runden nach dem erforderlichen Minimum erfüllt werden.",
   "pol_calculator.4.6": "4.6 In einem Rundenturnier wird die Norm aus allen gespielten Partien berechnet.",
-  "pol_calculator.4.7": "4.7 Eine Norm für die I. Kategorie, den Kandidatenmeistertitel oder den Meistertitel kann in Turnieren mit 5–8 Runden erreicht werden. In solchen Turnieren gilt die Anzahl der für die Norm erforderlichen Partien als die Anzahl der Turnierrunden. Bei der Berechnung der Norm in solchen Turnieren finden die Punkte 4.3, 4.4 und 4.5 keine Anwendung."
+  "pol_calculator.4.7": "4.7 Eine Norm für die I. Kategorie, den Kandidatenmeistertitel oder den Meistertitel kann in Turnieren mit 5–8 Runden erreicht werden. In solchen Turnieren gilt die Anzahl der für die Norm erforderlichen Partien als die Anzahl der Turnierrunden. Bei der Berechnung der Norm in solchen Turnieren finden die Punkte 4.3, 4.4 und 4.5 keine Anwendung.",
+  "pol_calculator.rating_pzszach": "pol Bewertung",
+  "pol_calculator.converting_rating": "Umrechnung von elo in pzszach",
+  "pol_calculator.converting_rating_explanation": "für ausländische Spieler, die keine Kategorie besitzen, aber eine FIDE-Bewertung haben, wird eine vorläufige Bewertung angenommen, die durch Aufrunden der FIDE-Bewertung auf den nächsten Bewertungspunkt erhalten wird."
 }

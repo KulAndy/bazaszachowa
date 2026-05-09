@@ -59,6 +59,13 @@ input[type="submit"]::first-letter {
   text-transform: uppercase;
 }
 
+.light {
+  button,
+  input[type="submit"] {
+    background-color: var(--document-link);
+  }
+}
+
 .dark {
   input,
   option,

@@ -201,6 +201,8 @@
   "lost": "lost",
   "draw": "draw",
   "system": "system",
+  "min": "min",
+  "max": "max",
   "pol_calculator.norm": "Norm",
   "pol_calculator.rating_performance": "Rating performance",
   "pol_calculator.avg_rating": "Average rating",
@@ -219,5 +221,8 @@
   "pol_calculator.4.4": "4.4 In competitions where more games have been played than the minimum required for rating evaluation, games won against players whose participation lowers the average rating may be excluded. However, the number of games submitted for rating evaluation cannot be lower than the required minimum.",
   "pol_calculator.4.5": "4.5 If a Swiss-system tournament consists of more rounds than the required minimum, the norm may also be achieved in rounds beyond the required minimum.",
   "pol_calculator.4.6": "4.6 In a round-robin tournament, the norm is calculated from all games played.",
-  "pol_calculator.4.7": "4.7 A norm for First Category, Candidate Master title, or Master title may be achieved in tournaments of 5–8 rounds. In such tournaments, the number of games required for achieving a norm is considered equal to the number of rounds in the tournament. When calculating norms in such tournaments, points 4.3., 4.4., and 4.5. do not apply."
+  "pol_calculator.4.7": "4.7 A norm for First Category, Candidate Master title, or Master title may be achieved in tournaments of 5–8 rounds. In such tournaments, the number of games required for achieving a norm is considered equal to the number of rounds in the tournament. When calculating norms in such tournaments, points 4.3., 4.4., and 4.5. do not apply.",
+  "pol_calculator.rating_pzszach": "Rating pol",
+  "pol_calculator.converting_rating": "Converting elo to pzszach",
+  "pol_calculator.converting_rating_explanation": "For foreign players who do not have a category, but have a FIDE rating, a provisional rating is assumed, which is obtained by rounding up the FIDE rating to the nearest rating point."
 }

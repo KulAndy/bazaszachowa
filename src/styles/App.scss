@@ -1,12 +1,18 @@
 button,
 input[type="submit"] {
   cursor: pointer;
-
   padding: 10px 20px;
   border-radius: 4px;
-
   font-size: 16px;
-  color: var(--document-font-color);
+
+  &,
+  * {
+    color: var(--odd-row) !important;
+
+    &:not(:disabled):hover {
+      color: var(--document-active) !important;
+    }
+  }
 }
 
 button {
