@@ -6,6 +6,10 @@ const URLS = {
   search: { name: "menu.games", url: "/search/" },
   preparation: { name: "menu.preparation", url: "/preparation/" },
   license: { name: "menu.license", url: "/license/" },
+  pzszach_calculator: {
+    name: "menu.pzszach_calculator",
+    url: "/pzszach_calculator/",
+  },
   rodo: { name: "menu.gdpr", url: "/rodo/" },
   contact: { name: "menu.contact", url: "/contact/" },
   downloads: { name: "download", url: "/downloads/" },

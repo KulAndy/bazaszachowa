@@ -1,0 +1,255 @@
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Paper,
+  Radio,
+  RadioGroup,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { round, sumBy } from "es-toolkit";
+import {
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import Content from "../../components/app/Content";
+import { useI18n } from "../../context/useI18n";
+
+import {
+  calculateAvgRating,
+  calculateDelta,
+  calculateGameResults,
+  countPlayedGames,
+  getNorm,
+  playerRating,
+} from "./calculations";
+import { TITLES } from "./constants";
+import OpponentRow, { type Opponent } from "./OpponentRow";
+import PlayerRow, { type Player } from "./PlayerRow";
+
+import "./styles.scss";
+
+const PZSzachCalculator = () => {
+  const { t } = useI18n();
+  const [player, setPlayer] = useState<Player>({
+    sex: "M",
+    title: "bk",
+  });
+  const [system, setSystem] = useState("swiss");
+  const [rounds, setRounds] = useState(9);
+  const [baseTime, setBaseTime] = useState(90);
+  const [increment, setIncrement] = useState(30);
+
+  const [opponents, setOpponents] = useState<Opponent[]>([]);
+  const updateOpponent = useCallback(
+    (index: number) => (value: SetStateAction<Opponent>) => {
+      setOpponents((previous) =>
+        // eslint-disable-next-line sonarjs/no-nested-functions
+        previous.map((opponent, currentIndex) => {
+          if (currentIndex !== index) {
+            return opponent;
+          }
+
+          return typeof value === "function" ? value(opponent) : value;
+        }),
+      );
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (rounds < opponents.length) {
+      setOpponents((previous) => previous.slice(0, rounds));
+    } else if (rounds > opponents.length) {
+      setOpponents((previous) => [
+        ...previous,
+        ...Array.from(
+          { length: rounds - previous.length },
+          () =>
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+            ({
+              result: "P",
+              sex: "M",
+              title: "bk",
+            }) as Opponent,
+        ),
+      ]);
+    }
+  }, [rounds, setOpponents, opponents.length]);
+
+  const allPlayer = useMemo(() => [player, ...opponents], [player, opponents]);
+  const playedGames = useMemo(() => countPlayedGames(opponents), [opponents]);
+  const gameResults = useMemo(
+    () => calculateGameResults(opponents),
+    [opponents],
+  );
+  const averageRating = useMemo(
+    () => calculateAvgRating(allPlayer),
+    [allPlayer],
+  );
+  const delta = useMemo(() => calculateDelta(opponents), [opponents]);
+  return (
+    <div id="calculator">
+      <Content>
+        <Typography variant="h4">
+          {t("pol_calculator.tournament_data")}
+        </Typography>
+        <Box>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">{t("system")}</FormLabel>
+            <RadioGroup
+              onChange={(event) => setSystem(event.target.value)}
+              sx={{ display: "flex", flexDirection: "row" } as const}
+              value={system}
+            >
+              <FormControlLabel
+                control={<Radio />}
+                label={t("pol_calculator.swiss")}
+                value="swiss"
+              />
+              <FormControlLabel
+                control={<Radio />}
+                label={t("pol_calculator.round_robin")}
+                value="round-robin"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
+        <Box>
+          <TextField
+            label={t("pol_calculator.no_rounds")}
+            onChange={(event) =>
+              setRounds(Number.parseInt(event.target.value) || 0)
+            }
+            type="number"
+            value={rounds || ""}
+          />
+        </Box>
+        <Box>
+          <FormControl
+            component="fieldset"
+            sx={
+              {
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              } as const
+            }
+          >
+            <FormLabel component="legend" sx={{ marginBottom: 1 } as const}>
+              {t("pol_calculator.rate")}
+            </FormLabel>
+            <TextField
+              label={t("pol_calculator.base_time")}
+              onChange={(event) =>
+                setBaseTime(Number.parseInt(event.target.value) || 0)
+              }
+              type="number"
+              value={baseTime || ""}
+            />
+            <TextField
+              label={t("pol_calculator.increment")}
+              onChange={(event) =>
+                setIncrement(Number.parseInt(event.target.value) || 0)
+              }
+              type="number"
+              value={increment || ""}
+            />
+          </FormControl>
+        </Box>
+        <Box>
+          <Typography variant="h4">
+            {t("pol_calculator.calculations")}
+          </Typography>
+          <Typography>
+            {t("pol_calculator.max_norm")}:{" "}
+            {TITLES.filter(
+              (item) =>
+                item.sex === player.sex &&
+                item.required_rating !== null &&
+                item.min_time <= baseTime + increment &&
+                item.games <= rounds,
+            ).toSorted((a, b) => b.rating - a.rating)[0]?.title || t("none")}
+          </Typography>
+          {system === "round-robin" && (
+            <Typography>{t("pol_calculator.4,6")}</Typography>
+          )}
+          <Typography>
+            {t("pol_calculator.rating_sum")}:{" "}
+            {sumBy(allPlayer, (item) => playerRating(item))}
+          </Typography>
+          <Typography>
+            {t("pol_calculator.avg_rating")}: {round(averageRating)}
+          </Typography>
+          <Typography>
+            {t("result")}: {gameResults["1"] + gameResults["="] * 0.5}/
+            {playedGames}
+          </Typography>
+          <Typography>
+            {t("won")}: {gameResults["1"]}, {t("draw")}: {gameResults["="]},{" "}
+            {t("lost")}: {gameResults["0"]}
+          </Typography>
+          <Typography>
+            {
+              // eslint-disable-next-line i18next/no-literal-string
+            }
+            ΔR = {round(delta)}
+          </Typography>
+          <Typography>
+            {t("pol_calculator.rating_performance")}:{" "}
+            {round(averageRating + delta)}
+          </Typography>
+          <Typography>
+            {t("pol_calculator.norm")}:{" "}
+            {getNorm(player, opponents)?.title || t("none")}
+          </Typography>
+        </Box>
+        <Typography variant="h4">{t("players")}</Typography>
+        <TableContainer component={Paper}>
+          <Table className="colorful-table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{t("round")}</TableCell>
+                <TableCell>{t("sex")}</TableCell>
+                <TableCell>{t("player.cr_title")}</TableCell>
+                <TableCell>{t("result")}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell />
+                <PlayerRow player={player} setPlayer={setPlayer} />
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={5} />
+              </TableRow>
+              {opponents.map((opponent, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <OpponentRow
+                    opponent={opponent}
+                    setOpponent={updateOpponent(index)}
+                  />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Content>
+    </div>
+  );
+};
+
+export default PZSzachCalculator;
