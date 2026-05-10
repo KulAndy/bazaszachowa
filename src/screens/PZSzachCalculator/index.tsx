@@ -118,7 +118,11 @@ const PZSzachCalculator = () => {
     [opponents],
   );
   const averageRating = useMemo(
-    () => calculateAvgRating([player, ...opponents]),
+    () =>
+      calculateAvgRating([
+        player,
+        ...opponents.filter((item) => ["=", "0", "1"].includes(item.result)),
+      ]),
     [player, opponents],
   );
   const delta = useMemo(() => calculateDelta(opponents), [opponents]);
