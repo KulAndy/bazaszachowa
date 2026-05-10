@@ -52,13 +52,11 @@ const getRatingRanges = (sex: "F" | "M") => {
     ),
   ).toSorted((a, b) => b - a);
 
-  return ratings
-    .map((rating, index) => ({
-      max: index === 0 ? null : rating,
-      min: index >= ratings.length - 2 ? null : ratings[index + 1] + 1,
-      rating,
-    }))
-    .slice(0, -1);
+  return ratings.map((rating, index) => ({
+    max: index === 0 ? null : rating,
+    min: index === ratings.length - 1 ? null : ratings[index + 1] + 1,
+    rating,
+  }));
 };
 
 const femaleRatingRanges = getRatingRanges("F");
