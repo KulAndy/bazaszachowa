@@ -50,7 +50,7 @@ const check43 = (
       continue;
     }
     const delta =
-      (400 / (index + 1)) * (results["1"] - results["0"] + (index - rounds));
+      (400 / (index + 1)) * (results["1"] - results["0"] + index - rounds);
     const ratingPerformance = avgRating + delta;
 
     const gainedTitles = TITLES.filter(
@@ -59,7 +59,7 @@ const check43 = (
         item.required_rating <= ratingPerformance &&
         item.sex === sex &&
         item.games !== null &&
-        item.games <= rounds &&
+        item.games === index &&
         item.min_time !== null &&
         item.min_time <= rate,
     );
@@ -83,7 +83,7 @@ const check44 = (player: Player, opponents: Opponent[], rate: number) => {
   defeatedOpponents.sort((a, b) => playerRating(b) - playerRating(a));
   let maxTitle: (typeof TITLES)[0] | null = null;
 
-  for (let index = -1; index < defeatedOpponents.length; index++) {
+  for (let index = 0; index < defeatedOpponents.length; index++) {
     const roundOpponents = [
       ...nonDefeatedOpponents,
       ...defeatedOpponents.slice(0, index),
@@ -246,7 +246,7 @@ export const getNorm = (
     }
   }
 
-  if (maxTitle && maxTitle?.rating < playerRating(player)) {
+  if (maxTitle && maxTitle?.rating <= playerRating(player)) {
     maxTitle = null;
   }
 
