@@ -222,6 +222,7 @@
   "pol_calculator.4.5": "4.5. Jeżeli turniej szwajcarski składa się z większej liczby rund niż wymagane minimum, to normę można wypełnić również w rundach po wymaganym minimum",
   "pol_calculator.4.6": "4.6. W turnieju kołowym normę oblicza się ze wszystkich rozegranych partii",
   "pol_calculator.4.7": "4.7. Normę na I kategorię, tytuł kandydata lub tytuł mistrza można zdobyć w turniejach 5-8 rundowych. W takich turniejach za limit partii niezbędnych do uzyskania normy przyjmuje się liczbę rund w turnieju. Przy obliczaniu normy w takich turniejach nie mają zastosowania pkt. 4.3., 4.4., 4.5. ",
+  "pol_calculator.4.9": "4.9. Na wniosek zawodnika można nadać III lub II kategorię, jeżeli uzyskał on odpowiedni wynik rankingowy w dwóch turniejach 5 lub 6 rundowych",
   "pol_calculator.rating_pzszach": "Ranking PZSzach",
   "pol_calculator.converting_rating": "Przeliczanie elo na pzszach",
   "pol_calculator.converting_rating_explanation": "Dla zawodników zagranicznych nie posiadających kategorii, a posiadających ranking FIDE przyjmuje się ranking prowizoryczny wynikający z zaokrąglenia w górę rankingu FIDE do najbliższej punktacji rankingowej"

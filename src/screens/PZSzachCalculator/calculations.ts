@@ -150,6 +150,39 @@ const check45 = (player: Player, opponents: Opponent[], rate: number) => {
   return maxTitle;
 };
 
+const check49 = (player: Player, opponents: Opponent[], rate: number) => {
+  const rounds = countPlayedGames(opponents);
+  const results = calculateGameResults(opponents);
+
+  if (results["1"] + results["="] * 0.5 < rounds / 3) {
+    return null;
+  }
+
+  if (rounds < 5 || rounds >= 6) {
+    return null;
+  }
+
+  const ratingPerformance =
+    calculateAvgRating([player, ...opponents]) + calculateDelta(opponents);
+
+  const gainedTitles = TITLES.filter(
+    (item) =>
+      ["II", "III"].includes(item.title) &&
+      item.required_rating !== null &&
+      item.required_rating <= ratingPerformance &&
+      item.sex === player.sex &&
+      item.games !== null &&
+      item.min_time !== null &&
+      item.min_time <= rate,
+  );
+
+  if (gainedTitles.length === 0) {
+    return null;
+  }
+
+  return gainedTitles[0];
+};
+
 const check47 = (player: Player, opponents: Opponent[], rate: number) => {
   const rounds = countPlayedGames(opponents);
   const results = calculateGameResults(opponents);
@@ -243,6 +276,13 @@ export const getNorm = (
     if (newTitle && (!maxTitle || maxTitle.rating < newTitle.rating)) {
       maxTitle = newTitle;
       remark = "4.7";
+    }
+
+    newTitle = check49(player, opponents, rate);
+
+    if (newTitle && (!maxTitle || maxTitle.rating < newTitle.rating)) {
+      maxTitle = newTitle;
+      remark = "4.9";
     }
   }
 

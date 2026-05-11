@@ -49,7 +49,7 @@ const Menu: React.FC<MenuProperties> = ({ links }) => {
           <Box
             sx={
               {
-                display: { md: "flex", xs: "none" },
+                display: { flexWrap: "wrap", md: "flex", xs: "none" },
                 flexGrow: 1,
                 gap: 2,
               } as const
