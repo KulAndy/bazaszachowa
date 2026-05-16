@@ -43,7 +43,7 @@
   "license.right_copy": "has the right to copy the site*",
   "license.right_improve": "has the right to improve and publicly distribute improvements to the site*",
   "license.no_change_license": "may not change the license",
-  "license.no_commercial": "may not charge fees for a project that uses any element from this site*",
+  "license.no_commercial": "may not charge any fees for a project (including commercial, commercial-educational, or profit-oriented hobby projects) in which any element from this website has been used, in particular the source code*, API, database, or its compilations, regardless of how they were obtained",
   "license.search_obligation": "if using the search engine, must check their games for at least the last 3 years from the database they used and report any errors",
   "license.beer_for_author": "is obliged to buy the author a beer",
   "license.error_reports": "only people whose data is publicly available (e.g. registered with FIDE, PZSzach, or whose games are in the database) may report errors in games",

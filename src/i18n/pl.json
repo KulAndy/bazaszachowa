@@ -43,7 +43,7 @@
   "license.right_copy": "ma prawo do kopiowania strony*",
   "license.right_improve": "ma prawo do udoskonalania i publicznego rozpowszechniania ulepszeń strony*",
   "license.no_change_license": "nie może zmienić licencji",
-  "license.no_commercial": "nie może pobierać opłat za projekt, w którym został wykorzystany jakikolwiek element z tej strony*",
+  "license.no_commercial": "nie może pobierać opłat za projekt (w tym w projektach komercyjnych, komercyjno-edukacyjnych lub hobbystycznych o charakterze zarobkowym), w którym został wykorzystany jakikolwiek element z tej strony, w szczególności kod źródłowy*, API oraz baza danych i jej zestawienia, niezależnie od sposobu ich pozyskania",
   "license.search_obligation": "jeśli skorzysta z wyszukiwarki, to ma obowiązek sprawdzenia swoich gier na dany moment z minimum ostatnich 3 lat przynajmniej z bazy z której korzystał i zgłoszenia ewentualnych błędów",
   "license.beer_for_author": "zobowiązuje się postawić piwo autorowi strony",
   "license.error_reports": "zgłaszać błędy w partiach mogą tylko osoby, których dane są publicznie dostępne (np. zarejestrowani w FIDE, PZSzach lub ich partie znajdują się w bazie)",
