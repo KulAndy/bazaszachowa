@@ -184,7 +184,10 @@ const PZSzachCalculator = () => {
               } as const
             }
           >
-            <FormLabel component="legend" sx={{ marginBottom: 1 } as const}>
+            <FormLabel
+              component="legend"
+              sx={{ marginBottom: 1, marginX: "auto" } as const}
+            >
               {t("pol_calculator.rate")}
             </FormLabel>
             <TextField
