@@ -51,7 +51,7 @@
     "@types/node-polyglot": "^2.5.0",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-react": "^6.0.2",
     "babel-plugin-console-source": "^2.0.5",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.4",
@@ -89,7 +89,7 @@
     "stylelint-scss": "^7.1.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.59.4",
-    "vite": "^7.3.2",
+    "vite": "^8.0.14",
     "vite-plugin-checker": "^0.13.0",
     "vite-plugin-pwa": "^1.3.0"
   }
