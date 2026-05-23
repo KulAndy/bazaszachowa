@@ -27,6 +27,7 @@ const Players = lazy(() => import("./screens/Players"));
 const Preparation = lazy(() => import("./screens/Preparation"));
 const Rodo = lazy(() => import("./screens/Rodo"));
 const PZSzachCalculator = lazy(() => import("./screens/PZSzachCalculator"));
+const UploadGames = lazy(() => import("./screens/UploadGames"));
 
 const App = () => {
   const { t } = useI18n();
@@ -81,6 +82,7 @@ const App = () => {
                   Component={PZSzachCalculator}
                   path={URLS.pzszach_calculator.url}
                 />
+                <Route Component={UploadGames} path={URLS.upload_games.url} />
                 <Route Component={NotFound} path="*" />
               </Routes>
             </ErrorBoundary>

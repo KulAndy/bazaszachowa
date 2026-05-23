@@ -13,6 +13,7 @@ const URLS = {
   rodo: { name: "menu.gdpr", url: "/rodo/" },
   contact: { name: "menu.contact", url: "/contact/" },
   downloads: { name: "download", url: "/downloads/" },
+  upload_games: { name: "menu.upload_games", url: "/upload_games/" },
 };
 const API = {
   base_download: "/download/",
@@ -32,6 +33,10 @@ const API = {
   send_mail: "/mail/send",
   poland_tournaments: "/player/tournaments/poland/",
   fide_tournaments: "/player/tournaments/fide/",
+  upload_games: {
+    upload: "/games/upload",
+    verification: "/games/upload/get-code",
+  },
 };
 const NOMENU_URLS = {
   activation: "/activation/",
