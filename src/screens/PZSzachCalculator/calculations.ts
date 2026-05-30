@@ -36,14 +36,17 @@ export const calculateDelta = (opponents: Opponent[]) => {
 };
 
 const check43 = (
-  sex: "F" | "M",
+  player: Player,
   opponents: Opponent[],
-  avgRating: number,
   results: ReturnType<typeof calculateGameResults>,
   rate: number,
 ) => {
   const rounds = countPlayedGames(opponents);
   const totalPoints = results["1"] + results["="] * 0.5;
+
+  const avg = calculateAvgRating(opponents);
+  const rating = playerRating(player);
+
   let maxTitle = null;
   for (let index = 5; index <= 9; index += 2) {
     if (rounds >= index || totalPoints < index / 3) {
@@ -51,13 +54,15 @@ const check43 = (
     }
     const delta =
       (400 / (index + 1)) * (results["1"] - results["0"] + index - rounds);
+
+    const avgRating = (rating + avg * index) / (index + 1);
     const ratingPerformance = avgRating + delta;
 
     const gainedTitles = TITLES.filter(
       (item) =>
         item.required_rating !== null &&
         item.required_rating <= ratingPerformance &&
-        item.sex === sex &&
+        item.sex === player.sex &&
         item.games !== null &&
         item.games === index &&
         item.min_time !== null &&
@@ -250,7 +255,7 @@ export const getNorm = (
   }
 
   if (!roundRobin) {
-    let newTitle = check43(player.sex, opponents, avg, results, rate);
+    let newTitle = check43(player, opponents, results, rate);
 
     if (newTitle && (!maxTitle || maxTitle.rating < newTitle.rating)) {
       maxTitle = newTitle;
