@@ -77,8 +77,13 @@ const PreparationPlayer = ({
 
   useEffect(() => {
     if (games.length > 0 && !processor.isCompleted) {
-      processor.completeTree();
+      void processor.completeTree().then(() => {
+        const fens = processor.searchFEN(fen);
+        setTree(fens.moves);
+        setGamesFilter(fens.indexes);
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [games, loadGames]);
 
   useEffect(() => {
