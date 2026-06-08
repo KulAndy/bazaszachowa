@@ -48,7 +48,7 @@ const check43 = (
   const rating = playerRating(player);
 
   let maxTitle = null;
-  for (let index = 5; index <= 9; index += 2) {
+  for (let index = 5; index <= 8; index += 2) {
     if (rounds >= index || totalPoints < index / 3) {
       continue;
     }
