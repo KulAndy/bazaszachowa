@@ -69,5 +69,5 @@ globalThis.onmessage = (event: MessageEvent) => {
     fensObject = processGameSecondBatch(game, fensObject);
   }
 
-  self.postMessage(fensObject);
+  globalThis.postMessage(fensObject);
 };

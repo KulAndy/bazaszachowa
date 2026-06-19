@@ -9,6 +9,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -66,13 +67,10 @@ const Bug = () => {
       form.append("content", content);
       form.append("attachment", "");
 
-      fetch(API.BASE_URL + API.send_mail, { body: form, method: "POST" })
-        .then((response) => {
-          if (response.status === 200) {
-            alert(t("contact.successfully_sent"));
-          } else {
-            throw new Error("Send error");
-          }
+      axios
+        .post(API.BASE_URL + API.send_mail, form)
+        .then(() => {
+          alert(t("contact.successfully_sent"));
         })
         .catch(() => {
           alert(t("contact.failed_sent"));

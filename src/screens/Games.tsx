@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import axios, { type AxiosResponse } from "axios";
 import { useActionState, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
@@ -62,14 +63,15 @@ const Games = () => {
         white: whiteForm,
       };
 
-      const url = new URL(API.BASE_URL + API.games.normal);
-      url.search = new URLSearchParams(body).toString();
+      const response: AxiosResponse<{ rows: GameData[]; table: string }> =
+        await axios.get(API.BASE_URL + API.games.normal, {
+          params: body,
+        });
 
-      const response = await fetch(url);
-      const data = (await response.json()) as {
+      const data: {
         rows: GameData[];
         table: string;
-      };
+      } = response.data;
       setSearchedBase(data.table);
 
       if (document.activeElement instanceof HTMLElement) {

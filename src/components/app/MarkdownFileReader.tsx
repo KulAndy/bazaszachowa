@@ -1,3 +1,4 @@
+import axios, { type AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -7,8 +8,11 @@ const MarkdownFileReader = ({ filePath }: { readonly filePath: string }) => {
 
   useEffect(() => {
     const fetchMarkdownFile = async () => {
-      const response = await fetch(filePath);
-      const markdownText = await response.text();
+      const response: AxiosResponse<string> = await axios.get(filePath, {
+        responseType: "text",
+      });
+
+      const markdownText = response.data;
       setMarkdownContent(markdownText);
     };
 

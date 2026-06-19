@@ -1,3 +1,4 @@
+import axios, { type AxiosResponse } from "axios";
 import { useEffect, useOptimistic } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -45,12 +46,14 @@ const GameRaw = () => {
 `,
     );
 
-    void fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
-      .then((response) => response.json())
-      .then(async (response: GameData[]) => {
+    void axios
+      .get(`${API.BASE_URL + API.game + base}/${gameid}`)
+      .then(async (response: AxiosResponse<GameData[]>) => {
+        const responseData: GameData[] = response.data;
+
         const data =
-          response.length > 0
-            ? response[0]
+          responseData.length > 0
+            ? responseData[0]
             : ({
                 Black: "N, N",
                 BlackElo: 0,

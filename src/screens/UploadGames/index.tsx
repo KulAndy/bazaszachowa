@@ -8,6 +8,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import axios, { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 
 import Content from "../../components/app/Content";
@@ -63,59 +64,83 @@ const UploadGames = () => {
           break;
         }
       }
-      void fetch(API.BASE_URL + API.upload_games.upload, {
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }).then((response) => {
-        switch (response.status) {
-          case 200: {
-            alert(t("uploads.successfully_added"));
-            break;
+      axios
+        .post(API.BASE_URL + API.upload_games.upload, body, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          switch (response.status) {
+            case 200: {
+              alert(t("uploads.successfully_added"));
+              break;
+            }
+            case 208: {
+              alert(t("uploads.link_exists"));
+              break;
+            }
+            case 400: {
+              alert(t("uploads.incorrect_data"));
+              break;
+            }
+            case 401: {
+              alert(t("uploads.verification_failed"));
+              break;
+            }
+            case 503: {
+              alert(t("uploads.internal_error"));
+              break;
+            }
+            default: {
+              alert(t("uploads.unknown_response"));
+              break;
+            }
           }
-          case 208: {
-            alert(t("uploads.link_exists"));
-            break;
-          }
-          case 400: {
-            alert(t("uploads.incorrect_data"));
-            break;
-          }
-          case 401: {
-            alert(t("uploads.verification_failed"));
-            break;
-          }
-          case 503: {
-            alert(t("uploads.internal_error"));
-            break;
-          }
+        })
+        .catch((error: AxiosError) => {
+          const status = error?.response?.status;
 
-          default: {
-            alert(t("uploads.unknown_response"));
-            break;
+          switch (status) {
+            case 400: {
+              alert(t("uploads.incorrect_data"));
+              break;
+            }
+            case 401: {
+              alert(t("uploads.verification_failed"));
+              break;
+            }
+            case 503: {
+              alert(t("uploads.internal_error"));
+              break;
+            }
+            default: {
+              alert(t("uploads.unknown_response"));
+              break;
+            }
           }
-        }
-      });
+        });
     },
     [source, email, pgn, url, verificationCode, t],
   );
 
   const generateCode = useCallback(() => {
-    void fetch(API.BASE_URL + API.upload_games.verification, {
-      body: JSON.stringify({ email }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    }).then((response) => {
-      if (response.ok) {
+    axios
+      .post(
+        API.BASE_URL + API.upload_games.verification,
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
+      .then(() => {
         alert(t("uploads.sent_code"));
-      } else {
-        alert(t("uploads.code_failedAdministracja i bezpieczeństwo"));
-      }
-    });
+      })
+      .catch(() => {
+        alert(t("uploads.code_failed"));
+      });
   }, [email, t]);
 
   return (

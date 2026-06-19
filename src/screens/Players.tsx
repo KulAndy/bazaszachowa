@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import axios, { type AxiosResponse } from "axios";
 import { useActionState, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -28,15 +29,14 @@ async function fetchPlayers(formData: FormData): Promise<string[]> {
       return;
     }
     const player = formValue?.toString().trim() || "";
-    fetch(API.BASE_URL + API.players + encodeURIComponent(player))
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch players");
-        }
-        return response.json();
+    axios
+      .get(API.BASE_URL + API.players + encodeURIComponent(player))
+      .then((response: AxiosResponse<string[]>) => {
+        resolve(response.data);
       })
-      .then(resolve)
-      .catch(reject);
+      .catch(() => {
+        reject(new Error("Failed to fetch players"));
+      });
   });
 }
 

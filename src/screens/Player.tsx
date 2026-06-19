@@ -1,5 +1,6 @@
 import "../styles/Player.scss";
 import { CircularProgress } from "@mui/material";
+import axios, { type AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -39,55 +40,65 @@ const Player = () => {
   const [games, setGames] = useState<GameData[] | null>(null);
 
   const loadExtremes = () => {
-    fetch(API.BASE_URL + API.extremes + encodeURIComponent(name || ""))
-      .then((response) => response.json())
+    axios
+      .get(API.BASE_URL + API.extremes + encodeURIComponent(name || ""))
+      .then(
+        (
+          response: AxiosResponse<
+            { maxElo: null | number; maxYear: number; minYear: number }[]
+          >,
+        ) => response.data,
+      )
       .then(
         (
           data: { maxElo: null | number; maxYear: number; minYear: number }[],
         ) => {
-          setLoadingExtremes(false);
           setMaxElo(data[0].maxElo || null);
           setMinYear(data[0].minYear || null);
           setMaxYear(data[0].maxYear || null);
         },
       )
-      .catch(() => {
+      .catch(() => {})
+      .finally(() => {
         setLoadingExtremes(false);
       });
   };
 
   const loadCr = () => {
-    fetch(API.BASE_URL + API.cr + encodeURIComponent(name || ""))
-      .then((response) => response.json())
+    axios
+      .get(API.BASE_URL + API.cr + encodeURIComponent(name || ""))
+      .then((response: AxiosResponse<CrPlayerType[]>) => response.data)
       .then((data: CrPlayerType[]) => {
-        setLoadingCr(false);
         setCrPlayers(data);
       })
-      .catch(() => {
+      .catch(() => {})
+      .finally(() => {
         setLoadingCr(false);
       });
   };
 
   const loadFide = () => {
-    fetch(API.BASE_URL + API.fide + encodeURIComponent(name || ""))
-      .then((response) => response.json())
+    axios
+      .get(API.BASE_URL + API.fide + encodeURIComponent(name || ""))
+      .then((response: AxiosResponse<FidePlayerType[]>) => response.data)
       .then((data: FidePlayerType[]) => {
-        setLoadingFide(false);
         setFidePlayers(data);
       })
-      .catch(() => {
+      .catch(() => {})
+      .finally(() => {
         setLoadingFide(false);
       });
   };
 
   const loadStats = () => {
-    fetch(API.BASE_URL + API.openings + encodeURIComponent(name || ""))
-      .then((response) => response.json())
+    axios
+      .get(API.BASE_URL + API.openings + encodeURIComponent(name || ""))
+      .then((response: AxiosResponse<typeof stats>) => response.data)
       .then((data: typeof stats) => {
-        setLoadingStats(false);
         setStats(data);
       })
-      .catch(() => {
+      .catch(() => {})
+      .finally(() => {
         setLoadingStats(false);
       });
   };
@@ -117,8 +128,9 @@ const Player = () => {
         "&base=all" +
         "&searching=fulltext";
     }
-    void fetch(url)
-      .then((response) => response.json())
+    void axios
+      .get(url)
+      .then((response: AxiosResponse<unknown>) => response.data)
       .then((data: unknown) => {
         if (color === undefined) {
           setGames((data as { rows: GameData[] }).rows);

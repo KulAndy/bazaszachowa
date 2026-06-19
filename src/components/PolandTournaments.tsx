@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-https */
 import {
   Accordion,
   AccordionDetails,
@@ -10,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import axios, { type AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 
 import { useI18n } from "../context/useI18n";
@@ -34,10 +36,11 @@ const PolandTournaments: React.FC<PolandTournamentsProperties> = ({ name }) => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
 
   useEffect(() => {
-    void fetch(
-      API.BASE_URL + API.poland_tournaments + encodeURIComponent(name || ""),
-    )
-      .then((response) => response.json())
+    void axios
+      .get(
+        API.BASE_URL + API.poland_tournaments + encodeURIComponent(name || ""),
+      )
+      .then((response: AxiosResponse<Tournament[]>) => response.data)
       .then((data: Tournament[]) => {
         setTournaments(data);
       });

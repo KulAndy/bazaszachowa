@@ -1,5 +1,6 @@
 import "../styles/PreparationPlayer.scss";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import axios, { type AxiosResponse } from "axios";
 import { debounce, noop } from "es-toolkit";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -53,12 +54,13 @@ const PreparationPlayer = ({
 
   const loadGames = useCallback(
     (currentPlayer: string, currentColor: string) => {
-      void fetch(
-        `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
-          currentPlayer,
-        )}/${currentColor}`,
-      )
-        .then((response) => response.json())
+      void axios
+        .get(
+          `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
+            currentPlayer,
+          )}/${currentColor}`,
+        )
+        .then((response: AxiosResponse<GameData[]>) => response.data)
         .then((data: GameData[]) => {
           processor.clear();
 

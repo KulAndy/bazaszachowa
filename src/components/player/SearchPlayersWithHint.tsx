@@ -1,4 +1,5 @@
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
+import axios from "axios";
 import { deburr } from "es-toolkit";
 import { useEffect, useState } from "react";
 
@@ -24,11 +25,11 @@ const SearchPlayersWithHints: React.FC<SearchPlayersWithHintsProperties> = ({
   useEffect(() => {
     const fetchData = async () => {
       if (text.trim().length >= 4) {
-        const response = await fetch(
+        const response = await axios.get(
           API.BASE_URL + API.players + encodeURIComponent(text.trim()),
         );
 
-        const jsonData = (await response.json()) as string[];
+        const jsonData = response.data as string[];
         setPlayers(jsonData);
       } else {
         setPlayers([]);

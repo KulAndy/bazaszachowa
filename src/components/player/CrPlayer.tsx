@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prefer-https */
+
 import {
   Paper,
   Table,

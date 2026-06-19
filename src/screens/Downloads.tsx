@@ -1,3 +1,4 @@
+import axios, { type AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
 import Content from "../components/app/Content";
@@ -40,8 +41,9 @@ const Downloads = () => {
   const { t } = useI18n();
   const [dumps, setDumps] = useState<Dump[]>([]);
   useEffect(() => {
-    void fetch(API.BASE_URL + API.dumps)
-      .then((response) => response.json())
+    void axios
+      .get(API.BASE_URL + API.dumps)
+      .then((response: AxiosResponse<Dump[]>) => response.data)
       .then(setDumps);
   }, []);
 

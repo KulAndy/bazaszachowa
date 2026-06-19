@@ -51,6 +51,7 @@ const rules = {
   "unicorn/filename-case": "off",
   "unicorn/no-null": "off",
   "unicorn/prefer-json-parse-buffer": "error",
+  "unicorn/prefer-split-limit": "off",
   "no-unsanitized/method": "error",
   "no-unsanitized/property": "error",
   "promise/always-return": "off",
@@ -90,16 +91,7 @@ const rules = {
   "react-web-api/no-leaked-interval": "error",
   "react-web-api/no-leaked-resize-observer": "error",
   "react-web-api/no-leaked-timeout": "error",
-  "react-naming-convention/component-name": "error",
 
-  "react-naming-convention/filename-extension": [
-    "error",
-    {
-      extensions: ["ts", ".tsx", "js", ".jsx"],
-    },
-  ],
-
-  "react-naming-convention/use-state": "error",
   "react-naming-convention/context-name": "error",
   "react-naming-convention/ref-name": "off",
   "react-hooks/rules-of-hooks": "error",
@@ -342,7 +334,6 @@ export default defineConfig([
     languageOptions,
 
     rules: {
-      ...rules,
       "unicorn/prevent-abbreviations": "off",
     },
   },

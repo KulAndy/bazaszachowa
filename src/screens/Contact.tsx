@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useCallback, useState } from "react";
 
 import Content from "../components/app/Content";
@@ -72,16 +73,10 @@ const Contact = () => {
       form.append("content", formData.content);
       form.append("attachment", formData.attachment || "");
 
-      fetch(API.BASE_URL + API.send_mail, {
-        body: form,
-        method: "POST",
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            alert(t("contact.successfully_sent"));
-          } else {
-            throw new Error("Send failed");
-          }
+      axios
+        .post(API.BASE_URL + API.send_mail, form)
+        .then(() => {
+          alert(t("contact.successfully_sent"));
         })
         .catch(() => {
           alert(t("contact.failed_sent"));

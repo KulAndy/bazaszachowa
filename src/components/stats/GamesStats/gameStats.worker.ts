@@ -5,7 +5,7 @@ import initWasm from "../../../wasm/game_stats";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, unicorn/prefer-top-level-await
 void initWasm().then((wasm: any) => {
   // eslint-disable-next-line sonarjs/post-message
-  self.addEventListener(
+  globalThis.addEventListener(
     "message",
     (event: {
       data: {

@@ -1,4 +1,5 @@
 import "../styles/Game.scss";
+import axios, { type AxiosResponse } from "axios";
 import { noop } from "es-toolkit";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -56,8 +57,9 @@ const Game = () => {
   };
 
   useEffect(() => {
-    void fetch(`${API.BASE_URL + API.game + base}/${gameid}`)
-      .then((response) => response.json())
+    void axios
+      .get(`${API.BASE_URL + API.game + base}/${gameid}`)
+      .then((response: AxiosResponse<GameData[]>) => response.data)
       .then((response: GameData[]) => {
         if (response.length > 0) {
           setData(response[0]);

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -11,8 +12,8 @@ const Documentation = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/fileList.json");
-      const data = (await response.json()) as string[];
+      const response = await axios.get("/fileList.json");
+      const data = response.data as string[];
       setFileList(data);
     };
 
