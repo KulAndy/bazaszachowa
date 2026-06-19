@@ -11,8 +11,8 @@ const wasmSupported =
     Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00),
   );
 const stockfishFile = wasmSupported
-  ? "/js/stockfish.wasm.js"
-  : "/js/stockfish.js";
+  ? "/js/stockfish.js"
+  : "/js/stockfish-asm.js";
 
 interface StockfishAnalysisProperties {
   readonly depth?: number;
@@ -55,7 +55,7 @@ const StockfishAnalysis: React.FC<StockfishAnalysisProperties> = ({
           return new Worker(stockfishFile);
         });
       }
-    }, 1500);
+    }, 1000);
 
     restartWorker();
 

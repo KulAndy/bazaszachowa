@@ -48,7 +48,7 @@ export default defineConfig({
         background_color: "#ffffff",
       },
       workbox: {
-        globIgnores: ["**/*worker*.js", "**/*.wasm"],
+        globIgnores: ["**/*worker*.js", "**/*.wasm", "**/stockfish*"],
         navigateFallbackDenylist: [
           /^\/game_raw\/.*/,
           /chess_processor|game_stats|stats|uci2pgn/,
