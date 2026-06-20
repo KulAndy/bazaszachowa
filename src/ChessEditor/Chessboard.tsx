@@ -34,6 +34,31 @@ const Chessboard: React.FC<ChessboardProperties> = ({
   const apiReference = useRef<ChessgroundApi | null>(null);
 
   useEffect(() => {
+    const element = boardReference.current;
+    if (!element) {
+      return;
+    }
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (event.deltaY > 0) {
+        nextMove?.();
+      } else {
+        previousMove?.();
+      }
+    };
+
+    element.addEventListener("wheel", handleWheel, { passive: false });
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      element.removeEventListener("wheel", handleWheel);
+    };
+  }, [nextMove, previousMove]);
+
+  useEffect(() => {
     if (!boardReference.current) {
       return;
     }
@@ -93,16 +118,8 @@ const Chessboard: React.FC<ChessboardProperties> = ({
   return (
     <div
       aria-hidden
-      onWheel={(event) => {
-        if (event.deltaY > 0) {
-          nextMove?.();
-        } else {
-          previousMove?.();
-        }
-        event.stopPropagation();
-      }}
       ref={boardReference}
-      style={{ height: `${boardSize}px`, width: `${boardSize}px` } as const}
+      style={{ height: boardSize, width: boardSize } as const}
     />
   );
 };
