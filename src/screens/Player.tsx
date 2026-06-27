@@ -236,7 +236,7 @@ const Player = () => {
         </div>
         <details>
           <summary>
-            {t("players.profile")}
+            {`${t("players.profile")} `}
             {
               // eslint-disable-next-line i18next/no-literal-string
             }
