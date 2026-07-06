@@ -79,8 +79,7 @@ const processGameFirstBatchLegacy = (
   return fens;
 };
 let processGameFirstBatchWasm:
-  | ((row: GameData) => Record<string, FenData>)
-  | null = null;
+  ((row: GameData) => Record<string, FenData>) | null = null;
 
 const processGameFirstBatch = (row: GameData): Record<string, FenData> => {
   try {

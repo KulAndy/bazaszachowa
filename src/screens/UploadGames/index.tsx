@@ -172,10 +172,7 @@ const UploadGames = () => {
               onChange={(event) => {
                 setSource(
                   event.target.value as
-                    | "lichess"
-                    | "livechess"
-                    | "pgn_file"
-                    | "remote_pgn",
+                    "lichess" | "livechess" | "pgn_file" | "remote_pgn",
                 );
               }}
               value={source}
