@@ -1,4 +1,5 @@
 import { noop } from "es-toolkit";
+import { useEffect, useRef } from "react";
 
 import HalfMove from "./HalfMove";
 
@@ -19,6 +20,17 @@ const Notation: React.FC<NotationProperties> = ({
   result = null,
   setIndex = noop,
 }) => {
+  const notationReference = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (currentIndex === 0) {
+      notationReference.current?.scrollTo({
+        behavior: "smooth",
+        top: 0,
+      });
+    }
+    console.log(currentIndex);
+  }, [currentIndex]);
+
   const moveComponents: React.JSX.Element[] = [];
   const processMove = (move: Move, isMain: boolean) => {
     if (move.turn === "w") {
@@ -110,7 +122,11 @@ const Notation: React.FC<NotationProperties> = ({
   }
 
   return (
-    <div id="notation" style={{ maxHeight: height, overflow: "auto" } as const}>
+    <div
+      id="notation"
+      ref={notationReference}
+      style={{ maxHeight: height, overflow: "auto" } as const}
+    >
       {groupedElements.map((group, index) => (
         <p key={index}>{group}</p>
       ))}
