@@ -28,7 +28,6 @@ const Notation: React.FC<NotationProperties> = ({
         top: 0,
       });
     }
-    console.log(currentIndex);
   }, [currentIndex]);
 
   const moveComponents: React.JSX.Element[] = [];
