@@ -28,6 +28,7 @@ const PreparationPlayer = ({
   const [games, setGames] = useState<GameData[]>([]);
   const [tree, setTree] = useState<StatsItem[]>([]);
   const [fen, setFen] = useState<string | undefined>();
+  const [loaded, setLoaded] = useState(false);
 
   const [doMove, setDoMove] = useState(() => noop);
   const [gamesFilter, setGamesFilter] = useState<number[]>([]);
@@ -54,6 +55,7 @@ const PreparationPlayer = ({
 
   const loadGames = useCallback(
     (currentPlayer: string, currentColor: string) => {
+      setLoaded(false);
       void axios
         .get(
           `${API.BASE_URL}${API.games.filter}${encodeURIComponent(
@@ -72,13 +74,16 @@ const PreparationPlayer = ({
           setGames(data);
           setTree(fens.moves);
           setGamesFilter(fens.indexes);
+        })
+        .finally(() => {
+          setLoaded(true);
         });
     },
     [fen],
   );
 
   useEffect(() => {
-    if (games.length > 0 && !processor.isCompleted) {
+    if (loaded && games.length > 0 && !processor.isCompleted) {
       void processor.completeTree().then(() => {
         const fens = processor.searchFEN(fen);
         setTree(fens.moves);
@@ -94,14 +99,14 @@ const PreparationPlayer = ({
   }, [player, color]);
 
   useEffect(() => {
-    if (!fen || games.length === 0) {
+    if (!fen || !loaded) {
       return;
     }
 
     const fetchedFens = processor.searchFEN(fen);
     setTree(fetchedFens.moves);
     setGamesFilter(fetchedFens.indexes);
-  }, [fen, games.length]);
+  }, [fen, loaded]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -216,7 +221,33 @@ const PreparationPlayer = ({
             } as const
           }
         >
-          {games.length === 0 ? (
+          {loaded ? (
+            <>
+              {games.length === 0 && (
+                <h2 className="error"> {t("preparation.not_found")} </h2>
+              )}
+              {games.length > 0 && (
+                <>
+                  <Box
+                    sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}
+                  >
+                    <PositionMoves doMove={doMove} stats={tree} />
+                  </Box>
+                  <Box
+                    sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}
+                  >
+                    <GamesTable
+                      games={games.filter((game) =>
+                        gamesFilter.includes(game.id),
+                      )}
+                      noEmpty
+                      simple
+                    />
+                  </Box>
+                </>
+              )}
+            </>
+          ) : (
             <Stack
               spacing={1}
               sx={
@@ -230,19 +261,6 @@ const PreparationPlayer = ({
               <CircularProgress />
               <Typography>{t("player.loading_stats")}</Typography>
             </Stack>
-          ) : (
-            <>
-              <Box sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}>
-                <PositionMoves doMove={doMove} stats={tree} />
-              </Box>
-              <Box sx={{ maxHeight: boardSize / 2, overflow: "auto" } as const}>
-                <GamesTable
-                  games={games.filter((game) => gamesFilter.includes(game.id))}
-                  noEmpty
-                  simple
-                />
-              </Box>
-            </>
           )}
         </Box>
       </Stack>

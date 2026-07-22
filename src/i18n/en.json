@@ -109,6 +109,7 @@
   "stockfish.best_move": "best move",
   "stockfish.eval": "evaluation",
   "preparation.against": "preparation against",
+  "preparation.not_found": "Games not found",
   "math.function": "function",
   "math.functions": "functions",
   "math.consts": "constants",
