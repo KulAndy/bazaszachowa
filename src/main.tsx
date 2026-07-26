@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+// eslint-disable-next-line import/no-unresolved
+import { registerSW } from "virtual:pwa-register";
 
 import "./styles/index.scss";
 import App from "./App";
@@ -16,3 +18,7 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>,
 );
+
+registerSW({
+  immediate: true,
+});

@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import checker from "vite-plugin-checker";
 
+import { API } from "./src/settings";
+
 export default defineConfig({
   build: {
     minify: "terser",
@@ -61,6 +63,20 @@ export default defineConfig({
           {
             urlPattern: /chess_processor|game_stats|stats|uci2pgn/,
             handler: "NetworkOnly",
+          },
+          {
+            urlPattern: new RegExp(`${API.BASE_URL.replaceAll(".", "\\.")}/.*`),
+
+            handler: "NetworkFirst",
+
+            options: {
+              cacheName: "bazaszachowa-api",
+
+              expiration: {
+                maxEntries: 10000,
+                maxAgeSeconds: 60 * 60 * 24,
+              },
+            },
           },
         ],
       },

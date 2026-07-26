@@ -48,13 +48,22 @@ const NOMENU_URLS = {
 };
 const admin_mail = "andykrk22@gmail.com";
 
+const CACHE = {
+  // 7 days
+  ttl: 1000 * 60 * 60 * 24 * 7,
+  limit: 200,
+  player_cache: "bazaszachowa-player-games-v1",
+  single_games_cache: "bazaszachowa-single-games-v1",
+};
+
 const SETTINGS = {
   admin_mail,
   API,
+  CACHE,
   NOMENU_URLS,
   URLS,
 };
 
 export default SETTINGS;
 
-export { admin_mail, API, NOMENU_URLS, URLS };
+export { admin_mail, API, CACHE, NOMENU_URLS, URLS };
