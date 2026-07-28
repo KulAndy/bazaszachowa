@@ -78,7 +78,7 @@
     "eslint-plugin-security": "^4.0.1",
     "eslint-plugin-sonarjs": "^4.2.0",
     "eslint-plugin-unicorn": "^65.0.0",
-    "globals": "^17.7.0",
+    "globals": "^17.8.0",
     "prettier": "^3.9.6",
     "sass": "^1.102.0",
     "stylelint": "^17.14.1",
