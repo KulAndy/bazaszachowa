@@ -3,12 +3,10 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import checker from "vite-plugin-checker";
 
-import { API } from "./src/settings";
-
 export default defineConfig({
   build: {
     minify: "terser",
-    sourcemap: false,
+    sourcemap: true,
   },
   plugins: [
     react(),
@@ -22,8 +20,14 @@ export default defineConfig({
       },
     }),
     VitePWA({
+      filename: "cache.worker.ts",
+      strategies: "injectManifest",
+      srcDir: "src",
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "robots.txt"],
+      injectManifest: {
+        globIgnores: ["**/*worker*.js", "**/*.wasm", "**/stockfish*"],
+      },
       manifest: {
         short_name: "bazaszachowa",
         name: "Internetowa baza szachowa",
@@ -63,20 +67,6 @@ export default defineConfig({
           {
             urlPattern: /chess_processor|game_stats|stats|uci2pgn/,
             handler: "NetworkOnly",
-          },
-          {
-            urlPattern: new RegExp(`${API.BASE_URL.replaceAll(".", "\\.")}/.*`),
-
-            handler: "NetworkFirst",
-
-            options: {
-              cacheName: "bazaszachowa-api",
-
-              expiration: {
-                maxEntries: 10000,
-                maxAgeSeconds: 60 * 60 * 24,
-              },
-            },
           },
         ],
       },

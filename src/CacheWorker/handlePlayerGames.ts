@@ -26,15 +26,16 @@ const handleGames = async (request: Request): Promise<Response> => {
     (!minEco || minEco <= "A00") &&
     (!maxEco || maxEco >= "E99")
   ) {
+    const player = white || black;
     const whiteRequest = new Request(
-      `${API.BASE_URL}${API.games.filter}${encodeURIComponent(white ?? "")}/white`,
+      `${API.BASE_URL}${API.games.filter}${encodeURIComponent(player ?? "")}/white`,
       {
         headers: request.headers,
         method: request.method,
       },
     );
     const blackRequest = new Request(
-      `${API.BASE_URL}${API.games.filter}${encodeURIComponent(black ?? "")}/black`,
+      `${API.BASE_URL}${API.games.filter}${encodeURIComponent(player ?? "")}/black`,
       {
         headers: request.headers,
         method: request.method,
@@ -77,11 +78,14 @@ const handleGames = async (request: Request): Promise<Response> => {
         return (b.Day ?? -Infinity) - (a.Day ?? -Infinity);
       });
 
-    return Response.json(games, {
-      headers: {
-        "Content-Type": "application/json",
+    return Response.json(
+      { rows: games, table: "all" },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
   }
 
   const response = await fetch(request);
