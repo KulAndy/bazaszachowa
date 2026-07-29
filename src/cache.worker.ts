@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 
-import { precacheAndRoute } from "workbox-precaching";
+import { createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
+import { NavigationRoute, registerRoute } from "workbox-routing";
 
 import handleGame from "./CacheWorker/handleGame";
 import handleOpeningRequest from "./CacheWorker/handleOpeningRequest";
@@ -11,6 +12,14 @@ declare const self: ServiceWorkerGlobalScope;
 const baseUrlObject = new URL(API.BASE_URL);
 
 precacheAndRoute(self.__WB_MANIFEST);
+
+const navigationHandler = createHandlerBoundToURL("/index.html");
+
+registerRoute(
+  new NavigationRoute(navigationHandler, {
+    denylist: [/^\/game_raw\/.*/, /chess_processor|game_stats|stats|uci2pgn/],
+  }),
+);
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
