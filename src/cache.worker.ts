@@ -4,8 +4,8 @@ import { createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
 
 import handleGame from "./CacheWorker/handleGame";
+import handlePlayerGames from "./CacheWorker/handleGames";
 import handleOpeningRequest from "./CacheWorker/handleOpeningRequest";
-import handlePlayerGames from "./CacheWorker/handlePlayerGames";
 import { API } from "./settings";
 
 declare const self: ServiceWorkerGlobalScope;

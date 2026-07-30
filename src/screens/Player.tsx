@@ -125,7 +125,7 @@ const Player = () => {
         "&event=" +
         "&minEco=A00" +
         "&maxEco=E99" +
-        "&base=all" +
+        "&table=all" +
         "&searching=fulltext";
     }
     void axios

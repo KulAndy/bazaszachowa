@@ -6,7 +6,7 @@ import checker from "vite-plugin-checker";
 export default defineConfig({
   build: {
     minify: "terser",
-    sourcemap: true,
+    sourcemap: false,
   },
   plugins: [
     react(),
