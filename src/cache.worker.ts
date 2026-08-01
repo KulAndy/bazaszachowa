@@ -3,9 +3,11 @@
 import { createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
 
+import handleExtremes from "./CacheWorker/handleExtremes";
 import handleGame from "./CacheWorker/handleGame";
 import handlePlayerGames from "./CacheWorker/handleGames";
 import handleOpeningRequest from "./CacheWorker/handleOpeningRequest";
+import handleOpenings from "./CacheWorker/handleOpenings";
 import { API } from "./settings";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -34,6 +36,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(handlePlayerGames(event.request));
   } else if (url.pathname.startsWith(API.game)) {
     event.respondWith(handleGame(event.request));
+  } else if (url.pathname.startsWith(API.extremes)) {
+    event.respondWith(handleExtremes(event.request));
+  } else if (url.pathname.startsWith(API.openings)) {
+    event.respondWith(handleOpenings(event.request));
   }
 });
 

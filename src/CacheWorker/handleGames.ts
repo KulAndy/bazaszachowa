@@ -1,21 +1,11 @@
 import { orderBy, uniqBy } from "es-toolkit";
 
 import type { GameData } from "../ChessEditor";
-import { API } from "../settings";
 
+import createColorRequest from "./createColorRequest";
 import handleOpeningRequest from "./handleOpeningRequest";
 
 const currentYear = new Date().getFullYear();
-
-const createColorRequest = (
-  player: string,
-  color: "black" | "white",
-  parameters?: RequestInit,
-) =>
-  new Request(
-    `${API.BASE_URL}${API.games.filter}${encodeURIComponent(player)}/${color}`,
-    parameters,
-  );
 
 const handleGames = async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
