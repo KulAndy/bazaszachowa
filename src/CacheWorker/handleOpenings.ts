@@ -46,6 +46,7 @@ const groupOpenings = (games: GameData[]) =>
           (sumBy(filteredGames, (game) => string2points(game.Result ?? "")) /
             filteredGames.length) *
             100,
+          2,
         ),
       },
     ];
