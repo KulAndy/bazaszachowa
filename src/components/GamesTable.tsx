@@ -147,6 +147,7 @@ const GamesTable: React.FC<
           onClick={() => {
             void download(games);
           }}
+          type="button"
         >
           {t("download")}
         </button>

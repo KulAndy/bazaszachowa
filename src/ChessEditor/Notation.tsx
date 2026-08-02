@@ -117,7 +117,7 @@ const Notation: React.FC<NotationProperties> = ({
   const groupedElements = [];
 
   for (let index = 0; index < moveComponents.length; index += 3) {
-    groupedElements.push(moveComponents.slice(index, index + 3));
+    groupedElements.push(<p>{moveComponents.slice(index, index + 3)}</p>);
   }
 
   return (
@@ -126,9 +126,7 @@ const Notation: React.FC<NotationProperties> = ({
       ref={notationReference}
       style={{ maxHeight: height, overflow: "auto" } as const}
     >
-      {groupedElements.map((group, index) => (
-        <p key={index}>{group}</p>
-      ))}
+      {groupedElements}
       {result ? (
         <p style={{ display: "inline-block" } as const}>
           <span> {result}</span>

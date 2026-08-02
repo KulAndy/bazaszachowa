@@ -310,8 +310,8 @@ const PZSzachCalculator = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {maleRatingRanges.map((item, index) => (
-                    <TableRow key={index}>
+                  {maleRatingRanges.map((item) => (
+                    <TableRow key={item.rating}>
                       <TableCell>{item.min}</TableCell>
                       <TableCell>{item.max}</TableCell>
                       <TableCell>{item.rating}</TableCell>
@@ -337,8 +337,8 @@ const PZSzachCalculator = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {femaleRatingRanges.map((item, index) => (
-                    <TableRow key={index}>
+                  {femaleRatingRanges.map((item) => (
+                    <TableRow key={item.rating}>
                       <TableCell>{item.min}</TableCell>
                       <TableCell>{item.max}</TableCell>
                       <TableCell>{item.rating}</TableCell>
@@ -375,7 +375,7 @@ const PZSzachCalculator = () => {
                 <TableCell colSpan={5} />
               </TableRow>
               {opponents.map((opponent, index) => (
-                <TableRow key={index}>
+                <TableRow key={opponent.title + index}>
                   <TableCell sx={{ textAlign: "center" } as const}>
                     {index + 1}
                   </TableCell>

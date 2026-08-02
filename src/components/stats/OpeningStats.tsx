@@ -21,7 +21,8 @@ const OpeningsStats: React.FC<OpeningsStatsProperties> = ({ name, stats }) => {
     sumBy(stats.blacks, (item) => item.count);
 
   return (
-    <table id="stats_table" style={{ border: 0 } as const}>
+    // eslint-disable-next-line sonarjs/no-table-as-layout, jsx-a11y/prefer-tag-over-role
+    <table id="stats_table" role="presentation" style={{ border: 0 } as const}>
       <tbody>
         <tr>
           <td colSpan={4} style={{ padding: 0 } as const}>

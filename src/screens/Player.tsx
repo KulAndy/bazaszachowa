@@ -260,38 +260,32 @@ const Player = () => {
             title="Profile na yottachess"
           ></iframe>
         </details>
-        <table style={{ border: 0, margin: "auto" } as const}>
-          <tbody>
-            <tr id="container">
-              <td id="stats" style={{ border: 0 } as const}>
-                {loadingStats ? (
-                  <div>
-                    <div className="loading">
-                      <CircularProgress />
-                      <p>{t("player.loading_stats")} </p>
-                    </div>
-                  </div>
-                ) : (
-                  <OpeningsStats name={name || ""} stats={stats} />
-                )}
-              </td>
-              <td style={{ border: 0 } as const}>
-                <img
-                  alt="Wykres rankingu"
-                  crossOrigin="anonymous"
-                  id="graph"
-                  onError={(event: React.SyntheticEvent) => {
-                    const target = event.target as HTMLElement;
-                    target.parentElement?.remove();
-                  }}
-                  src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
-                    name || "",
-                  )}`}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="container">
+          <div>
+            {loadingStats ? (
+              <div>
+                <div className="loading">
+                  <CircularProgress />
+                  <p>{t("player.loading_stats")} </p>
+                </div>
+              </div>
+            ) : (
+              <OpeningsStats name={name || ""} stats={stats} />
+            )}
+          </div>
+          <img
+            alt="Rating plot"
+            crossOrigin="anonymous"
+            id="graph"
+            onError={(event: React.SyntheticEvent) => {
+              const target = event.target as HTMLElement;
+              target.parentElement?.remove();
+            }}
+            src={`${API.BASE_URL + API.graph}svg/${encodeURIComponent(
+              name || "",
+            )}`}
+          />
+        </div>
         {name ? <PolandTournaments name={name} /> : null}
         {name ? <FideTournaments name={name} /> : null}
         {games ? <GamesStats games={games} player={name || ""} /> : null}

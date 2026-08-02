@@ -51,8 +51,8 @@ interface VariantListProperties {
 }
 
 const VariantList: React.FC<VariantListProperties> = ({ fen, valuesArray }) => {
-  return valuesArray.slice(0, 3).map((value, index) => (
-    <Typography key={index} sx={{ mb: 1 } as const} variant="body2">
+  return valuesArray.slice(0, 3).map((value) => (
+    <Typography key={value.san} sx={{ mb: 1 } as const} variant="body2">
       <Typography component="span" sx={{ fontWeight: "bold" } as const}>
         {value.san} {value.prefix}
         {Math.abs(value.value) || 0}

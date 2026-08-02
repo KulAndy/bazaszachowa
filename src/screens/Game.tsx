@@ -152,7 +152,7 @@ const Game = () => {
     <div id="game">
       <Content>
         <div>
-          <button className="error">
+          <button className="error" type="button">
             <Link to={`${NOMENU_URLS.bug + base}/${gameid}`}>
               {t("report_bug")}
             </Link>
@@ -195,7 +195,12 @@ const Game = () => {
             }
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) - 1]}`}
           >
-            <button disabled={firstGame} id="previous" title="Ctrl + ←">
+            <button
+              disabled={firstGame}
+              id="previous"
+              title="Ctrl + ←"
+              type="button"
+            >
               {t("prev_game")}
             </button>
           </Link>
@@ -215,7 +220,12 @@ const Game = () => {
             }
             to={`${NOMENU_URLS.game}${base}/${list[list.indexOf(gameid) + 1]}`}
           >
-            <button disabled={lastGame} id="next" title="Ctrl + →">
+            <button
+              disabled={lastGame}
+              id="next"
+              title="Ctrl + →"
+              type="button"
+            >
               {t("next_game")}
             </button>
           </Link>
@@ -235,7 +245,12 @@ const Game = () => {
             }
             to={`${NOMENU_URLS.game}${base}/${list.at(-1) || 0}`}
           >
-            <button disabled={lastGame} id="last" title="Ctrl + ↓">
+            <button
+              disabled={lastGame}
+              id="last"
+              title="Ctrl + ↓"
+              type="button"
+            >
               {t("last_game")}
             </button>
           </Link>

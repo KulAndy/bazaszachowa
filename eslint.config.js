@@ -212,7 +212,6 @@ const rules = {
   "no-caller": "error",
   "no-unused-expressions": "error",
   "no-shadow": "error",
-  "no-unused-vars": "error",
   "no-redeclare": "error",
   "prefer-spread": "error",
   "prefer-rest-params": "error",
