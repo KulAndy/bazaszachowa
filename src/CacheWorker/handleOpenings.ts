@@ -4,7 +4,7 @@ import type { GameData } from "../ChessEditor";
 
 import createColorRequest from "./createColorRequest";
 import ECO from "./ECO";
-import handleOpeningRequest from "./handleOpeningRequest";
+import handleOpeningRequest from "./handleFiltered";
 
 const string2points = (result: string) => {
   if (result === "1-0") {

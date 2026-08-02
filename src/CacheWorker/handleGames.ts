@@ -3,7 +3,7 @@ import { orderBy, uniqBy } from "es-toolkit";
 import type { GameData } from "../ChessEditor";
 
 import createColorRequest from "./createColorRequest";
-import handleOpeningRequest from "./handleOpeningRequest";
+import handleOpeningRequest from "./handleFiltered";
 
 const currentYear = new Date().getFullYear();
 

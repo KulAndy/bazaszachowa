@@ -3,7 +3,7 @@ import { max, min } from "es-toolkit/compat";
 import type { GameData } from "../ChessEditor";
 
 import createColorRequest from "./createColorRequest";
-import handleOpeningRequest from "./handleOpeningRequest";
+import handleOpeningRequest from "./handleFiltered";
 
 const fetchGames = async (
   player: string,

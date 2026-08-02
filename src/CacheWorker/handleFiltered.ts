@@ -5,7 +5,7 @@ import ECO from "./ECO";
 import getCache from "./getCache";
 import putCache from "./putCache";
 
-const handleOpeningRequest = async (request: Request): Promise<Response> => {
+const handleFilteredRequest = async (request: Request): Promise<Response> => {
   const cache = await caches.open(CACHE.player_cache);
   const url = new URL(request.url);
 
@@ -49,4 +49,4 @@ const handleOpeningRequest = async (request: Request): Promise<Response> => {
   return response;
 };
 
-export default handleOpeningRequest;
+export default handleFilteredRequest;

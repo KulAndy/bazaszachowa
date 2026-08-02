@@ -4,10 +4,11 @@ import { createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
 
 import handleExtremes from "./CacheWorker/handleExtremes";
+import handleFiltered from "./CacheWorker/handleFiltered";
 import handleGame from "./CacheWorker/handleGame";
 import handlePlayerGames from "./CacheWorker/handleGames";
-import handleOpeningRequest from "./CacheWorker/handleOpeningRequest";
 import handleOpenings from "./CacheWorker/handleOpenings";
+import handlePlayers from "./CacheWorker/handlePlayers";
 import { API } from "./settings";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -31,7 +32,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (url.pathname.startsWith(API.games.filter)) {
-    event.respondWith(handleOpeningRequest(event.request));
+    event.respondWith(handleFiltered(event.request));
   } else if (url.pathname.startsWith(API.games.normal)) {
     event.respondWith(handlePlayerGames(event.request));
   } else if (url.pathname.startsWith(API.game)) {
@@ -40,6 +41,8 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(handleExtremes(event.request));
   } else if (url.pathname.startsWith(API.openings)) {
     event.respondWith(handleOpenings(event.request));
+  } else if (url.pathname.startsWith(API.players)) {
+    event.respondWith(handlePlayers(event.request));
   }
 });
 
