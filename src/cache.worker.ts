@@ -1,7 +1,10 @@
 /// <reference lib="webworker" />
 
+import { CacheableResponsePlugin } from "workbox-cacheable-response";
+import { ExpirationPlugin } from "workbox-expiration";
 import { createHandlerBoundToURL, precacheAndRoute } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
+import { NetworkFirst } from "workbox-strategies";
 
 import handleExtremes from "./CacheWorker/handleExtremes";
 import handleFiltered from "./CacheWorker/handleFiltered";
@@ -21,6 +24,24 @@ const navigationHandler = createHandlerBoundToURL("/index.html");
 registerRoute(
   new NavigationRoute(navigationHandler, {
     denylist: [/^\/game_raw\/.*/, /chess_processor|game_stats|stats|uci2pgn/],
+  }),
+);
+
+registerRoute(
+  ({ request }) =>
+    request.destination === "script" || request.destination === "style",
+  new NetworkFirst({
+    cacheName: "static-assets",
+    networkTimeoutSeconds: 3,
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        maxEntries: 100,
+      }),
+    ],
   }),
 );
 
@@ -44,6 +65,10 @@ self.addEventListener("fetch", (event) => {
   } else if (url.pathname.startsWith(API.players)) {
     event.respondWith(handlePlayers(event.request));
   }
+});
+
+self.addEventListener("install", () => {
+  void self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
