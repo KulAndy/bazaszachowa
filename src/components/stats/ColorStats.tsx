@@ -50,7 +50,7 @@ const ColorStats: React.FC<ColorStatsProperties> = ({ color, name, stats }) => {
             <TableBody>
               {stats.map((item) => (
                 <TableRow key={item.opening}>
-                  <TableCell>{item.opening}</TableCell>
+                  <TableCell>{t(item.opening)}</TableCell>
                   <TableCell>{item.count}</TableCell>
                   <TableCell>{item.percent}</TableCell>
                   <TableCell>
