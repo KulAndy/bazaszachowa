@@ -3,13 +3,15 @@ import { FormControl, MenuItem, Select } from "@mui/material";
 import type { Locale } from "../../context/I18nContext";
 import { useI18n } from "../../context/useI18n";
 
+import "flag-icons/css/flag-icons.min.css";
+
 const flagsDict: Record<Locale, string> = {
-  de: "🇩🇪",
-  en: "🇬🇧",
-  pl: "🇵🇱",
+  de: "de",
+  en: "gb",
+  pl: "pl",
 };
 
-const supportedLocales = Object.keys(flagsDict) as (keyof typeof flagsDict)[];
+const supportedLocales = Object.keys(flagsDict) as Locale[];
 
 const LangToggle: React.FC = () => {
   const { locale, setLocale } = useI18n();
@@ -23,7 +25,11 @@ const LangToggle: React.FC = () => {
       >
         {supportedLocales.map((lang) => (
           <MenuItem key={lang} value={lang}>
-            {flagsDict[lang]} {lang.toUpperCase()}
+            <span
+              className={`fi fi-${flagsDict[lang]}`}
+              style={{ marginRight: 8 } as const}
+            />
+            {lang.toUpperCase()}
           </MenuItem>
         ))}
       </Select>

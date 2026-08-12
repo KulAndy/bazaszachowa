@@ -172,7 +172,6 @@ const ECO: Record<string, string[]> = {
     "D98",
     "D99",
   ],
-  "King's Fianchetto": ["B06"],
   "King's Gambit": [
     "C30",
     "C31",
@@ -229,6 +228,7 @@ const ECO: Record<string, string[]> = {
   ],
   "King's Knight Opening": ["C40"],
   "King's Pawn Game": ["C20", "C21", "C22"],
+  "Modern Defense": ["B06"],
   "Nimzo-Indian": [
     "E20",
     "E21",
