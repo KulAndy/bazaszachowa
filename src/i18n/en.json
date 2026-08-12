@@ -97,7 +97,7 @@
   "games.param.ecoLink": "ECO",
   "games.param.database": "database",
   "games.param.database.pl": "Poland - tournaments mainly from Poland, ~700k games, faster database",
-  "games.param.database.all": "All - all games, ~15M games, slower database",
+  "games.param.database.all": "All - all games, ~16,5M games, slower database",
   "games.param.search": "Search (case insensitive)",
   "games.param.search.normal": "Classic - works with both \"Nowak, Jan\" and \"Nowak, J\". Wildcards allowed ( \"_\" = one character, \"%\" = any sequence of characters )",
   "games.param.search.exact": "Exact - only matches exact input like \"Nowak, Jan\". Faster, recommended if you know the full name",

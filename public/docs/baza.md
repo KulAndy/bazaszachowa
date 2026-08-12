@@ -75,6 +75,7 @@
 | Kolumna         | Typ         | Null | Ustawienia domyślne |
 | --------------- | ----------- | ---- | ------------------- |
 | id (Podstawowy) | smallint    | Nie  |                     |
+| uci             | varbinary(255)     | Nie  |                     |
 | ECO             | char(3)     | Nie  |                     |
 | opening         | varchar(35) | Tak  | NULL                |
 | variant         | text        | Tak  | NULL                |
@@ -84,6 +85,7 @@
 | Nazwa klucza | Typ   | Jednoznaczny | Spakowany | Kolumna | Metoda porównywania napisów | Null |
 | ------------ | ----- | ------------ | --------- | ------- | --------------------------- | ---- |
 | PRIMARY      | BTREE | Tak          | Nie       | id      | A                           | Nie  |
+| uci          | BTREE | Tak          | Nie       | uci     | A                           | Nie  |
 | ECO          | BTREE | Tak          | Nie       | ECO     | A                           | Nie  |
 | ECO_2        | BTREE | Nie          | Nie       | ECO     | A                           | Nie  |
 

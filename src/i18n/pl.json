@@ -97,7 +97,7 @@
   "games.param.ecoLink": "ECO",
   "games.param.database": "baza",
   "games.param.database.pl": "Polska - turnieje głównie z Polski, ok 700 tys. , szybsza baza",
-  "games.param.database.all": "Całość - wszystkie partie, ok 15 mln, wolniejsza baza",
+  "games.param.database.all": "Całość - wszystkie partie, ok 16,5 mln, wolniejsza baza",
   "games.param.search": "Wyszukiwanie (wielkość liter nie ma znaczenia)",
   "games.param.search.normal": "Zwykłe - zadziała zarówno wpisanie \"Nowak, Jan\" jak i \"Nowak, J\" , można stosować jokery ( \"_\" - jeden dowolny znak, \"%\" - dowolny ciąg znaków )",
   "games.param.search.exact": "Dokładne - wyszuka tylko po wpisaniu \"Nowak, Jan\", szybsze, zalecane jeśli zna się pełne imię i nazwisko gracza/y",

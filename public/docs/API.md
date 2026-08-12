@@ -256,7 +256,7 @@ bez parametrów, a wymagające dane wejściowe metodą POST
   - dane wyjściowe:
 
   ```
-  {
+  {rows: {
     id,
     moves: {
         from:pole,
@@ -275,7 +275,9 @@ bez parametrów, a wymagające dane wejściowe metodą POST
     WhiteElo: elo białego,
     BlackElo: elo czarnego
     [, ECO: eco]
-    }[]
+    }[],
+    table: all|poland
+    }
   ```
 
 - `/mail/send`

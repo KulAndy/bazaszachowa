@@ -97,7 +97,7 @@
   "games.param.ecoLink": "ECO",
   "games.param.database": "Datenbank",
   "games.param.database.pl": "Polen - Turniere hauptsächlich aus Polen, ca. 700 Tsd., schnellere Datenbank",
-  "games.param.database.all": "Gesamt - alle Partien, ca. 15 Mio., langsamere Datenbank",
+  "games.param.database.all": "Gesamt - alle Partien, ca. 16,5 Mio., langsamere Datenbank",
   "games.param.search": "Suche (Groß-/Kleinschreibung egal)",
   "games.param.search.normal": "Normal - funktioniert sowohl bei Eingabe \"Nowak, Jan\" als auch \"Nowak, J\", Platzhalter möglich (\"_\" - ein beliebiges Zeichen, \"%\" - beliebige Zeichenfolge)",
   "games.param.search.exact": "Genau - findet nur bei Eingabe \"Nowak, Jan\", schneller, empfohlen wenn der vollständige Name bekannt ist",

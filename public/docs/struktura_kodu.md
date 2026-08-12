@@ -1,6 +1,20 @@
 /
 
 - **App.tsx** - główny plik aplikacji
+- **cache.worker.ts** - główny worker cache'ujący
+- **CacheWroker** - cachowanie zapytań
+  - **createColorRequest.ts** - tworzenie zapytań dla koloru dla zawodnika
+  - **findCacheValue.ts** - przeszukiwanie cache'u
+  - **getCache.ts** - wyszukiwanie zapytania
+  - **handleExtremes.ts** - skrajne lata i elo
+  - **handleFilteredRequest.ts** - gry filtrowane po kolorze lub debiucie
+  - **handleGame.ts** - wyszukiwanie gry
+  - **handleGames.ts** - wyszukiwanie grier na podstawie kolorów
+  - **handleOpenings.ts** - statystki debiutów
+  - **handlePlayers.ts** - zapisani zawodnicy
+  - **putCache.ts** - zapisywanie
+  - **rotateCache.ts** - rotowanie cache'u
+  - **ECO.ts** - mapa debiuty - kody
 - **ChessEditor** - szachownica z możliwością edycji
   - **ButtonsBar.tsx** - pasek przycisków
   - **Chessboard.tsx** - szachownica
