@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ButtonsBar from "./ButtonsBar";
 import Chessboard from "./Chessboard";
 import Notation from "./Notation";
+import { pgnToGif } from "./pgnToGif";
 
 import "./style.scss";
 
@@ -112,8 +113,8 @@ interface DownloadProperties {
   history: Move[];
 }
 
-const download = ({ headers, history }: DownloadProperties) => {
-  const pgn = `[Event "${headers.Event || "*"}"]
+const data2pgn = ({ headers, history }: DownloadProperties) => {
+  return `[Event "${headers.Event || "*"}"]
 [Site "${headers.Site || "*"}"]
 [Date "${headers.Date || "*"}"]
 [Round "${headers.Round || "*"}"]
@@ -124,6 +125,10 @@ const download = ({ headers, history }: DownloadProperties) => {
 ${
   history.length === 1 ? "1. " : writeMove(history, 1, false, false)
 } ${headers.Result || "*"}`;
+};
+
+const download = ({ headers, history }: DownloadProperties) => {
+  const pgn = data2pgn({ headers, history });
 
   const blob = new Blob([pgn], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
@@ -577,7 +582,7 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
           />
           <ButtonsBar
             download={() => {
-              download({ headers, history: history });
+              download({ headers, history });
             }}
             firstMove={() => safeSetIndex(0)}
             flip={() => setFlip((flipped) => !flipped)}
@@ -587,6 +592,18 @@ const ChessEditor: React.FC<ChessEditorProperties> = ({
             nextMove={() => safeSetIndex(getNextMoveIndex(index)!)}
             notationLayout={notationLayout}
             notationSwitch={notationSwitch}
+            pgn2gif={() => {
+              void pgnToGif(history).then((blob) => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+
+                link.href = url;
+                link.download = "game.gif";
+                link.click();
+
+                URL.revokeObjectURL(url);
+              });
+            }}
             playing={playing}
             previousMove={() => safeSetIndex(getPreviousIndex(index)!)}
             setNotationLayout={setNotationLayout}

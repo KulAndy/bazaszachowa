@@ -11,6 +11,7 @@ import {
   faForwardStep,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
+  faPhotoFilm,
 } from "@fortawesome/free-solid-svg-icons";
 import { noop } from "es-toolkit";
 import { useEffect } from "react";
@@ -27,6 +28,7 @@ interface ButtonsBarProperties {
   readonly nextMove: () => void;
   readonly notationLayout: string;
   readonly notationSwitch: boolean;
+  readonly pgn2gif: () => void;
   readonly playing: boolean;
   readonly previousMove: () => void;
   readonly setNotationLayout: (x: string) => void;
@@ -46,6 +48,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
   nextMove = noop,
   notationLayout = "column",
   notationSwitch = false,
+  pgn2gif = noop,
   playing,
   previousMove = noop,
   setNotationLayout = noop,
@@ -228,6 +231,7 @@ const ButtonsBar: React.FC<ButtonsBarProperties> = ({
           }
         />
       ) : null}
+      <TouchableIcon className="control" icon={faPhotoFilm} onClick={pgn2gif} />
     </div>
   );
 };
