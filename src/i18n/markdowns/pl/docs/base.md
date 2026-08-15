@@ -1,6 +1,6 @@
 # baza danych
 
-![struktura](/docs/struktura.png "Struktura")
+![struktura](/docs/struct.png "Struktura")
 
 ## Tabele:
 

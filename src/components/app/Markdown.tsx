@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
 import "katex/dist/katex.min.css";
@@ -18,7 +19,7 @@ interface Properties {
 }
 
 const rehypePlugins = [rehypeKatex];
-const remarkPlugins = [remarkMath];
+const remarkPlugins = [remarkMath, remarkGfm];
 
 const Markdown = ({ screen, section = "main" }: Properties) => {
   const { locale } = useI18n();

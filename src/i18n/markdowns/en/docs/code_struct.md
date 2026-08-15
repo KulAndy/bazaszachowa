@@ -1,0 +1,103 @@
+/
+
+- **App.tsx** - main application file
+- **cache.worker.ts** - main caching worker
+- **CacheWorker** - query caching
+  - **createColorRequest.ts** - creating requests for a player's color
+  - **findCacheValue.ts** - searching the cache
+  - **getCache.ts** - finding a query
+  - **handleExtremes.ts** - extreme years and Elo ratings
+  - **handleFilteredRequest.ts** - games filtered by color or opening
+  - **handleGame.ts** - searching for a game
+  - **handleGames.ts** - searching for games based on colors
+  - **handleOpenings.ts** - opening statistics
+  - **handlePlayers.ts** - saved players
+  - **putCache.ts** - saving to the cache
+  - **rotateCache.ts** - rotating the cache
+  - **ECO.ts** - opening-to-code mapping
+- **ChessEditor** - editable chessboard
+  - **ButtonsBar.tsx** - button bar
+  - **Chessboard.tsx** - chessboard
+  - **HalfMove.tsx** - half-moves for notation
+  - **index.tsx** - main module file
+  - **Notation.tsx** - notation
+  - **style.scss** - styles
+  - **TouchableIcon.tsx** - clickable icon
+- **ChessProcessor** - variation tree generator
+  - **index.tsx** - main module file
+    if possible, uses `/wasm/chess_processor`
+- **components** - components
+  - **app**
+    - **ColorSchemeToggle** - light/dark mode selection
+    - **Content.tsx** - container for the main content
+    - **Footer.tsx** - footer
+    - **LangToggle.tsx** - language switcher pl/en
+    - **Markdown.tsx** - processes translations stored in `.md` files
+    - **Menu.tsx** - menu
+    - **SubmitButton** - form submission button, displays a loading state
+  - **player**
+    - **CrPlayer.tsx** - PZSzach player card
+    - **CrPlayerList.tsx** - PZSzach player list
+    - **FidePlayer.tsx** - FIDE player card
+    - **FidePlayerList.tsx** - FIDE player list
+    - **PositionsMoves.tsx** - preferred moves in a position
+    - **SearchPlayersWithHint.tsx** - player autocomplete input
+  - **stats**
+    - **GamesStats** - aggregate game statistics
+      - **idnex.tsx** - main component
+      - **gameStats.worker.ts** - calculates aggregate game statistics, uses wasm/game_stats
+      - **StatIndicators.tsx** - `GamesStats` subcomponent
+    - **ColorStats.tsx** - color statistics
+    - **HeatMap.tsx** - heat map
+    - **Histogram.tsx** - histogram
+    - **OpeningStats.tsx** - statistics for both colors
+    - **TournamentTimeSeries.tsx** - number of tournaments over the years as a chart
+  - **GamesTable.tsx** - game table
+  - **StockfishAnalysis** - engine position evaluation
+    - **BestMoveSpan.tsx** - best move component
+    - **index.tsx** - main module file
+    - **VariantList.tsx** - list of variations with evaluation
+  - **TrendFunctionExplanation** - mathematical description of the trend function
+- **context** - context components
+  - **I18n** - translation context
+  - **Theme** - stores the light/dark mode
+- **i18n** - translations
+  - **markdowns**
+    - **/<lang>/<screen>/<section>** - translations of larger texts
+  - **<lang>.json** - individual phrases in a given language
+- **logo.svg** - logo
+- **main.tsx** - main React file (Vite)
+- **reportWebVitals.tsx** - React dependencies
+- **screens** - page template files
+  - **Bug.tsx** - bug reporting
+  - **Contact.tsx** - contact
+  - **Documentation.tsx** - documentation
+  - **Game.tsx** - interactive game mode
+  - **GameRaw.ts** - game in PGN format
+  - **Games.tsx** - game search
+  - **Home.tsx** - home page
+  - **License.tsx** - license
+  - **NotFound.tsx** - for HTTP 404
+  - **Player.tsx** - player profile
+  - **Players.tsx** - player search
+  - **Preparation.tsx** - preparation
+  - **PreparationForm.tsx** - player preparation search
+  - **PreparationPlayer.tsx** - player preparation, variation tree
+  - **PZSzachCalculator.tsx** - PZSzach norms calculator
+  - **Rodo.tsx** - GDPR
+  - **UploadGames.tsx** - game upload form
+- **styles** - page styles
+  - **App.scss**
+  - **Game.scss**
+  - **Games.scss**
+  - **HeatMap.scss**
+  - **Home.scss**
+  - **index.scss** - main CSS file
+  - **Player.scss**
+  - **PreparationPlayer.scss**
+  - **reset.css** - reset stylesheet
+- **wasm** - directory containing WebAssembly files, [functions in C++](https://github.com/KulAndy/bazaszachowa-wasm)
+  - **chess_processor** - creates the opening tree
+  - **game_stats** - aggregate game statistics such as heat map, mobility, material balance, etc.
+  - **stats** - calculates statistics from numerical data (quartiles, variance)
+  - **uci2pgn** - converts UCI to SAN

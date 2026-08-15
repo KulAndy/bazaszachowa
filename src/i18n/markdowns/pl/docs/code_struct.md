@@ -33,7 +33,6 @@
     - **Footer.tsx** - stopka
     - **LangToggle.tsx** - zmiana języka pl/en
     - **Markdown.tsx** - przetwarza tłumaczenia zapisane w plikach .md
-    - **MarkdownFileReader.tsx** - czytnik plików .md
     - **Menu.tsx** - menu
     - **SubmitButton** - przycisk do zatwierdzania formularzy, pokazuje ładowanie
   - **player**

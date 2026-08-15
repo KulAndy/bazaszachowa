@@ -1,0 +1,104 @@
+/
+
+- **App.tsx** - Hauptdatei der Anwendung
+- **cache.worker.ts** - zentraler Worker für das Caching
+- **CacheWorker** - Caching von Abfragen
+  - **createColorRequest.ts** - Erstellen von Abfragen für die Farbe eines Spielers
+  - **findCacheValue.ts** - Durchsuchen des Caches
+  - **getCache.ts** - Suchen einer Abfrage
+  - **handleExtremes.ts** - Extremjahre und Elo-Wertungen
+  - **handleFilteredRequest.ts** - nach Farbe oder Eröffnung gefilterte Partien
+  - **handleGame.ts** - Suchen einer Partie
+  - **handleGames.ts** - Suchen von Partien anhand der Farben
+  - **handleOpenings.ts** - Eröffnungsstatistiken
+  - **handlePlayers.ts** - gespeicherte Spieler
+  - **putCache.ts** - Speichern im Cache
+  - **rotateCache.ts** - Rotieren des Caches
+  - **ECO.ts** - Zuordnung von Eröffnungen zu Codes
+- **ChessEditor** - editierbares Schachbrett
+  - **ButtonsBar.tsx** - Schaltflächenleiste
+  - **Chessboard.tsx** - Schachbrett
+  - **HalfMove.tsx** - Halbzüge für die Notation
+  - **index.tsx** - Hauptdatei des Moduls
+  - **Notation.tsx** - Notation
+  - **style.scss** - Styles
+  - **TouchableIcon.tsx** - anklickbares Symbol
+- **ChessProcessor** - Generator des Variantenbaums
+  - **index.tsx** - Hauptdatei des Moduls
+    verwendet nach Möglichkeit `/wasm/chess_processor`
+- **components** - Komponenten
+  - **app**
+    - **ColorSchemeToggle** - Auswahl des hellen/dunklen Modus
+    - **Content.tsx** - Container für den Hauptinhalt
+    - **Footer.tsx** - Fußzeile
+    - **LangToggle.tsx** - Sprachumschalter pl/en
+    - **Markdown.tsx** - verarbeitet Übersetzungen aus `.md`-Dateien
+    - **Menu.tsx** - Menü
+    - **SubmitButton** - Schaltfläche zum Absenden von Formularen, zeigt einen Ladevorgang an
+  - **player**
+    - **CrPlayer.tsx** - PZSzach-Spielerkarte
+    - **CrPlayerList.tsx** - PZSzach-Spielerliste
+    - **FidePlayer.tsx** - FIDE-Spielerkarte
+    - **FidePlayerList.tsx** - FIDE-Spielerliste
+    - **PositionsMoves.tsx** - bevorzugte Züge in einer Stellung
+    - **SearchPlayersWithHint.tsx** - Eingabefeld mit Spielervorschlägen
+  - **stats**
+    - **GamesStats** - aggregierte Partiestatistiken
+      - **idnex.tsx** - Hauptkomponente
+      - **gameStats.worker.ts** - berechnet aggregierte Partiestatistiken, verwendet wasm/game_stats
+      - **StatIndicators.tsx** - Unterkomponente von `GamesStats`
+    - **ColorStats.tsx** - Farbstatistiken
+    - **HeatMap.tsx** - Heatmap
+    - **Histogram.tsx** - Histogramm
+    - **OpeningStats.tsx** - Statistiken für beide Farben
+    - **TournamentTimeSeries.tsx** - Anzahl der Turniere über die Jahre als Diagramm
+  - **GamesTable.tsx** - Partientabelle
+  - **StockfishAnalysis** - Bewertung einer Stellung durch die Engine
+    - **BestMoveSpan.tsx** - Komponente für den besten Zug
+    - **index.tsx** - Hauptdatei des Moduls
+    - **VariantList.tsx** - Liste der Varianten mit Bewertung
+  - **TrendFunctionExplanation** - mathematische Beschreibung der Trendfunktion
+- **context** - Kontextkomponenten
+  - **I18n** - Übersetzungskontext
+  - **Theme** - speichert den hellen/dunklen Modus
+- **i18n** - Übersetzungen
+  - **markdowns**
+    - **/<lang>/<screen>/<section>** - Übersetzungen längerer Texte
+  - **<lang>.json** - einzelne Texte in der jeweiligen Sprache
+- **logo.svg** - Logo
+- **main.tsx** - Hauptdatei von React (Vite)
+- **reportWebVitals.tsx** - React-Abhängigkeiten
+- **screens** - Dateien für Seitentemplates
+  - **Bug.tsx** - Meldung von Fehlern
+  - **Contact.tsx** - Kontakt
+  - **Documentation.tsx** - Dokumentation
+  - **Game.tsx** - interaktiver Partiemodus
+  - **GameRaw.ts** - Partie im PGN-Format
+  - **Games.tsx** - Partiensuche
+  - **Home.tsx** - Startseite
+  - **License.tsx** - Lizenz
+  - **NotFound.tsx** - für HTTP 404
+  - **Player.tsx** - Spielerprofil
+  - **Players.tsx** - Spielersuche
+  - **Preparation.tsx** - Vorbereitung
+  - **PreparationForm.tsx** - Spielervorbereitungssuche
+  - **PreparationPlayer.tsx** - Spielervorbereitung, Variantenbaum
+  - **PZSzachCalculator.tsx** - PZSzach-Normenrechner
+  - **Rodo.tsx** - DSGVO
+  - **UploadGames.tsx** - Formular zum Hochladen von Partien
+- **styles** - Styles der Seite
+  - **App.scss**
+  - **Game.scss**
+  - **Games.scss**
+  - **HeatMap.scss**
+  - **Histogram.scss**
+  - **Home.scss**
+  - **index.scss** - zentrale CSS-Datei
+  - **Player.scss**
+  - **PreparationPlayer.scss**
+  - **reset.css** - Reset-Stylesheet
+- **wasm** - Verzeichnis mit WebAssembly-Dateien, [Funktionen in C++](https://github.com/KulAndy/bazaszachowa-wasm)
+  - **chess_processor** - erstellt den Eröffnungsbaum
+  - **game_stats** - aggregierte Partiestatistiken wie Heatmap, Mobilität, Materialausgleich usw.
+  - **stats** - berechnet Statistiken aus numerischen Daten (Quartile, Varianz)
+  - **uci2pgn** - Konvertierung von UCI in SAN

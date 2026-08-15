@@ -1,38 +1,31 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Content from "../components/app/Content";
-import MarkdownFileReader from "../components/app/MarkdownFileReader";
+import Markdown from "../components/app/Markdown";
+import { useI18n } from "../context/useI18n";
 import { NOMENU_URLS } from "../settings";
+
+const fileList = ["API", "code_struct", "base"];
 
 const Documentation = () => {
   const { file } = useParams();
-  const [fileList, setFileList] = useState<string[]>([]);
+  const { t } = useI18n();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get("/fileList.json");
-      const data = response.data as string[];
-      setFileList(data);
-    };
-
-    void fetchData();
-  }, []);
-
-  return file !== undefined && file !== null ? (
-    <Content style={{ overflow: "auto", width: "100%" } as const}>
-      <MarkdownFileReader filePath={`/docs/${file}`} />
-    </Content>
-  ) : (
+  return (
     <Content>
       <ul>
         {fileList.map((element) => (
           <li key={element}>
-            <Link to={NOMENU_URLS.docs + element}>{element}</Link>
+            <a href={`${NOMENU_URLS.docs}${element}`}>{t(`docs.${element}`)}</a>
           </li>
         ))}
       </ul>
+      {file ? (
+        <>
+          <hr />
+          <Markdown screen="docs" section={file} />
+        </>
+      ) : null}
     </Content>
   );
 };
