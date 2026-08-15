@@ -28,4 +28,4 @@ We wszystkich innych przypadkach obowiązuje [licencja GNU AGPLv3](https://www.g
 
 ---
 
-[Dokumentacja](/docs)
+[Dokumentacja](/doc)

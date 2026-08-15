@@ -28,4 +28,4 @@ In allen anderen Fällen gilt die [GNU AGPLv3-Lizenz](https://www.gnu.org/licens
 
 ---
 
-[Dokumentation](/docs)
+[Dokumentation](/doc)
