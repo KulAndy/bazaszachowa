@@ -19,6 +19,7 @@ import { useActionState, useState } from "react";
 
 import type { GameData } from "../ChessEditor";
 import Content from "../components/app/Content";
+import Markdown from "../components/app/Markdown";
 import SubmitButton from "../components/app/SubmitButton";
 import GamesTable from "../components/GamesTable";
 import SearchPlayersWithHint from "../components/player/SearchPlayersWithHint";
@@ -337,30 +338,11 @@ const Games = () => {
             open={helpOpen}
           >
             <DialogTitle>{t("games.help")}</DialogTitle>
+
             <DialogContent dividers>
-              <ul>
-                {t("games.params")}:<li>{t("games.param.player")}</li>
-                <li>
-                  {t("games.param.eco")}{" "}
-                  <a href={t("eco_href")}>{t("games.param.ecoLink")}</a>
-                </li>
-                <li>
-                  {t("games.param.database")}
-                  <ul>
-                    <li>{t("games.param.database.pl")}</li>
-                    <li>{t("games.param.database.all")}</li>
-                  </ul>
-                </li>
-                <li>
-                  {t("games.param.search")}
-                  <ul>
-                    <li>{t("games.param.search.normal")}</li>
-                    <li>{t("games.param.search.exact")}</li>
-                  </ul>
-                </li>
-              </ul>
+              <Markdown screen="games" section="help" />
             </DialogContent>
-          </Dialog>
+          </Dialog>{" "}
         </div>
         {isPending ? (
           <div className="loading">

@@ -12,6 +12,7 @@ import axios, { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 
 import Content from "../../components/app/Content";
+import Markdown from "../../components/app/Markdown";
 import { useI18n } from "../../context/useI18n";
 import { API } from "../../settings";
 
@@ -38,7 +39,7 @@ const UploadGames = () => {
         case "lichess":
         case "livechess": {
           if (!(url && source) || !validateSource(url, source)) {
-            alert(t("uploads.invalida_data"));
+            alert(t("uploads.invalid_data"));
             return;
           }
           body = { source, url };
@@ -46,7 +47,7 @@ const UploadGames = () => {
         }
         case "pgn_file": {
           if (!(email && verificationCode && pgn && source)) {
-            alert(t("uploads.invalida_data"));
+            alert(t("uploads.invalid_data"));
             return;
           }
           body = { email, pgn, source, verificationCode };
@@ -57,7 +58,7 @@ const UploadGames = () => {
             !(email && verificationCode && url && source) ||
             !validateSource(url, source)
           ) {
-            alert(t("uploads.invalida_data"));
+            alert(t("uploads.invalid_data"));
             return;
           }
           body = { email, source, url, verificationCode };
@@ -76,22 +77,27 @@ const UploadGames = () => {
               alert(t("uploads.successfully_added"));
               break;
             }
+
             case 208: {
               alert(t("uploads.link_exists"));
               break;
             }
+
             case 400: {
               alert(t("uploads.incorrect_data"));
               break;
             }
+
             case 401: {
               alert(t("uploads.verification_failed"));
               break;
             }
+
             case 503: {
               alert(t("uploads.internal_error"));
               break;
             }
+
             default: {
               alert(t("uploads.unknown_response"));
               break;
@@ -106,14 +112,17 @@ const UploadGames = () => {
               alert(t("uploads.incorrect_data"));
               break;
             }
+
             case 401: {
               alert(t("uploads.verification_failed"));
               break;
             }
+
             case 503: {
               alert(t("uploads.internal_error"));
               break;
             }
+
             default: {
               alert(t("uploads.unknown_response"));
               break;
@@ -147,20 +156,7 @@ const UploadGames = () => {
     <Content>
       <h1>{t("uploads.game_upload")}</h1>
       <article>
-        {t("uploads.encouragement")}
-        <br />
-        {t("uploads.verification")}
-        <hr />
-        {t("uploads.archive")}
-        <hr />
-        {t("contact.remark")}:
-        <ul>
-          <li>{t("uploads.empty_year")}</li>
-          <li>{t("uploads.name_order")}</li>
-          <li>{t("uploads.decoding")}</li>
-          <li>{t("uploads.variants")}</li>
-          <li>{t("uploads.short_games")}</li>
-        </ul>
+        <Markdown screen="uploads" />
       </article>
 
       <form onSubmit={handleSubmit}>
@@ -235,8 +231,7 @@ const UploadGames = () => {
                   return;
                 }
 
-                const file = files[0];
-                void file.text().then((data) => {
+                void files[0].text().then((data) => {
                   setPgn(data);
                 });
               }}
@@ -248,7 +243,7 @@ const UploadGames = () => {
               fullWidth
               label="URL"
               onChange={(event) => setUrl(event.target.value)}
-              placeholder="https://lichess.org/braodcast/some-tournament/xyz"
+              placeholder="https://lichess.org/broadcast/some-tournament/xyz"
               required
               type="url"
               value={url}
