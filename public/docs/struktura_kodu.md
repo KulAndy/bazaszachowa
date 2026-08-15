@@ -32,6 +32,7 @@
     - **Content.tsx** - kontener na główną zawartość
     - **Footer.tsx** - stopka
     - **LangToggle.tsx** - zmiana języka pl/en
+    - **Markdown.tsx** - przetwarza tłumaczenia zapisane w plikach .md
     - **MarkdownFileReader.tsx** - czytnik plików .md
     - **Menu.tsx** - menu
     - **SubmitButton** - przycisk do zatwierdzania formularzy, pokazuje ładowanie
@@ -61,6 +62,10 @@
 - **context** - komponenty
   - **I18n** - kontekst tłumaczenia
   - **Theme** - przechowuje tryb jasny/ciemny
+- **i18n** - tłumaczenie
+  - **markdowns**
+    - **/<lang>/<screen>/<section>** - tłumaczenia większych fraz
+  - **<lang>.json** - pojedyncze frazy w danym języku
 - **logo.svg** - logo
 - **main.tsx** - główny plik reacta (vite)
 - **reportWebVitals.tsx** - zależności reacta
@@ -79,7 +84,9 @@
   - **Preparation.tsx** - przygotowanie
   - **PreparationForm.tsx** - wyszukiwarka przygtowań graczy
   - **PreparationPlayer.tsx** - przygotowanie gracza, drzewo wariantów
+  - **PZSzachCalculator.tsx** - kalkulator norm PZSzach
   - **Rodo.tsx** - rodo
+  - **UploadGames.tsx** - formularz do przesyłania partii
 - **styles** - style strony
   - **App.scss**
   - **Game.scss**
