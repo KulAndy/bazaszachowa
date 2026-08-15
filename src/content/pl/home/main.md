@@ -4,4 +4,20 @@ Strona z założenia ma pomagać graczom w przygotowaniu, co pomoże w podwyższ
 
 ---
 
-Baza partii będzie aktualizowana mniej więcej raz na miesiąc i można z niej korzystać w zgodzie z zamieszczoną na stronie [licencją](/license). 🍺
+Z bazy można korzystać w zgodzie z zamieszczoną na stronie [licencją](/license). 🍺
+
+---
+
+Okresowe aktualizacje
+
+- codziennie
+  - lista turniejów w [CR-ze](https://www.cr-pzszach.pl) wraz z partiami z chessarbitra i chessmanagera
+- co tydzień
+  - [The Week in Chess](https://theweekinchess.com/)
+  - [transmisje ChessBase](https://live.chessbase.com/en/History)
+  - [Chess-Results](https://chess-results.com/)
+- co miesiąc
+  - [transmisje Lichess](https://database.lichess.org/broadcast/)
+  - [ChessArbiter](https://www.chessarbiter.com/)
+  - [ChessManager](https://www.chessmanager.com/pl-pl)
+  - [idChess](https://media.idchess.com/en/tournaments/archived)

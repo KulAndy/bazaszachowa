@@ -4,4 +4,20 @@ The website is intended to help players with their preparation, which will contr
 
 ---
 
-The game database will be updated roughly once a month, and it can be used in accordance with the [license](/license) posted on the website. 🍺
+The game database can be used in accordance with the [license](/license) posted on the website. 🍺
+
+---
+
+Periodic updates
+
+- daily
+  - tournament list in the [CR](https://www.cr-pzszach.pl), including games from ChessArbiter and ChessManager
+- weekly
+  - [The Week in Chess](https://theweekinchess.com/)
+  - [ChessBase broadcasts](https://live.chessbase.com/en/History)
+  - [Chess-Results](https://chess-results.com/)
+- monthly
+  - [Lichess broadcasts](https://database.lichess.org/broadcast/)
+  - [ChessArbiter](https://www.chessarbiter.com/)
+  - [ChessManager](https://www.chessmanager.com/pl-pl)
+  - [idChess](https://media.idchess.com/en/tournaments/archived)

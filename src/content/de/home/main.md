@@ -4,4 +4,20 @@ Die Seite soll den Spielern bei der Vorbereitung helfen, was zur Steigerung des 
 
 ---
 
-Die Partiedatenbank wird ungefähr einmal im Monat aktualisiert und kann gemäß der auf der Seite veröffentlichten [Lizenz](/license) verwendet werden. 🍺
+Die Datenbank kann gemäß der auf der Seite veröffentlichten [Lizenz](/license) verwendet werden. 🍺
+
+---
+
+Regelmäßige Aktualisierungen
+
+- täglich
+  - Turnierliste im [CR](https://www.cr-pzszach.pl) einschließlich Partien von ChessArbiter und ChessManager
+- wöchentlich
+  - [The Week in Chess](https://theweekinchess.com/)
+  - [ChessBase-Übertragungen](https://live.chessbase.com/en/History)
+  - [Chess-Results](https://chess-results.com/)
+- monatlich
+  - [Lichess-Übertragungen](https://database.lichess.org/broadcast/)
+  - [ChessArbiter](https://www.chessarbiter.com/)
+  - [ChessManager](https://www.chessmanager.com/pl-pl)
+  - [idChess](https://media.idchess.com/en/tournaments/archived)

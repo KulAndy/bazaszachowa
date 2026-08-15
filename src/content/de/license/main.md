@@ -14,8 +14,13 @@ Der Benutzer:
 
 \* Quellcode verfügbar auf GitHub:
 
-- [Frontend](https://github.com/KulAndy/bazaszachowa)
+- Frontend
+    - [Hauptteil](https://github.com/KulAndy/bazaszachowa)
+    - [WebAssembly](https://github.com/KulAndy/bazaszachowa-wasm)
 - [Backend](https://github.com/KulAndy/bazaszachowa-api)
+- Tools
+    - [Scraper](https://github.com/KulAndy/chess-scrappers)
+    - [Verwaltungstools](https://github.com/KulAndy/bazaszachowa-tools)
 
 ---
 

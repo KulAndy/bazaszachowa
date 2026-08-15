@@ -10,7 +10,7 @@ const markdownFiles = import.meta.glob("/src/content/**/*.md", {
   eager: true,
   import: "default",
   query: "?raw",
-}) as Record<string, string>;
+});
 
 interface Properties {
   readonly screen: string;

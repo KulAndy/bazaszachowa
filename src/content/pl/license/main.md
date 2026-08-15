@@ -14,8 +14,13 @@ Użytkownik:
 
 \* Kod źródłowy dostępny na GitHubie:
 
-- [frontend](https://github.com/KulAndy/bazaszachowa)
+- frontend
+    - [główna część](https://github.com/KulAndy/bazaszachowa)
+    - [WebAssembly](https://github.com/KulAndy/bazaszachowa-wasm)
 - [backend](https://github.com/KulAndy/bazaszachowa-api)
+- narzędzia
+    - [szperacze](https://github.com/KulAndy/chess-scrappers)
+    - [narzędzia administracyjne](https://github.com/KulAndy/bazaszachowa-tools)
 
 ---
 
