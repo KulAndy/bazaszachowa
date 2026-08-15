@@ -6,7 +6,7 @@ import "katex/dist/katex.min.css";
 
 import { useI18n } from "../../context/useI18n";
 
-const markdownFiles = import.meta.glob("/src/content/**/*.md", {
+const markdownFiles = import.meta.glob("/src/i18n/markdowns/**/*.md", {
   eager: true,
   import: "default",
   query: "?raw",
@@ -25,8 +25,8 @@ const Markdown = ({ screen, section = "main" }: Properties) => {
 
   const localeCode = locale.split("-")[0].toLowerCase();
 
-  const path = `/src/content/${localeCode}/${screen}/${section}.md`;
-  const fallbackPath = `/src/content/en/${screen}/${section}.md`;
+  const path = `/src/i18n/markdowns/${localeCode}/${screen}/${section}.md`;
+  const fallbackPath = `/src/i18n/markdowns/en/${screen}/${section}.md`;
 
   const content = markdownFiles[path] ?? markdownFiles[fallbackPath];
 
