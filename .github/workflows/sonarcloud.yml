@@ -1,4 +1,5 @@
 name: SonarCloud analysis
+
 on:
   push:
     branches:
@@ -30,4 +31,5 @@ jobs:
           args: >
             -Dsonar.projectKey=KulAndy_bazaszachowa
             -Dsonar.organization=kulandy
+            -Dsonar.exclusions=src/wasm/**,public/js/**
           projectBaseDir: .
