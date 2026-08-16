@@ -175,7 +175,12 @@ const Game = () => {
             }
             to={`${NOMENU_URLS.game}${base}/${list[0]}`}
           >
-            <button disabled={firstGame} id="first" title="Ctrl + ↑  ">
+            <button
+              disabled={firstGame}
+              id="first"
+              title="Ctrl + ↑  "
+              type="button"
+            >
               {t("first_game")}
             </button>
           </Link>
