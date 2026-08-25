@@ -11,3 +11,5 @@ Ich wäre auch dankbar für eine Kontaktaufnahme per E-Mail, wenn jemand gedruck
 - Sonderzeichen werden in das englische Alphabet umgewandelt.
 - Varianten wie Chess960 werden nicht akzeptiert.
 - Partien mit weniger als 4 Zügen werden entfernt.
+- Es gibt keinen Unterschied zwischen dem Hochladen von 10 Spielen als 1 PGN-Datei und 10 PGN-Dateien.
+- Für lichess genügt ein Link zum Turnier - es ist nicht nötig, ihn für jede Runde und jedes Spiel anzugeben.

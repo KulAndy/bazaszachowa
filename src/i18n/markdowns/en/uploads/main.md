@@ -11,3 +11,5 @@ I would also appreciate email contact if someone would like to share printed mat
 - National characters will be converted to the English alphabet.
 - Variants such as Chess960 will not be accepted.
 - Games with fewer than 4 moves will be removed.
+- There is no difference between upload 10 games as 1 PGN and 10 PGNs.
+- For lichess, a link to the tournament is enough - there is no need to provide it for each round and game.

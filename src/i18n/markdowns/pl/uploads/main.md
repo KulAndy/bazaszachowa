@@ -11,3 +11,5 @@ Będę też wdzięczny za kontakt mailowy, jeśli ktoś chce podzielić się wyd
 - Znaki narodowe będą konwertowane do alfabetu angielskiego.
 - Odmiany, np. Chess960, nie będą przyjmowane.
 - Partie z mniej niż 4 posunięciami będą usuwane.
+- Nie ma różnicy pomiędzy wranie 10 partii jako 1 PGN, a to PGN-ów.
+- Dla lichess-a wystarczy link do turnieju - nie ma potrzeby podawania dla każdej rundy i partii.
