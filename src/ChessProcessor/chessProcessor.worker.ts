@@ -59,7 +59,7 @@ function processGameSecondBatch(
   return fensObject;
 }
 
-// eslint-disable-next-line unicorn/prefer-add-event-listener
+// eslint-disable-next-line unicorn/prefer-add-event-listener,sonarjs/post-message
 globalThis.onmessage = (event: MessageEvent) => {
   const { games } = event.data as { games: GameData[] };
 
