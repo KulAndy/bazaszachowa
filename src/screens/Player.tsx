@@ -234,32 +234,6 @@ const Player = () => {
             </tbody>
           </table>
         </div>
-        <details>
-          <summary>
-            {`${t("players.profile")} `}
-            {
-              // eslint-disable-next-line i18next/no-literal-string
-            }
-            yottabase
-            <a
-              href={`https://www.yottachess.com/player/${encodeURIComponent(
-                name || "",
-              )}`}
-            >
-              {t("link")}
-            </a>
-          </summary>
-          <iframe
-            loading="lazy"
-            referrerPolicy="origin-when-cross-origin"
-            // eslint-disable-next-line react-dom/no-unsafe-iframe-sandbox
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-            src={`https://www.yottachess.com/player/${encodeURIComponent(
-              name || "",
-            )}`}
-            title="Profile na yottachess"
-          ></iframe>
-        </details>
         <div id="container">
           <div>
             {loadingStats ? (
